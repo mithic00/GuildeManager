@@ -1,0 +1,472 @@
+4 catégories : Magicien, Combattant, Elementaire, Psychique
+Chaque catégorie octroie un passif :
+Magicien : Affinité avec la magie. Est capable de resentir des traces de magie.
+Combattant : Amélioration physique selon le pouvoir.
+Elémentaire : Afinité élémentaire. Permet de resentir la présence de son élément et récupérer de la magie en le consommant.
+Psychique : Permet de manipuler sa magie sans avoir à faire de mouvement ou prononcer de mot.
+
+Liste des pouvoirs :
+
+*Magicien* :
+
+- Mage
+Description : L’un des pouvoirs les plus Eclectique, qui possède un très large panel de sort utilitaire et offensif. C’est Le pouvoir magique Le plus Commun statistiquement parLant. Le mage est capable de produire de la magie brute pour se défendre, mais aussi presque tout faire : détecter les objets, réduire ou augmenter leur taille, les faires léviter, allumer un feu, se téléporter, faire apparaitre La foudre, L’eau, réparer un objet, soigner...
+Rareté : 100
+Avantage : Très polyvalant. Très documenté. Les bases sont simple à apprendre.
+Défaut : Sa consommation en magie.
+Anecdote : Le mage n'utilise que de la magie brute. C'est le premier pouvoir magique qui est apparu.
+Spécialité : Création et entretien de portail de téléportation
+
+- Sorcier
+Description : Le sorcier possède les mêmes attributs et les même pouvoir que le mage, à la seuLe différenCe qu’iL sera pLus effiCaCe à L’utiLiser via un objet. a L’inverse, s’iL souhaite LanCer un sort sans objet, CeLui-ci sera moins efficace. La qualité des matériaux de l'objet qu'il utilise pour utiliser sa magie, compte autant que la qualité de son sort.
+Rareté : 60
+Avantage : Très polyvalant. Doté d'un objet de qualité, le sorcier est un mage plus puissant.
+Défaut : Très dépendant de son objet. Dans tous les cas plus lent qu'un mage. de niveau égal.
+Anecdote : Parmi les puristes, mage et sorcier ne peuvent pas s'entendre.
+Spécialité : Création et entretien de portail de téléportation
+
+- Clerc
+Description : Le clair possède une magie tourné vers la lumière et la vie. A la différence des élémentaires respectifs, il ne peut pas manipuler la lumière et la vie déjà existante. Ou du moins, pas aussi efficacement. C’est une magie traditionneLLement tournée vers Le soin et La réparation.
+Rareté : 80
+Avantage : Panel de soin très large
+Défaut : Fable capacité offensive.
+Anecdote : Les clerc sont souvent associé à tord à la religion.
+Spécialité : C'est l'une des rares magie capable de réanimer un personne dont l'âme n'a pas encore quitté le corps.
+
+- Démoniste
+Description : Le démoniste possède une magie tourné vers L’ombre et La mort. a La différence des élémentaires respectifs, il ne peut pas manipuler la mort et L’ombre déjà existante. ou du moins, pas aussi effiCaCement. C’est une magie peu enseigné. Les sorts de démonistes sont parfois interdits à certains endroits.
+Rareté : 45
+Avantage : Large panel de sort offensif.
+Défaut : Ce pouvoir peut affecter l'esprit de son possesseur. Magie souvent interdite. Très connoté et mal vue.
+Anecdote : 
+Spécialité : Manipulation des morts et disparition dans l'ombre.
+
+- Invocateur
+Description : L’invoCateur est rarement simplement « invocateur ». en généraL, L’être magique se spéCiaLise, Car C’est une magie très vaste. Certains vont invoquer des bêtes, d’autre, des éLémentaires, Certains Choisiront Le nombre, d’autre la puissance réuni en une seule invocation.
+Rareté : 20
+Avantage : Magie très puissante une fois mis en place.
+Défaut : Difficile à maitriser. Très gourmand en magie. Lent avant d'être efficace.
+Anecdote : Les invocateurs sont très recherché pour des travaux d'intérêt public.
+Spécialité : Invocation.
+
+- Archimage
+Description : L’arChimage est une magie très partiCuLière, Car eLLe est La seuLe à ne posséder auCuns sort d’attaque. Malgré tout très recherché, ils sont souvent utiles pour fertiliser les Champs, créer de La nourriture, purifier de L’eau portabLe, réparer des structures, objets, soigner légèrement...
+Rareté : 20
+Avantage : Panel de sort utilitaire inégalable. Très peu consommateur en magie. Très apprécié pour des "Petite mission".
+Défaut : Un archimage ne peut pas se défendre avec sa magie.
+Anecdote : L'archimage est une magie très ancienne, tiré d'une malformation du mage. Cette magie à très longtemps été rejeté.
+Spécialité : Création de nourriture et purification d'eau.
+
+- Ensorceleur
+Description : L'ensorceleur dispose de sort qui s'applique sur la durée. Il peut autant maudire que bénir, mais aussi rendre malade ou réparer/abîmer un objet. Il dispose d'un petit panel de sort de soin et de défense.
+Rareté : 8
+Avantage : Dispose des sorts avec les effets les plus longs qui existe. Peu couteux en magie.
+Défaut : Très vulnérable aux attaques surprises.
+Anecdote : Magie issu d'une malformation du mage. Dispose nombreux sort en commun.
+Spécialité : Sort sur la durée.
+
+- Enchanteur
+Description : L’enChanteur base toute sa magie sur Les objets. aussi bon dans L’utiLitaire que dans L’attaque ou Le support, sa magie est poLyvaLente, et est souvent demandé chez les groupes de mercenaires. Un enchanteur peut placer des enchantements temporaires. Qui s’oppose à L’enChantement (métier) qui Là, pose un réCeptaCLe magique, souvent rechargeable, pour enchanter un objet de manière pérenne. Cela va du balais qui nettoie la maison tout seul, à un anneau qui crache du feu. L’enChanteur est souvent très sensibLe aux objets. Il doit connaitre les propriété d’un maximum de matériaux.
+Rareté : 15
+Avantage : Magie très polyvalente et recherchée.
+Défaut : Dépendant aux objets et à leurs qualités. Peu documenté.
+Anecdote : L'apparition du métier d'enchanteur est issu d'une époque où les enchanteurs (être magique) se faisait trop rare pour satisfaire les besoins de la population.
+Spécialité : Amélioration d'objet.
+
+- Métamorphe
+Description : Le Métamorphe, Comme son nom L’indique, a La faCuLté de métamorphoser tout ou partie de son corps. Les plus grand Métamorphes sont aussi capable de métamorphoser d’autre personne. A L’image de L’invoCateur, un métamorphe est rarement simpLement « Métamorphe ». Il se spécialise en bête, élémentaire, humanoïde, morbide, ou Créature spéCifique, …
+Rareté : 50
+Avantage : Peu couteux en magie.
+Défaut : Manque de polyvalence. Impose une bonne condition physique de l'être magique.
+Anecdote : 
+Spécialité : Changement de forme physique.
+
+- Purificateur
+Description : Le purifiCateur est L’être magique orienté vers Le soin par exCeLLenCe. Presque tous ses sorts sont orienté soin. Souvent associé à la lumière, sa magie est en réalité de la magie brute, un peu comme le mage. La partiCuLarité de Cette magie, est qu’eLLe est très Liée aux intentions de L’être magique. si Ce dernier souhaite soigner une personne, iL doit le vouloir au pLus profond de son être. C’est La raison pour LaqueLLe Cette magie est pratiqué par les gens profondément bon.
+Rareté : 60
+Avantage : Panel et puissance de soin inégalable.
+Défaut : Puissance offensive très faible. Nécessite d'être une bonne personne.
+Anecdote : 
+Spécialité : C'est l'une des rares magie capable de réanimer un personne dont l'âme n'a pas encore quitté le corps.
+
+- Scribtum
+Description : Le scribtum était historiquement considéré comme une anomalie chez Certains sorCiers. aveC Le temps, Le nombre de sCribtum s’est mis à augmenter, et Leur paneL de sort, à s’étendre. Ce qui a fait que C’est désormais un pouvoir magique à part entière, avec quelques sorts que les sorciers/mages ne possèdent pas.
+Le prinCipe de Cette magie est d’éCrire, via un objet, un sort sur un objet, dans Le vide, sur queLqu’un, … pour qu’iL se réaLise. C’est une magie CompLexe mais très puissante.
+Rareté : 5
+Avantage : Très peu couteux en magie. Dispose de piège très efficace.
+Défaut : Magie lente qui nécessite du sang froid.
+Anecdote : Cette magie détiend sa propre langue.
+Spécialité : Les pièges
+
+- Schistite
+Description : Cette magie ancienne, a la même source de magie que les élémentaires de roche. Malgré leurs ressemblances, elles sont en réalité très différentes. Par exemple, le Schistite a la capacité de créer de la roche via de la magie brute. en paraLLèLe, L’éLémentaire de roChe, peut aussi Créer de La roChe, mais en moindre quantité et avec une rentabilité moindre. En revanche, L’éLémentaire peut manipuLer La roChe aux aLentours, ainsi que Lui apporter des vertus, ce que le Schistite ne peut pas faire.
+Rareté : 5
+Avantage : Large panel de sort défensif
+Défaut : Couteux en magie.
+Anecdote : Ces magies sont souvent apprises par les élémentaires du même élément. Un élémentaire de roche qui maitrise cette magie est appelé un « maitre élémentaire de roche ».
+Spécialité : Génération abondante de roche.
+
+- Aquiste
+Description : Idem que les Schistite/élémentaire de roche mais avec l'élément eau.
+Rareté : 7
+Avantage : Très efficace dans un endroit confiné.
+Défaut : Couteux en magie.
+Anecdote : Ces magies sont souvent apprises par les élémentaires du même élément. Un élémentaire d'eau qui maitrise cette magie est appelé un « maitre élémentaire d'eau ».
+Spécialité : Génération abondante d'eau
+
+- Végenae
+Description : Idem que les Schistite/élémentaire de roche mais avec l'élément plante.
+Rareté : 5
+Avantage : Très apprécié lors des sécheresses
+Défaut : Couteux en magie.
+Anecdote : Ces magies sont souvent apprises par les élémentaires du même élément. Un élémentaire de plante qui maitrise cette magie est appelé un « maitre élémentaire de plante ».
+Spécialité : Génération abondante de plante
+
+- Follet
+Description : Idem que les Schistite/élémentaire de roche mais avec l'élément feu.
+Rareté : 10
+Avantage : Bonne puissance offensive
+Défaut : Couteux en magie.
+Anecdote : Ces magies sont souvent apprises par les élémentaires du même élément. Un élémentaire de feu qui maitrise cette magie est appelé un « maitre élémentaire de feu ».
+Spécialité : Génération abondante de feu
+
+- Storma
+Description : Idem que les Schistite/élémentaire de roche mais avec l'élément vent
+Rareté : 5
+Avantage : Très efficace à l'extérieur
+Défaut : Couteux en magie.
+Anecdote : Ces magies sont souvent apprises par les élémentaires du même élément. Un élémentaire de vent qui maitrise cette magie est appelé un « maitre élémentaire de vent ».
+Spécialité : Génération abondante de vent
+
+- Druide
+Description : La magie du druide est basée sur la faune et la flore. Le druide possède systématiquement un animal totem, sur lequel sa magie sera basé. Il arrive parfois que L’animaL totem soit un végétaL. Les druides sont proche de la nature, et chaque druide est unique. Car C’est une magie qui évoLue en fonCtion de L’environnement de L’être magique. C’est une magie qui invoque, qui permet aussi de se métamorphoser, de soigner et d’attaquer. C’est donC une magie très poLyvaLente, qui évoLue aveC son être magique.
+Rareté : 30
+Avantage : Très polyvalente et très puissant tant qu'il est dans son environnement.
+Défaut : Perd beaucoup en efficacité une fois sortie de son environnement.
+Anecdote : Les druides ont souvent tendance à s'isoler et vivre en ermite.
+Spécialité : Magie très personnelle en lien avec un totem.
+
+- Chamane
+Description : Le chaman possède une magie basée sur 5 éléments : L’eau, Le feu, le vent, La roChe et La pLante. C’est une magie qui invoque des petits totem, associé aux éléments, avec lequel il peut interagir. C’est une magie possédant énormément de sort. Ce qui donne des Chamans très différents, d’un individu à L’autre.
+Rareté : 18
+Avantage : Polyvalent et très bonne puissance offensive.
+Défaut : à l'image de l'invocateur, il peut être un peu lent à se mettre en place. Peu mobile.
+Anecdote : le chamane est à la base issu de l'invocateur et de l'élémentaire supérieur.
+Spécialité : Création de totem fixe pour apporter un effet de zone.
+
+
+
+*Combattant* :
+
+- Guerrier
+Description : Ce pouvoir est le plus commun de sa famille. Le guerrier magique consiste à invoquer armes et armures, précédemment assimiLé. un guerrier ne peut pas invoquer un objet qu’iL n’a pas précédemment assimilé. Si le guerrier lâche son arme, il la désinvoque. Comme pour tous les pouvoirs de sa famille, le guerrier gagne en attribut physique à mesure que son pouvoir augmente. Pour le guerrier, il s'agit de la force physique.
+Rareté : 95
+Avantage : Force brute. Efficacité au corps à corps.
+Défaut : Efficacité à distance.
+Anecdote : Il s'agit de la première altération de magie après le mage. Il se dit que les deux pouvoirs ont le même âge.
+Spécialité : Combat rapproché polyvalent.
+
+- Assassin de l'ombre
+Description : Initialement une anomalie chez les démonistes/guerrier, ce pouvoir est devenu un pouvoir à part entière grâCe au fait que L’anomaLie s’est propagé. Cette magie consiste à utiliser les ombres pour se déplacer plus vite et plus discrètement, et à invoquer des lames courtes pour se battre. a mesure que sa magie progresse, L’être magique gagne en agiLité. 
+Rareté : 25
+Avantage : Magie qui permet une grande discretion.
+Défaut : Panel de sort faible.
+Anecdote : Les préjugés disent que C’est un pouvoir magique souvent utiLisé par Les personnes mal intentionnées. Ce n’est faCtueLLement pas Le Cas.
+Spécialité : Déplacement furtif et attaque surprise.
+
+- Archer Magique
+Description : L’arCher magique est L’un des seuLs pouvoir de sa famiLLe, à pouvoir frapper à distanCe. en effet, Cette magie impLique L’invoCation d’un arC, qui peut être assimiLé, et d’utiLiser des fLèChes invoquées au fur et à mesure des tirs. C’est une magie exCLusivement offensive, qui possèdent de nombreux sorts. a mesure que sa magie progresse, L’être magique gagne en préCision. Certains archers magiques préfèrent utiliser leur arc fétiche, sans L’assimiLer, pour ne pas avoir à Le réinvoquer en Cas de perte.
+Rareté : 60
+Avantage : Puissance offensive colossale à distance.
+Défaut : Aucune polyvalence (pas de sort de soutien, défense ou soin).
+Anecdote : Les archers magique sont interdits lors des concours de tir à l'arc.
+Spécialité : Tir d'élite.
+
+- Proctor
+Description : Le Proctor possède une magie basée sur la défense. Il ne peut invoquer que des armures et des boucliers. Le proCtor possède un ratio epaisseur de L’armure / Cout en magie très bon. Ce qui Lui permet d’invoquer d’épaisse armure sans trop de diffiCuLté. Il utilise aussi une magie basée sur les boucliers, avec lequel il possède quelques sorts offensifs. a mesure que sa magie progresse, L’être magique gagne en résistanCe physique et magique.
+Rareté : 50
+Avantage : Panel et puissance défensive inégalable.
+Défaut : Les proctors sont très souvent lent et ne possède que peu de sort offensif.
+Anecdote : 
+Spécialité : Défense.
+
+- Poistodon
+Description : Cette magie est à la base, une anomalie des télékinésistes/guerrier. Devenu un pouvoir à part entière grâce au nombre de cas recensé. eLLe Consiste à invoquer des sphères magiques, Constitué d’un métaL Lourd, que le Poistodon peut manipuler à souhait. Cette magie permet aussi d’assimiLer et d’invoquer des armures, mais pas d’armes. a mesure que sa magie progresse, L’être magique améliore sa vue.
+Rareté : 12
+Avantage : Très bon ratio attaque/défense. Magie pratique au quotidien.
+Défaut : Panel de sort faible.
+Anecdote : C’est L’une des rares magie qui permet à son propriétaire de voLer.
+Spécialité : Manipulation de sphère magique.
+
+- Berserker
+Description : Le Berserker possède une magie basée sur L’attaque uniquement. Il ne peut invoquer qu’un très faibLe paneL d’armure, mais toutes Les armes possibLe et imaginable. Cette magie est versatile, car elle permet de puiser dans les ressources physiques, pour y créer de la magie. C’est une magie qui peut Causer beauCoup de douLeur à son propriétaire, mais qui est très puissante. Elle peut aussi protéger son porteur physiquement. a mesure que sa magie progresse, L’être magique gagne forCe
+Rareté : 25
+Avantage : Puissance au corps à corps inégalable. Force brute.
+Défaut : Cette magie provoque des séquelles physique et psyChoLogique à son porteur.
+Anecdote : Le berserker est d'une anomalie direct du guerrier.
+Spécialité : Puissance en fonction de la douleur subit.
+
+- Moine
+Description : Cette magie est très ancienne. Elle se base sur de la magie pure, pour attribuer à son porteur, des vertus physiques hors du commun. C’est une magie qui impLique un travaiL de méditation Continue et réguLier.
+C’est aussi la magie la plus éclectique de sa famille. Disposant de sort offensif, de sort de soutien, et même des sorts de soin. Contrairement aux autres pouvoir magique de sa famiLLe, Le moine n’invoque ni arme, ni armure. Mais à mesure que sa magie augmente, le moine gagne en patience.
+Rareté : 20
+Avantage : Polyvalence et efficacité au corps à corps.
+Défaut : Difficile à apprendre et nécessite d'adapter son mode de vie.
+Anecdote : 
+Spécialité : Amélioration physique personnel par la méditation.
+
+- Invocateur d'Arme
+Description : L’invoCateur d’arme dispose d’une magie assez proche du guerrier. A la différenCe CruCiaLe, qu’iL ne peut pas touCher ses armes. iL Les fait Léviter autour de lui, et aura tendance à se battre à distance/mid distance. L’invoCateur d’arme dispose égaLement de pLusieurs sorts de défense, et de soutien, le rendant assez polyvalent. iL possède aussi La CapaCité d’invoquer des armures, mais de moindre efficacité que les autres pouvoirs magiques de sa famille.
+Rareté : 5
+Avantage : Très efficace une fois en place. Capable de gérer plusieurs adversaire aisément.
+Défaut : Très difficle à apprendre. Peu documenté. Consommation élevé de magie.
+Anecdote : Issu d'une anomalie Invocateur/Guerrier.
+Spécialité : Invocation d'arme indépendante ou manipulable.
+
+
+
+*Elémentaire*
+
+- Elémentaire d'Eau
+Description : L’une des magies éLémentaires Les pLus Connu et utilisée. Comme son nom L’indique, eLLe Consiste à manipuLer L’eau. gLobaLement, Les sorts de L’éLémentaire d’eau sont tourné vers Le soin et Le soutien. mais iL existe de nombreuse variante permettant de diversifier cette magie.
+Rareté : 75
+Avantage : Polyvalent.
+Défaut : Manque d'efficacité offensif.
+Anecdote : Elément majeur.
+Spécialité : Création et Manipulation d'eau.
+
+- Elémentaire de Plante
+Description : Magie polyvalente capable de manipuler tout type de végétaux.
+Rareté : 65
+Avantage : Large panel de sort et très polyvalent.
+Défaut : Lent et dépendant de la terre.
+Anecdote : Elément majeur
+Spécialité : Création et Manipulation de plante.
+
+- Elémentaire de Feu
+Description : Magie très utilisée également, mais beaucoup plus orienté vers les sorts offensifs.
+Rareté : 65
+Avantage : Large panel offensif.
+Défaut : Peu polyvalent.
+Anecdote : Elément majeur.
+Spécialité : Création et Manipulation de feu
+
+- Elémentaire de Roche
+Description : Axé sur la défense
+Rareté : 65
+Avantage : Large panel de sort defensif
+Défaut : Lent
+Anecdote : Elément majeur
+Spécialité : Création et Manipulation de roche
+
+- Elémentaire de Vent
+Description : Axé sur le soutien
+Rareté : 65
+Avantage : Large panel de soutien
+Défaut : Peu efficace en milieu fermé
+Anecdote : Elément majeur
+Spécialité : Création et Manipulation de vent
+
+- Elémentaire d'Alcool
+Description : 
+Rareté : 2
+Avantage : Très efficace contre les adversaires peu résistante à l'alcool. Polyvalent
+Défaut : Inefficace contre les adversaires résistant à l'alcool. 
+Anecdote : Issu de l'élementaire d'eau.
+Spécialité : Création et Manipulation d'alcool
+
+
+- Elémentaire de Glace
+Description :
+Rareté : 30
+Avantage : Très efficace lorsqu'il fait froid. Magie polyvalente.
+Défaut : Aucuns sort de soin, peu de sort de soutien. Couteux en magie.
+Anecdote : Issu de l'élementaire d'eau.
+Spécialité : Création et Manipulation de glace.
+
+- Elémentaire de Vapeur
+Description :
+Rareté : 3
+Avantage : Discretion, vitesse et attaque de zone.
+Défaut : Peu documenté.
+Anecdote : Issu de l'élementaire d'eau et vent.
+Spécialité : Création et Manipulation de Vapeur.
+
+- Elémentaire de Sang
+Description :
+Rareté : 1
+Avantage : Très efficace face a un adversaire possédant du sang. Polyvalent.
+Défaut : Peu voir pas efficace contre un adversaire minéral par exemple.
+Anecdote : Issu de l'élementaire d'eau.
+Spécialité : Création et Manipulation de sang.
+
+- Elémentaire de Froid
+Description :
+Rareté : 4
+Avantage : Très efficace lorsqu'il fait froid. Magie polyvalente.
+Défaut : Très affaiblie lors de grosse chaleur.
+Anecdote : Issu de l'élementaire d'eau et vent.
+Spécialité : Création et Manipulation de froid.
+
+- Elémentaire de Lave
+Description :
+Rareté : 10
+Avantage : Bonne puissance offensive
+Défaut : Cause souvent des dommages colatéraux. relativement lent.
+Anecdote : Issu de l'élementaire de feu et de roche.
+Spécialité : Création et Manipulation de lave. 
+
+- Elémentaire de Chaleur
+Description :
+Rareté : 13
+Avantage : Bonne puissance offensive
+Défaut : Très affaiblie lorsqu'il fait froid.
+Anecdote : Issu de l'élementaire de feu et de vent.
+Spécialité : Création et Manipulation de chaleur. 
+
+- Elémentaire de Bois
+Description :
+Rareté : 9
+Avantage : Bonne puissance defensive
+Défaut : Lent et peu documenté.
+Anecdote : Issu de l'élementaire de plante.
+Spécialité : Création et Manipulation de bois. 
+
+- Elémentaire Fongique
+Description :
+Rareté : 3
+Avantage : Polyvalent et bon panel de sort de soutien
+Défaut : Lent et peu documenté.
+Anecdote : Issu de l'élementaire de plante.
+Spécialité : Création et Manipulation de champignon. 
+
+- Elémentaire de Spore
+Description :
+Rareté : 3
+Avantage : Polyvalent et bon panel de sort de zone.
+Défaut : Peu documenté.
+Anecdote : Issu de l'élementaire de plante et vent.
+Spécialité : Création et Manipulation de spore. 
+
+- Elémentaire de Diamant
+Description :
+Rareté : 2
+Avantage : Bon panel de sort de defense. Bonne puissance offensive.
+Défaut : Peu documenté et souvent appris par des escrocs, donc souffre d'une mauvaise réputation.
+Anecdote : Issu de l'élementaire de roche.
+Spécialité : Création et Manipulation de diamant. 
+
+- Elémentaire de Métal
+Description :
+Rareté : 20
+Avantage : Polyvalent et bon panel de sort de défense.
+Défaut : Peu documenté.
+Anecdote : Issu de l'élementaire de roche et de feu.
+Spécialité : Création et Manipulation de métal.  
+
+- Elémentaire de Pierre Précieuse
+Description :
+Rareté : 1
+Avantage : Polyvalent.
+Défaut : Comment l'élémentaire de diamant, souffre d'une mauvaise réputation. Très consommateur en magie.
+Anecdote : Issu de l'élementaire de roche.
+Spécialité : Création et Manipulation de Pierres Précieuses. 
+
+- Elémentaire de Foudre
+Description :
+Rareté : 30
+Avantage : Rapide et bon panel de sort offensif et de déplacement.
+Défaut : Dans un monde sans électricité, aura du mal a utiliser pleinement son pouvoir ailleurs que lors d'un orage.
+Anecdote : Issu de l'élementaire de vent.
+Spécialité : Création et Manipulation d'électricité. 
+
+- Elémentaire de Lumière
+Description :
+Rareté : 25
+Avantage : Rapide et bon panel de sort de soutien et soin. Très bonne puissance de soin.
+Défaut : Faible puissance offensive.
+Anecdote : Issu de l'élementaire de feu.
+Spécialité : Création et Manipulation de lumière. 
+
+- Elémentaire d'Ombre
+Description :
+Rareté : 13
+Avantage : Discretion et bonne puissance offensive
+Défaut : Peu polyvalent.
+Anecdote : Issu de l'élementaire de feu.
+Spécialité : Création et Manipulation d'ombre. 
+
+- Elémentaire de Fumée
+Description :
+Rareté : 6
+Avantage : Panel de sort de zone et discretion
+Défaut : Peu polyvalent et peu documenté.
+Anecdote : Issu de l'élementaire de vent et feu.
+Spécialité : Création et Manipulation de fumée. 
+
+- Elémentaire Supérieur
+Description : Elémentaire capable de manipuler tous les éléments ci dessus (pas ceux du dessous)
+Rareté : 1
+Avantage : Polyvalence inégalable.
+Défaut : Extrêmement difficile et chronophage à apprendre
+Anecdote : On dit que le premier être magique à maitrisé cette magie à mis des siècles a y arriver.
+Spécialité : Contient littéralement tous les sorts de tous les élémentaires. Chaque apprentissage se faire différemment et est donc plus long à assimiler.
+
+- Elémentaire Temporel (Magie perdu)
+Description : Cette magie à disparu dans les 4 univers. Elle consiste à manipuler le temps autour de soit.
+Rareté : 0
+Avantage : Parmi les magies plus puissante qui existe.
+Défaut : N'existe plus
+Anecdote : Il existe encore des individus qui cherche à faire renaitre cette magie.
+Spécialité : Manipulation du temps.
+
+
+
+*Psychique*
+- Télékinésite
+Description : Cette magie est La base de toute Les magies de sa famiLLe. C’est pourquoi toutes ces magies, ne nécessite aucuns mouvements, ni aucun mot pour lancer un sort. eLLe Consiste à manipuLer des objets ou des êtres vivant dans L’espaCe. eLLe peut aussi générer des Champs de forCe, pour s’en servir pour se défendre ou attaquer.
+Rareté : 80
+Avantage : Très utile au quotidien.
+Défaut : Faible panel de sort.
+Anecdote : Beaucoup de gens apprenne un ou deux sort de cette magie pour s'aider au quotidien.
+Spécialité : Manipulation d'objet dans l'espace.
+
+- Animiste
+Description : L’animiste dispose de sort CapabLe de donner vie temporairement à un objet. Les animistes sont aussi capables d’invoquer, mais Les invoCations ne sont pas aussi indépendantes que CeLLes d’un invocateur. Au contraire, l'animiste doit les manipuler par la pensé. La bonne maitrise de cette magie implique une grande connaissance sur les âmes des objets.
+Rareté : 50
+Avantage : Très peu consommateur en magie et plutôt imprévisible.
+Défaut : Dépend des objets qui l'entour.
+Anecdote : En général, un animiste a toujours un objet fétiche avec lui.
+Spécialité : Animation d'objet
+
+- Devin
+Description : La divination est considérée par certains peuples, comme la parole des esprits. Certains pratique la divination sans user du pouvoir du devin. Un devin va utiliser de la magie brute pour prédire des évènements. Les plus grands devins sont également capables de changer le cours du temps avant même qu’un évènement ne se produise. Ce pouvoir est souvent appris en plus d'un autre.
+Rareté : 10 (40 si ça n'est pas le seul pouvoir de l'être magique)
+Avantage : Apport utilitaire inégalable.
+Défaut : Extrêment difficile a apprendre et très faible panel de sort.
+Anecdote : On dit que certains des plus grand devins se sont donné la mort plutôt que d'affronté la mort qu'ils les attendait. Dans ces cas précis, les esprits/dieux ne les apprécient pas.
+Spécialité : Don de divination et de prémonition.
+
+- Crieur
+Description : Cette vieille magie, a un nom qui peut faire sourire, ou même qui peut donner une fausse image de Ce qu’eLLe est réeLLement. Car Comme Les magies de sa famiLLe, auCuns mouvements, même de La bouChe, n’est néCessaire pour La pratiquer. Le crieur va créer des cries magiques, qui peuvent presque tout faire. C’est une magie presque invisible qui se base sur le son.
+Rareté : 40
+Avantage : Rapide, très efficace contre les adversaires sensibles aux sons.
+Défaut : Discretion inexistante et inefficace contre les sourds (sauf cas précis)
+Anecdote : Les plus grand crieurs peuvent émettres des sons que même les sourds peuvent entendre.
+Spécialité : Magie de son basé sur la génération de cri.
+
+- Illusionniste
+Description : Cette magie est L’une des seuLes à ne pas pouvoir tuer. Elle consiste à créer des images dans L’esprit des gens. a L’inverse des invoCations, Les iLLusions ne sont pas indépendantes, et ne sont Limitées que par L’imagination de L’iLLusionniste. L’iLLusionniste ne peut pas voir Les iLLusions des autres iLLusionnistes. C’est pourquoi un Combat entre deux iLLusionnistes peut s’avérer CoCasse.
+Rareté : 16
+Avantage : Puissance de soutien très bonne. Avec beaucoup d'imagination, les pouvoirs de l'illusioniste sont sans limite.
+Défaut : Faible panel de sort. Ne peut pas tuer directement.
+Anecdote : Un grand être magique il y a plusieurs miliards d'année à réussi a associer Animiste et Illusionniste. Il était capable de donner vie à ses propres illusions. Il était alors assimilé à un dieu.
+Spécialité : Création d'image virtuel dans l'esprit des gens.
+
+- Télépathe
+Description : Presque inoffensive, cette magie peut être pratiquer sans apprendre de sort. Car Le Coeur même de Cette magie, peut être pratiquer sans magie. Le téLépathe, utiLise de La magie brute pour Lire dans L’esprit des CibLes, et peut également lui inculquer des pensées. Elle est souvent pratiqué en plus d'une autre magie.
+Rareté : 35
+Avantage : Capacité d'enquête inégalable.
+Défaut : La gestion de cette magie dans une foule est très complexe. Difficile à apprendre.
+Anecdote : Certains télépathe peuvent se voir refusé l'entrée d'un lieu.
+Spécialité : Lecteur d'esprit
