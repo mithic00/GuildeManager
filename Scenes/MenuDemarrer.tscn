@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://c0ki5jb0xp2t" path="res://Images/UI/Bouton_GuildeManager_260x65.png" id="1_2yt2r"]
 [ext_resource type="Texture2D" uid="uid://d2r1dm4skw4se" path="res://Images/MenuDemarrer.png" id="1_fkcww"]
 [ext_resource type="Texture2D" uid="uid://cwwask6xy6lif" path="res://Images/UI/Bouton_GuildeManager_Survol_260x65.png" id="1_vu378"]
+[ext_resource type="Script" path="res://Scripts/MenuDemarrer.cs" id="2_menu_script"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cbpr5"]
 texture = ExtResource("1_vu378")
@@ -30,6 +31,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_fkcww")
+script = ExtResource("2_menu_script")
 
 [node name="FondEcran" type="TextureRect" parent="." unique_id=595593376]
 layout_mode = 1
@@ -183,3 +185,12 @@ text = "Supprimer"
 custom_minimum_size = Vector2(130, 32)
 layout_mode = 2
 text = "Fermer"
+
+[node name="FenetreInformation" type="AcceptDialog" parent="." unique_id=1940027311]
+title = "Information"
+exclusive = true
+
+[node name="ConfirmationSuppression" type="ConfirmationDialog" parent="." unique_id=1940027312]
+title = "Supprimer la sauvegarde"
+dialog_text = "Voulez-vous vraiment supprimer cette sauvegarde ? Cette action est irréversible."
+exclusive = true
