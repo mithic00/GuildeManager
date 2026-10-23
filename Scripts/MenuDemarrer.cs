@@ -27,6 +27,7 @@ public partial class MenuDemarrer : Control
 
     private readonly List<SaveManager.SaveInfo> _sauvegardesAffichees = new();
     private string _idASupprimer = string.Empty;
+    private bool _reouvrirChargementApresInformation;
 
     public override void _Ready()
     {
@@ -66,7 +67,12 @@ public partial class MenuDemarrer : Control
         GetNode<Button>("FenetreChargerPartie/Marge/Conteneur/Boutons/BoutonFermer").Pressed += () => _fenetreCharger.Hide();
 
         _confirmationSuppression.Confirmed += ConfirmerSuppression;
-        _confirmationSuppression.Canceled += () => _idASupprimer = string.Empty;
+        _confirmationSuppression.Canceled += AnnulerSuppression;
+        _confirmationSuppression.CloseRequested += AnnulerSuppression;
+
+        _fenetreInformation.Confirmed += InformationFermee;
+        _fenetreInformation.Canceled += InformationFermee;
+        _fenetreInformation.CloseRequested += InformationFermee;
 
         _boutonContinuer.Disabled = SaveManager.GetLatestSave() == null;
     }
@@ -175,24 +181,42 @@ public partial class MenuDemarrer : Control
         _idASupprimer = id;
         _confirmationSuppression.DialogText =
             "Voulez-vous vraiment supprimer la sauvegarde « " + save.Name + " » ?\nCette action est irréversible.";
+
+        // Une seule fenêtre enfant exclusive peut être ouverte à la fois.
+        _fenetreCharger.Hide();
         _confirmationSuppression.PopupCentered();
+    }
+
+    private void AnnulerSuppression()
+    {
+        _idASupprimer = string.Empty;
+
+        // Le signal peut être émis par Annuler ou par la fermeture de la fenêtre.
+        if (!_fenetreCharger.Visible)
+            _fenetreCharger.PopupCentered();
     }
 
     private void ConfirmerSuppression()
     {
         if (string.IsNullOrEmpty(_idASupprimer))
+        {
+            if (!_fenetreCharger.Visible)
+                _fenetreCharger.PopupCentered();
             return;
+        }
 
         string id = _idASupprimer;
         _idASupprimer = string.Empty;
 
         if (!SaveManager.DeleteSave(id))
         {
+            _reouvrirChargementApresInformation = true;
             AfficherInformation("La suppression a échoué.\n" + SaveManager.LastError);
             return;
         }
 
         ActualiserListeSauvegardes();
+        _fenetreCharger.PopupCentered();
     }
 
     private void OuvrirOptions()
@@ -218,8 +242,25 @@ public partial class MenuDemarrer : Control
 
     private void AfficherInformation(string message)
     {
+        // Évite de demander l'ouverture de deux fenêtres exclusives simultanément.
+        if (_fenetreCharger != null && _fenetreCharger.Visible)
+        {
+            _fenetreCharger.Hide();
+            _reouvrirChargementApresInformation = true;
+        }
+
         _fenetreInformation.DialogText = message;
         _fenetreInformation.PopupCentered();
+    }
+
+    private void InformationFermee()
+    {
+        if (!_reouvrirChargementApresInformation)
+            return;
+
+        _reouvrirChargementApresInformation = false;
+        if (!_fenetreCharger.Visible)
+            _fenetreCharger.PopupCentered();
     }
 
     private static string FormaterDate(string valeurUtc)
