@@ -6,7 +6,8 @@ using Godot;
 /// </summary>
 public static class MusicManager
 {
-    private const string MusicPath = "res://musics/Music.mp3";
+    // Respecter exactement la casse du dossier présent dans le projet.
+    private const string MusicPath = "res://Musics/Music.mp3";
     private const string OptionsPath = "user://options.cfg";
     private const string AudioSection = "audio";
     private const string MasterVolumeKey = "master_volume";
@@ -15,19 +16,13 @@ public static class MusicManager
 
     /// <summary>
     /// Initialise la musique une seule fois. À appeler depuis le menu de démarrage.
+    /// L'ajout est différé car Initialize peut être appelé pendant _Ready d'une scène.
     /// </summary>
     public static void Initialize(SceneTree tree)
     {
         if (_player != null && GodotObject.IsInstanceValid(_player))
             return;
 
-        _player = new AudioStreamPlayer
-        {
-            Name = "MusicManagerPlayer",
-            Bus = "Master"
-        };
-
-        tree.Root.AddChild(_player);
         ApplySavedVolume();
 
         if (!ResourceLoader.Exists(MusicPath))
@@ -44,8 +39,19 @@ public static class MusicManager
         }
 
         music.Loop = true;
-        _player.Stream = music;
-        _player.Play();
+
+        AudioStreamPlayer player = new()
+        {
+            Name = "MusicManagerPlayer",
+            Bus = "Master",
+            Stream = music
+        };
+
+        // Play ne peut être appelé qu'une fois le lecteur entré dans l'arbre de scènes.
+        player.TreeEntered += () => player.Play();
+
+        _player = player;
+        tree.Root.CallDeferred(Node.MethodName.AddChild, player);
     }
 
     /// <summary>
