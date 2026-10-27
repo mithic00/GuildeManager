@@ -262,7 +262,10 @@ public partial class CreationPerso : Control
             int numero = i;
             Button bouton = GetNode<Button>(
                 "FenetreStatEtConfGuilde/MargeStat/LayoutGuilde/GridContainerEmblemeGuilde/BoutonEmblemeGuilde" + (i + 1));
-            bouton.ToggleMode = true;
+            // Le blason utilise le style « focus », pas l'état « pressed ».
+            // Conserve les styles et images normaux des autres blasons.
+            bouton.ToggleMode = false;
+            bouton.FocusMode = Control.FocusModeEnum.All;
             bouton.TooltipText = "Emblème " + (i + 1);
             bouton.Pressed += () => SelectionnerEmbleme(numero);
             _cadresEmbleme[i] = bouton;
@@ -272,7 +275,9 @@ public partial class CreationPerso : Control
     private void SelectionnerEmbleme(int index)
     {
         _emblemeSelectionne = index;
-        ActualiserCadres(_cadresEmbleme, index);
+        // GrabFocus affiche le StyleBox « focus » du thème Godot.
+        // Le blason précédent perd automatiquement le focus.
+        _cadresEmbleme[index].GrabFocus();
     }
 
     private static void ActualiserCadres(Button[] cadres, int indexSelectionne)
