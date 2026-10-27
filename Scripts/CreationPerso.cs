@@ -484,6 +484,25 @@ public partial class CreationPerso : Control
                 return;
             }
 
+            // Les ressources initiales sont enregistrées dès la création :
+            // le chargement direct de cette sauvegarde reproduira le même état.
+            EtatGuilde etatInitial = EtatGuilde.CreerEtatInitial();
+            if (!etatInitial.Sauvegarder())
+            {
+                string erreur = EtatGuilde.DerniereErreur;
+                SaveManager.DeleteSave(sauvegarde.Id);
+                AfficherInformation("Impossible d'enregistrer les ressources initiales : " + erreur);
+                return;
+            }
+
+            if (!SaveManager.SetValue("date_jeu", "An 600 - 1er Janvier - 08h00"))
+            {
+                string erreur = SaveManager.LastError;
+                SaveManager.DeleteSave(sauvegarde.Id);
+                AfficherInformation("Impossible d'enregistrer la date initiale : " + erreur);
+                return;
+            }
+
             // Garder la protection anti-double-clic tant que la transition
             // asynchrone n'est pas terminée.
             transitionLancee = true;
