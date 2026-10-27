@@ -25,6 +25,20 @@ public partial class CreationPerso : Control
         "Force", "Agilite", "Constitution", "Vitesse", "Endurance"
     };
 
+    // Ordre identique aux huit cadres dans CreationPerso.tscn.
+    // ApparenceId reste compatible avec les sauvegardes créées précédemment.
+    private static readonly string[] NomsBoutonsApparences =
+    {
+        "BoutonHumain", "BoutonElfeGris", "BoutonGrumol", "BoutonHumainDesMonts",
+        "BoutonHautElfe", "BoutonNain", "BoutonTanneur", "BoutonKhajiit"
+    };
+
+    private static readonly string[] NomsRaces =
+    {
+        "Humain", "Elfe gris", "Grumol", "Humain des monts",
+        "Haut-Elfe", "Nain", "Tanneur", "Khajiit"
+    };
+
     // Noms des pouvoirs et autres libellés restent ceux placés dans l'ItemList Godot.
     // Les particularités cachées des villes ne sont volontairement PAS exposées au joueur.
     private static readonly VilleDepart[] Villes =
@@ -39,6 +53,8 @@ public partial class CreationPerso : Control
     };
 
     private LineEdit _saisieNomPersonnage;
+    private Button _boutonSwitchSexe;
+    private bool _personnageFeminin;
     private LineEdit _saisieNomGuilde;
     private ItemList _listeExperience;
     private ItemList _listePouvoirs;
@@ -66,7 +82,8 @@ public partial class CreationPerso : Control
 
     public override void _Ready()
     {
-        _saisieNomPersonnage = GetNode<LineEdit>("MargePersonnage/Layout/LineEditNomPersonnage");
+        _saisieNomPersonnage = GetNode<LineEdit>("MargePersonnage/Layout/HBoxContainer/LineEditNomPersonnage");
+        _boutonSwitchSexe = GetNode<Button>("MargePersonnage/Layout/HBoxContainer/BoutonSwitchSexe");
         _listeExperience = GetNode<ItemList>("MargePersonnage/Layout/ItemListExperence");
         _listePouvoirs = GetNode<ItemList>("MargePersonnage/Layout/ItemListPouvoir");
         _texteStatsVille = GetNode<RichTextLabel>("MargeInfoVille/Layout/HLayout/RLabelStatVille");
@@ -81,6 +98,7 @@ public partial class CreationPerso : Control
         InitialiserExperience();
         InitialiserPouvoirs();
         InitialiserApparences();
+        InitialiserSexe();
         InitialiserVilles();
         InitialiserStatistiques();
         InitialiserEmblemes();
@@ -136,9 +154,12 @@ public partial class CreationPerso : Control
         for (int i = 0; i < _cadresPersonnage.Length; i++)
         {
             int numero = i;
-            Button bouton = GetNode<Button>("MargePersonnage/Layout/BouttonsFondPerso/BoutonPerso" + (i + 1));
+            Button bouton = GetNode<Button>(
+                "MargePersonnage/Layout/BouttonsFondPerso/" + NomsBoutonsApparences[i]);
+            // La scène possède des images « normal » et « pressed » pour chaque race.
+            // Le mode bascule conserve l'image « pressed » du seul cadre sélectionné.
             bouton.ToggleMode = true;
-            bouton.TooltipText = "Apparence " + (i + 1);
+            bouton.TooltipText = NomsRaces[i];
             bouton.Pressed += () => SelectionnerApparence(numero);
             _cadresPersonnage[i] = bouton;
         }
@@ -147,7 +168,26 @@ public partial class CreationPerso : Control
     private void SelectionnerApparence(int index)
     {
         _apparenceSelectionnee = index;
-        ActualiserCadres(_cadresPersonnage, index);
+        for (int i = 0; i < _cadresPersonnage.Length; i++)
+            _cadresPersonnage[i].ButtonPressed = i == index;
+    }
+
+    private void InitialiserSexe()
+    {
+        // Convention initiale : H au départ, F après activation du bouton.
+        // Le style « pressed » existant du bouton matérialise l'autre choix.
+        _boutonSwitchSexe.ToggleMode = true;
+        _boutonSwitchSexe.ButtonPressed = false;
+        _boutonSwitchSexe.Pressed += ActualiserSexe;
+        ActualiserSexe();
+    }
+
+    private void ActualiserSexe()
+    {
+        _personnageFeminin = _boutonSwitchSexe.ButtonPressed;
+        _boutonSwitchSexe.TooltipText = _personnageFeminin
+            ? "Sexe : féminin (cliquer pour masculin)"
+            : "Sexe : masculin (cliquer pour féminin)";
     }
 
     private void InitialiserVilles()
@@ -280,19 +320,6 @@ public partial class CreationPerso : Control
         _cadresEmbleme[index].GrabFocus();
     }
 
-    private static void ActualiserCadres(Button[] cadres, int indexSelectionne)
-    {
-        for (int i = 0; i < cadres.Length; i++)
-        {
-            bool selectionne = i == indexSelectionne;
-            cadres[i].ButtonPressed = selectionne;
-            // Les boutons vides sont plats dans la scène. Le bouton choisi
-            // est rendu non plat pour matérialiser la sélection sans image.
-            cadres[i].Flat = !selectionne;
-            cadres[i].Modulate = selectionne ? new Color(1f, 0.94f, 0.72f) : Colors.White;
-        }
-    }
-
     private void RetourMenu()
     {
         if (!ResourceLoader.Exists(SceneMenuDemarrer))
@@ -399,6 +426,8 @@ public partial class CreationPerso : Control
         {
             NomPersonnage = nomPersonnage,
             ApparenceId = _apparenceSelectionnee + 1,
+            RacePersonnage = NomsRaces[_apparenceSelectionnee],
+            SexePersonnage = _personnageFeminin ? "F" : "H",
             ExperienceDepartIndex = experienceIndex,
             ExperienceDepartLibelle = _listeExperience.GetItemText(experienceIndex),
             Pouvoirs = pouvoirs,
@@ -544,6 +573,8 @@ public partial class CreationPerso : Control
         public int Version { get; set; } = 1;
         public string NomPersonnage { get; set; } = "";
         public int ApparenceId { get; set; }
+        public string RacePersonnage { get; set; } = "";
+        public string SexePersonnage { get; set; } = "H";
         public int ExperienceDepartIndex { get; set; }
         public string ExperienceDepartLibelle { get; set; } = "";
         public List<string> Pouvoirs { get; set; } = new();
