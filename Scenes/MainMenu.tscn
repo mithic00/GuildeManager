@@ -1,0 +1,244 @@
+[gd_scene format=3 uid="uid://bhvdqj2o24s0v"]
+
+[ext_resource type="Theme" uid="uid://dyrn5od66mme0" path="res://Theme/LabelJaune.tres" id="1_853f1"]
+[ext_resource type="Texture2D" uid="uid://cdowirp7ltu3h" path="res://Images/Fonds/MainMenu.png" id="1_tt5f1"]
+[ext_resource type="Texture2D" uid="uid://s0kqyh2jmquh" path="res://Images/UI/Bouton_Principal.png" id="3_8saeu"]
+[ext_resource type="Theme" uid="uid://d10p6nj26o75q" path="res://Theme/BoutonBleu.tres" id="4_ghw46"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_853f1"]
+texture = ExtResource("3_8saeu")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ghw46"]
+texture = ExtResource("3_8saeu")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_df05h"]
+texture = ExtResource("3_8saeu")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8um5k"]
+texture = ExtResource("3_8saeu")
+
+[node name="MainMenu" type="Control" unique_id=1472431213]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_ghw46")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1273510464]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_tt5f1")
+
+[node name="LabelNbPouvoir2" type="Label" parent="." unique_id=251784727]
+layout_mode = 0
+offset_left = 1299.0
+offset_top = 13.0
+offset_right = 1426.0
+offset_bottom = 97.0
+theme_override_font_sizes/font_size = 40
+text = "978"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelNbEcus" type="Label" parent="." unique_id=609137110]
+layout_mode = 0
+offset_left = 941.0
+offset_top = 14.0
+offset_right = 1068.0
+offset_bottom = 98.0
+theme_override_font_sizes/font_size = 40
+text = "10k"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelNbMembre" type="Label" parent="." unique_id=1258143400]
+layout_mode = 0
+offset_left = 764.0
+offset_top = 14.0
+offset_right = 884.0
+offset_bottom = 98.0
+theme_override_font_sizes/font_size = 40
+text = "100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelNomGuilde" type="Label" parent="." unique_id=1279859266]
+layout_mode = 0
+offset_left = 514.0
+offset_top = 14.0
+offset_right = 687.0
+offset_bottom = 97.0
+theme = ExtResource("1_853f1")
+theme_override_colors/font_color = Color(0.7570178, 0.588384, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "Test Nom Guilde"
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_characters = 15
+
+[node name="LabelNbPouvoir" type="Label" parent="." unique_id=369741263]
+layout_mode = 0
+offset_left = 1485.0
+offset_top = 14.0
+offset_right = 1612.0
+offset_bottom = 98.0
+theme_override_font_sizes/font_size = 40
+text = "102k"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelNbSavoir" type="Label" parent="." unique_id=1591801341]
+layout_mode = 0
+offset_left = 1123.0
+offset_top = 12.0
+offset_right = 1250.0
+offset_bottom = 96.0
+theme_override_font_sizes/font_size = 40
+text = "6,2k"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MargePanneauPrincipal" type="MarginContainer" parent="." unique_id=1166100267]
+layout_mode = 0
+offset_left = 434.0
+offset_top = 102.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="MainBouton" type="Button" parent="." unique_id=569733904]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 0
+offset_left = 1612.0
+offset_top = 24.0
+offset_right = 1872.0
+offset_bottom = 89.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.7570178, 0.588384, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxTexture_853f1")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_ghw46")
+theme_override_styles/hover = SubResource("StyleBoxTexture_df05h")
+theme_override_styles/focus = SubResource("StyleBoxTexture_8um5k")
+text = "Suivant"
+
+[node name="MargeChoixMenu" type="MarginContainer" parent="." unique_id=1644808686]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 87.0
+offset_right = 421.0
+offset_bottom = 1019.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="BoutonsMenu" type="VBoxContainer" parent="MargeChoixMenu" unique_id=1999165670]
+layout_mode = 2
+theme = ExtResource("4_ghw46")
+theme_override_constants/separation = 55
+alignment = 1
+
+[node name="BoutonTableauMission" type="Button" parent="MargeChoixMenu/BoutonsMenu" unique_id=743008931]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Tableau des missions"
+
+[node name="BoutonMembreGuilde" type="Button" parent="MargeChoixMenu/BoutonsMenu" unique_id=314585503]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Membre de la Guilde"
+
+[node name="BoutonMagasins" type="Button" parent="MargeChoixMenu/BoutonsMenu" unique_id=729151553]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Magasins"
+
+[node name="BoutonRecrutement" type="Button" parent="MargeChoixMenu/BoutonsMenu" unique_id=1187159889]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Recrutement"
+
+[node name="BoutonBudget" type="Button" parent="MargeChoixMenu/BoutonsMenu" unique_id=1067862303]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Budget"
+
+[node name="BoutonEvenements" type="Button" parent="MargeChoixMenu/BoutonsMenu" unique_id=655171572]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Évènements"
+
+[node name="BoutonQuitter" type="Button" parent="MargeChoixMenu/BoutonsMenu" unique_id=1512306973]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Quitter"
+
+[node name="FenetreMenuQuitter" type="Window" parent="." unique_id=1322838180]
+transparent_bg = true
+oversampling_override = 1.0
+initial_position = 3
+size = Vector2i(600, 400)
+current_screen = 0
+visible = false
+exclusive = true
+unresizable = true
+transparent = true
+
+[node name="Marge" type="MarginContainer" parent="FenetreMenuQuitter" unique_id=1015798915]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Layout" type="VBoxContainer" parent="FenetreMenuQuitter/Marge" unique_id=673970314]
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="BoutonSaveEtQuitter" type="Button" parent="FenetreMenuQuitter/Marge/Layout" unique_id=61711232]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Sauvegarder et Quitter"
+
+[node name="BoutonQuitterSansSave" type="Button" parent="FenetreMenuQuitter/Marge/Layout" unique_id=1133731175]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Quitter saus Sauvegarder"
+
+[node name="BoutonOption" type="Button" parent="FenetreMenuQuitter/Marge/Layout" unique_id=315111980]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Option"

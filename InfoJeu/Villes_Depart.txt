@@ -1,0 +1,99 @@
+Rose-Vallée :
+- Comté de Rose Vallée, Royaume Humain.
+- 25 000 habitants
+- 90% Humain, 5% Nain, 5% Autre.
+- Taux de criminalité : faible
+- Académie magique : Non
+- Guilde de mercenaire : Non 
+- Richesse de la population : 5/10
+- Biome : Vallée
+- Biomes à proximité : Vallée, Rivière, Montagne rocheuse.
+- Préfecture de son comté, la petite commune de Rose-Vallée cherche un maitre de guilde depuis longtemps pour ne plus dépendre des comtés voisin en matière de guilde magique. Au cœur des grandes vallées du royaume Humain, Rose-Vallée est une petite commune paisible installée au bord de la rivière Tangue. Elle vit principalement du commerce de fleurs.
+
+-- Particularité caché pour le joueur : Pression régulière de Facon, la guilde de Liberta.
+
+
+Agrar :
+- Montagnes Sud, Royaume Nain.
+- 40 000 habitants
+- 80% Nain, 15% Humain, 5% Autre.
+- Taux de criminalité : faible
+- Académie magique : Non
+- Guilde de mercenaire : Oui ("Le Roc Rouge")
+- Richesse de la population : 4/10
+- Biome : Montagne rocheuse
+- Biomes à proximité : Montagne rocheuse, Glacier, mer.
+- Préfecture de la région des Montagnes Sud, Agrar est une petite ville construite à flan de falaise. On y voit la mer depuis les modestes remparts de pierre. La région des montagnes sud la plus basse du royaume Nain. Elle est donc beaucoup moins peuplé et apprécié par les siens. Ce qui fait d'Agrar la ville la plus grande de toute la moitié sud du Royaume Nain. Une guilde dans cette ville serait très apprécié pour couvrir cette partie du Royaume.
+
+-- Particularité caché pour le joueur : Grosse présence gobline dans la région.
+
+
+Shaelis :
+- Région Nahamis, Royaume Elfe Gris.
+- 20 000 habitants
+- 90% Elfe Gris, 5% Humain, 5% Autre.
+- Taux de criminalité : faible
+- Académie magique : Non
+- Guilde de mercenaire : Non 
+- Richesse de la population : 7/10
+- Biome : Mer
+- Biomes à proximité : Plaine, Vallée, Montagne Boisée
+- Chef lieu de la région de Nahamis, Shaelis est une petite cité portuaire réputé pour ses plages de sables fin et sa cuisine de la mer. L'idée de faire construire une guilde magique a émergée depuis l'arrivé du nouveau Seigneur de la cité. Cette décision est très partagé au sein de la cité.
+
+-- Particularité caché pour le joueur : Un groupe d'habitant tentera de saboter régulièrement la guilde
+
+Alturia :
+- Région de l'écriture, Royaume Haut-Elfe.
+- 25 000 habitants
+- 98% Haut-Elfe, 2% Autre.
+- Taux de criminalité : faible
+- Académie magique : Non
+- Guilde de mercenaire : Oui 
+- Richesse de la population : 6/10
+- Biome : Plaine
+- Biomes à proximité : Vallée, Rivière, Lac.
+- Préfecture de sa région, Alturia est vue comme la capitale de l'écriture et du théâtre au sein du royaume Haut-Elfe. La ville est également connu pour son miel. En matière de guilde magique, Alturia est depuis toujours dépendant de Bahiri, la capitale du royaume. C'est pourquoi le duc de la ville souhaite faire construire une guilde magique avec l'objectif de voir grandir la notoriété de sa ville.
+
+-- Particularité caché pour le joueur : Grosse pression du duc.
+
+Gori Nirog :
+- Marais de la Presqu'Ile, Royaume Grumol.
+- 30 000 habitants
+- 80% Grumol, 10% Elfe Gris, 5% Nain, 5% autre.
+- Taux de criminalité : faible
+- Académie magique : Non
+- Guilde de mercenaire : Oui 
+- Richesse de la population : 3/10
+- Biome : Marais
+- Biomes à proximité : Mer
+- Gori Nirog est une grande cité au cœur de la Presqu'Ile, au nord du Royaume Grumol. La région ne dispose pas de guilde magique, et son chef lieu, Gamak Naos, ne souhaite pas en avoir une. Le choix se tourne naturellement vers Gori Nirog. Connu pour ses fleurs de sucre, Gori Nirog est une cité paisible et sans histoire. La cité ce situe sur la route commerciale principale entre le royaume des Elfes Gris et celui des Grumols.
+
+-- Particularité caché pour le joueur : Très grosse charge de travaille : beaucoup de demande, tri nécessaire.
+
+Niclass :
+- Comté de Niclass, Royaume Humain des monts.
+- 20 000 habitants
+- 90% Humains des monts, 8% Tanneurs, 2% autre.
+- Taux de criminalité : faible
+- Académie magique : Non
+- Guilde de mercenaire : Non
+- Richesse de la population : 5/10
+- Biome : Haute Montagne
+- Biomes à proximité : Glacier, Lac, Vallée
+- Niclass est la commune de plus de 10 000 hab. la plus haute du royaume humain des monts. Niché à plus de 6500m, le chef lieu du Comté trône sur la vallée des 3 dents. Spécialisé dans l'élevage et l'ornithologie, cette commune est a la recherche d'un maitre de guilde pour répondre aux demandes de tout le comté, déserté de guilde magique.
+
+-- Particularité caché pour le joueur : Très faible quantité d'être magique. Pression d'une guilde de mercenaire proche.
+
+Thorm :
+- Région d'Agfar, Royaume Tanneur.
+- 25 000 habitants
+- 90% Tanneurs, 5% Humains des monts, 5% autre.
+- Taux de criminalité : moyenne
+- Académie magique : Non
+- Guilde de mercenaire : Non
+- Richesse de la population : 4/10
+- Biome : Mer
+- Biomes à proximité : Vallée, Rivière, Montagne boisée
+- La cité de Thorm est désespérément à la recherche d'un maitre de guilde depuis des années. Boudé par tout le royaume, cette région est régulièrement en proie aux attaques et pillages des pirates. C'est pourquoi l'arrivé d'une guilde magique serait une bénédiction pour les habitants. La cité de Throm est peu connu, mais est historiquement une grand cité constructrice de navire.
+
+-- Particularité caché pour le joueur : Attaque fréquente de pirate.

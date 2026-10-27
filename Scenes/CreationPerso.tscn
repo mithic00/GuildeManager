@@ -1,0 +1,842 @@
+[gd_scene format=3 uid="uid://bhi7vq6i48xb5"]
+
+[ext_resource type="Texture2D" uid="uid://ck2ao5g04aax2" path="res://Images/Fonds/Fond_Creation_Perso.png" id="1_foeo5"]
+[ext_resource type="FontFile" uid="uid://liivnr87xrhm" path="res://Font/CloisterBlack.ttf" id="2_pn8lf"]
+[ext_resource type="Theme" uid="uid://d10p6nj26o75q" path="res://Theme/BoutonBleu.tres" id="3_i56mq"]
+[ext_resource type="Texture2D" uid="uid://de0ekwaiw43wa" path="res://Images/Fonds/Fond_Rose-Vallee.png" id="4_vlt7f"]
+
+[node name="CreationPerso" type="Control" unique_id=38892687]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Fond" type="TextureRect" parent="." unique_id=472767263]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_foeo5")
+
+[node name="MargePersonnage" type="MarginContainer" parent="." unique_id=498480652]
+layout_mode = 0
+offset_left = 167.0
+offset_top = 278.0
+offset_right = 557.0
+offset_bottom = 785.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Layout" type="VBoxContainer" parent="MargePersonnage" unique_id=1350869538]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="BouttonsFondPerso" type="GridContainer" parent="MargePersonnage/Layout" unique_id=2042759168]
+layout_mode = 2
+columns = 4
+
+[node name="BoutonPerso1" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1529809593]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+flat = true
+
+[node name="BoutonPerso2" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1482625889]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+flat = true
+
+[node name="BoutonPerso3" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=924123036]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+flat = true
+
+[node name="BoutonPerso4" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=836387751]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+flat = true
+
+[node name="BoutonPerso5" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1255510605]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+flat = true
+
+[node name="BoutonPerso6" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1985998732]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+flat = true
+
+[node name="BoutonPerso7" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1595028489]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+flat = true
+
+[node name="BoutonPerso8" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1725810779]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+flat = true
+
+[node name="LineEditNomPersonnage" type="LineEdit" parent="MargePersonnage/Layout" unique_id=1733652490]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5254902, 0.34509805, 0.16862746, 1)
+theme_override_font_sizes/font_size = 21
+placeholder_text = "Entrez le nom de votre personnage..."
+alignment = 1
+flat = true
+
+[node name="LabelExperience" type="Label" parent="MargePersonnage/Layout" unique_id=1028600102]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5254902, 0.34509805, 0.16862746, 1)
+theme_override_fonts/font = ExtResource("2_pn8lf")
+theme_override_font_sizes/font_size = 30
+text = "Expérience"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ItemListExperence" type="ItemList" parent="MargePersonnage/Layout" unique_id=1708893266]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.5254902, 0.34509805, 0.16862746, 1)
+theme_override_fonts/font = ExtResource("2_pn8lf")
+item_count = 4
+item_0/text = "Sans Expérience"
+item_1/text = "Ancien membre de petit guilde"
+item_2/text = "Ancien rang S d'une grande guilde"
+item_3/text = "Ancien rang P d'une grande guilde"
+
+[node name="LabelPouvoir" type="Label" parent="MargePersonnage/Layout" unique_id=1113724516]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5254902, 0.34509805, 0.16862746, 1)
+theme_override_fonts/font = ExtResource("2_pn8lf")
+theme_override_font_sizes/font_size = 30
+text = "Pouvoir"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ItemListPouvoir" type="ItemList" parent="MargePersonnage/Layout" unique_id=1676672985]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.5254902, 0.34509805, 0.16862746, 1)
+theme_override_fonts/font = ExtResource("2_pn8lf")
+select_mode = 2
+item_count = 55
+item_0/text = "Mage"
+item_1/text = "Sorcier"
+item_2/text = "Clerc"
+item_3/text = "Démoniste"
+item_4/text = "Invocateur"
+item_5/text = "Archimage"
+item_6/text = "Ensorceleur"
+item_7/text = "Enchanteur"
+item_8/text = "Métamorphe"
+item_9/text = "Purificateur"
+item_10/text = "Scribtum"
+item_11/text = "Schistite"
+item_12/text = "Aquiste"
+item_13/text = "Végenae"
+item_14/text = "Follet"
+item_15/text = "Storma"
+item_16/text = "Druide"
+item_17/text = "Chamane"
+item_18/text = "Guerrier"
+item_19/text = "Assassin de l'ombre"
+item_20/text = "Archer Magique"
+item_21/text = "Proctor"
+item_22/text = "Poistodon"
+item_23/text = "Berserker"
+item_24/text = "Moine"
+item_25/text = "Invocateur d'arme"
+item_26/text = "Élémentaire d'eau"
+item_27/text = "Élémentaire de plante"
+item_28/text = "Élémentaire de feu"
+item_29/text = "Élémentaire de Roche"
+item_30/text = "Élémentaire de vent"
+item_31/text = "Élémentaire d'Alcool"
+item_32/text = "Élémentaire de glace"
+item_33/text = "Élémentaire de vapeur"
+item_34/text = "Élémentaire de sang"
+item_35/text = "Élémentaire de froid"
+item_36/text = "Élémentaire de lave"
+item_37/text = "Élémentaire de chaleur"
+item_38/text = "Élémentaire de bois"
+item_39/text = "Élémentaire fongique"
+item_40/text = "Élémentaire de spore"
+item_41/text = "Élémentaire de diamant"
+item_42/text = "Élémentaire de métal"
+item_43/text = "Élémentaire de pierre précieuse"
+item_44/text = "Élémentaire de foudre"
+item_45/text = "Élémentaire de lumière"
+item_46/text = "Élémentaire d'ombre"
+item_47/text = "Élémentaire de fumée"
+item_48/text = "Élémentaire Supérieur"
+item_49/text = "Télékinésiste"
+item_50/text = "Animiste"
+item_51/text = "Devin"
+item_52/text = "Crieur"
+item_53/text = "Illusionniste"
+item_54/text = "Télépathe"
+
+[node name="TitrePersonnage" type="Label" parent="." unique_id=414698035]
+layout_mode = 0
+offset_left = 163.0
+offset_top = 198.0
+offset_right = 570.0
+offset_bottom = 237.0
+theme_override_colors/font_color = Color(0.5254902, 0.34509805, 0.16862746, 1)
+theme_override_fonts/font = ExtResource("2_pn8lf")
+theme_override_font_sizes/font_size = 30
+text = "Personnage"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Titre Ville" type="Label" parent="." unique_id=1337422760]
+layout_mode = 0
+offset_left = 631.0
+offset_top = 221.0
+offset_right = 857.0
+offset_bottom = 260.0
+theme_override_colors/font_color = Color(0.5254902, 0.34509805, 0.16862746, 1)
+theme_override_fonts/font = ExtResource("2_pn8lf")
+theme_override_font_sizes/font_size = 30
+text = "Ville"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MargeChoixVilleDepart" type="MarginContainer" parent="." unique_id=441471277]
+layout_mode = 0
+offset_left = 607.0
+offset_top = 270.0
+offset_right = 887.0
+offset_bottom = 820.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="LayoutListeBoutonVilles" type="VBoxContainer" parent="MargeChoixVilleDepart" unique_id=330848694]
+layout_mode = 2
+theme = ExtResource("3_i56mq")
+theme_override_constants/separation = 13
+alignment = 1
+
+[node name="BoutonRoseVallee" type="Button" parent="MargeChoixVilleDepart/LayoutListeBoutonVilles" unique_id=1840005552]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+text = "Rose-Vallée"
+
+[node name="BoutonAgrar" type="Button" parent="MargeChoixVilleDepart/LayoutListeBoutonVilles" unique_id=509464487]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+text = "Agrar"
+
+[node name="BoutonShaelis" type="Button" parent="MargeChoixVilleDepart/LayoutListeBoutonVilles" unique_id=1787643545]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+text = "Shaelis"
+
+[node name="BoutonAlturia" type="Button" parent="MargeChoixVilleDepart/LayoutListeBoutonVilles" unique_id=1887937603]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+text = "Alturia"
+
+[node name="BoutonGoriNirog" type="Button" parent="MargeChoixVilleDepart/LayoutListeBoutonVilles" unique_id=1234187238]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+text = "Gori Nirog"
+
+[node name="BoutonNiclass" type="Button" parent="MargeChoixVilleDepart/LayoutListeBoutonVilles" unique_id=246281430]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+text = "Niclass"
+
+[node name="BoutonThorm" type="Button" parent="MargeChoixVilleDepart/LayoutListeBoutonVilles" unique_id=289600692]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+text = "Thorm"
+
+[node name="MargeInfoVille" type="MarginContainer" parent="." unique_id=1970304868]
+layout_mode = 0
+offset_left = 924.0
+offset_top = 249.0
+offset_right = 1670.0
+offset_bottom = 833.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Layout" type="VBoxContainer" parent="MargeInfoVille" unique_id=1082445063]
+layout_mode = 2
+
+[node name="HLayout" type="HBoxContainer" parent="MargeInfoVille/Layout" unique_id=1808250390]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DessinVille" type="TextureRect" parent="MargeInfoVille/Layout/HLayout" unique_id=808185590]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("4_vlt7f")
+expand_mode = 1
+
+[node name="RLabelStatVille" type="RichTextLabel" parent="MargeInfoVille/Layout/HLayout" unique_id=613713677]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 17
+bbcode_enabled = true
+text = "- Comté de Rose Vallée, Royaume Humain.
+- 25 000 habitants
+- 90% Humain, 5% Nain, 5% Autre.
+- Taux de criminalité : faible
+- Académie magique : Non
+- Guilde de mercenaire : Non 
+- Richesse de la population : 5/10
+- Biome : Vallée
+- Biomes à proximité : Vallée, Rivière, Montagne rocheuse."
+vertical_alignment = 1
+
+[node name="RlabelDescriptionVille" type="RichTextLabel" parent="MargeInfoVille/Layout" unique_id=399138422]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 22
+bbcode_enabled = true
+text = "Préfecture de son comté, la petite commune de Rose-Vallée cherche un maitre de guilde depuis longtemps pour ne plus dépendre des comtés voisin en matière de guilde magique. Au cœur des grandes vallées du royaume Humain, Rose-Vallée est une petite commune paisible installée au bord de la rivière Tangue. Elle vit principalement du commerce de fleurs."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BoutonsUI" type="HBoxContainer" parent="." unique_id=1666376609]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -168.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 100
+alignment = 1
+
+[node name="BoutonRetour" type="Button" parent="BoutonsUI" unique_id=1587540616]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("3_i56mq")
+text = "Retour"
+
+[node name="BoutonSuivant" type="Button" parent="BoutonsUI" unique_id=1999261765]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("3_i56mq")
+text = "Suivant"
+
+[node name="FenetreStatEtConfGuilde" type="Window" parent="." unique_id=2146934029]
+transparent_bg = true
+oversampling_override = 1.0
+position = Vector2i(414, 80)
+size = Vector2i(1000, 1000)
+visible = false
+exclusive = true
+unresizable = true
+transparent = true
+theme = ExtResource("3_i56mq")
+
+[node name="MargeStat" type="MarginContainer" parent="FenetreStatEtConfGuilde" unique_id=374153957]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 50
+
+[node name="LayoutStat" type="VBoxContainer" parent="FenetreStatEtConfGuilde/MargeStat" unique_id=841443608]
+layout_mode = 2
+
+[node name="LabelSocial" type="Label" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=583314096]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Social"
+horizontal_alignment = 1
+
+[node name="LabelCommunication" type="Label" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=228155885]
+layout_mode = 2
+text = "Communication"
+horizontal_alignment = 1
+
+[node name="StatCommunication" type="HBoxContainer" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=1713648791]
+layout_mode = 2
+alignment = 1
+
+[node name="BoutonCommunicationMoins" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatCommunication" unique_id=699346541]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "-"
+
+[node name="HSliderCommunication" type="HSlider" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatCommunication" unique_id=81728405]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+max_value = 20.0
+tick_count = 20
+ticks_on_borders = true
+
+[node name="BoutonCommunicationPlus" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatCommunication" unique_id=1147914832]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "+"
+
+[node name="LabelLeadership" type="Label" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=497331774]
+layout_mode = 2
+text = "Leadership"
+horizontal_alignment = 1
+
+[node name="StatLeadership" type="HBoxContainer" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=35434871]
+layout_mode = 2
+alignment = 1
+
+[node name="BoutonLeadershipMoins" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatLeadership" unique_id=496232717]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "-"
+
+[node name="HSliderLeadership" type="HSlider" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatLeadership" unique_id=292837933]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+max_value = 20.0
+tick_count = 20
+ticks_on_borders = true
+
+[node name="BoutonLeadershipPlus" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatLeadership" unique_id=713610798]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "+"
+
+[node name="LabelCharisme" type="Label" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=851284072]
+layout_mode = 2
+text = "Charisme"
+horizontal_alignment = 1
+
+[node name="StatCharisme" type="HBoxContainer" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=1215006368]
+layout_mode = 2
+alignment = 1
+
+[node name="BoutonCharismeMoins" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatCharisme" unique_id=528917543]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "-"
+
+[node name="HSliderCharisme" type="HSlider" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatCharisme" unique_id=1404517006]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+max_value = 20.0
+tick_count = 20
+ticks_on_borders = true
+
+[node name="BoutonCharismePlus" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatCharisme" unique_id=2027943173]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "+"
+
+[node name="LabelEmpathie" type="Label" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=787779198]
+layout_mode = 2
+text = "Empathie"
+horizontal_alignment = 1
+
+[node name="StatEmpathie" type="HBoxContainer" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=1486411394]
+layout_mode = 2
+alignment = 1
+
+[node name="BoutonEmpathieMoins" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatEmpathie" unique_id=679687779]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "-"
+
+[node name="HSliderEmpathie" type="HSlider" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatEmpathie" unique_id=2027425503]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+max_value = 20.0
+tick_count = 20
+ticks_on_borders = true
+
+[node name="BoutonEmpathiePlus" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatEmpathie" unique_id=1382178696]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "+"
+
+[node name="HSeparator" type="HSeparator" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=2122973591]
+layout_mode = 2
+
+[node name="LabelMental" type="Label" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=2022504472]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Mental"
+horizontal_alignment = 1
+
+[node name="LabelIntelligence" type="Label" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=1195983010]
+layout_mode = 2
+text = "Intelligence"
+horizontal_alignment = 1
+
+[node name="StatIntelligence" type="HBoxContainer" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=365193288]
+layout_mode = 2
+alignment = 1
+
+[node name="BoutonIntelligenceMoins" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatIntelligence" unique_id=1521023264]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "-"
+
+[node name="HSliderIntelligence" type="HSlider" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatIntelligence" unique_id=1796276336]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+max_value = 20.0
+tick_count = 20
+ticks_on_borders = true
+
+[node name="BoutonIntelligencePlus" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatIntelligence" unique_id=2075207626]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "+"
+
+[node name="LabelMemoire" type="Label" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=993665912]
+layout_mode = 2
+text = "Mémoire"
+horizontal_alignment = 1
+
+[node name="StatMemoire" type="HBoxContainer" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=125126880]
+layout_mode = 2
+alignment = 1
+
+[node name="BoutonMemoireMoins" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatMemoire" unique_id=1286047835]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "-"
+
+[node name="HSliderMemoire" type="HSlider" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatMemoire" unique_id=1561237600]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+max_value = 20.0
+tick_count = 20
+ticks_on_borders = true
+
+[node name="BoutonMemoirePlus" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatMemoire" unique_id=142762733]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "+"
+
+[node name="LabelVolonte" type="Label" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=903991212]
+layout_mode = 2
+text = "Volonté"
+horizontal_alignment = 1
+
+[node name="StatVolonte" type="HBoxContainer" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=333877603]
+layout_mode = 2
+alignment = 1
+
+[node name="BoutonVolonteMoins" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatVolonte" unique_id=1356214706]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "-"
+
+[node name="HSliderVolonte" type="HSlider" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatVolonte" unique_id=868215265]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+max_value = 20.0
+tick_count = 20
+ticks_on_borders = true
+
+[node name="BoutonVolontePlus" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatVolonte" unique_id=1629122482]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "+"
+
+[node name="LabelCalme" type="Label" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=215556829]
+layout_mode = 2
+text = "Calme"
+horizontal_alignment = 1
+
+[node name="StatCalme" type="HBoxContainer" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=1460286644]
+layout_mode = 2
+alignment = 1
+
+[node name="BoutonCalmeMoins" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatCalme" unique_id=2126591346]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "-"
+
+[node name="HSliderCalme" type="HSlider" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatCalme" unique_id=444218641]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+max_value = 20.0
+tick_count = 20
+ticks_on_borders = true
+
+[node name="BoutonCalmePlus" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatCalme" unique_id=642827098]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "+"
+
+[node name="HSeparator2" type="HSeparator" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=1295406040]
+layout_mode = 2
+
+[node name="LabelPhysique" type="Label" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=1768842304]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Physique"
+horizontal_alignment = 1
+
+[node name="LabelForce" type="Label" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=376013696]
+layout_mode = 2
+text = "Force"
+horizontal_alignment = 1
+
+[node name="StatForce" type="HBoxContainer" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=1904176910]
+layout_mode = 2
+alignment = 1
+
+[node name="BoutonForceMoins" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatForce" unique_id=1275995006]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "-"
+
+[node name="HSliderForce" type="HSlider" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatForce" unique_id=1311612121]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+max_value = 20.0
+tick_count = 20
+ticks_on_borders = true
+
+[node name="BoutonForcePlus" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatForce" unique_id=2085616823]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "+"
+
+[node name="LabelAgilite" type="Label" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=1375496862]
+layout_mode = 2
+text = "Agilité"
+horizontal_alignment = 1
+
+[node name="StatAgilite" type="HBoxContainer" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=1817025725]
+layout_mode = 2
+alignment = 1
+
+[node name="BoutonAgiliteMoins" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatAgilite" unique_id=8893182]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "-"
+
+[node name="HSliderAgilite" type="HSlider" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatAgilite" unique_id=156947888]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+max_value = 20.0
+tick_count = 20
+ticks_on_borders = true
+
+[node name="BoutonAgilitePlus" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatAgilite" unique_id=660904228]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "+"
+
+[node name="LabelConstitution" type="Label" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=307068302]
+layout_mode = 2
+text = "Constitution"
+horizontal_alignment = 1
+
+[node name="StatConstitution" type="HBoxContainer" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=15114591]
+layout_mode = 2
+alignment = 1
+
+[node name="BoutonConstitutionMoins" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatConstitution" unique_id=1802331371]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "-"
+
+[node name="HSliderConstitution" type="HSlider" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatConstitution" unique_id=327990656]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+max_value = 20.0
+tick_count = 20
+ticks_on_borders = true
+
+[node name="BoutonConstitutionPlus" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatConstitution" unique_id=1361201396]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "+"
+
+[node name="LabelVitesse" type="Label" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=864382558]
+layout_mode = 2
+text = "Vitesse"
+horizontal_alignment = 1
+
+[node name="StatVitesse" type="HBoxContainer" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=766370359]
+layout_mode = 2
+alignment = 1
+
+[node name="BoutonVitesseMoins" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatVitesse" unique_id=166138407]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "-"
+
+[node name="HSliderVitesse" type="HSlider" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatVitesse" unique_id=1872033852]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+max_value = 20.0
+tick_count = 20
+ticks_on_borders = true
+
+[node name="BoutonVitessePlus" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatVitesse" unique_id=362531173]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "+"
+
+[node name="LabelEndurance" type="Label" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=1488435483]
+layout_mode = 2
+text = "Endurance"
+horizontal_alignment = 1
+
+[node name="StatEndurance" type="HBoxContainer" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=1688007214]
+layout_mode = 2
+alignment = 1
+
+[node name="BoutonEnduranceMoins" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatEndurance" unique_id=1892249588]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "-"
+
+[node name="HSliderEndurance" type="HSlider" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatEndurance" unique_id=1274922065]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+max_value = 20.0
+tick_count = 20
+ticks_on_borders = true
+
+[node name="BoutonEndurancePlus" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/StatEndurance" unique_id=1424281549]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "+"
+
+[node name="BoutonsUI" type="HBoxContainer" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat" unique_id=1869482192]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 100
+alignment = 1
+
+[node name="BoutonRetour" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/BoutonsUI" unique_id=857942253]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Retour"
+
+[node name="BoutonSuivant" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutStat/BoutonsUI" unique_id=628460551]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Suivant"
+
+[node name="LayoutGuilde" type="VBoxContainer" parent="FenetreStatEtConfGuilde/MargeStat" unique_id=1082940781]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="LabelEmbleme" type="Label" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde" unique_id=1325568920]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Sélectionnez l'emblème de votre guilde"
+horizontal_alignment = 1
+
+[node name="GridContainerEmblemeGuilde" type="GridContainer" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde" unique_id=1122859652]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 20
+columns = 3
+
+[node name="BoutonEmblemeGuilde1" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde/GridContainerEmblemeGuilde" unique_id=1217911270]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+flat = true
+
+[node name="BoutonEmblemeGuilde2" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde/GridContainerEmblemeGuilde" unique_id=704381875]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+flat = true
+
+[node name="BoutonEmblemeGuilde3" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde/GridContainerEmblemeGuilde" unique_id=495498005]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+flat = true
+
+[node name="BoutonEmblemeGuilde4" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde/GridContainerEmblemeGuilde" unique_id=582580070]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+flat = true
+
+[node name="BoutonEmblemeGuilde5" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde/GridContainerEmblemeGuilde" unique_id=55181643]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+flat = true
+
+[node name="BoutonEmblemeGuilde6" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde/GridContainerEmblemeGuilde" unique_id=1256133342]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+flat = true
+
+[node name="BoutonEmblemeGuilde7" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde/GridContainerEmblemeGuilde" unique_id=1322009926]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+flat = true
+
+[node name="BoutonEmblemeGuilde8" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde/GridContainerEmblemeGuilde" unique_id=1505077356]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+flat = true
+
+[node name="BoutonEmblemeGuilde9" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde/GridContainerEmblemeGuilde" unique_id=471078687]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+flat = true
+
+[node name="HSeparator" type="HSeparator" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde" unique_id=744669008]
+layout_mode = 2
+
+[node name="LineEditNomGuilde" type="LineEdit" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde" unique_id=937885003]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5254902, 0.34509805, 0.16862746, 1)
+theme_override_font_sizes/font_size = 21
+placeholder_text = "Entrez le nom de votre guilde (15 caractères maximum)..."
+alignment = 1
+max_length = 15
+flat = true
+
+[node name="BoutonsUI" type="HBoxContainer" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde" unique_id=2034245325]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_constants/separation = 100
+alignment = 1
+
+[node name="BoutonRetour" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde/BoutonsUI" unique_id=958901925]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Retour"
+
+[node name="BoutonCommencer" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde/BoutonsUI" unique_id=1182139168]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Créer ma guilde"

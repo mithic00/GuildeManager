@@ -1,0 +1,45 @@
+Plus la valeur est haute, plus la stat est positive.
+
+Générale :
+Nom : {String}
+Prénom : {String}
+Age : {Int}
+Race : {String}
+Sexe : H/F
+Métiers : {String}
+Rang : {(* -> *****) < (S -> S*****) < (P -> P*****) < U}
+Compétences : {String}
+Motivation : Int/20
+Fatigue : Int/100
+Expérience : Int
+Niveau : Int
+
+
+
+Sociale :
+Communication : Int/20
+Leadership : Int/20
+Charisme : Int/20
+Empathie : Int/20
+Gentillesse : Int/20
+
+Mentale :
+Intelligence : Int/20
+Mémoire : Int/20
+Volonté : Int/20
+Calme : Int/20
+Frustration : Int/20
+
+Physique :
+Force : Int/20
+Agilité : Int/20
+Constitution : Int/20
+Vitesse : Int/20
+Endurance : Int/20
+
+Magie :
+Pouvoirs : {String}
+Niveau Magique : Int/1000
+Potentiel Magique : Int/1000
+Point de vie : {Int}
+Point de Magie : {Int}

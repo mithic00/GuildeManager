@@ -1,0 +1,151 @@
+Nom et Prénom selon les races :
+- Humain : Nom et prénom issu de la culture française.
+- Nain : Nom et prénom issu de la culture médiévale fantasy naine, francisée.
+- Elfe gris : Nom et prénom issu de la culture médiévale fantasy elfique, francisée.
+- Haut-Elfe : Nom et prénom issu de la culture médiévale fantasy elfique, francisée.
+- Grumol : Pas de nom, juste un prénom composé de deux mots. Les deux mots doivent commencer par un G, et son séparé d'un "'". Pas de "c", que des "k" à la place. Exemple Garik'Govik, Gofra'Ganik, Gana'Gadjok
+- Humain des monts : Nom et prénom issu de la culture française, mais que des noms/prénom court. Jamais plus de 6 lettres, pas de prénom/nom composé.
+- Tanneur : Pas de nom, juste un prénom. Pas de prénom composé. Que des prénoms qui "n'existe pas" dans la vraie vie. Exemple : Marvoc, Zori, Tanak, Piga, Azoul.
+
+Age : 
+Peut rejoindre une guilde à partir de 14 ans.
+- Humain : 1 à 90 ans. Fin de carrière entre 40 et 80 ans.
+- Nain : 1 à 150 ans. Fin de carrière entre 60 et 120 ans.
+- Elfe gris : 1 à 180 ans. Fin de carrière entre 100 et 170 ans.
+- Haut-Elfe : 1 à 220 ans. Fin de carrière entre 150 et 200 ans.
+- Grumol : 1 à 70 ans. Fin de carrière entre 30 et 60 ans.
+- Humain des monts : 1 à 50 ans. Fin de carrière entre 30 et 45 ans.
+- Tanneur : 1 à 80 ans. Fin de carrière entre 50 et 70 ans.
+
+Métiers :
+Contient la liste les métiers que pratique ou a pratiqué le personnage.
+Aucuns, Membre de guilde, Maitre de guilde, Forgeron, Chasseur, Paysan, Eleveur, Tailleur, Marchand, Cuisinier, Tavernier, Serveur, Coiffeur, Garde, Noble, Enchanteur, Professeur, Etudiant, Etudiant en Magie, Marin, Boucher, Boulanger, Maraicher, Libraire, Acteur de Théâtre, Herboriste, Bucheron, Travailleur du cuir, Alchimiste, Mineur, Constructeur, Employé de Ville
+
+Compétences (chaque compétence sera associé à un niveau de 1 à 3) : Athlétisme, Acrobaties, Discrétion, Escamotage, Arcanes, Histoire, Investigation, Nature, Religion, Dressage, Intuition, Médecine, Survie, Intimidation, Persuasion, Représentation, Tromperie,
+Bonne vue, Mauvaise vue, Fêtard, Calme, Stratégie, Connaissance Animalière, Connaissance en Flore, Navigation, Enquête, Vigilant, Cuisine, Esquive, Fouille, Diplomatie
+
+Motivation : détermine la capacité d'un EM à améliorer son niveau et atteindre son potentiel.
+
+Fatigue : Plus elle est basse, moins le personnage aura le chance de lancer une mission. Elle se régénère en partie chaque jour, et est consommé à chaque mission ou action annexe.
+
+Expérience : Augmente après chaque mission. La gain est fixe en fonction de la mission :
+* : 50
+** : 100
+*** : 200
+**** : 400
+***** : 800
+S : 2000
+S* : 2500
+S** : 3000
+S*** : 3500
+S**** : 4000
+S***** : 5000
+P : 10000
+P* : 12000
+P** : 14000
+P*** : 16000
+P**** : 18000
+P***** : 20000
+U : 1000000
+
+Niveau : Caractéristique qui reflète l'expérience d'un personnage en tant que membre de guilde. Elle sert également de base pour le calcule de PV/PM. La vraie caractéristique qui permet de déterminer la qualité d'un être magique est le niveau magique.
+
+
+Sociale :
+Communication : Faculté d'un personnage à parler de ces problèmes ou de ce qui lui plait.
+Leadership : Faculté d'un personnage à diriger une équipe. Le personnage doté de la plus grande valeur de Leadership sera automatiquement chef. En cas d'égalité : random. Une équipe sans un bon leadership peuvent générer des disputes. Stat inutilisé  en solo.
+Charisme : Reflète l'aisance du personnage à obtenir ce qu'il souhaite lors d'une interaction sociale.
+Empathie : Faculté d'un personnage à se mettre à la place de son interlocuteur. Un personnage empathique aura plus de facilité a accepter les problèmes à son encontre.
+Gentillesse : Cette caractéristique permet de déterminer la composition des équipes. Un personnage gentil ne pourra jamais faire équipe avec un personnage méchant. 
+
+Mentale :
+Intelligence : Faculté d'un personnage à résoudre les problèmes intellectuelle. 
+Mémoire : Permet de au personnage d'apprendre plus vite. La motivation reste la caractéristique principale, mais la mémoire est également pris en compte. Un personnage avec une bonne mémoire, aura plus de chance de se souvenir d'une bonne ou mauvaise action à son encontre.
+Volonté : Détermine la capacité d'un personnage à enchainer les missions malgré la fatigue
+Calme : Faculté du personnage à s'emporter en cas d'action négative à son encontre. Les personnages calme peuvent aussi régler les conflits internes s'ils sont sollicité.
+Frustration : Moins cette caractéristique est haute, plus le personnage peut provoquer une action négative en cas de problème.
+
+Physique :
+Force : Capacité d'un personnage à être utile lors d'action physique.
+Agilité : Capacité d'un personnage à être utile lors d'action agile.
+Constitution : Détermine la résistance naturelle du personnage.
+Vitesse : Capacité d'un personnage à être utile lors d'action rapide.
+Endurance : Capacité d'un personnage à être utile lors d'action endurante.
+
+Magie :
+Pouvoirs : CF Pouvoirs.txt
+Niveau : Le niveau se voit comme pour Football manager. Tout le monde ne commence pas à 1. Il détermine la puissance magique global du personnage.
+Potentiel : Détermine la valeur maximum que le niveau peut atteindre dans le cas où il a 20 en motivation et 20 en mémoire. Cette valeur ne peut pas changer. Le potentiel n'est pas forcément atteint par un personnage. 
+Point de vie : Chaque race en gagne plus ou moins. 
+	Bonus catégorie : Quand le personnage possède plusieurs pouvoir issu de plusieurs catégorie, seule la valeur la plus haute est retenu.
+	- Magicien : 1
+	- Combattant : 4
+	- Elémentaire et Psychiste : 2
+	Calcule des points de vie par race : Le dé de PV de base est rejoué à chaque niveau. Cf l'exemple pour l'humain.
+	- Humain : 1d6 par niveau + Bonus catégorie magique le plus haut. Exemple : humain niveau 3 Mage Guerrier : (1d6 (=4) + 4) + (1d6 (=1) + 4) + (1d6 (=6) + 4) = 23 PV
+	- Nain : 1d8 par niveau + Bonus catégorie magique le plus haut.
+	- Elfe gris : 1d6 par niveau + Bonus catégorie magique le plus haut.
+	- Haut-Elfe : 1d2 par niveau + 2*(Bonus catégorie magique le plus haut).
+	- Grumol : 1d6 par niveau + Bonus catégorie magique le plus haut. 
+	- Humain des monts : 1d4 par niveau + Bonus catégorie magique le plus haut.
+	- Tanneur : 1d10 par niveau + Bonus catégorie magique le plus haut.
+Point de Magie : Dépend du niveau ainsi que du pouvoir. Chaque dé est lancé indivduellement a chaque niveau, comme pour les PV.
+- Mage : 1d10 par niveau.
+- Sorcier : 1d10 par niveau.
+- Clerc : 1d8 par niveau.
+- Démoniste : 1d8 par niveau.
+- Invocateur : 1d12 par niveau.
+- Archimage : 1d10 par niveau.
+- Ensorceleur : 1d8 par niveau.
+- Enchanteur : 1d8 par niveau.
+- Métamorphe : 1d6 par niveau.
+- Purificateur : 1d8 par niveau.
+- Scribtum : 1d8 par niveau.
+- Schistite : 1d8 par niveau.
+- Aquiste : 1d8 par niveau.
+- Végenae : 1d8 par niveau.
+- Follet : 1d8 par niveau.
+- Storma : 1d8 par niveau.
+- Druide : 1d8 par niveau.
+- Chamane : 1d8 par niveau.
+
+- Guerrier : 1d8 par niveau.
+- Assassin de l'ombre : 1d6 par niveau.
+- Archer Magique : 1d6 par niveau.
+- Proctor : 1d6 par niveau.
+- Poistodon : 1d6 par niveau.
+- Berserker : 1d6 par niveau.
+- Moine : 1d6 par niveau.
+- Invocateur d'Arme : 1d10 par niveau.
+
+- Elémentaire d'Eau : 1d8 par niveau.
+- Elémentaire de Plante : 1d8 par niveau.
+- Elémentaire de Feu : 1d8 par niveau.
+- Elémentaire de Roche : 1d8 par niveau.
+- Elémentaire de Vent : 1d8 par niveau.
+- Elémentaire d'Alcool : 1d8 par niveau.
+- Elémentaire de Glace : 1d8 par niveau.
+- Elémentaire de Vapeur : 1d8 par niveau.
+- Elémentaire de Sang : 1d8 par niveau.
+- Elémentaire de Froid : 1d8 par niveau.
+- Elémentaire de Lave : 1d8 par niveau.
+- Elémentaire de Chaleur : 1d8 par niveau.
+- Elémentaire de Bois : 1d8 par niveau.
+- Elémentaire Fongique : 1d8 par niveau.
+- Elémentaire de Spore : 1d8 par niveau.
+- Elémentaire de Diamant : 1d8 par niveau.
+- Elémentaire de Métal : 1d8 par niveau.
+- Elémentaire de Pierre Précieuse : 1d8 par niveau.
+- Elémentaire de Foudre : 1d8 par niveau.
+- Elémentaire de Lumière : 1d8 par niveau.
+- Elémentaire d'Ombre : 1d8 par niveau.
+- Elémentaire de Fumée : 1d8 par niveau.
+- Elémentaire Supérieur : 1d10 par niveau.
+- Elémentaire Temporel : 1d8 par niveau.
+
+- Télékinésite : 1d8 par niveau.
+- Animiste : 1d8 par niveau.
+- Devin : 1d8 par niveau.
+- Crieur : 1d8 par niveau.
+- Illusionniste : 1d8 par niveau.
+- Télépathe : 1d4 par niveau.

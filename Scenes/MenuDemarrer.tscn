@@ -1,27 +1,8 @@
 [gd_scene format=3 uid="uid://brtpk6en7eqs7"]
 
-[ext_resource type="Texture2D" uid="uid://c0ki5jb0xp2t" path="res://Images/UI/Bouton_GuildeManager_260x65.png" id="1_2yt2r"]
 [ext_resource type="Texture2D" uid="uid://d2r1dm4skw4se" path="res://Images/MenuDemarrer.png" id="1_fkcww"]
-[ext_resource type="Texture2D" uid="uid://cwwask6xy6lif" path="res://Images/UI/Bouton_GuildeManager_Survol_260x65.png" id="1_vu378"]
-[ext_resource type="Script" path="res://Scripts/MenuDemarrer.cs" id="2_menu_script"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cbpr5"]
-texture = ExtResource("1_vu378")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vu378"]
-texture = ExtResource("1_vu378")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fkcww"]
-texture = ExtResource("1_2yt2r")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_njl57"]
-texture = ExtResource("1_2yt2r")
-
-[sub_resource type="Theme" id="Theme_fkcww"]
-Button/styles/focus = SubResource("StyleBoxTexture_cbpr5")
-Button/styles/hover = SubResource("StyleBoxTexture_vu378")
-Button/styles/normal = SubResource("StyleBoxTexture_fkcww")
-Button/styles/pressed = SubResource("StyleBoxTexture_njl57")
+[ext_resource type="Theme" uid="uid://d10p6nj26o75q" path="res://Theme/BoutonBleu.tres" id="1_vu378"]
+[ext_resource type="Script" uid="uid://1vh2cnd1k1dw" path="res://Scripts/MenuDemarrer.cs" id="2_menu_script"]
 
 [node name="MenuDemarrer" type="Control" unique_id=577758500]
 layout_mode = 3
@@ -30,7 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = SubResource("Theme_fkcww")
+theme = ExtResource("1_vu378")
 script = ExtResource("2_menu_script")
 
 [node name="FondEcran" type="TextureRect" parent="." unique_id=595593376]
@@ -99,13 +80,14 @@ size_flags_vertical = 4
 text = "Quitter le Jeu"
 
 [node name="FenetreOption" type="Window" parent="." unique_id=524571443]
+transparent_bg = true
 oversampling_override = 1.0
 initial_position = 3
 size = Vector2i(400, 300)
 current_screen = 0
 visible = false
 exclusive = true
-borderless = true
+transparent = true
 
 [node name="Marge" type="MarginContainer" parent="FenetreOption" unique_id=60022562]
 anchors_preset = 15
@@ -139,13 +121,14 @@ size_flags_vertical = 4
 text = "Fermer"
 
 [node name="FenetreChargerPartie" type="Window" parent="." unique_id=1293814159]
+transparent_bg = true
 oversampling_override = 1.0
 initial_position = 3
 size = Vector2i(600, 400)
 current_screen = 0
 visible = false
 exclusive = true
-borderless = true
+transparent = true
 
 [node name="Marge" type="MarginContainer" parent="FenetreChargerPartie" unique_id=379048665]
 anchors_preset = 15
@@ -156,7 +139,7 @@ grow_vertical = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
+theme_override_constants/margin_bottom = 50
 
 [node name="Conteneur" type="VBoxContainer" parent="FenetreChargerPartie/Marge" unique_id=491207527]
 layout_mode = 2
@@ -187,10 +170,16 @@ layout_mode = 2
 text = "Fermer"
 
 [node name="FenetreInformation" type="AcceptDialog" parent="." unique_id=1940027311]
+transparent_bg = true
+oversampling_override = 1.0
 title = "Information"
-exclusive = true
+position = Vector2i(0, 36)
+transparent = true
 
 [node name="ConfirmationSuppression" type="ConfirmationDialog" parent="." unique_id=1940027312]
+transparent_bg = true
+oversampling_override = 1.0
 title = "Supprimer la sauvegarde"
+size = Vector2i(488, 100)
+transparent = true
 dialog_text = "Voulez-vous vraiment supprimer cette sauvegarde ? Cette action est irréversible."
-exclusive = true

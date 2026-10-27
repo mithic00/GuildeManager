@@ -1,0 +1,54 @@
+Il existe plusieurs niveau de missions. Ce niveau correspond au rang nécessaire pour prendre en charge la mission. Pour progresser, un membre de la guilde doit réussir des missions. Pour pouvoir effectuer une mission de niveau supérieur à son rang, il faut respecter les conditions ci dessous.
+Niveau de mission par ordre du plus faible au plus haut : 
+* : Une mission réussie permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 0 et 20 minimum.
+** : 2 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 21 et 40 minimum.
+*** : 4 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 41 et 60 minimum.
+**** : 7 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 61 et 80 minimum.
+***** : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur + passage du concours Rang S. Niveau magique entre 81 et 150 minimum.
+S : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 151 et 200 minimum.
+S* : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 201 et 250 minimum.
+S** : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 251 et 300 minimum.
+S*** : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 301 et 350 minimum.
+S**** : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 351 et 400 minimum.
+S***** : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur + passage du concours Rang P. Niveau magique entre 401 et 600 minimum.
+P : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 601 et 700 minimum.
+P* : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 701 et 780 minimum.
+P** : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 781 et 850 minimum.
+P*** : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 851 et 910 minimum.
+P**** : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 911 et 960 minimum.
+P***** : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 961 et 999 minimum.
+U : L'accès à ce rang n'est conditionné que par le niveau magique : avoir 1000 ou plus.
+
+Voici les gains en écus par mission : 
+* : 50 à 100
+** : 100 à 225
+*** : 225 à 300
+**** : 350 à 500
+***** : 500 à 1000
+S : 1000 à 3000
+S* : 2000 à 4000
+S** : 3000 à 5000
+S*** : 4000 à 6000
+S**** : 5000 à 7000
+S***** : 6000 à 10000
+P : 10000 à 100000
+P* : 20000 à 100000
+P** : 30000 à 100000
+P*** : 40000 à 100000
+P**** : 50000 à 100000
+P***** : 60000 à 100000
+U : Au moins 100000
+
+
+Il existe plusieurs catégorie de missions : 
+- Enquête : Prix dans le bas de la fourchette. Précision : cette catégorie n'implique pas de résoudre le problème. Simplement apporter des informations.
+- Escorte : Prix dans la moyenne de la fourchette.
+- Elimination de danger : Prix dans le haut de la fourchette. Précision : cette catégorie peut impliquer une quête préalable. Mais le fait de devoir résoudre le problème une fois élucidé range la mission dans cette catégorie.
+- Recherche mort ou vif : Prix dans le haut de la fourchette.
+- Capture vif : Prix dans la moyenne de la fourchette.
+- Protection d'un lieu : Prix dans le bas de la fourchette.
+- Recherche d'un objet : Prix dans la moyenne de la fourchette.
+- Recherche d'un ingrédient : Prix dans le bas de la fourchette.
+- Recherche d'un animal : Prix dans la moyenne de la fourchette.
+- Service : Prix dans le bas de la fourchette.
+- Renfort pour Assaut : Prix dans le haut de la fourchette. Forcément demandé par une cité, un royaume ou une guilde de mercenaire. L'assaut peut être l'offensive sur un camp de bandit comme une offensive dans une grande guerre selon le niveau de la mission.

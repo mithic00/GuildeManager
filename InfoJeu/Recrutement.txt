@@ -1,0 +1,4 @@
+Il existera plusieurs façon de recruter de nouveaux membres dans la guilde : 
+- Candidature spontanée : en fonction de la population, du moment, de la notoriété de la guilde, etc, ... Un EM peut se présenter spontanément à la guilde pour la rejoindre. Le joueur aura le choix de le mettre à l'épreuve, de s'entretenir avec lui ou de refuser sa candidature. Le niveau max des EM qui candidate dépend de la notoriété de la guilde.
+- Campagne de recrutement : coute de l'argent chaque jour, mais permet selon la porté de la campagne, d'attirer des EM de bon niveau.
+- Recrutement à la taverne : cout unitaire. Permet de recruter tout type d'EM (très mauvais comme très bon), avec plus de chance d'obtenir de mauvais EM.

@@ -1,0 +1,25 @@
+Le joueur aura accès à des magasins par défaut, afin d'améliorer sa guilde. ces magasins sont les suivants :
+
+Vendeur de mobilier : Permet d'acheter des meubles pour permettre d'ajouter des pièces à la guilde sous réserve de place.
+Enchanteur : Permet d'acheter des objets magiques et des pièces magiques afin d'augmenter la taille de la guilde
+Marché : Permet d'acheter de la nourriture et de la boisson.
+Paysan : Permet d'acheter de quoi faire un potager et de la nourriture.
+Port : Permet d'acheter de la nourriture, des bateaux et de l'alcool.
+Forgeron : Permet d'acheter des objets en métal, des armes et armures.
+Herboriste : Permet d'acheter des herbes médicinale et de quoi les planter.
+
+
+
+
+Concernant les dépenses, le joueur devra s'acquitter de :
+- Un loyer : identique pour tous les emplacements par défaut.
+- La nourriture de son personnage
+- La taxe de la ville : identique pour tous les emplacements par défaut.
+- Réparation de la guilde si nécessaire.
+- Taxe ordre des guildes
+- Participation concours, tournoi, évènement divers…
+
+Les revenus seront les suivants : 
+- Gain missions
+- Résultat concours, tournoi, évènement divers …
+- Don de noble, membre, autre pnj…
