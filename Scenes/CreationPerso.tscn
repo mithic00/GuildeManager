@@ -33,6 +33,39 @@
 [ext_resource type="Texture2D" uid="uid://bvmgqlpvy7o70" path="res://Images/BlasonGuilde/Blason_Vert_Focus.png" id="21_jc8vq"]
 [ext_resource type="Texture2D" uid="uid://d0byad6yrdv5c" path="res://Images/BlasonGuilde/Blason_Violet_Focus.png" id="23_5fwl7"]
 
+[ext_resource type="Texture2D" path="res://Images/Portraits/Humain_Homme.png" id="portrait_Homme_Humain_normal"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/Humain_Homme_Focus.png" id="portrait_Homme_Humain_focus"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/ElfeGris_Homme.png" id="portrait_Homme_ElfeGris_normal"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/ElfeGris_Homme_Focus.png" id="portrait_Homme_ElfeGris_focus"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/Grumol_Homme.png" id="portrait_Homme_Grumol_normal"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/Grumol_Homme_Focus.png" id="portrait_Homme_Grumol_focus"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/HumainDesMonts_Homme.png" id="portrait_Homme_HumainDesMonts_normal"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/HumainDesMonts_Homme_Focus.png" id="portrait_Homme_HumainDesMonts_focus"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/HautElfe_Homme.png" id="portrait_Homme_HautElfe_normal"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/HautElfe_Homme_Focus.png" id="portrait_Homme_HautElfe_focus"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/Nain_Homme.png" id="portrait_Homme_Nain_normal"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/Nain_Homme_Focus.png" id="portrait_Homme_Nain_focus"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/Tanneur_Homme.png" id="portrait_Homme_Tanneur_normal"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/Tanneur_Homme_Focus.png" id="portrait_Homme_Tanneur_focus"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/Khajiit_Homme.png" id="portrait_Homme_Khajiit_normal"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/Khajiit_Homme_Focus.png" id="portrait_Homme_Khajiit_focus"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/Humain_Femme.png" id="portrait_Femme_Humain_normal"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/Humain_Femme_Focus.png" id="portrait_Femme_Humain_focus"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/ElfeGris_Femme.png" id="portrait_Femme_ElfeGris_normal"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/ElfeGris_Femme_Focus.png" id="portrait_Femme_ElfeGris_focus"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/Grumol_Femme.png" id="portrait_Femme_Grumol_normal"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/Grumol_Femme_Focus.png" id="portrait_Femme_Grumol_focus"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/HumainDesMonts_Femme.png" id="portrait_Femme_HumainDesMonts_normal"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/HumainDesMonts_Femme_Focus.png" id="portrait_Femme_HumainDesMonts_focus"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/HautElfe_Femme.png" id="portrait_Femme_HautElfe_normal"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/HautElfe_Femme_Focus.png" id="portrait_Femme_HautElfe_focus"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/Nain_Femme.png" id="portrait_Femme_Nain_normal"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/Nain_Femme_Focus.png" id="portrait_Femme_Nain_focus"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/Tanneur_Femme.png" id="portrait_Femme_Tanneur_normal"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/Tanneur_Femme_Focus.png" id="portrait_Femme_Tanneur_focus"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/Khajiit_Femme.png" id="portrait_Femme_Khajiit_normal"]
+[ext_resource type="Texture2D" path="res://Images/Portraits/Khajiit_Femme_Focus.png" id="portrait_Femme_Khajiit_focus"]
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_co3dj"]
 texture = ExtResource("3_26w2i")
 
@@ -201,6 +234,102 @@ texture = ExtResource("23_5fwl7")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8tvmk"]
 texture = ExtResource("23_5fwl7")
 
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_Humain_style"]
+texture = ExtResource("portrait_Homme_Humain_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_Humain_glow"]
+texture = ExtResource("portrait_Homme_Humain_focus")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_ElfeGris_style"]
+texture = ExtResource("portrait_Homme_ElfeGris_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_ElfeGris_glow"]
+texture = ExtResource("portrait_Homme_ElfeGris_focus")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_Grumol_style"]
+texture = ExtResource("portrait_Homme_Grumol_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_Grumol_glow"]
+texture = ExtResource("portrait_Homme_Grumol_focus")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_HumainDesMonts_style"]
+texture = ExtResource("portrait_Homme_HumainDesMonts_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_HumainDesMonts_glow"]
+texture = ExtResource("portrait_Homme_HumainDesMonts_focus")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_HautElfe_style"]
+texture = ExtResource("portrait_Homme_HautElfe_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_HautElfe_glow"]
+texture = ExtResource("portrait_Homme_HautElfe_focus")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_Nain_style"]
+texture = ExtResource("portrait_Homme_Nain_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_Nain_glow"]
+texture = ExtResource("portrait_Homme_Nain_focus")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_Tanneur_style"]
+texture = ExtResource("portrait_Homme_Tanneur_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_Tanneur_glow"]
+texture = ExtResource("portrait_Homme_Tanneur_focus")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_Khajiit_style"]
+texture = ExtResource("portrait_Homme_Khajiit_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_Khajiit_glow"]
+texture = ExtResource("portrait_Homme_Khajiit_focus")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_Humain_style"]
+texture = ExtResource("portrait_Femme_Humain_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_Humain_glow"]
+texture = ExtResource("portrait_Femme_Humain_focus")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_ElfeGris_style"]
+texture = ExtResource("portrait_Femme_ElfeGris_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_ElfeGris_glow"]
+texture = ExtResource("portrait_Femme_ElfeGris_focus")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_Grumol_style"]
+texture = ExtResource("portrait_Femme_Grumol_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_Grumol_glow"]
+texture = ExtResource("portrait_Femme_Grumol_focus")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_HumainDesMonts_style"]
+texture = ExtResource("portrait_Femme_HumainDesMonts_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_HumainDesMonts_glow"]
+texture = ExtResource("portrait_Femme_HumainDesMonts_focus")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_HautElfe_style"]
+texture = ExtResource("portrait_Femme_HautElfe_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_HautElfe_glow"]
+texture = ExtResource("portrait_Femme_HautElfe_focus")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_Nain_style"]
+texture = ExtResource("portrait_Femme_Nain_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_Nain_glow"]
+texture = ExtResource("portrait_Femme_Nain_focus")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_Tanneur_style"]
+texture = ExtResource("portrait_Femme_Tanneur_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_Tanneur_glow"]
+texture = ExtResource("portrait_Femme_Tanneur_focus")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_Khajiit_style"]
+texture = ExtResource("portrait_Femme_Khajiit_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_Khajiit_glow"]
+texture = ExtResource("portrait_Femme_Khajiit_focus")
+
 [node name="CreationPerso" type="Control" unique_id=38892687]
 layout_mode = 3
 anchors_preset = 15
@@ -242,50 +371,74 @@ columns = 4
 [node name="BoutonHumain" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1529809593]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxTexture_co3dj")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_p3tld")
+theme_override_styles/normal = SubResource("portrait_Homme_Humain_style")
+theme_override_styles/hover = SubResource("portrait_Homme_Humain_glow")
+theme_override_styles/pressed = SubResource("portrait_Homme_Humain_glow")
+theme_override_styles/hover_pressed = SubResource("portrait_Homme_Humain_glow")
+theme_override_styles/focus = SubResource("portrait_Homme_Humain_glow")
 
 [node name="BoutonElfeGris" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1482625889]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxTexture_0r70g")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_o324e")
+theme_override_styles/normal = SubResource("portrait_Homme_ElfeGris_style")
+theme_override_styles/hover = SubResource("portrait_Homme_ElfeGris_glow")
+theme_override_styles/pressed = SubResource("portrait_Homme_ElfeGris_glow")
+theme_override_styles/hover_pressed = SubResource("portrait_Homme_ElfeGris_glow")
+theme_override_styles/focus = SubResource("portrait_Homme_ElfeGris_glow")
 
 [node name="BoutonGrumol" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=924123036]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxTexture_ru6v6")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_3o67s")
+theme_override_styles/normal = SubResource("portrait_Homme_Grumol_style")
+theme_override_styles/hover = SubResource("portrait_Homme_Grumol_glow")
+theme_override_styles/pressed = SubResource("portrait_Homme_Grumol_glow")
+theme_override_styles/hover_pressed = SubResource("portrait_Homme_Grumol_glow")
+theme_override_styles/focus = SubResource("portrait_Homme_Grumol_glow")
 
 [node name="BoutonHumainDesMonts" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=836387751]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxTexture_i5q8i")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_1p7u3")
+theme_override_styles/normal = SubResource("portrait_Homme_HumainDesMonts_style")
+theme_override_styles/hover = SubResource("portrait_Homme_HumainDesMonts_glow")
+theme_override_styles/pressed = SubResource("portrait_Homme_HumainDesMonts_glow")
+theme_override_styles/hover_pressed = SubResource("portrait_Homme_HumainDesMonts_glow")
+theme_override_styles/focus = SubResource("portrait_Homme_HumainDesMonts_glow")
 
 [node name="BoutonHautElfe" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1255510605]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxTexture_gui0s")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_vvqyq")
+theme_override_styles/normal = SubResource("portrait_Homme_HautElfe_style")
+theme_override_styles/hover = SubResource("portrait_Homme_HautElfe_glow")
+theme_override_styles/pressed = SubResource("portrait_Homme_HautElfe_glow")
+theme_override_styles/hover_pressed = SubResource("portrait_Homme_HautElfe_glow")
+theme_override_styles/focus = SubResource("portrait_Homme_HautElfe_glow")
 
 [node name="BoutonNain" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1985998732]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxTexture_8yd6b")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_pd3yv")
+theme_override_styles/normal = SubResource("portrait_Homme_Nain_style")
+theme_override_styles/hover = SubResource("portrait_Homme_Nain_glow")
+theme_override_styles/pressed = SubResource("portrait_Homme_Nain_glow")
+theme_override_styles/hover_pressed = SubResource("portrait_Homme_Nain_glow")
+theme_override_styles/focus = SubResource("portrait_Homme_Nain_glow")
 
 [node name="BoutonTanneur" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1595028489]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxTexture_q5i8b")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_lmf1s")
+theme_override_styles/normal = SubResource("portrait_Homme_Tanneur_style")
+theme_override_styles/hover = SubResource("portrait_Homme_Tanneur_glow")
+theme_override_styles/pressed = SubResource("portrait_Homme_Tanneur_glow")
+theme_override_styles/hover_pressed = SubResource("portrait_Homme_Tanneur_glow")
+theme_override_styles/focus = SubResource("portrait_Homme_Tanneur_glow")
 
 [node name="BoutonKhajiit" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1725810779]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxTexture_tie8f")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_4c4xo")
+theme_override_styles/normal = SubResource("portrait_Homme_Khajiit_style")
+theme_override_styles/hover = SubResource("portrait_Homme_Khajiit_glow")
+theme_override_styles/pressed = SubResource("portrait_Homme_Khajiit_glow")
+theme_override_styles/hover_pressed = SubResource("portrait_Homme_Khajiit_glow")
+theme_override_styles/focus = SubResource("portrait_Homme_Khajiit_glow")
 
 [node name="BouttonsFondPersoF" type="GridContainer" parent="MargePersonnage/Layout" unique_id=630862258]
 visible = false
@@ -296,50 +449,74 @@ columns = 4
 [node name="BoutonHumainF" type="Button" parent="MargePersonnage/Layout/BouttonsFondPersoF" unique_id=1528031171]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxTexture_co3dj")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_p3tld")
+theme_override_styles/normal = SubResource("portrait_Femme_Humain_style")
+theme_override_styles/hover = SubResource("portrait_Femme_Humain_glow")
+theme_override_styles/pressed = SubResource("portrait_Femme_Humain_glow")
+theme_override_styles/hover_pressed = SubResource("portrait_Femme_Humain_glow")
+theme_override_styles/focus = SubResource("portrait_Femme_Humain_glow")
 
 [node name="BoutonElfeGrisF" type="Button" parent="MargePersonnage/Layout/BouttonsFondPersoF" unique_id=37930865]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxTexture_0r70g")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_o324e")
+theme_override_styles/normal = SubResource("portrait_Femme_ElfeGris_style")
+theme_override_styles/hover = SubResource("portrait_Femme_ElfeGris_glow")
+theme_override_styles/pressed = SubResource("portrait_Femme_ElfeGris_glow")
+theme_override_styles/hover_pressed = SubResource("portrait_Femme_ElfeGris_glow")
+theme_override_styles/focus = SubResource("portrait_Femme_ElfeGris_glow")
 
 [node name="BoutonGrumolF" type="Button" parent="MargePersonnage/Layout/BouttonsFondPersoF" unique_id=2123236390]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxTexture_ru6v6")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_3o67s")
+theme_override_styles/normal = SubResource("portrait_Femme_Grumol_style")
+theme_override_styles/hover = SubResource("portrait_Femme_Grumol_glow")
+theme_override_styles/pressed = SubResource("portrait_Femme_Grumol_glow")
+theme_override_styles/hover_pressed = SubResource("portrait_Femme_Grumol_glow")
+theme_override_styles/focus = SubResource("portrait_Femme_Grumol_glow")
 
 [node name="BoutonHumainDesMontsF" type="Button" parent="MargePersonnage/Layout/BouttonsFondPersoF" unique_id=599527526]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxTexture_i5q8i")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_1p7u3")
+theme_override_styles/normal = SubResource("portrait_Femme_HumainDesMonts_style")
+theme_override_styles/hover = SubResource("portrait_Femme_HumainDesMonts_glow")
+theme_override_styles/pressed = SubResource("portrait_Femme_HumainDesMonts_glow")
+theme_override_styles/hover_pressed = SubResource("portrait_Femme_HumainDesMonts_glow")
+theme_override_styles/focus = SubResource("portrait_Femme_HumainDesMonts_glow")
 
 [node name="BoutonHautElfeF" type="Button" parent="MargePersonnage/Layout/BouttonsFondPersoF" unique_id=746335161]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxTexture_gui0s")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_vvqyq")
+theme_override_styles/normal = SubResource("portrait_Femme_HautElfe_style")
+theme_override_styles/hover = SubResource("portrait_Femme_HautElfe_glow")
+theme_override_styles/pressed = SubResource("portrait_Femme_HautElfe_glow")
+theme_override_styles/hover_pressed = SubResource("portrait_Femme_HautElfe_glow")
+theme_override_styles/focus = SubResource("portrait_Femme_HautElfe_glow")
 
 [node name="BoutonNainF" type="Button" parent="MargePersonnage/Layout/BouttonsFondPersoF" unique_id=2107722091]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxTexture_8yd6b")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_pd3yv")
+theme_override_styles/normal = SubResource("portrait_Femme_Nain_style")
+theme_override_styles/hover = SubResource("portrait_Femme_Nain_glow")
+theme_override_styles/pressed = SubResource("portrait_Femme_Nain_glow")
+theme_override_styles/hover_pressed = SubResource("portrait_Femme_Nain_glow")
+theme_override_styles/focus = SubResource("portrait_Femme_Nain_glow")
 
 [node name="BoutonTanneurF" type="Button" parent="MargePersonnage/Layout/BouttonsFondPersoF" unique_id=834949390]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxTexture_q5i8b")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_lmf1s")
+theme_override_styles/normal = SubResource("portrait_Femme_Tanneur_style")
+theme_override_styles/hover = SubResource("portrait_Femme_Tanneur_glow")
+theme_override_styles/pressed = SubResource("portrait_Femme_Tanneur_glow")
+theme_override_styles/hover_pressed = SubResource("portrait_Femme_Tanneur_glow")
+theme_override_styles/focus = SubResource("portrait_Femme_Tanneur_glow")
 
 [node name="BoutonKhajiitF" type="Button" parent="MargePersonnage/Layout/BouttonsFondPersoF" unique_id=2141798963]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxTexture_tie8f")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_4c4xo")
+theme_override_styles/normal = SubResource("portrait_Femme_Khajiit_style")
+theme_override_styles/hover = SubResource("portrait_Femme_Khajiit_glow")
+theme_override_styles/pressed = SubResource("portrait_Femme_Khajiit_glow")
+theme_override_styles/hover_pressed = SubResource("portrait_Femme_Khajiit_glow")
+theme_override_styles/focus = SubResource("portrait_Femme_Khajiit_glow")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MargePersonnage/Layout" unique_id=23712975]
 layout_mode = 2
