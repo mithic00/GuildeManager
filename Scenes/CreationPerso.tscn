@@ -1,9 +1,205 @@
 [gd_scene format=3 uid="uid://bhi7vq6i48xb5"]
 
+[ext_resource type="Script" uid="uid://diw5803o8bl1c" path="res://Scripts/CreationPerso.cs" id="1_8e3w1"]
 [ext_resource type="Texture2D" uid="uid://ck2ao5g04aax2" path="res://Images/Fonds/Fond_Creation_Perso.png" id="1_foeo5"]
 [ext_resource type="FontFile" uid="uid://liivnr87xrhm" path="res://Font/CloisterBlack.ttf" id="2_pn8lf"]
+[ext_resource type="Texture2D" uid="uid://s65l66qt86ii" path="res://Images/Portraits/Humain_Homme.png" id="3_26w2i"]
 [ext_resource type="Theme" uid="uid://d10p6nj26o75q" path="res://Theme/BoutonBleu.tres" id="3_i56mq"]
+[ext_resource type="Texture2D" uid="uid://dl60rigmgk225" path="res://Images/Portraits/ElfeGris_Homme.png" id="4_e3c3l"]
 [ext_resource type="Texture2D" uid="uid://de0ekwaiw43wa" path="res://Images/Fonds/Fond_Rose-Vallee.png" id="4_vlt7f"]
+[ext_resource type="Texture2D" uid="uid://b5ac2xsmux1y5" path="res://Images/BlasonGuilde/Blason_Argent.png" id="5_jtip0"]
+[ext_resource type="Texture2D" uid="uid://cokylsl6iv0gs" path="res://Images/Portraits/Grumol_Homme.png" id="5_rscop"]
+[ext_resource type="Texture2D" uid="uid://cdouwwqqt6ak4" path="res://Images/BlasonGuilde/Blason_Bleu.png" id="6_8e3w1"]
+[ext_resource type="Texture2D" uid="uid://bfxva01g1u3u0" path="res://Images/Portraits/HumainDesMonts_Homme.png" id="6_fguuc"]
+[ext_resource type="Texture2D" uid="uid://cyw6erltnqr7v" path="res://Images/Portraits/HautElfe_Homme.png" id="7_5pv87"]
+[ext_resource type="Texture2D" uid="uid://buthhkkw8a3pi" path="res://Images/BlasonGuilde/Blason_Argent_Focus.png" id="7_atxo0"]
+[ext_resource type="Texture2D" uid="uid://d3kmbiiq6g7px" path="res://Images/BlasonGuilde/Blason_Turquoise.png" id="7_mjoqb"]
+[ext_resource type="Texture2D" uid="uid://dm1s88e2fy4im" path="res://Images/BlasonGuilde/Blason_Epee.png" id="8_atxo0"]
+[ext_resource type="Texture2D" uid="uid://di0isunymfgm5" path="res://Images/Portraits/Nain_Homme.png" id="8_l2m2g"]
+[ext_resource type="Texture2D" uid="uid://s4hmet0lj4xr" path="res://Images/BlasonGuilde/Blason_Bleu_Focus.png" id="9_2kbk4"]
+[ext_resource type="Texture2D" uid="uid://c21k00d8mem43" path="res://Images/Portraits/Tanneur_Homme.png" id="9_5x34d"]
+[ext_resource type="Texture2D" uid="uid://byty6jdy838e7" path="res://Images/BlasonGuilde/Blason_Marron.png" id="9_jtc5u"]
+[ext_resource type="Texture2D" uid="uid://d4ll0g23ikb4y" path="res://Images/BlasonGuilde/Blason_Noir.png" id="10_607hs"]
+[ext_resource type="Texture2D" uid="uid://bxlutypikwef" path="res://Images/Portraits/Khajiit_Homme.png" id="10_pt4nf"]
+[ext_resource type="Texture2D" uid="uid://cgcybh4gvyh4a" path="res://Images/BlasonGuilde/Blason_Turquoise_Focus.png" id="11_7x4k6"]
+[ext_resource type="Texture2D" uid="uid://d368fgcmcx18o" path="res://Images/BlasonGuilde/Blason_Rouge.png" id="11_m2g6d"]
+[ext_resource type="Texture2D" uid="uid://4amlc7tjmy5u" path="res://Images/UI/M&F.png" id="11_pjwt2"]
+[ext_resource type="Texture2D" uid="uid://bnbls6gotsn46" path="res://Images/BlasonGuilde/Blason_Vert.png" id="12_1wsn7"]
+[ext_resource type="Texture2D" uid="uid://dh3e2hp32j0jr" path="res://Images/BlasonGuilde/Blason_Epee_Focus.png" id="13_86rsc"]
+[ext_resource type="Texture2D" uid="uid://q1lcheesyp22" path="res://Images/BlasonGuilde/Blason_Violet.png" id="13_g8ahv"]
+[ext_resource type="Texture2D" uid="uid://dbyjhjlfpboqa" path="res://Images/BlasonGuilde/Blason_Marron_Focus.png" id="15_8wnru"]
+[ext_resource type="Texture2D" uid="uid://bowbbvwapflm1" path="res://Images/BlasonGuilde/Blason_Noir_Focus.png" id="17_xkge8"]
+[ext_resource type="Texture2D" uid="uid://cosu5868rduqj" path="res://Images/BlasonGuilde/Blason_Rouge_Focus.png" id="19_xaci0"]
+[ext_resource type="Texture2D" uid="uid://bvmgqlpvy7o70" path="res://Images/BlasonGuilde/Blason_Vert_Focus.png" id="21_jc8vq"]
+[ext_resource type="Texture2D" uid="uid://d0byad6yrdv5c" path="res://Images/BlasonGuilde/Blason_Violet_Focus.png" id="23_5fwl7"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_co3dj"]
+texture = ExtResource("3_26w2i")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_p3tld"]
+texture = ExtResource("3_26w2i")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0r70g"]
+texture = ExtResource("4_e3c3l")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_o324e"]
+texture = ExtResource("4_e3c3l")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ru6v6"]
+texture = ExtResource("5_rscop")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3o67s"]
+texture = ExtResource("5_rscop")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_i5q8i"]
+texture = ExtResource("6_fguuc")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1p7u3"]
+texture = ExtResource("6_fguuc")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gui0s"]
+texture = ExtResource("7_5pv87")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vvqyq"]
+texture = ExtResource("7_5pv87")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8yd6b"]
+texture = ExtResource("8_l2m2g")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pd3yv"]
+texture = ExtResource("8_l2m2g")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q5i8b"]
+texture = ExtResource("9_5x34d")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lmf1s"]
+texture = ExtResource("9_5x34d")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tie8f"]
+texture = ExtResource("10_pt4nf")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4c4xo"]
+texture = ExtResource("10_pt4nf")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uw3lh"]
+texture = ExtResource("11_pjwt2")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rb1ly"]
+texture = ExtResource("11_pjwt2")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fhppx"]
+texture = ExtResource("11_pjwt2")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vr37l"]
+texture = ExtResource("11_pjwt2")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fmugi"]
+texture = ExtResource("5_jtip0")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jtc5u"]
+texture = ExtResource("5_jtip0")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mjoqb"]
+texture = ExtResource("7_atxo0")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rscop"]
+texture = ExtResource("7_atxo0")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ykkax"]
+texture = ExtResource("6_8e3w1")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_607hs"]
+texture = ExtResource("6_8e3w1")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_m2g6d"]
+texture = ExtResource("9_2kbk4")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5pv87"]
+texture = ExtResource("9_2kbk4")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ahnba"]
+texture = ExtResource("7_mjoqb")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1wsn7"]
+texture = ExtResource("7_mjoqb")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_g8ahv"]
+texture = ExtResource("11_7x4k6")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l2m2g"]
+texture = ExtResource("11_7x4k6")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xap7y"]
+texture = ExtResource("8_atxo0")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xm22m"]
+texture = ExtResource("8_atxo0")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2kbk4"]
+texture = ExtResource("13_86rsc")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5x34d"]
+texture = ExtResource("13_86rsc")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gnhxe"]
+texture = ExtResource("9_jtc5u")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7x4k6"]
+texture = ExtResource("9_jtc5u")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_86rsc"]
+texture = ExtResource("15_8wnru")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pt4nf"]
+texture = ExtResource("15_8wnru")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_u4ii8"]
+texture = ExtResource("10_607hs")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8wnru"]
+texture = ExtResource("10_607hs")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xkge8"]
+texture = ExtResource("17_xkge8")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pjwt2"]
+texture = ExtResource("17_xkge8")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rvh5q"]
+texture = ExtResource("11_m2g6d")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xaci0"]
+texture = ExtResource("11_m2g6d")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jc8vq"]
+texture = ExtResource("19_xaci0")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q7ejq"]
+texture = ExtResource("19_xaci0")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fgfr5"]
+texture = ExtResource("12_1wsn7")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5fwl7"]
+texture = ExtResource("12_1wsn7")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y5jl1"]
+texture = ExtResource("21_jc8vq")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yu7lf"]
+texture = ExtResource("21_jc8vq")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mdrhr"]
+texture = ExtResource("13_g8ahv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_26w2i"]
+texture = ExtResource("13_g8ahv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e3c3l"]
+texture = ExtResource("23_5fwl7")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8tvmk"]
+texture = ExtResource("23_5fwl7")
 
 [node name="CreationPerso" type="Control" unique_id=38892687]
 layout_mode = 3
@@ -12,6 +208,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_8e3w1")
 
 [node name="Fond" type="TextureRect" parent="." unique_id=472767263]
 layout_mode = 1
@@ -41,53 +238,73 @@ theme_override_constants/separation = 10
 layout_mode = 2
 columns = 4
 
-[node name="BoutonPerso1" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1529809593]
+[node name="BoutonHumain" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1529809593]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-flat = true
+theme_override_styles/normal = SubResource("StyleBoxTexture_co3dj")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_p3tld")
 
-[node name="BoutonPerso2" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1482625889]
+[node name="BoutonElfeGris" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1482625889]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-flat = true
+theme_override_styles/normal = SubResource("StyleBoxTexture_0r70g")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_o324e")
 
-[node name="BoutonPerso3" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=924123036]
+[node name="BoutonGrumol" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=924123036]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-flat = true
+theme_override_styles/normal = SubResource("StyleBoxTexture_ru6v6")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_3o67s")
 
-[node name="BoutonPerso4" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=836387751]
+[node name="BoutonHumainDesMonts" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=836387751]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-flat = true
+theme_override_styles/normal = SubResource("StyleBoxTexture_i5q8i")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_1p7u3")
 
-[node name="BoutonPerso5" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1255510605]
+[node name="BoutonHautElfe" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1255510605]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-flat = true
+theme_override_styles/normal = SubResource("StyleBoxTexture_gui0s")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_vvqyq")
 
-[node name="BoutonPerso6" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1985998732]
+[node name="BoutonNain" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1985998732]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-flat = true
+theme_override_styles/normal = SubResource("StyleBoxTexture_8yd6b")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_pd3yv")
 
-[node name="BoutonPerso7" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1595028489]
+[node name="BoutonTanneur" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1595028489]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-flat = true
+theme_override_styles/normal = SubResource("StyleBoxTexture_q5i8b")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_lmf1s")
 
-[node name="BoutonPerso8" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1725810779]
+[node name="BoutonKhajiit" type="Button" parent="MargePersonnage/Layout/BouttonsFondPerso" unique_id=1725810779]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-flat = true
+theme_override_styles/normal = SubResource("StyleBoxTexture_tie8f")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_4c4xo")
 
-[node name="LineEditNomPersonnage" type="LineEdit" parent="MargePersonnage/Layout" unique_id=1733652490]
+[node name="HBoxContainer" type="HBoxContainer" parent="MargePersonnage/Layout" unique_id=23712975]
 layout_mode = 2
+
+[node name="LineEditNomPersonnage" type="LineEdit" parent="MargePersonnage/Layout/HBoxContainer" unique_id=1733652490]
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.5254902, 0.34509805, 0.16862746, 1)
 theme_override_font_sizes/font_size = 21
 placeholder_text = "Entrez le nom de votre personnage..."
 alignment = 1
 flat = true
+
+[node name="BoutonSwitchSexe" type="Button" parent="MargePersonnage/Layout/HBoxContainer" unique_id=2039092466]
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxTexture_uw3lh")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_rb1ly")
+theme_override_styles/hover = SubResource("StyleBoxTexture_fhppx")
+theme_override_styles/focus = SubResource("StyleBoxTexture_vr37l")
 
 [node name="LabelExperience" type="Label" parent="MargePersonnage/Layout" unique_id=1028600102]
 layout_mode = 2
@@ -767,47 +984,74 @@ columns = 3
 [node name="BoutonEmblemeGuilde1" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde/GridContainerEmblemeGuilde" unique_id=1217911270]
 custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
-flat = true
+theme_override_styles/normal = SubResource("StyleBoxTexture_fmugi")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_jtc5u")
+theme_override_styles/hover = SubResource("StyleBoxTexture_mjoqb")
+theme_override_styles/focus = SubResource("StyleBoxTexture_rscop")
 
 [node name="BoutonEmblemeGuilde2" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde/GridContainerEmblemeGuilde" unique_id=704381875]
 custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
-flat = true
+theme_override_styles/normal = SubResource("StyleBoxTexture_ykkax")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_607hs")
+theme_override_styles/hover = SubResource("StyleBoxTexture_m2g6d")
+theme_override_styles/focus = SubResource("StyleBoxTexture_5pv87")
 
 [node name="BoutonEmblemeGuilde3" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde/GridContainerEmblemeGuilde" unique_id=495498005]
 custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
-flat = true
+theme_override_styles/normal = SubResource("StyleBoxTexture_ahnba")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_1wsn7")
+theme_override_styles/hover = SubResource("StyleBoxTexture_g8ahv")
+theme_override_styles/focus = SubResource("StyleBoxTexture_l2m2g")
 
 [node name="BoutonEmblemeGuilde4" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde/GridContainerEmblemeGuilde" unique_id=582580070]
 custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
-flat = true
+theme_override_styles/normal = SubResource("StyleBoxTexture_xap7y")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_xm22m")
+theme_override_styles/hover = SubResource("StyleBoxTexture_2kbk4")
+theme_override_styles/focus = SubResource("StyleBoxTexture_5x34d")
 
 [node name="BoutonEmblemeGuilde5" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde/GridContainerEmblemeGuilde" unique_id=55181643]
 custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
-flat = true
+theme_override_styles/normal = SubResource("StyleBoxTexture_gnhxe")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_7x4k6")
+theme_override_styles/hover = SubResource("StyleBoxTexture_86rsc")
+theme_override_styles/focus = SubResource("StyleBoxTexture_pt4nf")
 
 [node name="BoutonEmblemeGuilde6" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde/GridContainerEmblemeGuilde" unique_id=1256133342]
 custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
-flat = true
+theme_override_styles/normal = SubResource("StyleBoxTexture_u4ii8")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_8wnru")
+theme_override_styles/hover = SubResource("StyleBoxTexture_xkge8")
+theme_override_styles/focus = SubResource("StyleBoxTexture_pjwt2")
 
 [node name="BoutonEmblemeGuilde7" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde/GridContainerEmblemeGuilde" unique_id=1322009926]
 custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
-flat = true
+theme_override_styles/normal = SubResource("StyleBoxTexture_rvh5q")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_xaci0")
+theme_override_styles/hover = SubResource("StyleBoxTexture_jc8vq")
+theme_override_styles/focus = SubResource("StyleBoxTexture_q7ejq")
 
 [node name="BoutonEmblemeGuilde8" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde/GridContainerEmblemeGuilde" unique_id=1505077356]
 custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
-flat = true
+theme_override_styles/normal = SubResource("StyleBoxTexture_fgfr5")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5fwl7")
+theme_override_styles/hover = SubResource("StyleBoxTexture_y5jl1")
+theme_override_styles/focus = SubResource("StyleBoxTexture_yu7lf")
 
 [node name="BoutonEmblemeGuilde9" type="Button" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde/GridContainerEmblemeGuilde" unique_id=471078687]
 custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
-flat = true
+theme_override_styles/normal = SubResource("StyleBoxTexture_mdrhr")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_26w2i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_e3c3l")
+theme_override_styles/focus = SubResource("StyleBoxTexture_8tvmk")
 
 [node name="HSeparator" type="HSeparator" parent="FenetreStatEtConfGuilde/MargeStat/LayoutGuilde" unique_id=744669008]
 layout_mode = 2
