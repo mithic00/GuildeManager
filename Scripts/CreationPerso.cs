@@ -409,6 +409,7 @@ public partial class CreationPerso : Control
         };
 
         _creationEnCours = true;
+        bool transitionLancee = false;
         try
         {
             SaveManager.SaveInfo sauvegarde = SaveManager.CreateSave(nomGuilde + " — " + nomPersonnage);
@@ -429,9 +430,10 @@ public partial class CreationPerso : Control
                 return;
             }
 
-            // Terminer d'abord l'événement du bouton puis remplacer la scène.
-            _fenetreEtapes.Hide();
-            GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, ScenePrincipale);
+            // Garder la protection anti-double-clic tant que la transition
+            // asynchrone n'est pas terminée.
+            transitionLancee = true;
+            TerminerCreationEtOuvrirMainMenu();
         }
         catch (Exception exception)
         {
@@ -440,7 +442,48 @@ public partial class CreationPerso : Control
         }
         finally
         {
-            _creationEnCours = false;
+            if (!transitionLancee)
+                _creationEnCours = false;
+        }
+    }
+
+    /// <summary>
+    /// Laisse se terminer l'entrée souris de la fenêtre native avant de la cacher.
+    /// Après sa fermeture, attend deux frames pour vider les événements en transit
+    /// avant de détacher CreationPerso du SceneTree.
+    /// </summary>
+    private async void TerminerCreationEtOuvrirMainMenu()
+    {
+        SceneTree arbre = GetTree();
+        try
+        {
+            await ToSignal(arbre, SceneTree.SignalName.ProcessFrame);
+            if (!IsInsideTree())
+                return;
+
+            _fenetreEtapes.Hide();
+
+            await ToSignal(arbre, SceneTree.SignalName.ProcessFrame);
+            await ToSignal(arbre, SceneTree.SignalName.ProcessFrame);
+            if (!IsInsideTree())
+                return;
+
+            Error erreur = arbre.ChangeSceneToFile(ScenePrincipale);
+            if (erreur != Error.Ok)
+            {
+                AfficherInformation("La guilde a été sauvegardée, mais le chargement du jeu a échoué (" + erreur + ").");
+            }
+        }
+        catch (Exception exception)
+        {
+            GD.PushError("CreationPerso : transition vers MainMenu impossible : " + exception);
+            if (IsInsideTree())
+                AfficherInformation("Impossible d'ouvrir le menu principal : " + exception.Message);
+        }
+        finally
+        {
+            if (IsInsideTree())
+                _creationEnCours = false;
         }
     }
 
