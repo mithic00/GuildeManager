@@ -301,9 +301,8 @@ public partial class CreationPerso : Control
             return;
         }
 
-        Error erreur = GetTree().ChangeSceneToFile(SceneMenuDemarrer);
-        if (erreur != Error.Ok)
-            AfficherInformation("Impossible de revenir au menu (" + erreur + ").");
+        // Le clic est encore en cours : différer le retrait des fenêtres/viewport.
+        GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, SceneMenuDemarrer);
     }
 
     private void AfficherEtapeStatistiques()
@@ -430,10 +429,9 @@ public partial class CreationPerso : Control
                 return;
             }
 
+            // Terminer d'abord l'événement du bouton puis remplacer la scène.
             _fenetreEtapes.Hide();
-            Error transition = GetTree().ChangeSceneToFile(ScenePrincipale);
-            if (transition != Error.Ok)
-                AfficherInformation("La guilde a été sauvegardée, mais le chargement du jeu a échoué (" + transition + ").");
+            GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, ScenePrincipale);
         }
         catch (Exception exception)
         {
