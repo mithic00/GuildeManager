@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Globalization;
 
 /// <summary>
-/// Branche les contrôles de la scène existante du menu de démarrage.
-/// La scène de jeu n'étant pas encore présente dans le dépôt, l'ouverture d'une partie
-/// sélectionne la sauvegarde et indique clairement que le jeu pourra être lancé ensuite.
+/// Contrôleur des boutons et fenêtres déjà présents dans MenuDemarrer.tscn.
+/// Les scènes Godot restent entièrement gérées dans l'éditeur.
 /// </summary>
 public partial class MenuDemarrer : Control
 {
+    private const string SceneCreationPersonnage = "res://Scenes/CreationPerso.tscn";
+    private const string SceneJeu = "res://Scenes/MainMenu.tscn";
+
     private Button _boutonContinuer;
     private Button _boutonNouvellePartie;
     private Button _boutonChargerPartie;
@@ -39,10 +41,12 @@ public partial class MenuDemarrer : Control
 
         _fenetreOptions = GetNode<Window>("FenetreOption");
         _sliderVolume = GetNode<HSlider>("FenetreOption/Marge/ConteneurOptions/HSliderVolume");
+
         _fenetreCharger = GetNode<Window>("FenetreChargerPartie");
         _listeParties = GetNode<ItemList>("FenetreChargerPartie/Marge/Conteneur/ItemListParties");
         _boutonSelectionner = GetNode<Button>("FenetreChargerPartie/Marge/Conteneur/Boutons/BoutonSelectionner");
         _boutonSupprimer = GetNode<Button>("FenetreChargerPartie/Marge/Conteneur/Boutons/BoutonSupprimer");
+
         _confirmationSuppression = GetNode<ConfirmationDialog>("ConfirmationSuppression");
         _fenetreInformation = GetNode<AcceptDialog>("FenetreInformation");
 
@@ -57,14 +61,19 @@ public partial class MenuDemarrer : Control
         _boutonNouvellePartie.Pressed += NouvellePartie;
         _boutonChargerPartie.Pressed += OuvrirChargement;
         _boutonOptions.Pressed += OuvrirOptions;
-        _boutonQuitter.Pressed += QuitterJeu;
+        _boutonQuitter.Pressed += () => GetTree().Quit();
 
-        _sliderVolume.ValueChanged += VolumeModifie;
-        GetNode<Button>("FenetreOption/Marge/ConteneurOptions/BoutonFermer").Pressed += () => _fenetreOptions.Hide();
+        _sliderVolume.ValueChanged += valeur => MusicManager.SetMasterVolume((float)valeur);
 
+        GetNode<Button>("FenetreOption/Marge/ConteneurOptions/BoutonFermer").Pressed += FermerOptions;
+        _fenetreOptions.CloseRequested += FermerOptions;
+
+        _listeParties.ItemSelected += _ => ActualiserBoutonsChargement();
+        _listeParties.ItemActivated += _ => SelectionnerPartie();
         _boutonSelectionner.Pressed += SelectionnerPartie;
         _boutonSupprimer.Pressed += DemanderSuppression;
-        GetNode<Button>("FenetreChargerPartie/Marge/Conteneur/Boutons/BoutonFermer").Pressed += () => _fenetreCharger.Hide();
+        GetNode<Button>("FenetreChargerPartie/Marge/Conteneur/Boutons/BoutonFermer").Pressed += FermerChargement;
+        _fenetreCharger.CloseRequested += FermerChargement;
 
         _confirmationSuppression.Confirmed += ConfirmerSuppression;
         _confirmationSuppression.Canceled += AnnulerSuppression;
@@ -74,41 +83,50 @@ public partial class MenuDemarrer : Control
         _fenetreInformation.Canceled += InformationFermee;
         _fenetreInformation.CloseRequested += InformationFermee;
 
-        _boutonContinuer.Disabled = SaveManager.GetLatestSave() == null;
+        ActualiserDisponibiliteContinuer();
     }
 
     private void NouvellePartie()
     {
-        SaveManager.SaveInfo save = SaveManager.CreateSave();
-        if (save == null)
+        // Ne pas créer de sauvegarde avant la validation de CreationPerso.
+        // La création de la base sera effectuée à l'étape « Créer ma guilde ».
+        if (!ResourceLoader.Exists(SceneCreationPersonnage))
         {
-            AfficherInformation("Impossible de créer la sauvegarde.\n" + SaveManager.LastError);
+            AfficherInformation("La scène de création de personnage est introuvable :\n" + SceneCreationPersonnage);
             return;
         }
 
-        AfficherInformation(
-            "La partie « " + save.Name + " » a été créée.\n\n" +
-            "Le système de sauvegarde est prêt. La scène de jeu n'est pas encore intégrée au projet.");
-        ActualiserDisponibiliteContinuer();
+        Error erreur = GetTree().ChangeSceneToFile(SceneCreationPersonnage);
+        if (erreur == Error.Ok)
+            SaveManager.ResetCurrentSave();
+        else
+            AfficherInformation("Impossible d'ouvrir la création de personnage (" + erreur + ").");
     }
 
     private void ContinuerPartie()
     {
-        SaveManager.SaveInfo latest = SaveManager.GetLatestSave();
-        if (latest == null)
+        SaveManager.SaveInfo derniere = SaveManager.GetLatestSave();
+        if (derniere == null)
         {
-            AfficherInformation("Aucune sauvegarde n'a été trouvée. Utilisez « Nouvelle Partie » pour commencer.");
+            AfficherInformation("Aucune sauvegarde disponible. Utilisez « Nouvelle Partie » pour commencer.");
             ActualiserDisponibiliteContinuer();
             return;
         }
 
-        OuvrirSauvegarde(latest.Id);
+        OuvrirSauvegarde(derniere.Id, false);
     }
 
     private void OuvrirChargement()
     {
+        _reouvrirChargementApresInformation = false;
         ActualiserListeSauvegardes();
         _fenetreCharger.PopupCentered();
+    }
+
+    private void FermerChargement()
+    {
+        _fenetreCharger.Hide();
+        _reouvrirChargementApresInformation = false;
     }
 
     private void ActualiserListeSauvegardes()
@@ -117,19 +135,25 @@ public partial class MenuDemarrer : Control
         _sauvegardesAffichees.Clear();
         _sauvegardesAffichees.AddRange(SaveManager.ListSaves());
 
-        foreach (SaveManager.SaveInfo save in _sauvegardesAffichees)
+        foreach (SaveManager.SaveInfo sauvegarde in _sauvegardesAffichees)
         {
-            string date = FormaterDate(save.LastPlayedAtUtc);
-            _listeParties.AddItem(save.Name + "  —  " + date);
-            _listeParties.SetItemMetadata(_listeParties.ItemCount - 1, save.Id);
+            string date = FormaterDate(sauvegarde.LastPlayedAtUtc);
+            _listeParties.AddItem(sauvegarde.Name + "  —  " + date);
+            _listeParties.SetItemMetadata(_listeParties.ItemCount - 1, sauvegarde.Id);
         }
 
         if (_listeParties.ItemCount > 0)
             _listeParties.Select(0);
 
-        _boutonSelectionner.Disabled = _listeParties.ItemCount == 0;
-        _boutonSupprimer.Disabled = _listeParties.ItemCount == 0;
+        ActualiserBoutonsChargement();
         ActualiserDisponibiliteContinuer();
+    }
+
+    private void ActualiserBoutonsChargement()
+    {
+        bool selectionValide = _listeParties.GetSelectedItems().Length > 0;
+        _boutonSelectionner.Disabled = !selectionValide;
+        _boutonSupprimer.Disabled = !selectionValide;
     }
 
     private void SelectionnerPartie()
@@ -143,22 +167,32 @@ public partial class MenuDemarrer : Control
 
         string id = _listeParties.GetItemMetadata(selection[0]).AsString();
         _fenetreCharger.Hide();
-        OuvrirSauvegarde(id);
+        OuvrirSauvegarde(id, true);
     }
 
-    private void OuvrirSauvegarde(string id)
+    private void OuvrirSauvegarde(string id, bool depuisChargement)
     {
+        if (!ResourceLoader.Exists(SceneJeu))
+        {
+            AfficherInformation("La scène principale est introuvable :\n" + SceneJeu, depuisChargement);
+            return;
+        }
+
         if (!SaveManager.OpenSave(id))
         {
-            AfficherInformation("Impossible d'ouvrir cette sauvegarde.\n" + SaveManager.LastError);
+            AfficherInformation("Impossible d'ouvrir la sauvegarde.\n" + SaveManager.LastError, depuisChargement);
             ActualiserDisponibiliteContinuer();
             return;
         }
 
-        AfficherInformation(
-            "La sauvegarde « " + SaveManager.CurrentSaveName + " » est sélectionnée.\n\n" +
-            "La scène de jeu n'est pas encore présente dans le projet ; aucune progression n'a été chargée dans une interface de jeu.");
-        ActualiserDisponibiliteContinuer();
+        // La sauvegarde active est disponible via SaveManager pour la scène suivante.
+        // Les données à afficher dans MainMenu seront branchées lors de sa propre étape.
+        Error erreur = GetTree().ChangeSceneToFile(SceneJeu);
+        if (erreur != Error.Ok)
+        {
+            AfficherInformation("Impossible d'ouvrir la scène principale (" + erreur + ").", depuisChargement);
+            ActualiserDisponibiliteContinuer();
+        }
     }
 
     private void DemanderSuppression()
@@ -171,8 +205,8 @@ public partial class MenuDemarrer : Control
         }
 
         string id = _listeParties.GetItemMetadata(selection[0]).AsString();
-        SaveManager.SaveInfo save = _sauvegardesAffichees.Find(item => item.Id == id);
-        if (save == null)
+        SaveManager.SaveInfo sauvegarde = _sauvegardesAffichees.Find(element => element.Id == id);
+        if (sauvegarde == null)
         {
             ActualiserListeSauvegardes();
             return;
@@ -180,43 +214,42 @@ public partial class MenuDemarrer : Control
 
         _idASupprimer = id;
         _confirmationSuppression.DialogText =
-            "Voulez-vous vraiment supprimer la sauvegarde « " + save.Name + " » ?\nCette action est irréversible.";
+            "Voulez-vous vraiment supprimer la sauvegarde « " + sauvegarde.Name + " » ?\nCette action est irréversible.";
 
-        // Une seule fenêtre enfant exclusive peut être ouverte à la fois.
+        // Ces fenêtres sont des enfants exclusifs de la même fenêtre racine.
+        // On ferme d'abord la liste, puis on ouvre la confirmation en différé.
         _fenetreCharger.Hide();
-        _confirmationSuppression.PopupCentered();
+        _confirmationSuppression.CallDeferred("popup_centered");
     }
 
     private void AnnulerSuppression()
     {
-        _idASupprimer = string.Empty;
+        // Évite une seconde réouverture si plusieurs signaux de fermeture arrivent.
+        if (string.IsNullOrEmpty(_idASupprimer))
+            return;
 
-        // Le signal peut être émis par Annuler ou par la fermeture de la fenêtre.
-        if (!_fenetreCharger.Visible)
-            _fenetreCharger.PopupCentered();
+        _idASupprimer = string.Empty;
+        _confirmationSuppression.Hide();
+        _fenetreCharger.CallDeferred("popup_centered");
     }
 
     private void ConfirmerSuppression()
     {
         if (string.IsNullOrEmpty(_idASupprimer))
-        {
-            if (!_fenetreCharger.Visible)
-                _fenetreCharger.PopupCentered();
             return;
-        }
 
         string id = _idASupprimer;
         _idASupprimer = string.Empty;
+        _confirmationSuppression.Hide();
 
         if (!SaveManager.DeleteSave(id))
         {
-            _reouvrirChargementApresInformation = true;
-            AfficherInformation("La suppression a échoué.\n" + SaveManager.LastError);
+            AfficherInformation("La suppression a échoué.\n" + SaveManager.LastError, true);
             return;
         }
 
         ActualiserListeSauvegardes();
-        _fenetreCharger.PopupCentered();
+        _fenetreCharger.CallDeferred("popup_centered");
     }
 
     private void OuvrirOptions()
@@ -225,14 +258,9 @@ public partial class MenuDemarrer : Control
         _fenetreOptions.PopupCentered();
     }
 
-    private void VolumeModifie(double valeur)
+    private void FermerOptions()
     {
-        MusicManager.SetMasterVolume((float)valeur);
-    }
-
-    private void QuitterJeu()
-    {
-        GetTree().Quit();
+        _fenetreOptions.Hide();
     }
 
     private void ActualiserDisponibiliteContinuer()
@@ -240,27 +268,30 @@ public partial class MenuDemarrer : Control
         _boutonContinuer.Disabled = SaveManager.GetLatestSave() == null;
     }
 
-    private void AfficherInformation(string message)
+    private void AfficherInformation(string message, bool reouvrirChargement = false)
     {
-        // Évite de demander l'ouverture de deux fenêtres exclusives simultanément.
-        if (_fenetreCharger != null && _fenetreCharger.Visible)
+        if (_fenetreCharger.Visible)
         {
             _fenetreCharger.Hide();
-            _reouvrirChargementApresInformation = true;
+            reouvrirChargement = true;
         }
 
+        if (_confirmationSuppression.Visible)
+            _confirmationSuppression.Hide();
+
+        _reouvrirChargementApresInformation = reouvrirChargement;
         _fenetreInformation.DialogText = message;
-        _fenetreInformation.PopupCentered();
+        _fenetreInformation.CallDeferred("popup_centered");
     }
 
     private void InformationFermee()
     {
+        _fenetreInformation.Hide();
         if (!_reouvrirChargementApresInformation)
             return;
 
         _reouvrirChargementApresInformation = false;
-        if (!_fenetreCharger.Visible)
-            _fenetreCharger.PopupCentered();
+        _fenetreCharger.CallDeferred("popup_centered");
     }
 
     private static string FormaterDate(string valeurUtc)
