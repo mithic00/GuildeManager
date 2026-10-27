@@ -58,7 +58,10 @@ public partial class CreationPerso : Control
     private LineEdit _saisieNomGuilde;
     private ItemList _listeExperience;
     private ItemList _listePouvoirs;
+    private GridContainer _grilleApparencesMasculines;
+    private GridContainer _grilleApparencesFeminines;
     private readonly Button[] _cadresPersonnage = new Button[8];
+    private readonly Button[] _cadresPersonnageFeminin = new Button[8];
     private readonly Button[] _cadresEmbleme = new Button[9];
     private RichTextLabel _texteStatsVille;
     private RichTextLabel _texteDescriptionVille;
@@ -84,6 +87,8 @@ public partial class CreationPerso : Control
     {
         _saisieNomPersonnage = GetNode<LineEdit>("MargePersonnage/Layout/HBoxContainer/LineEditNomPersonnage");
         _boutonSwitchSexe = GetNode<Button>("MargePersonnage/Layout/HBoxContainer/BoutonSwitchSexe");
+        _grilleApparencesMasculines = GetNode<GridContainer>("MargePersonnage/Layout/BouttonsFondPerso");
+        _grilleApparencesFeminines = GetNode<GridContainer>("MargePersonnage/Layout/BouttonsFondPersoF");
         _listeExperience = GetNode<ItemList>("MargePersonnage/Layout/ItemListExperence");
         _listePouvoirs = GetNode<ItemList>("MargePersonnage/Layout/ItemListPouvoir");
         _texteStatsVille = GetNode<RichTextLabel>("MargeInfoVille/Layout/HLayout/RLabelStatVille");
@@ -151,33 +156,38 @@ public partial class CreationPerso : Control
 
     private void InitialiserApparences()
     {
-        for (int i = 0; i < _cadresPersonnage.Length; i++)
+        for (int i = 0; i < NomsBoutonsApparences.Length; i++)
         {
             int numero = i;
-            Button bouton = GetNode<Button>(
+            Button boutonMasculin = GetNode<Button>(
                 "MargePersonnage/Layout/BouttonsFondPerso/" + NomsBoutonsApparences[i]);
-            // La scène possède des images « normal » et « pressed » pour chaque race.
-            // Le mode bascule conserve l'image « pressed » du seul cadre sélectionné.
-            bouton.ToggleMode = true;
-            bouton.TooltipText = NomsRaces[i];
-            bouton.Pressed += () => SelectionnerApparence(numero);
-            _cadresPersonnage[i] = bouton;
+            Button boutonFeminin = GetNode<Button>(
+                "MargePersonnage/Layout/BouttonsFondPersoF/" + NomsBoutonsApparences[i] + "F");
+
+            // Les variantes « pressed » sont définies dans la scène pour que
+            // la race sélectionnée conserve la même surbrillance qu'au survol.
+            boutonMasculin.ToggleMode = true;
+            boutonFeminin.ToggleMode = true;
+            boutonMasculin.TooltipText = NomsRaces[i];
+            boutonFeminin.TooltipText = NomsRaces[i];
+            boutonMasculin.Pressed += () => SelectionnerApparence(numero);
+            boutonFeminin.Pressed += () => SelectionnerApparence(numero);
+
+            _cadresPersonnage[i] = boutonMasculin;
+            _cadresPersonnageFeminin[i] = boutonFeminin;
         }
     }
 
     private void SelectionnerApparence(int index)
     {
         _apparenceSelectionnee = index;
-        for (int i = 0; i < _cadresPersonnage.Length; i++)
-            _cadresPersonnage[i].ButtonPressed = i == index;
+        ActualiserAffichageApparences();
     }
 
     private void InitialiserSexe()
     {
-        // Convention initiale : H au départ, F après activation du bouton.
-        // Le style « pressed » existant du bouton matérialise l'autre choix.
         _boutonSwitchSexe.ToggleMode = true;
-        _boutonSwitchSexe.ButtonPressed = false;
+        _boutonSwitchSexe.ButtonPressed = false; // Masculin au lancement.
         _boutonSwitchSexe.Pressed += ActualiserSexe;
         ActualiserSexe();
     }
@@ -188,6 +198,21 @@ public partial class CreationPerso : Control
         _boutonSwitchSexe.TooltipText = _personnageFeminin
             ? "Sexe : féminin (cliquer pour masculin)"
             : "Sexe : masculin (cliquer pour féminin)";
+        ActualiserAffichageApparences();
+    }
+
+    private void ActualiserAffichageApparences()
+    {
+        // Une seule grille est visible. Le choix de race reste commun aux
+        // deux présentations lorsque le joueur change de sexe.
+        _grilleApparencesMasculines.Visible = !_personnageFeminin;
+        _grilleApparencesFeminines.Visible = _personnageFeminin;
+        for (int i = 0; i < NomsBoutonsApparences.Length; i++)
+        {
+            bool selectionne = i == _apparenceSelectionnee;
+            _cadresPersonnage[i].ButtonPressed = selectionne;
+            _cadresPersonnageFeminin[i].ButtonPressed = selectionne;
+        }
     }
 
     private void InitialiserVilles()
