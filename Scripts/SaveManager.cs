@@ -24,6 +24,12 @@ public static class SaveManager
     public static string LastError { get; private set; } = string.Empty;
     public static bool HasCurrentSave => !string.IsNullOrEmpty(_currentSavePath);
 
+    /// <summary>Efface la sélection en mémoire lors du démarrage d'une nouvelle partie, sans toucher aux fichiers existants.</summary>
+    public static void ResetCurrentSave()
+    {
+        ClearCurrentSave();
+    }
+
     public sealed class SaveInfo
     {
         public string Id { get; }
