@@ -43,3 +43,4 @@ Niveau Magique : Int/1000
 Potentiel Magique : Int/1000
 Point de vie : {Int}
 Point de Magie : {Int}
+Connaissance Magique : {Int}
