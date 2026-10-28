@@ -1,24 +1,24 @@
 Savoir : La stat de savoir est l'addition de la connaissance magique de chaque membre de la guilde. Elle peut aussi être augmenté de différente façon. Elle permet d'améliorer les relations avec les académies magiques, d'attirer certains type d'EM, acheter des reliques, ...
 
-Prestige : Le prestige augmente à la fin de chaque mission :
-* : +1
-** : +2
-*** : +4
-**** : +8
-***** : +20
-S : +50
-S* : +55
-S** : +60
-S*** : +65
-S**** : +70
-S***** : +100
-P : +300
-P* : +400
-P** : +500
-P*** : +600
-P**** : +700
-P***** : +800
-U : +10000
+Prestige : Le prestige augmente à la fin de chaque mission réussie et baisse à chaque mission échouée :
+* : +1 -1
+** : +2 -2
+*** : +4 -3
+**** : +8 -5
+***** : +20 -15
+S : +50 -30
+S* : +55 -30
+S** : +60 -40
+S*** : +65 -40
+S**** : +70 -50
+S***** : +100 -80
+P : +300 -200
+P* : +400 -300
+P** : +500 -400
+P*** : +600 -500
+P**** : +700 -600
+P***** : +800 -700
+U : +10000 -0
 Le prestige reflète la réputation de la guilde. Il peut être utilisé pour attirer certains type d'EM, réduire le cout de certains objets, accéder à des tournois/évenements/... 
 
 Ecus : Argent que possède la guilde. La guilde reçoit 20% des gains de chaque mission réussi. Cette valeur peut changer à la convenance du maitre de guilde. La guilde reçoit 100% des missions effectué par le maitre de guilde (donc le joueur)
