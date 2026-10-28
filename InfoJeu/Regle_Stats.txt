@@ -149,3 +149,5 @@ Point de Magie : Dépend du niveau ainsi que du pouvoir. Chaque dé est lancé i
 - Crieur : 1d8 par niveau.
 - Illusionniste : 1d8 par niveau.
 - Télépathe : 1d4 par niveau.
+
+Connaissance magique : Utilisé pour déterminé le savoir de la guilde. Cette caractéristique augmente de manière aléatoire (entre 0 et 2) à la fin de chaque mission réussi ou non.
