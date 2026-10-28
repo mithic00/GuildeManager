@@ -1,0 +1,4 @@
+Savoir : La stat de savoir est l'addition du savoir de chaque membre de la guilde.
+Prestigue : 
+Ecus :
+Pouvoir : 
