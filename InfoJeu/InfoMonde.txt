@@ -11,6 +11,11 @@ Les relations entre chaque royaume sont bonnes. Subsiste toujours les traces d'a
 
 Il existe aussi au sud, une terre qui n'est pas revendiqué par les 7 royaumes : le royaume des sables. Un désert hostile, où la pègre règne en maitre. Sur le dos d'une tortue titanesque, se trouve également le fieffe des pirates, très présent à l'Est près des côtes du royaume des Tanneurs. Au nord, se trouve la glaciale île de Tanakis. Des autochtone y vivent, sans pour autant s'organisé en communauté organisée. Enfin il y partout dans l'océan, de nombreuses îles et archipels, dans lesquelles des communautés s'y sont installé. Souvent pour fuir les royaumes.
 
+Il existe aussi d'autre races intelligentes (et de très nombreuse), qui n'ont pas fondés de grande civilisation. En voici quelques unes de notable :
+- Khajiit : Issu de l'univers de The Elder Scrolls. Il s'agit de chat humanoïde. Ce peuple est nomade. Il existe un très fort climat de racisme à leurs encontre. Souvent vu comme des voleurs. Beaucoup de SDF sont des Khajiit.
+- Gobelin : Très présent dans le royaume nain, ils vivent en communauté isolé dans les montagnes.
+- Troll : Présent sur plusieurs archipel au milieu de l'océan. ils vivent en petite communauté souvent pacifiste.
+
 La monnaie dans le monde est l'écus. Chaque royaume produit son écu frappé à son insigne. Chaque écu peut être utilisé dans chaque royaume sans différenciation de valeur.
 
 Concernant la religion : 
@@ -31,4 +36,3 @@ Il n'est pas question de dieu, mais d'Esprits sur la terre des 7 royaumes. L'esp
 - Cauchemar : Esprit des cauchemars
 
 Il existe énormément d'Esprit dit "Mineur". Née de croyance locale, ils peuvent être lié à une rivière, une forêt, un ancien héro ou un animal endémique à une région.
-
