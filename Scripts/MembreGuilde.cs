@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 /// <summary>
 /// Un membre de guilde. L'âge et le potentiel non connu restent indéfinis.
@@ -11,6 +12,8 @@ public sealed class MembreGuilde
 {
     public string Id { get; set; } = "";
     public bool EstJoueur { get; set; }
+    /// <summary>Statut de direction, distinct du rang de missions du membre.</summary>
+    public bool EstMaitreDeGuilde { get; set; }
     public string Prenom { get; set; } = "";
     public string Nom { get; set; } = "";
     public string Race { get; set; } = "";
@@ -35,6 +38,48 @@ public sealed class MembreGuilde
 
     public string NomComplet => (Prenom + " " + Nom).Trim();
 
+    /// <summary>Affichage de la direction, sans perdre le rang de missions du joueur.</summary>
+    [JsonIgnore]
+    public string RangAffiche => EstMaitreDeGuilde ? "MG" : Rang;
+
+    /// <summary>
+    /// Clé de tri croissante : MG = -1, U = 0, puis P***** = 1 jusqu'à * = 17.
+    /// Les rangs inconnus sont classés après les rangs connus.
+    /// </summary>
+    [JsonIgnore]
+    public int NumeroRang
+    {
+        get
+        {
+            if (EstMaitreDeGuilde) return -1;
+            string rang = (Rang ?? "").Trim().ToUpperInvariant();
+            if (rang == "U") return 0;
+
+            if (rang.StartsWith("P", StringComparison.Ordinal))
+            {
+                string suffixe = rang.Substring(1);
+                if (suffixe.Length <= 5 && EstSuiteEtoiles(suffixe))
+                    return 6 - suffixe.Length;
+            }
+            if (rang.StartsWith("S", StringComparison.Ordinal))
+            {
+                string suffixe = rang.Substring(1);
+                if (suffixe.Length <= 5 && EstSuiteEtoiles(suffixe))
+                    return 12 - suffixe.Length;
+            }
+            if (rang.Length >= 1 && rang.Length <= 5 && EstSuiteEtoiles(rang))
+                return 18 - rang.Length;
+            return int.MaxValue;
+        }
+    }
+
+    private static bool EstSuiteEtoiles(string texte)
+    {
+        foreach (char caractere in texte)
+            if (caractere != '*') return false;
+        return true;
+    }
+
     /// <summary>
     /// Complète uniquement les champs initiaux absents d'une ancienne sauvegarde.
     /// Les tirages PV/PM ne sont effectués qu'en l'absence de valeur persistée.
@@ -46,6 +91,8 @@ public sealed class MembreGuilde
             return false;
 
         bool modifie = false;
+        // Compatibilité des sauvegardes créées avant la distinction maître/membre.
+        if (!EstMaitreDeGuilde) { EstMaitreDeGuilde = true; modifie = true; }
         if (!Motivation.HasValue) { Motivation = 20; modifie = true; }
         if (!Fatigue.HasValue) { Fatigue = 0; modifie = true; }
         if (!Experience.HasValue) { Experience = 0; modifie = true; }
@@ -99,6 +146,7 @@ public sealed class MembreGuilde
         {
             Id = "joueur",
             EstJoueur = true,
+            EstMaitreDeGuilde = true,
             Prenom = prenom,
             Nom = nom,
             Race = creation.RacePersonnage,
