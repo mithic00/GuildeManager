@@ -1,12 +1,17 @@
 Le joueur aura accès à des magasins par défaut, afin d'améliorer sa guilde. ces magasins sont les suivants :
 
 Vendeur de mobilier : Permet d'acheter des meubles pour permettre d'ajouter des pièces à la guilde sous réserve de place.
-Enchanteur : Permet d'acheter des objets magiques et des pièces magiques afin d'augmenter la taille de la guilde
-Marché : Permet d'acheter de la nourriture et de la boisson.
+Enchanteur : Permet d'acheter des objets magiques en tout genre et plus particulièrement : des pièces magiques afin d'augmenter la taille de la guilde (CF Salle sur demande Harry Potter).
+Marché : Permet d'acheter de la nourriture et de la boisson. Permet aussi d'acheter des objets qu'on trouverais dans une Mercière (objet divers, tout et rien)
 Paysan : Permet d'acheter de quoi faire un potager et de la nourriture.
 Port : Permet d'acheter de la nourriture, des bateaux et de l'alcool.
 Forgeron : Permet d'acheter des objets en métal, des armes et armures.
 Herboriste : Permet d'acheter des herbes médicinale et de quoi les planter.
+Alchimiste : Contrairement à l'herboriste qui vend des plantes brutes, l'alchimiste vend des potions prêtes à l'emploi (soin, magie, résistance aux éléments) et des réactifs.
+Libraire : Vente de grimoires, nécessaire d'écriture, cartes et de livres en tout genre. Il alimentera surtout le lore du jeu.
+Tailleur : Vente de vêtements civils, de tenues de voyage en tissu ou en cuir léger, de capes et de bannières pour la guilde.
+Bijoutier : Achat et sertissage de gemmes, anneaux, amulettes et talismans. Magique ou non.
+Écurie : Permet d'acheter ou de louer des montures (Ufaur), des charettes et des chariots de transport en tout genre.
 
 
 
