@@ -95,14 +95,19 @@ public partial class MainMenu
         _listeDesMembres.Clear();
         _membresAffiches.Clear();
         if (_registreMembres == null) return;
-        _membresAffiches.AddRange(_registreMembres.Membres.OrderBy(m => m.Classement));
+        _membresAffiches.AddRange(_registreMembres.Membres
+            .OrderBy(m => m.NumeroRang)
+            .ThenBy(m => m.Classement)
+            .ThenBy(m => m.NomComplet, StringComparer.CurrentCultureIgnoreCase));
         _listeDesMembres.FixedIconSize = new Vector2I(52, 28);
         foreach (MembreGuilde membre in _membresAffiches)
         {
             string nom = membre.NomComplet;
             string potentiel = membre.PotentielMagique.HasValue ? membre.PotentielMagique.Value.ToString() : "?";
-            string rang = string.IsNullOrWhiteSpace(membre.Rang) ? "?" : membre.Rang;
-            string texte = membre.Classement + "e  |  " + rang + "  |  " + nom + "  |  " +
+            string rang = string.IsNullOrWhiteSpace(membre.RangAffiche) ? "?" : membre.RangAffiche;
+            string classement = membre.EstMaitreDeGuilde ? "MG" :
+                membre.NumeroRang == 0 ? "U" : membre.Classement + "e";
+            string texte = classement + "  |  " + rang + "  |  " + nom + "  |  " +
                            membre.Race + "  |  Magie : " + membre.NiveauMagique +
                            "  |  Potentiel : " + potentiel;
             Texture2D icone = ConstruireIconePouvoirs(membre.Pouvoirs);
@@ -202,7 +207,7 @@ public partial class MainMenu
         Remplir(g1 + "LabelPrenom", "Prénom", m.Prenom);
         Remplir(g1 + "LabelNom", "Nom", string.IsNullOrEmpty(m.Nom) ? "—" : m.Nom);
         Remplir(g1 + "LabelAge", "Âge", m.Age.HasValue ? m.Age.Value + " ans" : inconnu);
-        Remplir(g1 + "LabelRang", "Rang", m.Rang);
+        Remplir(g1 + "LabelRang", "Rang", m.RangAffiche);
         Remplir(g1 + "LabelMotivation", "Motivation", m.Motivation?.ToString() ?? inconnu);
         Remplir(g1 + "LabelFatigue", "Fatigue", m.Fatigue?.ToString() ?? inconnu);
         Remplir(g1 + "LabelExpérience", "Expérience", m.Experience?.ToString() ?? inconnu);
