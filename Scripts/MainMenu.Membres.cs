@@ -245,8 +245,13 @@ public partial class MainMenu
         string cheminPortrait = "res://Images/Portraits/GrandFormat/" + race + "_" + sexe + ".png";
         string cheminPetitPortrait = "res://Images/Portraits/" + race + "_" + sexe + ".png";
         string cheminDefaut = "res://Images/Portraits/GrandFormat/Portait_Defaut.png";
+
+        // Le portrait du joueur ne doit jamais être agrandi depuis la vignette
+        // de sélection : si son grand format manque, afficher le portrait par défaut.
+        // Pour les autres membres, garder provisoirement le repli sur la petite image.
         string cheminUtilise = ResourceLoader.Exists(cheminPortrait) ? cheminPortrait
-            : ResourceLoader.Exists(cheminPetitPortrait) ? cheminPetitPortrait : cheminDefaut;
+            : (!m.EstJoueur && ResourceLoader.Exists(cheminPetitPortrait))
+                ? cheminPetitPortrait : cheminDefaut;
         portrait.Texture = ResourceLoader.Load<Texture2D>(cheminUtilise);
     }
 
