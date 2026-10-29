@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Text.Json;
 
 /// <summary>
-/// Un membre de guilde. Les valeurs non encore définies par les règles
-/// (âge, niveau ordinaire, potentiel connu, PV, PM...) restent nulles.
+/// Un membre de guilde. L'âge et le potentiel non connu restent indéfinis.
+/// PV/PM sont tirés aux dés à la création, puis persistés.
 /// </summary>
 public sealed class MembreGuilde
 {
@@ -35,6 +35,49 @@ public sealed class MembreGuilde
 
     public string NomComplet => (Prenom + " " + Nom).Trim();
 
+    /// <summary>
+    /// Complète uniquement les champs initiaux absents d'une ancienne sauvegarde.
+    /// Les tirages PV/PM ne sont effectués qu'en l'absence de valeur persistée.
+    /// Les valeurs déjà existantes (XP, niveaux, PV, PM...) sont conservées.
+    /// </summary>
+    public bool CompleterInitialisationJoueur()
+    {
+        if (!EstJoueur)
+            return false;
+
+        bool modifie = false;
+        if (!Motivation.HasValue) { Motivation = 20; modifie = true; }
+        if (!Fatigue.HasValue) { Fatigue = 0; modifie = true; }
+        if (!Experience.HasValue) { Experience = 0; modifie = true; }
+        if (!Niveau.HasValue) { Niveau = 1; modifie = true; }
+
+        // Le potentiel du joueur n'est jamais déterminé ou communiqué.
+        if (PotentielMagique.HasValue) { PotentielMagique = null; modifie = true; }
+
+        // Certaines anciennes parties peuvent ne contenir que l'identifiant
+        // du portrait, pas le libellé de race.
+        if (string.IsNullOrWhiteSpace(Race) && ApparenceId >= 1 && ApparenceId <= 8)
+        {
+            string[] races = {
+                "Humain", "Elfe gris", "Grumol", "Humain des monts",
+                "Haut-Elfe", "Nain", "Tanneur", "Khajiit"
+            };
+            Race = races[ApparenceId - 1];
+            modifie = true;
+        }
+
+        if (!PointsDeVie.HasValue || !PointsDeMagie.HasValue)
+        {
+            var tirages = CalculCaracteristiquesMagiques.TirerPourNiveaux(
+                Race, Pouvoirs, Math.Max(1, Niveau.Value));
+
+            if (!PointsDeVie.HasValue) { PointsDeVie = tirages.PointsDeVie; modifie = true; }
+            if (!PointsDeMagie.HasValue) { PointsDeMagie = tirages.PointsDeMagie; modifie = true; }
+        }
+
+        return modifie;
+    }
+
     /// <summary>Découpe uniquement sur le caractère espace ' '.</summary>
     public static void SeparerNom(string texte, out string prenom, out string nom)
     {
@@ -52,7 +95,7 @@ public sealed class MembreGuilde
         if (string.IsNullOrWhiteSpace(prenom))
             SeparerNom(creation.NomPersonnage, out prenom, out nom);
 
-        return new MembreGuilde
+        MembreGuilde joueur = new MembreGuilde
         {
             Id = "joueur",
             EstJoueur = true,
@@ -71,8 +114,16 @@ public sealed class MembreGuilde
                 : new Dictionary<string, int>(creation.Statistiques),
             Bonheur = 20,
             Moral = 100,
-            ConnaissanceMagique = 0
+            ConnaissanceMagique = 0,
+            Motivation = 20,
+            Fatigue = 0,
+            Experience = 0,
+            Niveau = 1
         };
+
+        // Un dé par niveau et par type de ressource, une seule fois.
+        joueur.CompleterInitialisationJoueur();
+        return joueur;
     }
 }
 
@@ -116,6 +167,21 @@ public sealed class RegistreMembresGuilde
                 RegistreMembresGuilde registre = JsonSerializer.Deserialize<RegistreMembresGuilde>(json);
                 if (registre == null || registre.Version != 1 || registre.Membres == null)
                     throw new InvalidOperationException("Registre des membres invalide.");
+
+                bool migrationNecessaire = false;
+                foreach (MembreGuilde membre in registre.Membres)
+                {
+                    if (membre == null)
+                        throw new InvalidOperationException("Le registre contient un membre invalide.");
+                    if (membre.CompleterInitialisationJoueur())
+                        migrationNecessaire = true;
+                }
+
+                // Migration persistée une seule fois. Au chargement suivant,
+                // les mêmes PV/PM seront relus sans aucun nouveau tirage.
+                if (migrationNecessaire && !registre.Sauvegarder())
+                    return null;
+
                 return registre;
             }
             catch (Exception ex)
