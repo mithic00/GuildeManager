@@ -45,6 +45,7 @@ public partial class MainMenu : Control
         // Budget et Événements seront reliées quand leur contenu existera.
         // MainBouton est également réservé à une future navigation.
         ChargerAffichage();
+        InitialiserNavigationEtMembres();
     }
 
     private void ChargerAffichage()
