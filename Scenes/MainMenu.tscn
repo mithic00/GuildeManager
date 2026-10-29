@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://d024weh6py4ef" path="res://Images/Fonds/Fond_Bureau.png" id="5_xim88"]
 [ext_resource type="Texture2D" uid="uid://bkawpe7fachjc" path="res://Images/Fonds/Fond_TableauMission.png" id="6_koqhg"]
 [ext_resource type="Texture2D" uid="uid://terisltqsu08" path="res://Images/Fonds/Fond_ListeMembreGuilde.png" id="7_cmrfp"]
+[ext_resource type="Texture2D" uid="uid://bsxnltgvmvlua" path="res://Images/Portraits/Portait_Defaut.png" id="9_cmrfp"]
 [ext_resource type="Script" uid="uid://b3ewfrysu0a26" path="res://Scripts/MainMenu.cs" id="main_menu_script"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_853f1"]
@@ -317,3 +318,294 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Option"
+
+[node name="FenetreFichePerso" type="Window" parent="." unique_id=595735590]
+transparent_bg = true
+oversampling_override = 1.0
+initial_position = 3
+size = Vector2i(1200, 800)
+current_screen = 0
+visible = false
+exclusive = true
+transparent = true
+
+[node name="MargeFichePerso" type="MarginContainer" parent="FenetreFichePerso" unique_id=39939488]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 60
+
+[node name="Layout" type="VBoxContainer" parent="FenetreFichePerso/MargeFichePerso" unique_id=1750440729]
+layout_mode = 2
+
+[node name="LabelNomPrenom" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout" unique_id=351663799]
+layout_mode = 2
+theme_override_font_sizes/font_size = 41
+text = "Hector Test"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatsGeneral" type="HBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout" unique_id=1195563824]
+layout_mode = 2
+
+[node name="Portait" type="TextureRect" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral" unique_id=1931079625]
+custom_minimum_size = Vector2(180, 180)
+layout_mode = 2
+texture = ExtResource("9_cmrfp")
+expand_mode = 1
+
+[node name="Layout1" type="VBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral" unique_id=261352636]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelPrenom" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout1" unique_id=1212374908]
+layout_mode = 2
+text = "Prénom : Hector"
+
+[node name="LabelNom" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout1" unique_id=1471299492]
+layout_mode = 2
+text = "Nom : Test"
+
+[node name="LabelAge" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout1" unique_id=1928792925]
+layout_mode = 2
+text = "Age : 32 ans"
+
+[node name="LabelRang" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout1" unique_id=445253460]
+layout_mode = 2
+text = "Rang : S*****"
+
+[node name="LabelMotivation" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout1" unique_id=1585948560]
+layout_mode = 2
+text = "Motivation : 100"
+
+[node name="LabelFatigue" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout1" unique_id=215426302]
+layout_mode = 2
+text = "Fatigue : 20"
+
+[node name="LabelExpérience" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout1" unique_id=191784759]
+layout_mode = 2
+text = "Expérience : 645135"
+
+[node name="LabelNiveau" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout1" unique_id=914469576]
+layout_mode = 2
+text = "Niveau : 15"
+
+[node name="Layout2" type="VBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral" unique_id=137312420]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelPouvoirs" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout2" unique_id=362485110]
+layout_mode = 2
+text = "Pouvoirs  : "
+
+[node name="LabelNiveauMagique" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout2" unique_id=755777077]
+layout_mode = 2
+text = "Niveau Magique : "
+
+[node name="LabelPotentielMagique" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout2" unique_id=863472846]
+layout_mode = 2
+text = "Potentiel Magique : "
+
+[node name="LabelPV" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout2" unique_id=150753252]
+layout_mode = 2
+text = "Point de vie : "
+
+[node name="LabelPM" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout2" unique_id=857104540]
+layout_mode = 2
+text = "Point de Magie : "
+
+[node name="LabelConnaissanceMagique" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout2" unique_id=1373955537]
+layout_mode = 2
+text = "Connaissance Magique : "
+
+[node name="LabelStatistiques" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout" unique_id=1569490453]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Statistiques"
+horizontal_alignment = 1
+
+[node name="LayoutStats" type="HBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout" unique_id=284378057]
+custom_minimum_size = Vector2(0, 180)
+layout_mode = 2
+
+[node name="Layout1" type="VBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats" unique_id=934207674]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelBonheur" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout1" unique_id=1997611678]
+layout_mode = 2
+text = "Bonheur : "
+
+[node name="LabelMoral" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout1" unique_id=1227523485]
+layout_mode = 2
+text = "Moral : "
+
+[node name="LabelCommunication" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout1" unique_id=1072896763]
+layout_mode = 2
+text = "Communication : "
+
+[node name="LabelLeadership" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout1" unique_id=1510885874]
+layout_mode = 2
+text = "Leadership : "
+
+[node name="LabelCharisme" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout1" unique_id=2086825724]
+layout_mode = 2
+text = "Charisme : "
+
+[node name="LabelEmpathie" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout1" unique_id=2036701495]
+layout_mode = 2
+text = "Empathie : "
+
+[node name="LabelGentillesse" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout1" unique_id=502807852]
+layout_mode = 2
+text = "gentillesse : "
+
+[node name="Layout2" type="VBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats" unique_id=1543571702]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelIntelligence" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout2" unique_id=1925078551]
+layout_mode = 2
+text = "Intelligence : "
+
+[node name="LabelMémoire" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout2" unique_id=1140213156]
+layout_mode = 2
+text = "Mémoire : "
+
+[node name="LabelVolonte" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout2" unique_id=1270046523]
+layout_mode = 2
+text = "Volonté : "
+
+[node name="LabelCalme" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout2" unique_id=1445379897]
+layout_mode = 2
+text = "Calme : "
+
+[node name="LabelFrustration" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout2" unique_id=909572473]
+layout_mode = 2
+text = "Frustration : "
+
+[node name="Layout3" type="VBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats" unique_id=1237494337]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelForce" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout3" unique_id=443269763]
+layout_mode = 2
+text = "Force : "
+
+[node name="LabelAgilite" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout3" unique_id=1791614201]
+layout_mode = 2
+text = "Agilité : "
+
+[node name="LabelConstitution" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout3" unique_id=570802565]
+layout_mode = 2
+text = "Constitution : "
+
+[node name="LabelVitesse" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout3" unique_id=101496173]
+layout_mode = 2
+text = "Vitesse : "
+
+[node name="LabelEndurance" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout3" unique_id=129224069]
+layout_mode = 2
+text = "Endurance : "
+
+[node name="Boutons" type="HBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout" unique_id=1603004868]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="FenetreFichePerso/MargeFichePerso/Layout/Boutons" unique_id=762485907]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+theme_override_constants/h_separation = 150
+theme_override_constants/v_separation = 40
+columns = 2
+
+[node name="BoutonConversation" type="Button" parent="FenetreFichePerso/MargeFichePerso/Layout/Boutons/GridContainer" unique_id=1514484294]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Conversation"
+
+[node name="BoutonGestion" type="Button" parent="FenetreFichePerso/MargeFichePerso/Layout/Boutons/GridContainer" unique_id=325212864]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Gestion"
+
+[node name="BoutonVirer" type="Button" parent="FenetreFichePerso/MargeFichePerso/Layout/Boutons/GridContainer" unique_id=2058247553]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Exclure de la Guilde"
+
+[node name="BoutonFermer" type="Button" parent="FenetreFichePerso/MargeFichePerso/Layout/Boutons/GridContainer" unique_id=765623624]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Fermer"
+
+[node name="LayoutConversation" type="MarginContainer" parent="FenetreFichePerso" unique_id=1529852994]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 60
+
+[node name="LayoutGestion" type="MarginContainer" parent="FenetreFichePerso" unique_id=676657309]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 60
+
+[node name="Boutons" type="VBoxContainer" parent="FenetreFichePerso/LayoutGestion" unique_id=1144608630]
+layout_mode = 2
+theme_override_constants/separation = 60
+alignment = 1
+
+[node name="BoutonPromouvoir" type="Button" parent="FenetreFichePerso/LayoutGestion/Boutons" unique_id=1016147159]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Promouvoir Maitre de Guilde"
+
+[node name="BoutonPromouvoirAdjoint" type="Button" parent="FenetreFichePerso/LayoutGestion/Boutons" unique_id=217401875]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Promouvoir Adjoint"
+
+[node name="BoutonConcours" type="Button" parent="FenetreFichePerso/LayoutGestion/Boutons" unique_id=297409846]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Inscrire a un Concours"
+
+[node name="BoutonRetour" type="Button" parent="FenetreFichePerso/LayoutGestion/Boutons" unique_id=774218211]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Retour"
