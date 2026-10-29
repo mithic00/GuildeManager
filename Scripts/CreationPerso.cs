@@ -447,8 +447,11 @@ public partial class CreationPerso : Control
             return;
         }
 
+        MembreGuilde.SeparerNom(nomPersonnage, out string prenom, out string nomFamille);
         DonneesCreationInitiale donnees = new()
         {
+            PrenomPersonnage = prenom,
+            NomFamillePersonnage = nomFamille,
             NomPersonnage = nomPersonnage,
             ApparenceId = _apparenceSelectionnee + 1,
             RacePersonnage = NomsRaces[_apparenceSelectionnee],
@@ -481,6 +484,15 @@ public partial class CreationPerso : Control
                 string erreur = SaveManager.LastError;
                 SaveManager.DeleteSave(sauvegarde.Id); // pas de partie vide en cas d'échec.
                 AfficherInformation("Impossible d'enregistrer les informations de départ : " + erreur);
+                return;
+            }
+
+            RegistreMembresGuilde registre = RegistreMembresGuilde.Nouveau(donnees);
+            if (!registre.Sauvegarder())
+            {
+                string erreur = RegistreMembresGuilde.DerniereErreur;
+                SaveManager.DeleteSave(sauvegarde.Id);
+                AfficherInformation("Impossible d'enregistrer le premier membre : " + erreur);
                 return;
             }
 
@@ -616,6 +628,8 @@ public partial class CreationPerso : Control
     {
         public int Version { get; set; } = 1;
         public string NomPersonnage { get; set; } = "";
+        public string PrenomPersonnage { get; set; } = "";
+        public string NomFamillePersonnage { get; set; } = "";
         public int ApparenceId { get; set; }
         public string RacePersonnage { get; set; } = "";
         public string SexePersonnage { get; set; } = "H";
