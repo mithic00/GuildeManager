@@ -6,6 +6,7 @@ Nom et Prénom selon les races :
 - Grumol : Pas de nom, juste un prénom composé de deux mots. Les deux mots doivent commencer par un G, et son séparé d'un "'". Pas de "c", que des "k" à la place. Exemple Garik'Govik, Gofra'Ganik, Gana'Gadjok
 - Humain des monts : Nom et prénom issu de la culture française, mais que des noms/prénom court. Jamais plus de 6 lettres, pas de prénom/nom composé.
 - Tanneur : Pas de nom, juste un prénom. Pas de prénom composé. Que des prénoms qui "n'existe pas" dans la vraie vie. Exemple : Marvoc, Zori, Tanak, Piga, Azoul.
+- Khajiit : Issu de l'univers The Elder Scroll
 
 Age : 
 Peut rejoindre une guilde à partir de 14 ans.
@@ -16,6 +17,7 @@ Peut rejoindre une guilde à partir de 14 ans.
 - Grumol : 1 à 70 ans. Fin de carrière entre 30 et 60 ans.
 - Humain des monts : 1 à 50 ans. Fin de carrière entre 30 et 45 ans.
 - Tanneur : 1 à 80 ans. Fin de carrière entre 50 et 70 ans.
+- Khajiit : 1 à 70 ans. Fin de carrière entre 30 et 60 ans.
 
 Métiers :
 Contient la liste les métiers que pratique ou a pratiqué le personnage.
@@ -91,7 +93,8 @@ Point de vie : Chaque race en gagne plus ou moins.
 	- Grumol : 1d6 par niveau + Bonus catégorie magique le plus haut. 
 	- Humain des monts : 1d4 par niveau + Bonus catégorie magique le plus haut.
 	- Tanneur : 1d10 par niveau + Bonus catégorie magique le plus haut.
-Point de Magie : Dépend du niveau ainsi que du pouvoir. Chaque dé est lancé indivduellement a chaque niveau, comme pour les PV.
+	- Khajiit : 1d4 par niveau + Bonus catégorie magique le plus haut.
+Point de Magie : Dépend du niveau ainsi que du pouvoir. Chaque dé est lancé individuellement a chaque niveau, comme pour les PV.
 - Mage : 1d10 par niveau.
 - Sorcier : 1d10 par niveau.
 - Clerc : 1d8 par niveau.
