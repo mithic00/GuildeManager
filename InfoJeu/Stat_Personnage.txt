@@ -13,6 +13,8 @@ Motivation : Int/20
 Fatigue : Int/100
 Expérience : Int
 Niveau : Int
+Bonheur : Int/100
+Moral : Int/100
 
 
 
