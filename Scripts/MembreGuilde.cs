@@ -43,41 +43,28 @@ public sealed class MembreGuilde
     public string RangAffiche => EstMaitreDeGuilde ? "MG" : Rang;
 
     /// <summary>
-    /// Clé de tri croissante : MG = -1, U = 0, puis P***** = 1 jusqu'à * = 17.
-    /// Les rangs inconnus sont classés après les rangs connus.
+    /// Les positions -1 et 0 sont réservées au maître de guilde et au rang U.
+    /// Les autres membres utilisent la position numérique sauvegardée (1er, 2e...),
+    /// qui sera déterminée par leur niveau magique puis modifiable par le joueur.
+    /// Aucun reclassement automatique des membres ordinaires n'est effectué ici.
     /// </summary>
-    [JsonIgnore]
-    public int NumeroRang
+    public bool NormaliserClassementReserve()
     {
-        get
+        if (EstMaitreDeGuilde && Classement != -1)
         {
-            if (EstMaitreDeGuilde) return -1;
-            string rang = (Rang ?? "").Trim().ToUpperInvariant();
-            if (rang == "U") return 0;
-
-            if (rang.StartsWith("P", StringComparison.Ordinal))
-            {
-                string suffixe = rang.Substring(1);
-                if (suffixe.Length <= 5 && EstSuiteEtoiles(suffixe))
-                    return 6 - suffixe.Length;
-            }
-            if (rang.StartsWith("S", StringComparison.Ordinal))
-            {
-                string suffixe = rang.Substring(1);
-                if (suffixe.Length <= 5 && EstSuiteEtoiles(suffixe))
-                    return 12 - suffixe.Length;
-            }
-            if (rang.Length >= 1 && rang.Length <= 5 && EstSuiteEtoiles(rang))
-                return 18 - rang.Length;
-            return int.MaxValue;
+            Classement = -1;
+            return true;
         }
-    }
 
-    private static bool EstSuiteEtoiles(string texte)
-    {
-        foreach (char caractere in texte)
-            if (caractere != '*') return false;
-        return true;
+        if (!EstMaitreDeGuilde
+            && string.Equals(Rang?.Trim(), "U", StringComparison.OrdinalIgnoreCase)
+            && Classement != 0)
+        {
+            Classement = 0;
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>
@@ -93,6 +80,7 @@ public sealed class MembreGuilde
         bool modifie = false;
         // Compatibilité des sauvegardes créées avant la distinction maître/membre.
         if (!EstMaitreDeGuilde) { EstMaitreDeGuilde = true; modifie = true; }
+        if (NormaliserClassementReserve()) modifie = true;
         if (!Motivation.HasValue) { Motivation = 20; modifie = true; }
         if (!Fatigue.HasValue) { Fatigue = 0; modifie = true; }
         if (!Experience.HasValue) { Experience = 0; modifie = true; }
@@ -153,7 +141,7 @@ public sealed class MembreGuilde
             Sexe = creation.SexePersonnage,
             ApparenceId = creation.ApparenceId,
             Rang = "*",
-            Classement = 1,
+            Classement = -1,
             NiveauMagique = 1,
             PotentielMagique = null,
             Pouvoirs = creation.Pouvoirs == null ? new List<string>() : new List<string>(creation.Pouvoirs),
@@ -222,6 +210,8 @@ public sealed class RegistreMembresGuilde
                     if (membre == null)
                         throw new InvalidOperationException("Le registre contient un membre invalide.");
                     if (membre.CompleterInitialisationJoueur())
+                        migrationNecessaire = true;
+                    if (membre.NormaliserClassementReserve())
                         migrationNecessaire = true;
                 }
 
