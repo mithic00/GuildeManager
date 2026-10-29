@@ -7,7 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://d024weh6py4ef" path="res://Images/Fonds/Fond_Bureau.png" id="5_xim88"]
 [ext_resource type="Texture2D" uid="uid://bkawpe7fachjc" path="res://Images/Fonds/Fond_TableauMission.png" id="6_koqhg"]
 [ext_resource type="Texture2D" uid="uid://terisltqsu08" path="res://Images/Fonds/Fond_ListeMembreGuilde.png" id="7_cmrfp"]
-[ext_resource type="Texture2D" uid="uid://bsxnltgvmvlua" path="res://Images/Portraits/Portait_Defaut.png" id="9_cmrfp"]
+[ext_resource type="Texture2D" uid="uid://c8364vjbphud4" path="res://Images/Fonds/Fond_Auberge.png" id="8_loo7a"]
+[ext_resource type="Texture2D" uid="uid://bsxnltgvmvlua" path="res://Images/Portraits/Portait_Defaut_Petit.png" id="9_cmrfp"]
 [ext_resource type="Script" uid="uid://b3ewfrysu0a26" path="res://Scripts/MainMenu.cs" id="main_menu_script"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_853f1"]
@@ -139,6 +140,12 @@ expand_mode = 1
 visible = false
 layout_mode = 2
 
+[node name="Auberge" type="TextureRect" parent="AffichagePanneauPrincipal" unique_id=1082333547]
+visible = false
+layout_mode = 2
+texture = ExtResource("8_loo7a")
+expand_mode = 1
+
 [node name="LayoutsPanneauPrincipal" type="Control" parent="." unique_id=1591313631]
 anchors_preset = 0
 offset_left = 430.0
@@ -180,6 +187,109 @@ theme_override_constants/margin_bottom = 20
 
 [node name="ItemListMembres" type="ItemList" parent="LayoutsPanneauPrincipal/ListeDesMembres" unique_id=1592605395]
 layout_mode = 2
+
+[node name="RecrutementAuberge" type="MarginContainer" parent="LayoutsPanneauPrincipal" unique_id=1444360997]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="Panel" type="Panel" parent="LayoutsPanneauPrincipal/RecrutementAuberge" unique_id=625433535]
+custom_minimum_size = Vector2(0, 600)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Panel" unique_id=698022062]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Panel/HBoxContainer" unique_id=1006034646]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Portrait" type="TextureRect" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Panel/HBoxContainer/VBoxContainer" unique_id=1139851028]
+custom_minimum_size = Vector2(180, 180)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+texture = ExtResource("9_cmrfp")
+expand_mode = 1
+
+[node name="RichTextLabelInfo" type="RichTextLabel" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Panel/HBoxContainer/VBoxContainer" unique_id=2027336891]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 45
+text = "Nom : LudoTest
+Prénom : Prenomtest
+Age : 35
+Race : Humain
+Pouvoirs : Mage Guerrier
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RichTextLabelStat" type="RichTextLabel" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Panel/HBoxContainer" unique_id=893204619]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/normal_font_size = 32
+text = "Niveau Magique : 83
+Potentiel Magique :  401
+
+Statistique Connu :
+Charisme : 14
+Communication : 12
+Force : 3
+Motivation : 17"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelRencontreRestante" type="Label" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Panel" unique_id=1439967991]
+layout_mode = 0
+offset_left = 529.0
+offset_right = 784.0
+offset_bottom = 41.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 28
+text = "Rencontre restante : X"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LayoutsPanneauPrincipal/RecrutementAuberge" unique_id=1642508256]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/separation = 70
+alignment = 1
+
+[node name="BoutonSuivant" type="Button" parent="LayoutsPanneauPrincipal/RecrutementAuberge/HBoxContainer" unique_id=581965973]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Suivant"
+
+[node name="BoutonRecruter" type="Button" parent="LayoutsPanneauPrincipal/RecrutementAuberge/HBoxContainer" unique_id=1253536746]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Recruter"
+
+[node name="BoutonPartir" type="Button" parent="LayoutsPanneauPrincipal/RecrutementAuberge/HBoxContainer" unique_id=1745927787]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Partir"
 
 [node name="MainBouton" type="Button" parent="." unique_id=569733904]
 custom_minimum_size = Vector2(260, 65)
@@ -609,3 +719,50 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Retour"
+
+[node name="FenetreChoixRecrutement" type="Window" parent="." unique_id=137447160]
+transparent_bg = true
+oversampling_override = 1.0
+initial_position = 3
+size = Vector2i(600, 400)
+current_screen = 0
+visible = false
+exclusive = true
+transparent = true
+
+[node name="Marge" type="MarginContainer" parent="FenetreChoixRecrutement" unique_id=798543730]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="Boutons" type="VBoxContainer" parent="FenetreChoixRecrutement/Marge" unique_id=1064538799]
+layout_mode = 2
+theme_override_constants/separation = 11
+alignment = 1
+
+[node name="BoutonAuberge" type="Button" parent="FenetreChoixRecrutement/Marge/Boutons" unique_id=1294230341]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Auberge"
+
+[node name="BoutonCampagneRecrutement" type="Button" parent="FenetreChoixRecrutement/Marge/Boutons" unique_id=361398501]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Campagne de Recrutement"
+
+[node name="BoutonFermer" type="Button" parent="FenetreChoixRecrutement/Marge/Boutons" unique_id=1298254809]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Fermer"
