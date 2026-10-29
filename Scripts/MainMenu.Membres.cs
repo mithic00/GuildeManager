@@ -15,6 +15,8 @@ public partial class MainMenu
     private RegistreMembresGuilde _registreMembres;
     private readonly List<MembreGuilde> _membresAffiches = new();
     private MembreGuilde _membreConsulte;
+    // Panneau actuellement sélectionné dans la navigation principale.
+    private string _panneauActif = "bureau";
 
     private void InitialiserNavigationEtMembres()
     {
@@ -32,11 +34,11 @@ public partial class MainMenu
         _contenuConversation = GetNode<Control>("FenetreFichePerso/LayoutConversation");
 
         GetNode<Button>(racine + "BoutonMembreGuilde").Pressed += AfficherListeMembres;
-        GetNode<Button>(racine + "BoutonTableauMission").Pressed += () => AfficherPanneau("missions");
-        GetNode<Button>(racine + "BoutonMagasins").Pressed += () => AfficherPanneau("magasin");
-        GetNode<Button>(racine + "BoutonRecrutement").Pressed += () => AfficherPanneau("recrutement");
-        GetNode<Button>(racine + "BoutonBudget").Pressed += () => AfficherPanneau("budget");
-        GetNode<Button>(racine + "BoutonEvenements").Pressed += () => AfficherPanneau("evenements");
+        GetNode<Button>(racine + "BoutonTableauMission").Pressed += () => BasculerPanneau("missions");
+        GetNode<Button>(racine + "BoutonMagasins").Pressed += () => BasculerPanneau("magasin");
+        GetNode<Button>(racine + "BoutonRecrutement").Pressed += () => BasculerPanneau("recrutement");
+        GetNode<Button>(racine + "BoutonBudget").Pressed += () => BasculerPanneau("budget");
+        GetNode<Button>(racine + "BoutonEvenements").Pressed += () => BasculerPanneau("evenements");
         GetNode<Button>("MainBouton").Pressed += () => AfficherPanneau("bureau");
 
         _listeDesMembres.ItemSelected += i => OuvrirFicheMembre((int)i);
@@ -60,8 +62,18 @@ public partial class MainMenu
         AfficherPanneau("bureau");
     }
 
+    // À utiliser pour tous les boutons de menu, y compris ceux ajoutés plus tard :
+    // clic sur le panneau déjà ouvert => retour au bureau.
+    private bool BasculerPanneau(string nom)
+    {
+        bool ouverture = _panneauActif != nom;
+        AfficherPanneau(ouverture ? nom : "bureau");
+        return ouverture;
+    }
+
     private void AfficherPanneau(string nom)
     {
+        _panneauActif = nom;
         _fondBureau.Visible = nom == "bureau" || nom == "budget" || nom == "recrutement" || nom == "evenements";
         _fondMissions.Visible = nom == "missions";
         _fondMembres.Visible = nom == "membres";
@@ -74,8 +86,8 @@ public partial class MainMenu
 
     private void AfficherListeMembres()
     {
-        AfficherPanneau("membres");
-        RafraichirListeMembres();
+        if (BasculerPanneau("membres"))
+            RafraichirListeMembres();
     }
 
     private void RafraichirListeMembres()
