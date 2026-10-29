@@ -95,9 +95,11 @@ public partial class MainMenu
         _listeDesMembres.Clear();
         _membresAffiches.Clear();
         if (_registreMembres == null) return;
+        // Le classement sauvegardé est la seule position de tri :
+        // -1 = maître de guilde, 0 = rang U, 1, 2, 3... = autres membres.
         _membresAffiches.AddRange(_registreMembres.Membres
-            .OrderBy(m => m.NumeroRang)
-            .ThenBy(m => m.Classement)
+            .OrderBy(m => m.Classement)
+            .ThenBy(m => m.NiveauMagique * -1)
             .ThenBy(m => m.NomComplet, StringComparer.CurrentCultureIgnoreCase));
         _listeDesMembres.FixedIconSize = new Vector2I(52, 28);
         foreach (MembreGuilde membre in _membresAffiches)
@@ -106,7 +108,8 @@ public partial class MainMenu
             string potentiel = membre.PotentielMagique.HasValue ? membre.PotentielMagique.Value.ToString() : "?";
             string rang = string.IsNullOrWhiteSpace(membre.RangAffiche) ? "?" : membre.RangAffiche;
             string classement = membre.EstMaitreDeGuilde ? "MG" :
-                membre.NumeroRang == 0 ? "U" : membre.Classement + "e";
+                membre.Classement == 0 ? "U" :
+                membre.Classement == 1 ? "1er" : membre.Classement + "e";
             string texte = classement + "  |  " + rang + "  |  " + nom + "  |  " +
                            membre.Race + "  |  Magie : " + membre.NiveauMagique +
                            "  |  Potentiel : " + potentiel;
