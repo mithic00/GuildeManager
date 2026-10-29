@@ -3,24 +3,16 @@
 [ext_resource type="Script" uid="uid://diw5803o8bl1c" path="res://Scripts/CreationPerso.cs" id="1_8e3w1"]
 [ext_resource type="Texture2D" uid="uid://ck2ao5g04aax2" path="res://Images/Fonds/Fond_Creation_Perso.png" id="1_foeo5"]
 [ext_resource type="FontFile" uid="uid://liivnr87xrhm" path="res://Font/CloisterBlack.ttf" id="2_pn8lf"]
-[ext_resource type="Texture2D" uid="uid://b6ftp1rqtxtov" path="res://Images/Portraits/Humain_Homme.png" id="3_26w2i"]
 [ext_resource type="Theme" uid="uid://d10p6nj26o75q" path="res://Theme/BoutonBleu.tres" id="3_i56mq"]
-[ext_resource type="Texture2D" uid="uid://casngfy7ieagq" path="res://Images/Portraits/ElfeGris_Homme.png" id="4_e3c3l"]
 [ext_resource type="Texture2D" uid="uid://de0ekwaiw43wa" path="res://Images/Fonds/Fond_Rose-Vallee.png" id="4_vlt7f"]
 [ext_resource type="Texture2D" uid="uid://b5ac2xsmux1y5" path="res://Images/BlasonGuilde/Blason_Argent.png" id="5_jtip0"]
-[ext_resource type="Texture2D" uid="uid://bheslro8vhc63" path="res://Images/Portraits/Grumol_Homme.png" id="5_rscop"]
 [ext_resource type="Texture2D" uid="uid://cdouwwqqt6ak4" path="res://Images/BlasonGuilde/Blason_Bleu.png" id="6_8e3w1"]
-[ext_resource type="Texture2D" uid="uid://cm2vwog2dk181" path="res://Images/Portraits/HumainDesMonts_Homme.png" id="6_fguuc"]
-[ext_resource type="Texture2D" uid="uid://mmjgauc5vuup" path="res://Images/Portraits/HautElfe_Homme.png" id="7_5pv87"]
 [ext_resource type="Texture2D" uid="uid://buthhkkw8a3pi" path="res://Images/BlasonGuilde/Blason_Argent_Focus.png" id="7_atxo0"]
 [ext_resource type="Texture2D" uid="uid://d3kmbiiq6g7px" path="res://Images/BlasonGuilde/Blason_Turquoise.png" id="7_mjoqb"]
 [ext_resource type="Texture2D" uid="uid://dm1s88e2fy4im" path="res://Images/BlasonGuilde/Blason_Epee.png" id="8_atxo0"]
-[ext_resource type="Texture2D" uid="uid://cedmcfbag2ft6" path="res://Images/Portraits/Nain_Homme.png" id="8_l2m2g"]
 [ext_resource type="Texture2D" uid="uid://s4hmet0lj4xr" path="res://Images/BlasonGuilde/Blason_Bleu_Focus.png" id="9_2kbk4"]
-[ext_resource type="Texture2D" uid="uid://b1f8wnvk4l0ej" path="res://Images/Portraits/Tanneur_Homme.png" id="9_5x34d"]
 [ext_resource type="Texture2D" uid="uid://byty6jdy838e7" path="res://Images/BlasonGuilde/Blason_Marron.png" id="9_jtc5u"]
 [ext_resource type="Texture2D" uid="uid://d4ll0g23ikb4y" path="res://Images/BlasonGuilde/Blason_Noir.png" id="10_607hs"]
-[ext_resource type="Texture2D" uid="uid://bkwtd1ksybdj5" path="res://Images/Portraits/Khajiit_Homme.png" id="10_pt4nf"]
 [ext_resource type="Texture2D" uid="uid://cgcybh4gvyh4a" path="res://Images/BlasonGuilde/Blason_Turquoise_Focus.png" id="11_7x4k6"]
 [ext_resource type="Texture2D" uid="uid://d368fgcmcx18o" path="res://Images/BlasonGuilde/Blason_Rouge.png" id="11_m2g6d"]
 [ext_resource type="Texture2D" uid="uid://4amlc7tjmy5u" path="res://Images/UI/M&F.png" id="11_pjwt2"]
@@ -32,87 +24,134 @@
 [ext_resource type="Texture2D" uid="uid://cosu5868rduqj" path="res://Images/BlasonGuilde/Blason_Rouge_Focus.png" id="19_xaci0"]
 [ext_resource type="Texture2D" uid="uid://bvmgqlpvy7o70" path="res://Images/BlasonGuilde/Blason_Vert_Focus.png" id="21_jc8vq"]
 [ext_resource type="Texture2D" uid="uid://d0byad6yrdv5c" path="res://Images/BlasonGuilde/Blason_Violet_Focus.png" id="23_5fwl7"]
+[ext_resource type="Texture2D" uid="uid://beme8pkxvyfqu" path="res://Images/Portraits/ElfeGris_Femme_Focus.png" id="portrait_Femme_ElfeGris_focus"]
+[ext_resource type="Texture2D" uid="uid://c72ejuwwi3205" path="res://Images/Portraits/ElfeGris_Femme.png" id="portrait_Femme_ElfeGris_normal"]
+[ext_resource type="Texture2D" uid="uid://cdgdf85l7q7xc" path="res://Images/Portraits/Grumol_Femme_Focus.png" id="portrait_Femme_Grumol_focus"]
+[ext_resource type="Texture2D" uid="uid://4qptg56v81me" path="res://Images/Portraits/Grumol_Femme.png" id="portrait_Femme_Grumol_normal"]
+[ext_resource type="Texture2D" uid="uid://duq1dwm3doudk" path="res://Images/Portraits/HautElfe_Femme_Focus.png" id="portrait_Femme_HautElfe_focus"]
+[ext_resource type="Texture2D" uid="uid://bcq0b517fw6j0" path="res://Images/Portraits/HautElfe_Femme.png" id="portrait_Femme_HautElfe_normal"]
+[ext_resource type="Texture2D" uid="uid://b72sqq4wfdmn0" path="res://Images/Portraits/HumainDesMonts_Femme_Focus.png" id="portrait_Femme_HumainDesMonts_focus"]
+[ext_resource type="Texture2D" uid="uid://ck5eyqgh5ksyr" path="res://Images/Portraits/HumainDesMonts_Femme.png" id="portrait_Femme_HumainDesMonts_normal"]
+[ext_resource type="Texture2D" uid="uid://b4vqeap2mwd33" path="res://Images/Portraits/Humain_Femme_Focus.png" id="portrait_Femme_Humain_focus"]
+[ext_resource type="Texture2D" uid="uid://pnovd6g751m1" path="res://Images/Portraits/Humain_Femme.png" id="portrait_Femme_Humain_normal"]
+[ext_resource type="Texture2D" uid="uid://bkltvbmeqgwc1" path="res://Images/Portraits/Khajiit_Femme_Focus.png" id="portrait_Femme_Khajiit_focus"]
+[ext_resource type="Texture2D" uid="uid://qhs2vuwib13j" path="res://Images/Portraits/Khajiit_Femme.png" id="portrait_Femme_Khajiit_normal"]
+[ext_resource type="Texture2D" uid="uid://btx42jquuxhr6" path="res://Images/Portraits/Nain_Femme_Focus.png" id="portrait_Femme_Nain_focus"]
+[ext_resource type="Texture2D" uid="uid://des2jpnlldddx" path="res://Images/Portraits/Nain_Femme.png" id="portrait_Femme_Nain_normal"]
+[ext_resource type="Texture2D" uid="uid://1s202v3aj5m" path="res://Images/Portraits/Tanneur_Femme_Focus.png" id="portrait_Femme_Tanneur_focus"]
+[ext_resource type="Texture2D" uid="uid://s7p6m12ulja8" path="res://Images/Portraits/Tanneur_Femme.png" id="portrait_Femme_Tanneur_normal"]
+[ext_resource type="Texture2D" uid="uid://c84fpgkpgxsec" path="res://Images/Portraits/ElfeGris_Homme_Focus.png" id="portrait_Homme_ElfeGris_focus"]
+[ext_resource type="Texture2D" uid="uid://casngfy7ieagq" path="res://Images/Portraits/ElfeGris_Homme.png" id="portrait_Homme_ElfeGris_normal"]
+[ext_resource type="Texture2D" uid="uid://dgcdq6wfhxiio" path="res://Images/Portraits/Grumol_Homme_Focus.png" id="portrait_Homme_Grumol_focus"]
+[ext_resource type="Texture2D" uid="uid://bheslro8vhc63" path="res://Images/Portraits/Grumol_Homme.png" id="portrait_Homme_Grumol_normal"]
+[ext_resource type="Texture2D" uid="uid://caur6b1lx045m" path="res://Images/Portraits/HautElfe_Homme_Focus.png" id="portrait_Homme_HautElfe_focus"]
+[ext_resource type="Texture2D" uid="uid://mmjgauc5vuup" path="res://Images/Portraits/HautElfe_Homme.png" id="portrait_Homme_HautElfe_normal"]
+[ext_resource type="Texture2D" uid="uid://c3mtoe7ccito1" path="res://Images/Portraits/HumainDesMonts_Homme_Focus.png" id="portrait_Homme_HumainDesMonts_focus"]
+[ext_resource type="Texture2D" uid="uid://cm2vwog2dk181" path="res://Images/Portraits/HumainDesMonts_Homme.png" id="portrait_Homme_HumainDesMonts_normal"]
+[ext_resource type="Texture2D" uid="uid://daklhf7yj0a5p" path="res://Images/Portraits/Humain_Homme_Focus.png" id="portrait_Homme_Humain_focus"]
+[ext_resource type="Texture2D" uid="uid://b6ftp1rqtxtov" path="res://Images/Portraits/Humain_Homme.png" id="portrait_Homme_Humain_normal"]
+[ext_resource type="Texture2D" uid="uid://cifx17i852nb2" path="res://Images/Portraits/Khajiit_Homme_Focus.png" id="portrait_Homme_Khajiit_focus"]
+[ext_resource type="Texture2D" uid="uid://bkwtd1ksybdj5" path="res://Images/Portraits/Khajiit_Homme.png" id="portrait_Homme_Khajiit_normal"]
+[ext_resource type="Texture2D" uid="uid://bi0di1rcevuh1" path="res://Images/Portraits/Nain_Homme_Focus.png" id="portrait_Homme_Nain_focus"]
+[ext_resource type="Texture2D" uid="uid://cedmcfbag2ft6" path="res://Images/Portraits/Nain_Homme.png" id="portrait_Homme_Nain_normal"]
+[ext_resource type="Texture2D" uid="uid://b6p7072yoxsu1" path="res://Images/Portraits/Tanneur_Homme_Focus.png" id="portrait_Homme_Tanneur_focus"]
+[ext_resource type="Texture2D" uid="uid://b1f8wnvk4l0ej" path="res://Images/Portraits/Tanneur_Homme.png" id="portrait_Homme_Tanneur_normal"]
 
-[ext_resource type="Texture2D" path="res://Images/Portraits/Humain_Homme.png" id="portrait_Homme_Humain_normal"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/Humain_Homme_Focus.png" id="portrait_Homme_Humain_focus"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/ElfeGris_Homme.png" id="portrait_Homme_ElfeGris_normal"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/ElfeGris_Homme_Focus.png" id="portrait_Homme_ElfeGris_focus"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/Grumol_Homme.png" id="portrait_Homme_Grumol_normal"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/Grumol_Homme_Focus.png" id="portrait_Homme_Grumol_focus"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/HumainDesMonts_Homme.png" id="portrait_Homme_HumainDesMonts_normal"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/HumainDesMonts_Homme_Focus.png" id="portrait_Homme_HumainDesMonts_focus"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/HautElfe_Homme.png" id="portrait_Homme_HautElfe_normal"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/HautElfe_Homme_Focus.png" id="portrait_Homme_HautElfe_focus"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/Nain_Homme.png" id="portrait_Homme_Nain_normal"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/Nain_Homme_Focus.png" id="portrait_Homme_Nain_focus"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/Tanneur_Homme.png" id="portrait_Homme_Tanneur_normal"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/Tanneur_Homme_Focus.png" id="portrait_Homme_Tanneur_focus"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/Khajiit_Homme.png" id="portrait_Homme_Khajiit_normal"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/Khajiit_Homme_Focus.png" id="portrait_Homme_Khajiit_focus"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/Humain_Femme.png" id="portrait_Femme_Humain_normal"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/Humain_Femme_Focus.png" id="portrait_Femme_Humain_focus"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/ElfeGris_Femme.png" id="portrait_Femme_ElfeGris_normal"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/ElfeGris_Femme_Focus.png" id="portrait_Femme_ElfeGris_focus"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/Grumol_Femme.png" id="portrait_Femme_Grumol_normal"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/Grumol_Femme_Focus.png" id="portrait_Femme_Grumol_focus"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/HumainDesMonts_Femme.png" id="portrait_Femme_HumainDesMonts_normal"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/HumainDesMonts_Femme_Focus.png" id="portrait_Femme_HumainDesMonts_focus"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/HautElfe_Femme.png" id="portrait_Femme_HautElfe_normal"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/HautElfe_Femme_Focus.png" id="portrait_Femme_HautElfe_focus"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/Nain_Femme.png" id="portrait_Femme_Nain_normal"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/Nain_Femme_Focus.png" id="portrait_Femme_Nain_focus"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/Tanneur_Femme.png" id="portrait_Femme_Tanneur_normal"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/Tanneur_Femme_Focus.png" id="portrait_Femme_Tanneur_focus"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/Khajiit_Femme.png" id="portrait_Femme_Khajiit_normal"]
-[ext_resource type="Texture2D" path="res://Images/Portraits/Khajiit_Femme_Focus.png" id="portrait_Femme_Khajiit_focus"]
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_Humain_style"]
+texture = ExtResource("portrait_Homme_Humain_normal")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_co3dj"]
-texture = ExtResource("3_26w2i")
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_Humain_glow"]
+texture = ExtResource("portrait_Homme_Humain_focus")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_p3tld"]
-texture = ExtResource("3_26w2i")
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_ElfeGris_style"]
+texture = ExtResource("portrait_Homme_ElfeGris_normal")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0r70g"]
-texture = ExtResource("4_e3c3l")
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_ElfeGris_glow"]
+texture = ExtResource("portrait_Homme_ElfeGris_focus")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_o324e"]
-texture = ExtResource("4_e3c3l")
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_Grumol_style"]
+texture = ExtResource("portrait_Homme_Grumol_normal")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ru6v6"]
-texture = ExtResource("5_rscop")
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_Grumol_glow"]
+texture = ExtResource("portrait_Homme_Grumol_focus")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3o67s"]
-texture = ExtResource("5_rscop")
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_HumainDesMonts_style"]
+texture = ExtResource("portrait_Homme_HumainDesMonts_normal")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_i5q8i"]
-texture = ExtResource("6_fguuc")
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_HumainDesMonts_glow"]
+texture = ExtResource("portrait_Homme_HumainDesMonts_focus")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1p7u3"]
-texture = ExtResource("6_fguuc")
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_HautElfe_style"]
+texture = ExtResource("portrait_Homme_HautElfe_normal")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gui0s"]
-texture = ExtResource("7_5pv87")
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_HautElfe_glow"]
+texture = ExtResource("portrait_Homme_HautElfe_focus")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vvqyq"]
-texture = ExtResource("7_5pv87")
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_Nain_style"]
+texture = ExtResource("portrait_Homme_Nain_normal")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8yd6b"]
-texture = ExtResource("8_l2m2g")
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_Nain_glow"]
+texture = ExtResource("portrait_Homme_Nain_focus")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pd3yv"]
-texture = ExtResource("8_l2m2g")
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_Tanneur_style"]
+texture = ExtResource("portrait_Homme_Tanneur_normal")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q5i8b"]
-texture = ExtResource("9_5x34d")
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_Tanneur_glow"]
+texture = ExtResource("portrait_Homme_Tanneur_focus")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lmf1s"]
-texture = ExtResource("9_5x34d")
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_Khajiit_style"]
+texture = ExtResource("portrait_Homme_Khajiit_normal")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tie8f"]
-texture = ExtResource("10_pt4nf")
+[sub_resource type="StyleBoxTexture" id="portrait_Homme_Khajiit_glow"]
+texture = ExtResource("portrait_Homme_Khajiit_focus")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4c4xo"]
-texture = ExtResource("10_pt4nf")
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_Humain_style"]
+texture = ExtResource("portrait_Femme_Humain_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_Humain_glow"]
+texture = ExtResource("portrait_Femme_Humain_focus")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_ElfeGris_style"]
+texture = ExtResource("portrait_Femme_ElfeGris_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_ElfeGris_glow"]
+texture = ExtResource("portrait_Femme_ElfeGris_focus")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_Grumol_style"]
+texture = ExtResource("portrait_Femme_Grumol_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_Grumol_glow"]
+texture = ExtResource("portrait_Femme_Grumol_focus")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_HumainDesMonts_style"]
+texture = ExtResource("portrait_Femme_HumainDesMonts_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_HumainDesMonts_glow"]
+texture = ExtResource("portrait_Femme_HumainDesMonts_focus")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_HautElfe_style"]
+texture = ExtResource("portrait_Femme_HautElfe_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_HautElfe_glow"]
+texture = ExtResource("portrait_Femme_HautElfe_focus")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_Nain_style"]
+texture = ExtResource("portrait_Femme_Nain_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_Nain_glow"]
+texture = ExtResource("portrait_Femme_Nain_focus")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_Tanneur_style"]
+texture = ExtResource("portrait_Femme_Tanneur_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_Tanneur_glow"]
+texture = ExtResource("portrait_Femme_Tanneur_focus")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_Khajiit_style"]
+texture = ExtResource("portrait_Femme_Khajiit_normal")
+
+[sub_resource type="StyleBoxTexture" id="portrait_Femme_Khajiit_glow"]
+texture = ExtResource("portrait_Femme_Khajiit_focus")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uw3lh"]
 texture = ExtResource("11_pjwt2")
@@ -234,102 +273,6 @@ texture = ExtResource("23_5fwl7")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8tvmk"]
 texture = ExtResource("23_5fwl7")
 
-[sub_resource type="StyleBoxTexture" id="portrait_Homme_Humain_style"]
-texture = ExtResource("portrait_Homme_Humain_normal")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Homme_Humain_glow"]
-texture = ExtResource("portrait_Homme_Humain_focus")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Homme_ElfeGris_style"]
-texture = ExtResource("portrait_Homme_ElfeGris_normal")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Homme_ElfeGris_glow"]
-texture = ExtResource("portrait_Homme_ElfeGris_focus")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Homme_Grumol_style"]
-texture = ExtResource("portrait_Homme_Grumol_normal")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Homme_Grumol_glow"]
-texture = ExtResource("portrait_Homme_Grumol_focus")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Homme_HumainDesMonts_style"]
-texture = ExtResource("portrait_Homme_HumainDesMonts_normal")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Homme_HumainDesMonts_glow"]
-texture = ExtResource("portrait_Homme_HumainDesMonts_focus")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Homme_HautElfe_style"]
-texture = ExtResource("portrait_Homme_HautElfe_normal")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Homme_HautElfe_glow"]
-texture = ExtResource("portrait_Homme_HautElfe_focus")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Homme_Nain_style"]
-texture = ExtResource("portrait_Homme_Nain_normal")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Homme_Nain_glow"]
-texture = ExtResource("portrait_Homme_Nain_focus")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Homme_Tanneur_style"]
-texture = ExtResource("portrait_Homme_Tanneur_normal")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Homme_Tanneur_glow"]
-texture = ExtResource("portrait_Homme_Tanneur_focus")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Homme_Khajiit_style"]
-texture = ExtResource("portrait_Homme_Khajiit_normal")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Homme_Khajiit_glow"]
-texture = ExtResource("portrait_Homme_Khajiit_focus")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Femme_Humain_style"]
-texture = ExtResource("portrait_Femme_Humain_normal")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Femme_Humain_glow"]
-texture = ExtResource("portrait_Femme_Humain_focus")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Femme_ElfeGris_style"]
-texture = ExtResource("portrait_Femme_ElfeGris_normal")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Femme_ElfeGris_glow"]
-texture = ExtResource("portrait_Femme_ElfeGris_focus")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Femme_Grumol_style"]
-texture = ExtResource("portrait_Femme_Grumol_normal")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Femme_Grumol_glow"]
-texture = ExtResource("portrait_Femme_Grumol_focus")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Femme_HumainDesMonts_style"]
-texture = ExtResource("portrait_Femme_HumainDesMonts_normal")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Femme_HumainDesMonts_glow"]
-texture = ExtResource("portrait_Femme_HumainDesMonts_focus")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Femme_HautElfe_style"]
-texture = ExtResource("portrait_Femme_HautElfe_normal")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Femme_HautElfe_glow"]
-texture = ExtResource("portrait_Femme_HautElfe_focus")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Femme_Nain_style"]
-texture = ExtResource("portrait_Femme_Nain_normal")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Femme_Nain_glow"]
-texture = ExtResource("portrait_Femme_Nain_focus")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Femme_Tanneur_style"]
-texture = ExtResource("portrait_Femme_Tanneur_normal")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Femme_Tanneur_glow"]
-texture = ExtResource("portrait_Femme_Tanneur_focus")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Femme_Khajiit_style"]
-texture = ExtResource("portrait_Femme_Khajiit_normal")
-
-[sub_resource type="StyleBoxTexture" id="portrait_Femme_Khajiit_glow"]
-texture = ExtResource("portrait_Femme_Khajiit_focus")
-
 [node name="CreationPerso" type="Control" unique_id=38892687]
 layout_mode = 3
 anchors_preset = 15
@@ -372,8 +315,8 @@ columns = 4
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 theme_override_styles/normal = SubResource("portrait_Homme_Humain_style")
-theme_override_styles/hover = SubResource("portrait_Homme_Humain_glow")
 theme_override_styles/pressed = SubResource("portrait_Homme_Humain_glow")
+theme_override_styles/hover = SubResource("portrait_Homme_Humain_glow")
 theme_override_styles/hover_pressed = SubResource("portrait_Homme_Humain_glow")
 theme_override_styles/focus = SubResource("portrait_Homme_Humain_glow")
 
@@ -381,8 +324,8 @@ theme_override_styles/focus = SubResource("portrait_Homme_Humain_glow")
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 theme_override_styles/normal = SubResource("portrait_Homme_ElfeGris_style")
-theme_override_styles/hover = SubResource("portrait_Homme_ElfeGris_glow")
 theme_override_styles/pressed = SubResource("portrait_Homme_ElfeGris_glow")
+theme_override_styles/hover = SubResource("portrait_Homme_ElfeGris_glow")
 theme_override_styles/hover_pressed = SubResource("portrait_Homme_ElfeGris_glow")
 theme_override_styles/focus = SubResource("portrait_Homme_ElfeGris_glow")
 
@@ -390,8 +333,8 @@ theme_override_styles/focus = SubResource("portrait_Homme_ElfeGris_glow")
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 theme_override_styles/normal = SubResource("portrait_Homme_Grumol_style")
-theme_override_styles/hover = SubResource("portrait_Homme_Grumol_glow")
 theme_override_styles/pressed = SubResource("portrait_Homme_Grumol_glow")
+theme_override_styles/hover = SubResource("portrait_Homme_Grumol_glow")
 theme_override_styles/hover_pressed = SubResource("portrait_Homme_Grumol_glow")
 theme_override_styles/focus = SubResource("portrait_Homme_Grumol_glow")
 
@@ -399,8 +342,8 @@ theme_override_styles/focus = SubResource("portrait_Homme_Grumol_glow")
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 theme_override_styles/normal = SubResource("portrait_Homme_HumainDesMonts_style")
-theme_override_styles/hover = SubResource("portrait_Homme_HumainDesMonts_glow")
 theme_override_styles/pressed = SubResource("portrait_Homme_HumainDesMonts_glow")
+theme_override_styles/hover = SubResource("portrait_Homme_HumainDesMonts_glow")
 theme_override_styles/hover_pressed = SubResource("portrait_Homme_HumainDesMonts_glow")
 theme_override_styles/focus = SubResource("portrait_Homme_HumainDesMonts_glow")
 
@@ -408,8 +351,8 @@ theme_override_styles/focus = SubResource("portrait_Homme_HumainDesMonts_glow")
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 theme_override_styles/normal = SubResource("portrait_Homme_HautElfe_style")
-theme_override_styles/hover = SubResource("portrait_Homme_HautElfe_glow")
 theme_override_styles/pressed = SubResource("portrait_Homme_HautElfe_glow")
+theme_override_styles/hover = SubResource("portrait_Homme_HautElfe_glow")
 theme_override_styles/hover_pressed = SubResource("portrait_Homme_HautElfe_glow")
 theme_override_styles/focus = SubResource("portrait_Homme_HautElfe_glow")
 
@@ -417,8 +360,8 @@ theme_override_styles/focus = SubResource("portrait_Homme_HautElfe_glow")
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 theme_override_styles/normal = SubResource("portrait_Homme_Nain_style")
-theme_override_styles/hover = SubResource("portrait_Homme_Nain_glow")
 theme_override_styles/pressed = SubResource("portrait_Homme_Nain_glow")
+theme_override_styles/hover = SubResource("portrait_Homme_Nain_glow")
 theme_override_styles/hover_pressed = SubResource("portrait_Homme_Nain_glow")
 theme_override_styles/focus = SubResource("portrait_Homme_Nain_glow")
 
@@ -426,8 +369,8 @@ theme_override_styles/focus = SubResource("portrait_Homme_Nain_glow")
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 theme_override_styles/normal = SubResource("portrait_Homme_Tanneur_style")
-theme_override_styles/hover = SubResource("portrait_Homme_Tanneur_glow")
 theme_override_styles/pressed = SubResource("portrait_Homme_Tanneur_glow")
+theme_override_styles/hover = SubResource("portrait_Homme_Tanneur_glow")
 theme_override_styles/hover_pressed = SubResource("portrait_Homme_Tanneur_glow")
 theme_override_styles/focus = SubResource("portrait_Homme_Tanneur_glow")
 
@@ -435,8 +378,8 @@ theme_override_styles/focus = SubResource("portrait_Homme_Tanneur_glow")
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 theme_override_styles/normal = SubResource("portrait_Homme_Khajiit_style")
-theme_override_styles/hover = SubResource("portrait_Homme_Khajiit_glow")
 theme_override_styles/pressed = SubResource("portrait_Homme_Khajiit_glow")
+theme_override_styles/hover = SubResource("portrait_Homme_Khajiit_glow")
 theme_override_styles/hover_pressed = SubResource("portrait_Homme_Khajiit_glow")
 theme_override_styles/focus = SubResource("portrait_Homme_Khajiit_glow")
 
@@ -450,8 +393,8 @@ columns = 4
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 theme_override_styles/normal = SubResource("portrait_Femme_Humain_style")
-theme_override_styles/hover = SubResource("portrait_Femme_Humain_glow")
 theme_override_styles/pressed = SubResource("portrait_Femme_Humain_glow")
+theme_override_styles/hover = SubResource("portrait_Femme_Humain_glow")
 theme_override_styles/hover_pressed = SubResource("portrait_Femme_Humain_glow")
 theme_override_styles/focus = SubResource("portrait_Femme_Humain_glow")
 
@@ -459,8 +402,8 @@ theme_override_styles/focus = SubResource("portrait_Femme_Humain_glow")
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 theme_override_styles/normal = SubResource("portrait_Femme_ElfeGris_style")
-theme_override_styles/hover = SubResource("portrait_Femme_ElfeGris_glow")
 theme_override_styles/pressed = SubResource("portrait_Femme_ElfeGris_glow")
+theme_override_styles/hover = SubResource("portrait_Femme_ElfeGris_glow")
 theme_override_styles/hover_pressed = SubResource("portrait_Femme_ElfeGris_glow")
 theme_override_styles/focus = SubResource("portrait_Femme_ElfeGris_glow")
 
@@ -468,8 +411,8 @@ theme_override_styles/focus = SubResource("portrait_Femme_ElfeGris_glow")
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 theme_override_styles/normal = SubResource("portrait_Femme_Grumol_style")
-theme_override_styles/hover = SubResource("portrait_Femme_Grumol_glow")
 theme_override_styles/pressed = SubResource("portrait_Femme_Grumol_glow")
+theme_override_styles/hover = SubResource("portrait_Femme_Grumol_glow")
 theme_override_styles/hover_pressed = SubResource("portrait_Femme_Grumol_glow")
 theme_override_styles/focus = SubResource("portrait_Femme_Grumol_glow")
 
@@ -477,8 +420,8 @@ theme_override_styles/focus = SubResource("portrait_Femme_Grumol_glow")
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 theme_override_styles/normal = SubResource("portrait_Femme_HumainDesMonts_style")
-theme_override_styles/hover = SubResource("portrait_Femme_HumainDesMonts_glow")
 theme_override_styles/pressed = SubResource("portrait_Femme_HumainDesMonts_glow")
+theme_override_styles/hover = SubResource("portrait_Femme_HumainDesMonts_glow")
 theme_override_styles/hover_pressed = SubResource("portrait_Femme_HumainDesMonts_glow")
 theme_override_styles/focus = SubResource("portrait_Femme_HumainDesMonts_glow")
 
@@ -486,8 +429,8 @@ theme_override_styles/focus = SubResource("portrait_Femme_HumainDesMonts_glow")
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 theme_override_styles/normal = SubResource("portrait_Femme_HautElfe_style")
-theme_override_styles/hover = SubResource("portrait_Femme_HautElfe_glow")
 theme_override_styles/pressed = SubResource("portrait_Femme_HautElfe_glow")
+theme_override_styles/hover = SubResource("portrait_Femme_HautElfe_glow")
 theme_override_styles/hover_pressed = SubResource("portrait_Femme_HautElfe_glow")
 theme_override_styles/focus = SubResource("portrait_Femme_HautElfe_glow")
 
@@ -495,8 +438,8 @@ theme_override_styles/focus = SubResource("portrait_Femme_HautElfe_glow")
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 theme_override_styles/normal = SubResource("portrait_Femme_Nain_style")
-theme_override_styles/hover = SubResource("portrait_Femme_Nain_glow")
 theme_override_styles/pressed = SubResource("portrait_Femme_Nain_glow")
+theme_override_styles/hover = SubResource("portrait_Femme_Nain_glow")
 theme_override_styles/hover_pressed = SubResource("portrait_Femme_Nain_glow")
 theme_override_styles/focus = SubResource("portrait_Femme_Nain_glow")
 
@@ -504,8 +447,8 @@ theme_override_styles/focus = SubResource("portrait_Femme_Nain_glow")
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 theme_override_styles/normal = SubResource("portrait_Femme_Tanneur_style")
-theme_override_styles/hover = SubResource("portrait_Femme_Tanneur_glow")
 theme_override_styles/pressed = SubResource("portrait_Femme_Tanneur_glow")
+theme_override_styles/hover = SubResource("portrait_Femme_Tanneur_glow")
 theme_override_styles/hover_pressed = SubResource("portrait_Femme_Tanneur_glow")
 theme_override_styles/focus = SubResource("portrait_Femme_Tanneur_glow")
 
@@ -513,8 +456,8 @@ theme_override_styles/focus = SubResource("portrait_Femme_Tanneur_glow")
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 theme_override_styles/normal = SubResource("portrait_Femme_Khajiit_style")
-theme_override_styles/hover = SubResource("portrait_Femme_Khajiit_glow")
 theme_override_styles/pressed = SubResource("portrait_Femme_Khajiit_glow")
+theme_override_styles/hover = SubResource("portrait_Femme_Khajiit_glow")
 theme_override_styles/hover_pressed = SubResource("portrait_Femme_Khajiit_glow")
 theme_override_styles/focus = SubResource("portrait_Femme_Khajiit_glow")
 
@@ -736,7 +679,7 @@ expand_mode = 1
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/normal_font_size = 17
+theme_override_font_sizes/normal_font_size = 16
 bbcode_enabled = true
 text = "- Comté de Rose Vallée, Royaume Humain.
 - 25 000 habitants
@@ -749,15 +692,21 @@ text = "- Comté de Rose Vallée, Royaume Humain.
 - Biomes à proximité : Vallée, Rivière, Montagne rocheuse."
 vertical_alignment = 1
 
+[node name="Label" type="Label" parent="MargeInfoVille/Layout" unique_id=1817016649]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 3
+theme_override_font_sizes/font_size = 31
+text = "Description :"
+
 [node name="RlabelDescriptionVille" type="RichTextLabel" parent="MargeInfoVille/Layout" unique_id=399138422]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_constants/line_separation = 0
 theme_override_font_sizes/normal_font_size = 22
 bbcode_enabled = true
 text = "Préfecture de son comté, la petite commune de Rose-Vallée cherche un maitre de guilde depuis longtemps pour ne plus dépendre des comtés voisin en matière de guilde magique. Au cœur des grandes vallées du royaume Humain, Rose-Vallée est une petite commune paisible installée au bord de la rivière Tangue. Elle vit principalement du commerce de fleurs."
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="BoutonsUI" type="HBoxContainer" parent="." unique_id=1666376609]
 layout_mode = 1

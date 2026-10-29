@@ -1,11 +1,13 @@
 [gd_scene format=3 uid="uid://bhvdqj2o24s0v"]
 
-[ext_resource type="Script" path="res://Scripts/MainMenu.cs" id="main_menu_script"]
-
 [ext_resource type="Theme" uid="uid://dyrn5od66mme0" path="res://Theme/LabelJaune.tres" id="1_853f1"]
-[ext_resource type="Texture2D" uid="uid://cdowirp7ltu3h" path="res://Images/Fonds/MainMenu.png" id="1_tt5f1"]
 [ext_resource type="Texture2D" uid="uid://s0kqyh2jmquh" path="res://Images/UI/Bouton_Principal.png" id="3_8saeu"]
+[ext_resource type="Texture2D" uid="uid://cvyb1fg2wxurn" path="res://Images/Fonds/PremierPlan.png" id="3_8um5k"]
 [ext_resource type="Theme" uid="uid://d10p6nj26o75q" path="res://Theme/BoutonBleu.tres" id="4_ghw46"]
+[ext_resource type="Texture2D" uid="uid://d024weh6py4ef" path="res://Images/Fonds/Fond_Bureau.png" id="5_xim88"]
+[ext_resource type="Texture2D" uid="uid://bkawpe7fachjc" path="res://Images/Fonds/Fond_TableauMission.png" id="6_koqhg"]
+[ext_resource type="Texture2D" uid="uid://terisltqsu08" path="res://Images/Fonds/Fond_ListeMembreGuilde.png" id="7_cmrfp"]
+[ext_resource type="Script" uid="uid://b3ewfrysu0a26" path="res://Scripts/MainMenu.cs" id="main_menu_script"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_853f1"]
 texture = ExtResource("3_8saeu")
@@ -36,7 +38,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_tt5f1")
+texture = ExtResource("3_8um5k")
 
 [node name="LabelNbPouvoir" type="Label" parent="." unique_id=251784727]
 layout_mode = 0
@@ -107,12 +109,76 @@ text = "6,2k"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MargePanneauPrincipal" type="MarginContainer" parent="." unique_id=1166100267]
+[node name="AffichagePanneauPrincipal" type="MarginContainer" parent="." unique_id=1166100267]
+z_index = -1
 layout_mode = 0
-offset_left = 434.0
+offset_left = 430.0
 offset_top = 102.0
 offset_right = 1920.0
 offset_bottom = 1080.0
+
+[node name="FondBureau" type="TextureRect" parent="AffichagePanneauPrincipal" unique_id=71561053]
+layout_mode = 2
+texture = ExtResource("5_xim88")
+expand_mode = 1
+
+[node name="TableauMission" type="TextureRect" parent="AffichagePanneauPrincipal" unique_id=1798244913]
+visible = false
+layout_mode = 2
+texture = ExtResource("6_koqhg")
+expand_mode = 1
+
+[node name="ListeMembre" type="TextureRect" parent="AffichagePanneauPrincipal" unique_id=1105677239]
+visible = false
+layout_mode = 2
+texture = ExtResource("7_cmrfp")
+expand_mode = 1
+
+[node name="Magasin" type="TextureRect" parent="AffichagePanneauPrincipal" unique_id=1701530965]
+visible = false
+layout_mode = 2
+
+[node name="LayoutsPanneauPrincipal" type="Control" parent="." unique_id=1591313631]
+anchors_preset = 0
+offset_left = 430.0
+offset_top = 103.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="TableauDesMissions" type="MarginContainer" parent="LayoutsPanneauPrincipal" unique_id=264771872]
+visible = false
+layout_mode = 0
+offset_left = 353.0
+offset_top = 214.0
+offset_right = 1140.0
+offset_bottom = 636.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 40
+
+[node name="ListeMission" type="GridContainer" parent="LayoutsPanneauPrincipal/TableauDesMissions" unique_id=293260194]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 6
+
+[node name="ListeDesMembres" type="MarginContainer" parent="LayoutsPanneauPrincipal" unique_id=1136047692]
+visible = false
+layout_mode = 0
+offset_left = 330.83286
+offset_top = 115.84982
+offset_right = 1188.8329
+offset_bottom = 864.9855
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="ItemListMembres" type="ItemList" parent="LayoutsPanneauPrincipal/ListeDesMembres" unique_id=1592605395]
+layout_mode = 2
 
 [node name="MainBouton" type="Button" parent="." unique_id=569733904]
 custom_minimum_size = Vector2(260, 65)
