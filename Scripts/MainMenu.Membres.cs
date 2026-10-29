@@ -231,10 +231,11 @@ public partial class MainMenu
         string race = m.ApparenceId >= 1 && m.ApparenceId <= races.Length ? races[m.ApparenceId - 1] : "";
         string sexe = m.Sexe == "F" ? "Femme" : "Homme";
         string cheminPortrait = "res://Images/Portraits/GrandFormat/" + race + "_" + sexe + ".png";
+        string cheminPetitPortrait = "res://Images/Portraits/" + race + "_" + sexe + ".png";
         string cheminDefaut = "res://Images/Portraits/GrandFormat/Portait_Defaut.png";
-        portrait.Texture = ResourceLoader.Exists(cheminPortrait)
-            ? ResourceLoader.Load<Texture2D>(cheminPortrait)
-            : ResourceLoader.Load<Texture2D>(cheminDefaut);
+        string cheminUtilise = ResourceLoader.Exists(cheminPortrait) ? cheminPortrait
+            : ResourceLoader.Exists(cheminPetitPortrait) ? cheminPetitPortrait : cheminDefaut;
+        portrait.Texture = ResourceLoader.Load<Texture2D>(cheminUtilise);
     }
 
     private void AfficherGestion()
