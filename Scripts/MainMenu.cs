@@ -46,6 +46,7 @@ public partial class MainMenu : Control
         // MainBouton est également réservé à une future navigation.
         ChargerAffichage();
         InitialiserNavigationEtMembres();
+        InitialiserTempsEtJournal();
     }
 
     private void ChargerAffichage()
@@ -98,8 +99,8 @@ public partial class MainMenu : Control
         AfficherValeur(_pouvoir, _etat.Pouvoir);
         AfficherValeur(_prestige, _etat.Prestige);
 
-        string date = SaveManager.GetValue(CleDate, "");
-        _date.Text = string.IsNullOrWhiteSpace(date) ? "An 600 - 1er Janvier - 08h00" : date;
+        // MainMenu.Temps.cs charge et affiche la date sauvegardée.
+        // Ne pas afficher la représentation ISO dans le label.
     }
 
     private static void AfficherValeur(Label label, long valeur)
@@ -149,6 +150,7 @@ public partial class MainMenu : Control
 
     private void Quitter(bool sauvegarder)
     {
+        ArreterHorlogeSansJournal();
         if (sauvegarder)
         {
             if (_etat == null || !_etat.Sauvegarder())
