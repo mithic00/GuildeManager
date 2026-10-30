@@ -44,9 +44,8 @@ public sealed class HorlogeJeu
 
         if (string.IsNullOrWhiteSpace(texte))
         {
-            // Partie plus ancienne ne possédant pas encore de date enregistrée.
-            HorlogeJeu horlogeInitiale = new(DateInitiale);
-            return horlogeInitiale.Enregistrer() ? horlogeInitiale : null;
+            // L'initialisation est provisoire jusqu'à une sauvegarde explicite.
+            return new HorlogeJeu(DateInitiale);
         }
 
         if (DateTime.TryParseExact(texte, FormatSauvegarde, CultureInfo.InvariantCulture,
@@ -55,9 +54,8 @@ public sealed class HorlogeJeu
 
         if (TryLireAncienFormat(texte, out DateTime dateAncienne))
         {
-            HorlogeJeu horloge = new(dateAncienne);
-            // Conversion durable de l'ancien affichage textuel en format stable.
-            return horloge.Enregistrer() ? horloge : null;
+            // Pas de migration écrite à l'ouverture : conversion à la prochaine sauvegarde.
+            return new HorlogeJeu(dateAncienne);
         }
 
         // Une date inconnue n'est pas remplacée silencieusement par An 600.
@@ -66,37 +64,27 @@ public sealed class HorlogeJeu
         return null;
     }
 
+    /// <summary>
+    /// Avance uniquement l'horloge de la session active.
+    /// Le joueur valide cette progression en sauvegardant explicitement.
+    /// </summary>
     public bool AvancerUneMinute()
     {
-        if (!SaveManager.HasCurrentSave)
-        {
-            DerniereErreur = "Aucune sauvegarde active.";
-            return false;
-        }
-
-        DateTime suivante;
         try
         {
-            suivante = Instant.AddMinutes(1);
+            Instant = Instant.AddMinutes(1);
+            DerniereErreur = "";
+            return true;
         }
         catch (ArgumentOutOfRangeException)
         {
             DerniereErreur = "La date maximale prise en charge a été atteinte.";
             return false;
         }
-
-        // La nouvelle minute n'est validée en mémoire que si la sauvegarde réussit.
-        string texte = suivante.ToString(FormatSauvegarde, CultureInfo.InvariantCulture);
-        if (!SaveManager.SetValue(CleSauvegarde, texte))
-        {
-            DerniereErreur = SaveManager.LastError;
-            return false;
-        }
-
-        Instant = suivante;
-        DerniereErreur = "";
-        return true;
     }
+
+    /// <summary>Valeur à transmettre à SaveManager lors d'une sauvegarde explicite.</summary>
+    public string ValeurSauvegardee => Instant.ToString(FormatSauvegarde, CultureInfo.InvariantCulture);
 
     public bool Enregistrer()
     {
@@ -106,7 +94,7 @@ public sealed class HorlogeJeu
             return false;
         }
 
-        if (!SaveManager.SetValue(CleSauvegarde, Instant.ToString(FormatSauvegarde, CultureInfo.InvariantCulture)))
+        if (!SaveManager.SetValue(CleSauvegarde, ValeurSauvegardee))
         {
             DerniereErreur = SaveManager.LastError;
             return false;
