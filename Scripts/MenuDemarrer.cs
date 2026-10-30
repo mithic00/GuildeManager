@@ -96,11 +96,9 @@ public partial class MenuDemarrer : Control
             return;
         }
 
-        Error erreur = GetTree().ChangeSceneToFile(SceneCreationPersonnage);
-        if (erreur == Error.Ok)
-            SaveManager.ResetCurrentSave();
-        else
-            AfficherInformation("Impossible d'ouvrir la création de personnage (" + erreur + ").");
+        // Ne pas retirer le menu pendant que son bouton traite encore le clic.
+        SaveManager.ResetCurrentSave();
+        GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, SceneCreationPersonnage);
     }
 
     private void ContinuerPartie()
@@ -185,14 +183,10 @@ public partial class MenuDemarrer : Control
             return;
         }
 
-        // La sauvegarde active est disponible via SaveManager pour la scène suivante.
-        // Les données à afficher dans MainMenu seront branchées lors de sa propre étape.
-        Error erreur = GetTree().ChangeSceneToFile(SceneJeu);
-        if (erreur != Error.Ok)
-        {
-            AfficherInformation("Impossible d'ouvrir la scène principale (" + erreur + ").", depuisChargement);
-            ActualiserDisponibiliteContinuer();
-        }
+        // La sauvegarde active est prête. Le changement de scène est différé
+        // afin de terminer l'événement souris (et la fermeture éventuelle de
+        // FenetreChargerPartie) avant de détacher l'ancien Viewport.
+        GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, SceneJeu);
     }
 
     private void DemanderSuppression()
