@@ -39,7 +39,6 @@ public partial class MainMenu
         GetNode<Button>(racine + "BoutonRecrutement").Pressed += () => BasculerPanneau("recrutement");
         GetNode<Button>(racine + "BoutonBudget").Pressed += () => BasculerPanneau("budget");
         GetNode<Button>(racine + "BoutonEvenements").Pressed += () => BasculerPanneau("evenements");
-        GetNode<Button>("MainBouton").Pressed += () => AfficherPanneau("bureau");
 
         _listeDesMembres.ItemSelected += i => OuvrirFicheMembre((int)i);
         _listeDesMembres.ItemActivated += i => OuvrirFicheMembre((int)i);
