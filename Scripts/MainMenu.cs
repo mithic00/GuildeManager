@@ -153,9 +153,22 @@ public partial class MainMenu : Control
         ArreterHorlogeSansJournal();
         if (sauvegarder)
         {
-            if (_etat == null || !_etat.Sauvegarder())
+            if (_etat == null || _horloge == null || _journalPartie == null)
             {
-                AfficherInformation("Impossible de sauvegarder la guilde : " + EtatGuilde.DerniereErreur);
+                AfficherInformation("Impossible de sauvegarder : certaines données de la partie sont indisponibles.");
+                return;
+            }
+
+            var donnees = new System.Collections.Generic.Dictionary<string, string>
+            {
+                [EtatGuilde.CleSauvegarde] = JsonSerializer.Serialize(_etat),
+                [HorlogeJeu.CleSauvegarde] = _horloge.ValeurSauvegardee,
+                [JournalPartie.CleSauvegarde] = _journalPartie.ValeurSauvegardee
+            };
+
+            if (!SaveManager.SetValuesAtomically(donnees))
+            {
+                AfficherInformation("Impossible de sauvegarder la partie : " + SaveManager.LastError);
                 return;
             }
         }
