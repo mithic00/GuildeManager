@@ -30,8 +30,7 @@ public sealed class JournalPartie
 
         if (string.IsNullOrWhiteSpace(texte))
         {
-            JournalPartie journal = new();
-            return journal.Enregistrer() ? journal : null;
+            return new JournalPartie();
         }
 
         try
@@ -49,7 +48,7 @@ public sealed class JournalPartie
         }
     }
 
-    /// <summary>Ne modifie le journal en mémoire que si l'écriture SQLite réussit.</summary>
+    /// <summary>Ajoute une entrée seulement en mémoire jusqu'à la sauvegarde explicite.</summary>
     public bool Ajouter(DateTime instant, string description, string type = "temps")
     {
         EntreeJournal entree = new()
@@ -60,12 +59,10 @@ public sealed class JournalPartie
             Description = description
         };
         Entrees.Add(entree);
-        if (Enregistrer())
-            return true;
-
-        Entrees.RemoveAt(Entrees.Count - 1);
-        return false;
+        return true;
     }
+
+    public string ValeurSauvegardee => JsonSerializer.Serialize(this);
 
     public bool Enregistrer()
     {
@@ -76,7 +73,7 @@ public sealed class JournalPartie
             return false;
         }
 
-        if (SaveManager.SetValue(CleSauvegarde, JsonSerializer.Serialize(this)))
+        if (SaveManager.SetValue(CleSauvegarde, ValeurSauvegardee))
             return true;
         DerniereErreur = SaveManager.LastError;
         return false;
