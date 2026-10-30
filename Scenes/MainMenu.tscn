@@ -766,3 +766,30 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Fermer"
+
+[node name="JournalJoueur" type="Panel" parent="." unique_id=2021975247]
+layout_mode = 0
+offset_left = 451.0
+offset_top = 919.0
+offset_right = 1903.0
+offset_bottom = 1065.0
+
+[node name="MarginContainer" type="MarginContainer" parent="JournalJoueur" unique_id=259203310]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="InfoJournalJoueur" type="RichTextLabel" parent="JournalJoueur/MarginContainer" unique_id=54587232]
+layout_mode = 2
+theme_override_colors/default_color = Color(0.7570178, 0.588384, 0, 1)
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "Test d'info jeu du carnet du joeuur"
+vertical_alignment = 2
