@@ -38,8 +38,7 @@ public partial class MainMenu
             Name = "TimerHorlogeJeu",
             WaitTime = SecondesReellesParMinuteJeu,
             OneShot = false,
-            Autostart = false,
-            ProcessCallback = Timer.TimerProcessCallback.Idle
+            Autostart = false
         };
         AddChild(_timerHorloge);
         _timerHorloge.Timeout += AvancerTempsUneMinute;
