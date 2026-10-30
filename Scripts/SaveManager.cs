@@ -296,6 +296,55 @@ public static class SaveManager
         }
     }
 
+    /// <summary>Enregistre plusieurs clés dans une même transaction SQLite.</summary>
+    public static bool SetValuesAtomically(Dictionary<string, string> values)
+    {
+        LastError = string.Empty;
+        if (!HasCurrentSave)
+        {
+            LastError = "Aucune sauvegarde active.";
+            return false;
+        }
+        if (values == null)
+        {
+            LastError = "Aucune donnée à sauvegarder.";
+            return false;
+        }
+
+        IntPtr database = IntPtr.Zero;
+        bool transaction = false;
+        try
+        {
+            database = OpenDatabase(_currentSavePath);
+            Execute(database, "BEGIN IMMEDIATE TRANSACTION;");
+            transaction = true;
+            foreach (KeyValuePair<string, string> valeur in values)
+            {
+                Execute(database, "INSERT OR REPLACE INTO game_state (key, value) VALUES (" +
+                    Quote(valeur.Key ?? string.Empty) + ", " + Quote(valeur.Value ?? string.Empty) + ");");
+            }
+            Execute(database, "COMMIT;");
+            transaction = false;
+            return true;
+        }
+        catch (Exception exception)
+        {
+            LastError = exception.Message;
+            GD.PushError("SaveManager - sauvegarde groupée impossible : " + LastError);
+            if (transaction && database != IntPtr.Zero)
+            {
+                try { Execute(database, "ROLLBACK;"); }
+                catch (Exception rollbackError) { GD.PushWarning("Rollback SQLite : " + rollbackError.Message); }
+            }
+            return false;
+        }
+        finally
+        {
+            if (database != IntPtr.Zero)
+                SqliteClose(database);
+        }
+    }
+
     /// <summary>Lit une valeur de jeu de la sauvegarde active.</summary>
     public static string GetValue(string key, string defaultValue = "")
     {
