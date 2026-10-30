@@ -23,6 +23,12 @@ texture = ExtResource("3_8saeu")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8um5k"]
 texture = ExtResource("3_8saeu")
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fmugi"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ykkax"]
+bg_color = Color(0.7570178, 0.588384, 0, 1)
+
 [node name="MainMenu" type="Control" unique_id=1472431213]
 layout_mode = 3
 anchors_preset = 15
@@ -308,6 +314,25 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_ghw46")
 theme_override_styles/hover = SubResource("StyleBoxTexture_df05h")
 theme_override_styles/focus = SubResource("StyleBoxTexture_8um5k")
 text = "Suivant"
+
+[node name="ProgressionTemps" type="ProgressBar" parent="MainBouton" unique_id=722351239]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -86.0
+offset_top = 16.5
+offset_right = 100.0
+offset_bottom = 23.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_fmugi")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ykkax")
+step = 1.0
+show_percentage = false
 
 [node name="MargeChoixMenu" type="MarginContainer" parent="." unique_id=1644808686]
 layout_mode = 0
