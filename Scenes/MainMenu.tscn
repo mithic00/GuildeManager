@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://bhvdqj2o24s0v"]
 
 [ext_resource type="Theme" uid="uid://dyrn5od66mme0" path="res://Theme/LabelJaune.tres" id="1_853f1"]
+[ext_resource type="Theme" uid="uid://cjm0f0k7oktvf" path="res://Theme/MainMenu.tres" id="1_loo7a"]
 [ext_resource type="Texture2D" uid="uid://s0kqyh2jmquh" path="res://Images/UI/Bouton_Principal.png" id="3_8saeu"]
 [ext_resource type="Texture2D" uid="uid://cvyb1fg2wxurn" path="res://Images/Fonds/PremierPlan.png" id="3_8um5k"]
-[ext_resource type="Theme" uid="uid://d10p6nj26o75q" path="res://Theme/BoutonBleu.tres" id="4_ghw46"]
 [ext_resource type="Texture2D" uid="uid://d024weh6py4ef" path="res://Images/Fonds/Fond_Bureau.png" id="5_xim88"]
 [ext_resource type="Texture2D" uid="uid://bkawpe7fachjc" path="res://Images/Fonds/Fond_TableauMission.png" id="6_koqhg"]
 [ext_resource type="Texture2D" uid="uid://terisltqsu08" path="res://Images/Fonds/Fond_ListeMembreGuilde.png" id="7_cmrfp"]
@@ -36,7 +36,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("4_ghw46")
+theme = ExtResource("1_loo7a")
 script = ExtResource("main_menu_script")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1273510464]
@@ -48,14 +48,70 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_8um5k")
 
-[node name="LabelNbPouvoir" type="Label" parent="." unique_id=251784727]
+[node name="InfoPopulation" type="Control" parent="." unique_id=1256448810]
+anchors_preset = 0
+offset_left = 725.0
+offset_top = 35.0
+offset_right = 765.0
+offset_bottom = 75.0
+tooltip_text = "Nombre de membre de la guilde."
+
+[node name="InfoEcus" type="Control" parent="." unique_id=1606253457]
+anchors_preset = 0
+offset_left = 910.0
+offset_top = 35.0
+offset_right = 950.0
+offset_bottom = 75.0
+tooltip_text = "Ecus possédé par la guilde."
+
+[node name="InfoSavoir" type="Control" parent="." unique_id=446215923]
+anchors_preset = 0
+offset_left = 1091.0
+offset_top = 35.0
+offset_right = 1131.0
+offset_bottom = 75.0
+tooltip_text = "Savoir cumulé de la guilde."
+
+[node name="InfoPouvoir" type="Control" parent="." unique_id=1161401288]
+anchors_preset = 0
+offset_left = 1265.0
+offset_top = 35.0
+offset_right = 1305.0
+offset_bottom = 75.0
+tooltip_text = "Pouvoir de la guilde. Il s'agit de l'addition du niveau magique de tous les membres.
+"
+
+[node name="InfoPrestige" type="Control" parent="." unique_id=451725647]
+anchors_preset = 0
+offset_left = 1448.0
+offset_top = 36.0
+offset_right = 1488.0
+offset_bottom = 76.0
+tooltip_text = "Prestige de la guilde."
+
+[node name="LabelNomGuilde" type="Label" parent="." unique_id=1279859266]
 layout_mode = 0
-offset_left = 1299.0
-offset_top = 13.0
-offset_right = 1426.0
+offset_left = 514.0
+offset_top = 14.0
+offset_right = 687.0
 offset_bottom = 97.0
+theme = ExtResource("1_853f1")
+theme_override_colors/font_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_font_sizes/font_size = 24
+text = "Test Nom Guilde"
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_characters = 15
+
+[node name="LabelNbMembre" type="Label" parent="." unique_id=1258143400]
+layout_mode = 0
+offset_left = 764.0
+offset_top = 14.0
+offset_right = 884.0
+offset_bottom = 98.0
+theme_override_colors/font_color = Color(0.7607843, 0.59607846, 0.39607844, 1)
 theme_override_font_sizes/font_size = 40
-text = "978"
+text = "100"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -65,44 +121,9 @@ offset_left = 941.0
 offset_top = 14.0
 offset_right = 1068.0
 offset_bottom = 98.0
+theme_override_colors/font_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
 theme_override_font_sizes/font_size = 40
 text = "10k"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="LabelNbMembre" type="Label" parent="." unique_id=1258143400]
-layout_mode = 0
-offset_left = 764.0
-offset_top = 14.0
-offset_right = 884.0
-offset_bottom = 98.0
-theme_override_font_sizes/font_size = 40
-text = "100"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="LabelNomGuilde" type="Label" parent="." unique_id=1279859266]
-layout_mode = 0
-offset_left = 514.0
-offset_top = 14.0
-offset_right = 687.0
-offset_bottom = 97.0
-theme = ExtResource("1_853f1")
-theme_override_colors/font_color = Color(0.7570178, 0.588384, 0, 1)
-theme_override_font_sizes/font_size = 24
-text = "Test Nom Guilde"
-horizontal_alignment = 1
-vertical_alignment = 1
-visible_characters = 15
-
-[node name="LabelNbPrestige" type="Label" parent="." unique_id=369741263]
-layout_mode = 0
-offset_left = 1485.0
-offset_top = 14.0
-offset_right = 1612.0
-offset_bottom = 98.0
-theme_override_font_sizes/font_size = 40
-text = "102k"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -112,8 +133,33 @@ offset_left = 1123.0
 offset_top = 12.0
 offset_right = 1250.0
 offset_bottom = 96.0
+theme_override_colors/font_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
 theme_override_font_sizes/font_size = 40
 text = "6,2k"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelNbPouvoir" type="Label" parent="." unique_id=251784727]
+layout_mode = 0
+offset_left = 1299.0
+offset_top = 13.0
+offset_right = 1426.0
+offset_bottom = 97.0
+theme_override_colors/font_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_font_sizes/font_size = 40
+text = "978"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelNbPrestige" type="Label" parent="." unique_id=369741263]
+layout_mode = 0
+offset_left = 1485.0
+offset_top = 14.0
+offset_right = 1612.0
+offset_bottom = 98.0
+theme_override_colors/font_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_font_sizes/font_size = 40
+text = "102k"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -270,27 +316,35 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 28
 text = "Rencontre restante : X"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="LayoutsPanneauPrincipal/RecrutementAuberge" unique_id=1642508256]
+[node name="Boutons" type="HBoxContainer" parent="LayoutsPanneauPrincipal/RecrutementAuberge" unique_id=1642508256]
 layout_mode = 2
 size_flags_vertical = 8
 theme_override_constants/separation = 70
 alignment = 1
 
-[node name="BoutonSuivant" type="Button" parent="LayoutsPanneauPrincipal/RecrutementAuberge/HBoxContainer" unique_id=581965973]
+[node name="BoutonDiscuter" type="Button" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Boutons" unique_id=1032304157]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Discuter
+"
+
+[node name="BoutonSuivant" type="Button" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Boutons" unique_id=581965973]
 custom_minimum_size = Vector2(260, 65)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Suivant"
 
-[node name="BoutonRecruter" type="Button" parent="LayoutsPanneauPrincipal/RecrutementAuberge/HBoxContainer" unique_id=1253536746]
+[node name="BoutonRecruter" type="Button" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Boutons" unique_id=1253536746]
 custom_minimum_size = Vector2(260, 65)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Recruter"
 
-[node name="BoutonPartir" type="Button" parent="LayoutsPanneauPrincipal/RecrutementAuberge/HBoxContainer" unique_id=1745927787]
+[node name="BoutonPartir" type="Button" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Boutons" unique_id=1745927787]
 custom_minimum_size = Vector2(260, 65)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -306,7 +360,7 @@ offset_right = 1872.0
 offset_bottom = 89.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/font_color = Color(0.7570178, 0.588384, 0, 1)
+theme_override_colors/font_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxTexture_853f1")
@@ -347,7 +401,7 @@ theme_override_constants/margin_bottom = 10
 
 [node name="BoutonsMenu" type="VBoxContainer" parent="MargeChoixMenu" unique_id=1999165670]
 layout_mode = 2
-theme = ExtResource("4_ghw46")
+theme = ExtResource("1_loo7a")
 theme_override_constants/separation = 40
 alignment = 1
 
@@ -402,6 +456,7 @@ text = "Quitter"
 
 [node name="LabelDateEtHeure" type="Label" parent="MargeChoixMenu/BoutonsMenu" unique_id=1769365647]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
 theme_override_font_sizes/font_size = 26
 text = "An 600 - 1er Janvier - 08h00"
 horizontal_alignment = 1
@@ -813,7 +868,7 @@ theme_override_constants/margin_bottom = 10
 
 [node name="InfoJournalJoueur" type="RichTextLabel" parent="JournalJoueur/MarginContainer" unique_id=54587232]
 layout_mode = 2
-theme_override_colors/default_color = Color(0.7570178, 0.588384, 0, 1)
+theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
 theme_override_font_sizes/normal_font_size = 30
 bbcode_enabled = true
 text = "Test d'info jeu du carnet du joeuur"
