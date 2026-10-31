@@ -56,6 +56,19 @@ Pour passer du niveau 1 à 2, il faut 75 d'xp. Chaque augmentation de niveau dem
 Bonheur : Commence à 20 par défaut. S'il tombe à 0 : le personnage membre de guilde quitte la guilde. Le bonheur change en fonction des interactions et des missions.
 Moral : Le moral est changeant. Il monte ou baisse d'un jour à l'autre, en fonction des événements et des missions. Un personnage avec un moral bas peut mal réagir dans les cas où il devrait réagir correctement.
 
+Bonus/malus en fonction des stats /20 :
+-5 : 1
+-4 : 2 et 3
+-3 : 4 et 5
+-2 : 6 et 7
+-1 : 8 et 9
+0 : 10
++1 : 11 et 12
++2 : 13 et 14
++3 : 15 et 16
++4 : 17, 18 et 19
++5 : 20
+
 Sociale :
 Communication : Faculté d'un personnage à parler de ces problèmes ou de ce qui lui plait.
 Leadership : Faculté d'un personnage à diriger une équipe. Le personnage doté de la plus grande valeur de Leadership sera automatiquement chef. En cas d'égalité : random. Une équipe sans un bon leadership peuvent générer des disputes. Stat inutilisé  en solo.
