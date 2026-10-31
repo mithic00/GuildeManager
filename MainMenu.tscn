@@ -1,0 +1,993 @@
+[gd_scene format=3 uid="uid://bhvdqj2o24s0v"]
+
+[ext_resource type="Theme" uid="uid://dyrn5od66mme0" path="res://Theme/LabelJaune.tres" id="1_853f1"]
+[ext_resource type="Theme" uid="uid://cjm0f0k7oktvf" path="res://Theme/MainMenu.tres" id="1_loo7a"]
+[ext_resource type="Texture2D" uid="uid://s0kqyh2jmquh" path="res://Images/UI/Bouton_Principal.png" id="3_8saeu"]
+[ext_resource type="Texture2D" uid="uid://cvyb1fg2wxurn" path="res://Images/Fonds/PremierPlan.png" id="3_8um5k"]
+[ext_resource type="Texture2D" uid="uid://d024weh6py4ef" path="res://Images/Fonds/Fond_Bureau.png" id="5_xim88"]
+[ext_resource type="Texture2D" uid="uid://bkawpe7fachjc" path="res://Images/Fonds/Fond_TableauMission.png" id="6_koqhg"]
+[ext_resource type="Texture2D" uid="uid://terisltqsu08" path="res://Images/Fonds/Fond_ListeMembreGuilde.png" id="7_cmrfp"]
+[ext_resource type="Texture2D" uid="uid://c8364vjbphud4" path="res://Images/Fonds/Fond_Auberge.png" id="8_loo7a"]
+[ext_resource type="Texture2D" uid="uid://bsxnltgvmvlua" path="res://Images/Portraits/Portait_Defaut_Petit.png" id="9_cmrfp"]
+[ext_resource type="Script" uid="uid://b3ewfrysu0a26" path="res://Scripts/MainMenu.cs" id="main_menu_script"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_853f1"]
+texture = ExtResource("3_8saeu")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ghw46"]
+texture = ExtResource("3_8saeu")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_df05h"]
+texture = ExtResource("3_8saeu")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8um5k"]
+texture = ExtResource("3_8saeu")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fmugi"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ykkax"]
+bg_color = Color(0.7570178, 0.588384, 0, 1)
+
+[node name="MainMenu" type="Control" unique_id=1472431213]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_loo7a")
+script = ExtResource("main_menu_script")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1273510464]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_8um5k")
+
+[node name="InfoPopulation" type="Control" parent="." unique_id=1256448810]
+anchors_preset = 0
+offset_left = 725.0
+offset_top = 35.0
+offset_right = 765.0
+offset_bottom = 75.0
+tooltip_text = "Nombre de membre de la guilde."
+
+[node name="InfoEcus" type="Control" parent="." unique_id=1606253457]
+anchors_preset = 0
+offset_left = 910.0
+offset_top = 35.0
+offset_right = 950.0
+offset_bottom = 75.0
+tooltip_text = "Ecus possédé par la guilde."
+
+[node name="InfoSavoir" type="Control" parent="." unique_id=446215923]
+anchors_preset = 0
+offset_left = 1091.0
+offset_top = 35.0
+offset_right = 1131.0
+offset_bottom = 75.0
+tooltip_text = "Savoir cumulé de la guilde."
+
+[node name="InfoPouvoir" type="Control" parent="." unique_id=1161401288]
+anchors_preset = 0
+offset_left = 1265.0
+offset_top = 35.0
+offset_right = 1305.0
+offset_bottom = 75.0
+tooltip_text = "Pouvoir de la guilde. Il s'agit de l'addition du niveau magique de tous les membres.
+"
+
+[node name="InfoPrestige" type="Control" parent="." unique_id=451725647]
+anchors_preset = 0
+offset_left = 1448.0
+offset_top = 36.0
+offset_right = 1488.0
+offset_bottom = 76.0
+tooltip_text = "Prestige de la guilde."
+
+[node name="LabelNomGuilde" type="Label" parent="." unique_id=1279859266]
+layout_mode = 0
+offset_left = 514.0
+offset_top = 14.0
+offset_right = 687.0
+offset_bottom = 97.0
+theme = ExtResource("1_853f1")
+theme_override_colors/font_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_font_sizes/font_size = 24
+text = "Test Nom Guilde"
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_characters = 15
+
+[node name="LabelNbMembre" type="Label" parent="." unique_id=1258143400]
+layout_mode = 0
+offset_left = 764.0
+offset_top = 14.0
+offset_right = 884.0
+offset_bottom = 98.0
+theme_override_colors/font_color = Color(0.7607843, 0.59607846, 0.39607844, 1)
+theme_override_font_sizes/font_size = 40
+text = "100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelNbEcus" type="Label" parent="." unique_id=609137110]
+layout_mode = 0
+offset_left = 941.0
+offset_top = 14.0
+offset_right = 1068.0
+offset_bottom = 98.0
+theme_override_colors/font_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_font_sizes/font_size = 40
+text = "10k"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelNbSavoir" type="Label" parent="." unique_id=1591801341]
+layout_mode = 0
+offset_left = 1123.0
+offset_top = 12.0
+offset_right = 1250.0
+offset_bottom = 96.0
+theme_override_colors/font_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_font_sizes/font_size = 40
+text = "6,2k"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelNbPouvoir" type="Label" parent="." unique_id=251784727]
+layout_mode = 0
+offset_left = 1299.0
+offset_top = 13.0
+offset_right = 1426.0
+offset_bottom = 97.0
+theme_override_colors/font_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_font_sizes/font_size = 40
+text = "978"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelNbPrestige" type="Label" parent="." unique_id=369741263]
+layout_mode = 0
+offset_left = 1485.0
+offset_top = 14.0
+offset_right = 1612.0
+offset_bottom = 98.0
+theme_override_colors/font_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_font_sizes/font_size = 40
+text = "102k"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AffichagePanneauPrincipal" type="MarginContainer" parent="." unique_id=1166100267]
+z_index = -1
+layout_mode = 0
+offset_left = 430.0
+offset_top = 102.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="FondBureau" type="TextureRect" parent="AffichagePanneauPrincipal" unique_id=71561053]
+layout_mode = 2
+texture = ExtResource("5_xim88")
+expand_mode = 1
+
+[node name="TableauMission" type="TextureRect" parent="AffichagePanneauPrincipal" unique_id=1798244913]
+visible = false
+layout_mode = 2
+texture = ExtResource("6_koqhg")
+expand_mode = 1
+
+[node name="ListeMembre" type="TextureRect" parent="AffichagePanneauPrincipal" unique_id=1105677239]
+visible = false
+layout_mode = 2
+texture = ExtResource("7_cmrfp")
+expand_mode = 1
+
+[node name="Magasin" type="TextureRect" parent="AffichagePanneauPrincipal" unique_id=1701530965]
+visible = false
+layout_mode = 2
+
+[node name="Auberge" type="TextureRect" parent="AffichagePanneauPrincipal" unique_id=1082333547]
+visible = false
+layout_mode = 2
+texture = ExtResource("8_loo7a")
+expand_mode = 1
+
+[node name="LayoutsPanneauPrincipal" type="Control" parent="." unique_id=1591313631]
+anchors_preset = 0
+offset_left = 430.0
+offset_top = 103.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="TableauDesMissions" type="MarginContainer" parent="LayoutsPanneauPrincipal" unique_id=264771872]
+visible = false
+layout_mode = 0
+offset_left = 353.0
+offset_top = 214.0
+offset_right = 1140.0
+offset_bottom = 636.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 40
+
+[node name="ListeMission" type="GridContainer" parent="LayoutsPanneauPrincipal/TableauDesMissions" unique_id=293260194]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 6
+
+[node name="ListeDesMembres" type="MarginContainer" parent="LayoutsPanneauPrincipal" unique_id=1136047692]
+visible = false
+layout_mode = 0
+offset_left = 330.83286
+offset_top = 115.84982
+offset_right = 1188.8329
+offset_bottom = 864.9855
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="ItemListMembres" type="ItemList" parent="LayoutsPanneauPrincipal/ListeDesMembres" unique_id=1592605395]
+layout_mode = 2
+
+[node name="RecrutementAuberge" type="MarginContainer" parent="LayoutsPanneauPrincipal" unique_id=1444360997]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="Panel" type="Panel" parent="LayoutsPanneauPrincipal/RecrutementAuberge" unique_id=625433535]
+custom_minimum_size = Vector2(0, 600)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Panel" unique_id=698022062]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Panel/HBoxContainer" unique_id=1006034646]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Portrait" type="TextureRect" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Panel/HBoxContainer/VBoxContainer" unique_id=1139851028]
+custom_minimum_size = Vector2(180, 180)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+texture = ExtResource("9_cmrfp")
+expand_mode = 1
+
+[node name="RichTextLabelInfo" type="RichTextLabel" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Panel/HBoxContainer/VBoxContainer" unique_id=2027336891]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 30
+text = "Nom : LudoTest
+Prénom : Prenomtest
+Age : 35
+Race : Humain
+Pouvoirs : Mage Guerrier
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RichTextLabelStat" type="RichTextLabel" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Panel/HBoxContainer" unique_id=893204619]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/normal_font_size = 32
+text = "Niveau Magique : 83
+Potentiel Magique :  401
+
+Statistique Connu :
+Charisme : 14
+Communication : 12
+Force : 3
+Motivation : 17"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelRencontreRestante" type="Label" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Panel" unique_id=1439967991]
+layout_mode = 0
+offset_left = 529.0
+offset_right = 784.0
+offset_bottom = 41.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 28
+text = "Rencontre restante : X"
+
+[node name="Boutons" type="HBoxContainer" parent="LayoutsPanneauPrincipal/RecrutementAuberge" unique_id=1642508256]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="BoutonDiscuter" type="Button" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Boutons" unique_id=1032304157]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Discuter
+"
+
+[node name="BoutonPrécedent" type="Button" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Boutons" unique_id=1283278375]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Précedent
+"
+
+[node name="BoutonSuivant" type="Button" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Boutons" unique_id=581965973]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Suivant"
+
+[node name="BoutonRecruter" type="Button" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Boutons" unique_id=1253536746]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Recruter"
+
+[node name="BoutonPartir" type="Button" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Boutons" unique_id=1745927787]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Partir"
+
+[node name="MainBouton" type="Button" parent="." unique_id=569733904]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 0
+offset_left = 1612.0
+offset_top = 24.0
+offset_right = 1872.0
+offset_bottom = 89.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxTexture_853f1")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_ghw46")
+theme_override_styles/hover = SubResource("StyleBoxTexture_df05h")
+theme_override_styles/focus = SubResource("StyleBoxTexture_8um5k")
+text = "Suivant"
+
+[node name="ProgressionTemps" type="ProgressBar" parent="MainBouton" unique_id=722351239]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -86.0
+offset_top = 16.5
+offset_right = 100.0
+offset_bottom = 23.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_fmugi")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ykkax")
+step = 1.0
+show_percentage = false
+
+[node name="MargeChoixMenu" type="MarginContainer" parent="." unique_id=1644808686]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 87.0
+offset_right = 421.0
+offset_bottom = 1019.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="BoutonsMenu" type="VBoxContainer" parent="MargeChoixMenu" unique_id=1999165670]
+layout_mode = 2
+theme = ExtResource("1_loo7a")
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="BoutonTableauMission" type="Button" parent="MargeChoixMenu/BoutonsMenu" unique_id=743008931]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Tableau des missions"
+
+[node name="BoutonMembreGuilde" type="Button" parent="MargeChoixMenu/BoutonsMenu" unique_id=314585503]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Membre de la Guilde"
+
+[node name="BoutonMagasins" type="Button" parent="MargeChoixMenu/BoutonsMenu" unique_id=729151553]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Magasins"
+
+[node name="BoutonRecrutement" type="Button" parent="MargeChoixMenu/BoutonsMenu" unique_id=1187159889]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Recrutement"
+
+[node name="BoutonBudget" type="Button" parent="MargeChoixMenu/BoutonsMenu" unique_id=1067862303]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Budget"
+
+[node name="BoutonEvenements" type="Button" parent="MargeChoixMenu/BoutonsMenu" unique_id=655171572]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Évènements"
+
+[node name="BoutonQuitter" type="Button" parent="MargeChoixMenu/BoutonsMenu" unique_id=1512306973]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Quitter"
+
+[node name="LabelDateEtHeure" type="Label" parent="MargeChoixMenu/BoutonsMenu" unique_id=1769365647]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_font_sizes/font_size = 26
+text = "An 600 - 1er Janvier - 08h00"
+horizontal_alignment = 1
+
+[node name="JournalJoueur" type="Panel" parent="." unique_id=2021975247]
+layout_mode = 0
+offset_left = 451.0
+offset_top = 919.0
+offset_right = 1903.0
+offset_bottom = 1065.0
+
+[node name="MarginContainer" type="MarginContainer" parent="JournalJoueur" unique_id=259203310]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="InfoJournalJoueur" type="RichTextLabel" parent="JournalJoueur/MarginContainer" unique_id=54587232]
+layout_mode = 2
+theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "Test d'info jeu du carnet du joeuur"
+vertical_alignment = 2
+
+[node name="FenetreMenuQuitter" type="Window" parent="." unique_id=1322838180]
+transparent_bg = true
+oversampling_override = 1.0
+initial_position = 3
+size = Vector2i(700, 500)
+current_screen = 0
+visible = false
+exclusive = true
+unresizable = true
+transparent = true
+
+[node name="Marge" type="MarginContainer" parent="FenetreMenuQuitter" unique_id=1015798915]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Layout" type="VBoxContainer" parent="FenetreMenuQuitter/Marge" unique_id=673970314]
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="BoutonSave" type="Button" parent="FenetreMenuQuitter/Marge/Layout" unique_id=857172138]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Sauvegarder
+"
+
+[node name="BoutonSaveEtQuitter" type="Button" parent="FenetreMenuQuitter/Marge/Layout" unique_id=61711232]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Sauvegarder et Quitter"
+
+[node name="BoutonQuitterSansSave" type="Button" parent="FenetreMenuQuitter/Marge/Layout" unique_id=1133731175]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Quitter saus Sauvegarder"
+
+[node name="BoutonOption" type="Button" parent="FenetreMenuQuitter/Marge/Layout" unique_id=315111980]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Option"
+
+[node name="FenetreFichePerso" type="Window" parent="." unique_id=595735590]
+transparent_bg = true
+oversampling_override = 1.0
+initial_position = 3
+size = Vector2i(1200, 800)
+current_screen = 0
+visible = false
+exclusive = true
+transparent = true
+
+[node name="MargeFichePerso" type="MarginContainer" parent="FenetreFichePerso" unique_id=39939488]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 60
+
+[node name="Layout" type="VBoxContainer" parent="FenetreFichePerso/MargeFichePerso" unique_id=1750440729]
+layout_mode = 2
+
+[node name="LabelNomPrenom" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout" unique_id=351663799]
+layout_mode = 2
+theme_override_font_sizes/font_size = 41
+text = "Hector Test"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatsGeneral" type="HBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout" unique_id=1195563824]
+layout_mode = 2
+theme_override_constants/separation = 74
+
+[node name="Portait" type="TextureRect" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral" unique_id=1931079625]
+custom_minimum_size = Vector2(180, 180)
+layout_mode = 2
+texture = ExtResource("9_cmrfp")
+expand_mode = 1
+
+[node name="Layout1" type="VBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral" unique_id=261352636]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelPrenom" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout1" unique_id=1212374908]
+layout_mode = 2
+text = "Prénom : Hector"
+
+[node name="LabelNom" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout1" unique_id=1471299492]
+layout_mode = 2
+text = "Nom : Test"
+
+[node name="LabelAge" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout1" unique_id=1928792925]
+layout_mode = 2
+text = "Age : 32 ans"
+
+[node name="LabelRang" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout1" unique_id=445253460]
+layout_mode = 2
+text = "Rang : S*****"
+
+[node name="LabelMotivation" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout1" unique_id=1585948560]
+layout_mode = 2
+text = "Motivation : 100"
+
+[node name="LabelFatigue" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout1" unique_id=215426302]
+layout_mode = 2
+text = "Fatigue : 20"
+
+[node name="LabelExpérience" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout1" unique_id=191784759]
+layout_mode = 2
+text = "Expérience : 645135"
+
+[node name="LabelNiveau" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout1" unique_id=914469576]
+layout_mode = 2
+text = "Niveau : 15"
+
+[node name="Layout2" type="VBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral" unique_id=137312420]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelPouvoirs" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout2" unique_id=362485110]
+layout_mode = 2
+text = "Pouvoirs  : "
+
+[node name="LabelNiveauMagique" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout2" unique_id=755777077]
+layout_mode = 2
+text = "Niveau Magique : "
+
+[node name="LabelPotentielMagique" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout2" unique_id=863472846]
+layout_mode = 2
+text = "Potentiel Magique : "
+
+[node name="LabelPV" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout2" unique_id=150753252]
+layout_mode = 2
+text = "Point de vie : "
+
+[node name="LabelPM" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout2" unique_id=857104540]
+layout_mode = 2
+text = "Point de Magie : "
+
+[node name="LabelConnaissanceMagique" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout2" unique_id=1373955537]
+layout_mode = 2
+text = "Connaissance Magique : "
+
+[node name="LabelConnaissanceMagique2" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout2" unique_id=279434600]
+layout_mode = 2
+text = "Equipe : Hector, Jaque, Noa"
+
+[node name="LabelStatistiques" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout" unique_id=1569490453]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Statistiques"
+horizontal_alignment = 1
+
+[node name="LayoutStats" type="HBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout" unique_id=284378057]
+custom_minimum_size = Vector2(0, 180)
+layout_mode = 2
+
+[node name="Layout1" type="VBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats" unique_id=934207674]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelBonheur" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout1" unique_id=1997611678]
+layout_mode = 2
+text = "Bonheur : "
+
+[node name="LabelMoral" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout1" unique_id=1227523485]
+layout_mode = 2
+text = "Moral : "
+
+[node name="LabelCommunication" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout1" unique_id=1072896763]
+layout_mode = 2
+text = "Communication : "
+
+[node name="LabelLeadership" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout1" unique_id=1510885874]
+layout_mode = 2
+text = "Leadership : "
+
+[node name="LabelCharisme" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout1" unique_id=2086825724]
+layout_mode = 2
+text = "Charisme : "
+
+[node name="LabelEmpathie" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout1" unique_id=2036701495]
+layout_mode = 2
+text = "Empathie : "
+
+[node name="LabelGentillesse" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout1" unique_id=502807852]
+layout_mode = 2
+text = "gentillesse : "
+
+[node name="Layout2" type="VBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats" unique_id=1543571702]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelIntelligence" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout2" unique_id=1925078551]
+layout_mode = 2
+text = "Intelligence : "
+
+[node name="LabelMémoire" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout2" unique_id=1140213156]
+layout_mode = 2
+text = "Mémoire : "
+
+[node name="LabelVolonte" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout2" unique_id=1270046523]
+layout_mode = 2
+text = "Volonté : "
+
+[node name="LabelCalme" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout2" unique_id=1445379897]
+layout_mode = 2
+text = "Calme : "
+
+[node name="LabelFrustration" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout2" unique_id=909572473]
+layout_mode = 2
+text = "Frustration : "
+
+[node name="Layout3" type="VBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats" unique_id=1237494337]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelForce" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout3" unique_id=443269763]
+layout_mode = 2
+text = "Force : "
+
+[node name="LabelAgilite" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout3" unique_id=1791614201]
+layout_mode = 2
+text = "Agilité : "
+
+[node name="LabelConstitution" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout3" unique_id=570802565]
+layout_mode = 2
+text = "Constitution : "
+
+[node name="LabelVitesse" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout3" unique_id=101496173]
+layout_mode = 2
+text = "Vitesse : "
+
+[node name="LabelEndurance" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout3" unique_id=129224069]
+layout_mode = 2
+text = "Endurance : "
+
+[node name="Boutons" type="HBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout" unique_id=1603004868]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="FenetreFichePerso/MargeFichePerso/Layout/Boutons" unique_id=762485907]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+theme_override_constants/h_separation = 150
+theme_override_constants/v_separation = 40
+columns = 2
+
+[node name="BoutonConversation" type="Button" parent="FenetreFichePerso/MargeFichePerso/Layout/Boutons/GridContainer" unique_id=1514484294]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Conversation"
+
+[node name="BoutonGestion" type="Button" parent="FenetreFichePerso/MargeFichePerso/Layout/Boutons/GridContainer" unique_id=325212864]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Gestion"
+
+[node name="BoutonVirer" type="Button" parent="FenetreFichePerso/MargeFichePerso/Layout/Boutons/GridContainer" unique_id=2058247553]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Exclure de la Guilde"
+
+[node name="BoutonFermer" type="Button" parent="FenetreFichePerso/MargeFichePerso/Layout/Boutons/GridContainer" unique_id=765623624]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Fermer"
+
+[node name="LayoutConversation" type="MarginContainer" parent="FenetreFichePerso" unique_id=1529852994]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 60
+
+[node name="LayoutGestion" type="MarginContainer" parent="FenetreFichePerso" unique_id=676657309]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 60
+
+[node name="Boutons" type="VBoxContainer" parent="FenetreFichePerso/LayoutGestion" unique_id=1144608630]
+layout_mode = 2
+theme_override_constants/separation = 60
+alignment = 1
+
+[node name="BoutonPromouvoir" type="Button" parent="FenetreFichePerso/LayoutGestion/Boutons" unique_id=1016147159]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Promouvoir Maitre de Guilde"
+
+[node name="BoutonPromouvoirAdjoint" type="Button" parent="FenetreFichePerso/LayoutGestion/Boutons" unique_id=217401875]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Promouvoir Adjoint"
+
+[node name="BoutonConcours" type="Button" parent="FenetreFichePerso/LayoutGestion/Boutons" unique_id=297409846]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Inscrire a un Concours"
+
+[node name="BoutonRetour" type="Button" parent="FenetreFichePerso/LayoutGestion/Boutons" unique_id=774218211]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Retour"
+
+[node name="FenetreChoixRecrutement" type="Window" parent="." unique_id=137447160]
+transparent_bg = true
+oversampling_override = 1.0
+initial_position = 3
+size = Vector2i(600, 400)
+current_screen = 0
+visible = false
+exclusive = true
+transparent = true
+
+[node name="Marge" type="MarginContainer" parent="FenetreChoixRecrutement" unique_id=798543730]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="Boutons" type="VBoxContainer" parent="FenetreChoixRecrutement/Marge" unique_id=1064538799]
+layout_mode = 2
+theme_override_constants/separation = 11
+alignment = 1
+
+[node name="BoutonAuberge" type="Button" parent="FenetreChoixRecrutement/Marge/Boutons" unique_id=1294230341]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Auberge"
+
+[node name="BoutonCampagneRecrutement" type="Button" parent="FenetreChoixRecrutement/Marge/Boutons" unique_id=361398501]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Campagne de Recrutement"
+
+[node name="BoutonFermer" type="Button" parent="FenetreChoixRecrutement/Marge/Boutons" unique_id=1298254809]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Fermer"
+
+[node name="FenetreInfo" type="Window" parent="." unique_id=1874766587]
+transparent_bg = true
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(600, 400)
+visible = false
+exclusive = true
+unresizable = true
+transparent = true
+
+[node name="MarginContainer" type="MarginContainer" parent="FenetreInfo" unique_id=1067289331]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FenetreInfo/MarginContainer" unique_id=1176653073]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="FenetreInfo/MarginContainer/VBoxContainer" unique_id=1773799002]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="FenetreInfo/MarginContainer/VBoxContainer" unique_id=1807747975]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "OK"
+
+[node name="FenetreNouvelleMission" type="Window" parent="." unique_id=557877074]
+transparent_bg = true
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(800, 600)
+visible = false
+exclusive = true
+unresizable = true
+transparent = true
+
+[node name="Marge" type="MarginContainer" parent="FenetreNouvelleMission" unique_id=423057788]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="Layout" type="VBoxContainer" parent="FenetreNouvelleMission/Marge" unique_id=439309383]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="FenetreNouvelleMission/Marge/Layout" unique_id=1196775269]
+layout_mode = 2
+theme_override_font_sizes/font_size = 35
+text = "Une nouvelle mission vous est parvenue"
+horizontal_alignment = 1
+
+[node name="InfoMission" type="RichTextLabel" parent="FenetreNouvelleMission/Marge/Layout" unique_id=209638165]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+bbcode_enabled = true
+text = "Catégorie de la mission : Enquête
+Niveau requis : **
+récompense : 120 écus
+Demandeur : Cité
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Boutons" type="HBoxContainer" parent="FenetreNouvelleMission/Marge/Layout" unique_id=2104382684]
+layout_mode = 2
+theme_override_constants/separation = 93
+alignment = 1
+
+[node name="BoutonAccepter" type="Button" parent="FenetreNouvelleMission/Marge/Layout/Boutons" unique_id=1638873130]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Accepter"
+
+[node name="BoutonRefuser" type="Button" parent="FenetreNouvelleMission/Marge/Layout/Boutons" unique_id=2110805310]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Refuser"
