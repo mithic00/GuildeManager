@@ -253,15 +253,13 @@ public partial class MainMenu
         string race = m.ApparenceId >= 1 && m.ApparenceId <= races.Length ? races[m.ApparenceId - 1] : "";
         string sexe = m.Sexe == "F" ? "Femme" : "Homme";
         string cheminPortrait = "res://Images/Portraits/GrandFormat/" + race + "_" + sexe + ".png";
-        string cheminPetitPortrait = "res://Images/Portraits/" + race + "_" + sexe + ".png";
         string cheminDefaut = "res://Images/Portraits/GrandFormat/Portait_Defaut.png";
 
-        // Le portrait du joueur ne doit jamais être agrandi depuis la vignette
-        // de sélection : si son grand format manque, afficher le portrait par défaut.
-        // Pour les autres membres, garder provisoirement le repli sur la petite image.
-        string cheminUtilise = ResourceLoader.Exists(cheminPortrait) ? cheminPortrait
-            : (!m.EstJoueur && ResourceLoader.Exists(cheminPetitPortrait))
-                ? cheminPetitPortrait : cheminDefaut;
+        // Seul le maître de guilde affiche son portrait personnalisé.
+        // Tous les autres membres utilisent systématiquement le portrait par défaut.
+        // Si le portrait grand format du maître est absent, utiliser aussi le défaut.
+        string cheminUtilise = m.EstMaitreDeGuilde && ResourceLoader.Exists(cheminPortrait)
+            ? cheminPortrait : cheminDefaut;
         portrait.Texture = ResourceLoader.Load<Texture2D>(cheminUtilise);
     }
 
