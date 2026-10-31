@@ -3,7 +3,7 @@ Il existera plusieurs façon de recruter de nouveaux membres dans la guilde :
 - Campagne de recrutement : coute de l'argent chaque jour, mais permet selon la porté de la campagne, d'attirer des EM de bon niveau.
 - Recrutement à la auberge : cout unitaire. Permet de recruter tout type d'EM (très mauvais comme très bon), avec plus de chance d'obtenir de mauvais EM.
 
-Règle sur le spawn des stats des personnages :
+Règle par défaut sur le spawn des stats des personnages :
 - Motivation : 50% de chance d'avoir 9 ou moins. 30% de chance d'avoir entre 10 et 14, 10% de chance d'avoir entre 15 et 17. 5% de chance d'avoir 18, 3% de chance d'avoir 19 et 2% de chance d'avoir 20.
 - Mémoire : 60% de chance d'avoir 13 ou moins. 35% de chance d'avoir entre 14 et 17. 4% de chance d'avoir 18 ou 19. 1% d'avoir 20.
 - Potentiel magique : Courbe logarithmique exponentiel.
@@ -13,6 +13,8 @@ Règle sur le spawn des stats des personnages :
 - Métier : 80% de chance que le candidat n'ai pas de métier.
 - Compétence : entre 0 et 3 à part égale. sauf s'il a un métier : dans ce cas ne prendre qu'une compétence crédible par rapport au métier. 
 - Age : se baser sur les infos dans InfoJeu/Regle_Stats.txt
+- Moral : Quand un personnage rejoins la guilde, son moral est à 100
+- bonheur : Quand un personnage rejoins la guilde, son bonheur est à 100
 - Toutes les autres stats sont généré aléatoirement.
 
 
@@ -26,3 +28,11 @@ Recrutement à l'auberge :
   - Niveau magique inférieur ou égal à 80. 
   - Pas de limite de potentiel : Coefficient de rareté = 120.
   - 50% de plus d'avoir une motivation inférieur à 10.
+  - Niveau : 60% niveau 1, 30% niveau 2, 10% niveau 3.
+- Sera connu automatiquement : 
+  - Nom, Prénom, Age, Race, Pouvoirs, Niveau magique.
+- Sera connu en plus, entre 1 et 7 stats du personnage (parmi les catégorie Sociale, Mental et Physique)
+- En cliquant sur le bouton "Discuter" :
+    - Le joueur fait un d20 de charisme. Si le résultat est égal ou inférieur à son jet, Il apprendra la stat de mémoire et de motivation du candidat.
+    - Si il réussi, il peut de nouveau cliquer sur "Discuter". Un D20 sera de nouveau lancé, et s'il est réussi, il connaitra une nouvelle stat du candidat. Tant qu'il réussi son D20 de charisme, alors il peut relancé jusqu'à connaitre toutes les stats du candidat (parmi les catégorie Sociale, Mental et Physique).
+    - Autre point un portant : Si le candidat à 15 ou plus en communication, le joueur dispose d'un bonus de 3 à son jet de charisme.
