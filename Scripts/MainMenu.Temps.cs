@@ -141,6 +141,19 @@ public partial class MainMenu
             _boutonAvancerTemps.Disabled = _horloge == null || _journalPartie == null;
         }
 
+        // Le menu doit rester figé pendant que les minutes s'écoulent.
+        // MainBouton reste actif pour que le joueur puisse appuyer sur Stop.
+        foreach (string nom in new[]
+        {
+            "BoutonTableauMission", "BoutonMembreGuilde", "BoutonMagasins",
+            "BoutonRecrutement", "BoutonBudget", "BoutonEvenements", "BoutonQuitter"
+        })
+        {
+            Button boutonMenu = GetNodeOrNull<Button>("MargeChoixMenu/BoutonsMenu/" + nom);
+            if (boutonMenu != null)
+                boutonMenu.Disabled = _tempsEnCours;
+        }
+
         if (_progressionTemps != null)
         {
             // À l'arrêt, le bouton redevient identique au bouton "Suivant" normal.
