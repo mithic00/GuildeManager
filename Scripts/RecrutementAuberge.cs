@@ -158,16 +158,64 @@ public static class GenerateurCandidats
         while (resultat.Count < total)
         {
             int taille = TirerTailleGroupe(total - resultat.Count);
+            List<CandidatAuberge> membres = new();
             for (int i = 0; i < taille; i++)
             {
                 CandidatAuberge candidat = GenererCandidat(ville);
                 candidat.GroupeId = groupeId;
-                resultat.Add(candidat);
+                membres.Add(candidat);
             }
+            HarmoniserEquipe(membres);
+            resultat.AddRange(membres);
             groupeId++;
         }
         return resultat;
     }
+
+    /// <summary>
+    /// Chaque équipe partage une fenêtre d'âge de cinq ans au maximum.
+    /// On respecte le maximum de la race la moins longévive du groupe.
+    /// Les noms de famille peuvent être partagés uniquement par des membres de même race.
+    /// </summary>
+    private static void HarmoniserEquipe(List<CandidatAuberge> equipe)
+    {
+        if (equipe.Count <= 1) return;
+
+        int ageMaximumCommun = equipe.Min(c => AgeMaximum(c.Personnage.Race));
+        // Une équipe d'âges proches est tirée sans favoriser un seul âge fixe.
+        int premierAge = Random.Shared.Next(14, ageMaximumCommun + 1);
+        int finFenetre = Math.Min(premierAge + 5, ageMaximumCommun);
+        foreach (CandidatAuberge candidat in equipe)
+            candidat.Personnage.Age = Random.Shared.Next(premierAge, finFenetre + 1);
+
+        // 50 % des équipes : même nom au sein de chaque sous-groupe d'une
+        // même race. Les races sans noms de famille (Tanneurs, etc.) restent inchangées.
+        if (Random.Shared.Next(2) == 0)
+        {
+            foreach (var groupeRace in equipe.GroupBy(c => c.Personnage.Race))
+            {
+                var membresAvecNom = groupeRace
+                    .Where(c => !string.IsNullOrWhiteSpace(c.Personnage.Nom)).ToList();
+                if (membresAvecNom.Count < 2) continue;
+                string nomCommun = membresAvecNom[0].Personnage.Nom;
+                foreach (CandidatAuberge membre in membresAvecNom)
+                    membre.Personnage.Nom = nomCommun;
+            }
+        }
+    }
+
+    private static int AgeMaximum(string race) => race switch
+    {
+        "Humain" => 90,
+        "Nain" => 150,
+        "Elfe gris" => 180,
+        "Haut-Elfe" => 220,
+        "Grumol" => 70,
+        "Humain des monts" => 50,
+        "Tanneur" => 80,
+        "Khajiit" => 70,
+        _ => 70
+    };
 
     private static int TirerTailleGroupe(int placesRestantes)
     {
@@ -224,12 +272,7 @@ public static class GenerateurCandidats
 
     private static int TirerAge(string race)
     {
-        int max=race switch
-        {
-            "Nain"=>120,"Elfe gris"=>170,"Haut-Elfe"=>200,
-            "Grumol"=>60,"Humain des monts"=>45,"Tanneur"=>70,"Khajiit"=>60,_=>80
-        };
-        return Random.Shared.Next(14,max+1);
+        return Random.Shared.Next(14, AgeMaximum(race) + 1);
     }
     private static int TirerNiveau() {int d=Random.Shared.Next(100);return d<60?1:d<90?2:3;}
     private static int TirerMemoire()
