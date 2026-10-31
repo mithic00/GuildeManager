@@ -8,7 +8,12 @@ Règle sur le spawn des stats des personnages :
 - Mémoire : 60% de chance d'avoir 13 ou moins. 35% de chance d'avoir entre 14 et 17. 4% de chance d'avoir 18 ou 19. 1% d'avoir 20.
 - Potentiel magique : Courbe logarithmique exponentiel.
 - Nom/Prénom : basé sur la base de nom/prénom.
-- Pouvoirs : Premier pouvoir en fonction de sa rareté (système de poids). 30% de chance qu'il ai un second pouvoir, auquel cas il pioche de nouveau dans la liste 
+- Pouvoirs : Premier pouvoir en fonction de sa rareté (système de poids). 30% de chance qu'il ai un second pouvoir, auquel cas il pioche de nouveau dans la liste (certains pouvoir verront dès lors, leurs rareté augmenter). Il a ensuite 3% de chance d'avoir un autre pouvoir (10% pour les personnage doté d'un potentiel supérieur à 399, de motivation supérieur à 16 et d'une mémoire supérieur à 16). L'ajout de pouvoir continue tant que le personnage réussi son jet pour obtenir un nouveau pouvoir.
+- Race : Se baser sur la ville du joueur. Info dans VilleDepart.txt.
+- Métier : 80% de chance que le candidat n'ai pas de métier.
+- Compétence : entre 0 et 3 à part égale. sauf s'il a un métier : dans ce cas ne prendre qu'une compétence crédible par rapport au métier. 
+- Age : se baser sur les infos dans InfoJeu/Regle_Stats.txt
+- Toutes les autres stats sont généré aléatoirement.
 
 
 
@@ -19,5 +24,5 @@ Recrutement à l'auberge :
 - Il y a entre 1 et 10 candidats à chaque fois. Avec une probabilité égale.
 - Stats des candidats :
   - Niveau magique inférieur ou égal à 80. 
-  - Pas de limite de potentiel.
+  - Pas de limite de potentiel : Coefficient de rareté = 120.
   - 50% de plus d'avoir une motivation inférieur à 10.
