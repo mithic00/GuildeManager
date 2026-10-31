@@ -149,9 +149,13 @@ public partial class MainMenu : Control
         AfficherInformation("Les options supplémentaires seront disponibles prochainement.\nLe volume reste enregistré depuis le menu de démarrage.");
     }
 
+    private bool _sortieEnCours;
+
     private void Quitter(bool sauvegarder)
     {
+        if (_sortieEnCours) return;
         ArreterHorlogeSansJournal();
+
         if (sauvegarder)
         {
             if (_etat == null || _horloge == null || _journalPartie == null ||
@@ -161,22 +165,38 @@ public partial class MainMenu : Control
                 return;
             }
 
-            var donnees = new System.Collections.Generic.Dictionary<string, string>
+            try
             {
-                [EtatGuilde.CleSauvegarde] = JsonSerializer.Serialize(_etat),
-                [HorlogeJeu.CleSauvegarde] = _horloge.ValeurSauvegardee,
-                [JournalPartie.CleSauvegarde] = _journalPartie.ValeurSauvegardee,
-                [RegistreMembresGuilde.CleSauvegarde] = System.Text.Json.JsonSerializer.Serialize(_registreMembres),
-                [RecrutementAubergeEtat.CleSauvegarde] = _aubergeEtat.Serialiser()
-            };
+                SaveManager.TracerSauvegarde("Début : préparation des données en mémoire.");
+                var donnees = new System.Collections.Generic.Dictionary<string, string>();
+                donnees[EtatGuilde.CleSauvegarde] = JsonSerializer.Serialize(_etat);
+                SaveManager.TracerSauvegarde("Ressources sérialisées.");
+                donnees[HorlogeJeu.CleSauvegarde] = _horloge.ValeurSauvegardee;
+                donnees[JournalPartie.CleSauvegarde] = _journalPartie.ValeurSauvegardee;
+                SaveManager.TracerSauvegarde("Horloge et journal sérialisés.");
+                donnees[RegistreMembresGuilde.CleSauvegarde] = JsonSerializer.Serialize(_registreMembres);
+                SaveManager.TracerSauvegarde("Membres sérialisés.");
+                donnees[RecrutementAubergeEtat.CleSauvegarde] = _aubergeEtat.Serialiser();
+                SaveManager.TracerSauvegarde("Recrutement sérialisé.");
 
-            if (!SaveManager.SetValuesAtomically(donnees))
+                if (!SaveManager.SetValuesAtomically(donnees))
+                {
+                    AfficherInformation("Impossible de sauvegarder la partie : " + SaveManager.LastError);
+                    return;
+                }
+                SaveManager.TracerSauvegarde("Toutes les données ont été sauvegardées. Retour au menu.");
+            }
+            catch (Exception exception)
             {
-                AfficherInformation("Impossible de sauvegarder la partie : " + SaveManager.LastError);
+                GD.PushError("MainMenu : échec de la sauvegarde : " + exception);
+                SaveManager.TracerSauvegarde("EXCEPTION : " + exception);
+                AfficherInformation("La sauvegarde a échoué : " + exception.Message +
+                    "\nLa partie reste ouverte. Consulte le fichier user://diagnostic_sauvegarde.txt.");
                 return;
             }
         }
 
+        _sortieEnCours = true;
         _fenetreQuitter.Hide();
         if (ResourceLoader.Exists(SceneDemarrage))
             GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, SceneDemarrage);
