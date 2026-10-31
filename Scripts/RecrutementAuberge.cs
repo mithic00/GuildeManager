@@ -162,7 +162,9 @@ public static class GenerateurCandidats
         string metier=Random.Shared.Next(100)<80 ? "" :
             CompetencesMetier.Keys.ElementAt(Random.Shared.Next(CompetencesMetier.Count));
         List<string> competences=new();
-        int nombre=Random.Shared.Next(0,4);
+        // Un personnage sans métier possède de 0 à 3 compétences.
+        // Avec un métier, sa compétence est unique et cohérente avec ce métier.
+        int nombre=metier==""?Random.Shared.Next(0,4):1;
         string[] selections=metier==""?Competences:CompetencesMetier[metier];
         for(int i=0;i<nombre && competences.Count<selections.Length;i++)
         {
