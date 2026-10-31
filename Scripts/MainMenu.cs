@@ -52,6 +52,7 @@ public partial class MainMenu : Control
         InitialiserNavigationEtMembres();
         InitialiserTempsEtJournal();
         InitialiserRecrutementAuberge();
+        InitialiserMissions();
     }
 
     private void ChargerAffichage()
@@ -163,7 +164,7 @@ public partial class MainMenu : Control
         if (sauvegarder)
         {
             if (_etat == null || _horloge == null || _journalPartie == null ||
-                _registreMembres == null || _aubergeEtat == null)
+                _registreMembres == null || _aubergeEtat == null || _etatMissions == null)
             {
                 AfficherInformation("Impossible de sauvegarder : certaines données de la partie sont indisponibles.");
                 return;
@@ -181,7 +182,8 @@ public partial class MainMenu : Control
                 donnees[RegistreMembresGuilde.CleSauvegarde] = JsonSerializer.Serialize(_registreMembres);
                 SaveManager.TracerSauvegarde("Membres sérialisés.");
                 donnees[RecrutementAubergeEtat.CleSauvegarde] = _aubergeEtat.Serialiser();
-                SaveManager.TracerSauvegarde("Recrutement sérialisé.");
+                donnees[EtatMissions.CleSauvegarde] = _etatMissions.Serialiser();
+                SaveManager.TracerSauvegarde("Recrutement et missions sérialisés.");
 
                 if (!SaveManager.SetValuesAtomically(donnees))
                 {
