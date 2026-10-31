@@ -47,6 +47,7 @@ public partial class MainMenu : Control
         ChargerAffichage();
         InitialiserNavigationEtMembres();
         InitialiserTempsEtJournal();
+        InitialiserRecrutementAuberge();
     }
 
     private void ChargerAffichage()
@@ -153,7 +154,8 @@ public partial class MainMenu : Control
         ArreterHorlogeSansJournal();
         if (sauvegarder)
         {
-            if (_etat == null || _horloge == null || _journalPartie == null)
+            if (_etat == null || _horloge == null || _journalPartie == null ||
+                _registreMembres == null || _aubergeEtat == null)
             {
                 AfficherInformation("Impossible de sauvegarder : certaines données de la partie sont indisponibles.");
                 return;
@@ -163,7 +165,9 @@ public partial class MainMenu : Control
             {
                 [EtatGuilde.CleSauvegarde] = JsonSerializer.Serialize(_etat),
                 [HorlogeJeu.CleSauvegarde] = _horloge.ValeurSauvegardee,
-                [JournalPartie.CleSauvegarde] = _journalPartie.ValeurSauvegardee
+                [JournalPartie.CleSauvegarde] = _journalPartie.ValeurSauvegardee,
+                [RegistreMembresGuilde.CleSauvegarde] = System.Text.Json.JsonSerializer.Serialize(_registreMembres),
+                [RecrutementAubergeEtat.CleSauvegarde] = _aubergeEtat.Serialiser()
             };
 
             if (!SaveManager.SetValuesAtomically(donnees))
