@@ -4,13 +4,15 @@ using System.Globalization;
 using System.Linq;
 
 /// <summary>
-/// Temps en jeu. Un tick de 0,1 s réelle fait avancer 1 minute du jeu.
+/// Temps en jeu. Un tick de 0,1 s réelle fait temporairement avancer 10 minutes du jeu.
 /// Le timer est attaché à MainMenu et libéré automatiquement avec la scène.
 /// Arrêts supplémentaires : appeler InterrompreAvanceeTemps() depuis un événement futur.
 /// </summary>
 public partial class MainMenu
 {
-    private const double SecondesReellesParMinuteJeu = 0.1;
+    private const double SecondesReellesParTick = 0.1;
+    // TEST TEMPORAIRE : remettre à 1 pour retrouver la vitesse normale.
+    private const int MultiplicateurTempsTemporaire = 10;
     private const int MaxEntreesJournalVisibles = 100;
 
     private Timer _timerHorloge;
@@ -46,12 +48,12 @@ public partial class MainMenu
         _timerHorloge = new Timer
         {
             Name = "TimerHorlogeJeu",
-            WaitTime = SecondesReellesParMinuteJeu,
+            WaitTime = SecondesReellesParTick,
             OneShot = false,
             Autostart = false
         };
         AddChild(_timerHorloge);
-        _timerHorloge.Timeout += AvancerTempsUneMinute;
+        _timerHorloge.Timeout += AvancerTempsUnTick;
         _boutonAvancerTemps.Pressed += BasculerAvanceeTemps;
 
         if (_journalPartie != null && _journalPartie.Entrees.Count == 0 && _horloge != null)
@@ -98,6 +100,14 @@ public partial class MainMenu
         AjouterEntreeJournal(raison, "temps");
     }
 
+    private void AvancerTempsUnTick()
+    {
+        // Conserve un timer de 0,1 s : passer à 0,01 s dépendrait du FPS.
+        // On avance minute par minute pour ne jamais dépasser un rendez-vous ou un jalon.
+        for (int i = 0; i < MultiplicateurTempsTemporaire && _tempsEnCours; i++)
+            AvancerTempsUneMinute();
+    }
+
     private void AvancerTempsUneMinute()
     {
         if (!_tempsEnCours || _horloge == null)
@@ -140,8 +150,7 @@ public partial class MainMenu
         }
     }
 
-    // Interpolation entre les changements de minute (1 minute / 0,1 seconde réelle)
-    // pour une animation visuellement continue, sans accélérer l'horloge.
+    // Interpolation visuelle entre les ticks, adaptée au multiplicateur temporaire.
     public override void _Process(double delta)
     {
         if (_tempsEnCours)
@@ -156,9 +165,9 @@ public partial class MainMenu
         double minutesDuJour = _horloge.Instant.Hour * 60.0 + _horloge.Instant.Minute;
         if (_tempsEnCours && _timerHorloge != null && !_timerHorloge.IsStopped())
         {
-            // Fraction de minute écoulée depuis le dernier tick.
+            // Fraction du prochain tick, exprimée en minutes de jeu.
             double fraction = 1.0 - _timerHorloge.TimeLeft / _timerHorloge.WaitTime;
-            minutesDuJour += Math.Clamp(fraction, 0.0, 1.0);
+            minutesDuJour += Math.Clamp(fraction, 0.0, 1.0) * MultiplicateurTempsTemporaire;
         }
 
         // Intervalles : 00h-08h, 08h-12h, 12h-16h, 16h-20h et 20h-00h.
