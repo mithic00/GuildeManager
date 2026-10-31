@@ -214,12 +214,18 @@ public partial class MainMenu
         }
         else
         {
+            bool premiereReussite = !candidat.StatsConnues.Contains("Motivation");
             foreach (string cle in new[] { "Memoire", "Motivation" })
                 if (!candidat.StatsConnues.Contains(cle)) candidat.StatsConnues.Add(cle);
-            string[] cachees = GenerateurCandidats.Stats
-                .Where(c => !candidat.StatsConnues.Contains(c)).ToArray();
-            if (cachees.Length > 0)
-                candidat.StatsConnues.Add(cachees[Random.Shared.Next(cachees.Length)]);
+            // La première réussite donne Mémoire et Motivation.
+            // Les suivantes révèlent chacune une caractéristique supplémentaire.
+            if (!premiereReussite)
+            {
+                string[] cachees = GenerateurCandidats.Stats
+                    .Where(c => !candidat.StatsConnues.Contains(c)).ToArray();
+                if (cachees.Length > 0)
+                    candidat.StatsConnues.Add(cachees[Random.Shared.Next(cachees.Length)]);
+            }
             AfficherInformationAuberge("Discussion réussie (d20 : " + jet + ").");
         }
         AfficherCandidat();
