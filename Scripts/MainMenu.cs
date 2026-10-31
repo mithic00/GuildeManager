@@ -22,6 +22,9 @@ public partial class MainMenu : Control
     private Label _prestige;
     private Label _date;
     private Window _fenetreQuitter;
+    private Window _fenetreInfo;
+    private RichTextLabel _messageFenetreInfo;
+    private Window _fenetreAReouvrirApresInfo;
     private EtatGuilde _etat;
 
     public override void _Ready()
@@ -34,6 +37,7 @@ public partial class MainMenu : Control
         _prestige = GetNode<Label>("LabelNbPrestige");
         _date = GetNode<Label>("MargeChoixMenu/BoutonsMenu/LabelDateEtHeure");
         _fenetreQuitter = GetNode<Window>("FenetreMenuQuitter");
+        InitialiserFenetreInfo();
 
         GetNode<Button>("MargeChoixMenu/BoutonsMenu/BoutonQuitter").Pressed += () => _fenetreQuitter.PopupCentered();
         GetNode<Button>("FenetreMenuQuitter/Marge/Layout/BoutonSaveEtQuitter").Pressed += () => Quitter(true);
@@ -204,16 +208,48 @@ public partial class MainMenu : Control
             GetTree().Quit();
     }
 
+    private void InitialiserFenetreInfo()
+    {
+        _fenetreInfo = GetNode<Window>("FenetreInfo");
+        _messageFenetreInfo = GetNode<RichTextLabel>(
+            "FenetreInfo/MarginContainer/VBoxContainer/RichTextLabel");
+        GetNode<Button>("FenetreInfo/MarginContainer/VBoxContainer/Button").Pressed += FermerFenetreInfo;
+        _fenetreInfo.CloseRequested += FermerFenetreInfo;
+        _fenetreInfo.Hide();
+    }
+
+    /// <summary>
+    /// Affiche les informations dans la fenêtre partagée de MainMenu.
+    /// Une seule fenêtre exclusive peut être ouverte à la fois : si nécessaire,
+    /// celle qui était visible est masquée puis restaurée à la fermeture.
+    /// </summary>
     private void AfficherInformation(string message)
     {
-        AcceptDialog dialogue = new()
+        _messageFenetreInfo.Text = message;
+
+        if (!_fenetreInfo.Visible)
         {
-            Title = "Information",
-            DialogText = message
-        };
-        _fenetreQuitter.AddChild(dialogue);
-        dialogue.Confirmed += () => dialogue.QueueFree();
-        dialogue.Canceled += () => dialogue.QueueFree();
-        dialogue.PopupCentered();
+            _fenetreAReouvrirApresInfo = null;
+            foreach (Window fenetre in new[] { _fenetreQuitter, _fenetreFiche, _choixRecrutement })
+            {
+                if (fenetre == null || !fenetre.Visible)
+                    continue;
+
+                _fenetreAReouvrirApresInfo = fenetre;
+                fenetre.Hide();
+                break;
+            }
+        }
+
+        _fenetreInfo.PopupCentered();
+    }
+
+    private void FermerFenetreInfo()
+    {
+        _fenetreInfo.Hide();
+        Window precedente = _fenetreAReouvrirApresInfo;
+        _fenetreAReouvrirApresInfo = null;
+        if (precedente != null && GodotObject.IsInstanceValid(precedente))
+            precedente.PopupCentered();
     }
 }
