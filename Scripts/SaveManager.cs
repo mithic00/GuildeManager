@@ -296,7 +296,32 @@ public static class SaveManager
         }
     }
 
-    /// <summary>Enregistre plusieurs clés dans une même transaction SQLite.</summary>
+    /// <summary>
+    /// Diagnostic volontairement indépendant de SQLite : si la sauvegarde provoque
+    /// une fermeture inattendue, la dernière étape atteinte reste consultable.
+    /// Ne consigne jamais le contenu des données personnelles du joueur.
+    /// </summary>
+    public static void TracerSauvegarde(string etape)
+    {
+        string message = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture)
+            + " | " + etape;
+        GD.Print("Sauvegarde : " + etape);
+        try
+        {
+            File.AppendAllText(
+                ProjectSettings.GlobalizePath("user://diagnostic_sauvegarde.txt"),
+                message + Environment.NewLine);
+        }
+        catch (Exception e)
+        {
+            GD.PushWarning("Impossible d'écrire le journal de diagnostic : " + e.Message);
+        }
+    }
+
+    /// <summary>
+    /// Écrit et relit tous les éléments de la partie dans une transaction SQLite.
+    /// Un échec sur une clé annule l'ensemble, sans sauvegarde partielle.
+    /// </summary>
     public static bool SetValuesAtomically(Dictionary<string, string> values)
     {
         LastError = string.Empty;
@@ -305,7 +330,7 @@ public static class SaveManager
             LastError = "Aucune sauvegarde active.";
             return false;
         }
-        if (values == null)
+        if (values == null || values.Count == 0)
         {
             LastError = "Aucune donnée à sauvegarder.";
             return false;
@@ -315,33 +340,90 @@ public static class SaveManager
         bool transaction = false;
         try
         {
+            TracerSauvegarde("SQLite : ouverture (" + values.Count + " éléments).");
             database = OpenDatabase(_currentSavePath);
             Execute(database, "BEGIN IMMEDIATE TRANSACTION;");
             transaction = true;
+
+            Execute(database, "CREATE TABLE IF NOT EXISTS game_state (key TEXT PRIMARY KEY, value TEXT NOT NULL);");
             foreach (KeyValuePair<string, string> valeur in values)
             {
+                TracerSauvegarde("SQLite : écriture de " + valeur.Key +
+                    " (" + (valeur.Value?.Length ?? 0) + " caractères).");
                 Execute(database, "INSERT OR REPLACE INTO game_state (key, value) VALUES (" +
                     Quote(valeur.Key ?? string.Empty) + ", " + Quote(valeur.Value ?? string.Empty) + ");");
             }
+
+            // Vérifier la base AVANT le commit pour permettre un rollback.
+            foreach (KeyValuePair<string, string> valeur in values)
+            {
+                string relu = LireEtatDepuisConnexion(database, valeur.Key ?? string.Empty);
+                if (!string.Equals(relu, valeur.Value ?? string.Empty, StringComparison.Ordinal))
+                    throw new InvalidOperationException("Vérification SQLite échouée pour : " + valeur.Key);
+            }
+
+            // « Continuer » doit sélectionner la dernière partie effectivement sauvegardée.
+            string now = DateTime.UtcNow.ToString("O", CultureInfo.InvariantCulture);
+            Execute(database, "UPDATE save_metadata SET last_played_at_utc = " + Quote(now) +
+                " WHERE id = " + Quote(CurrentSaveId) + ";");
+
+            TracerSauvegarde("SQLite : validation de la transaction.");
             Execute(database, "COMMIT;");
             transaction = false;
+            TracerSauvegarde("SQLite : sauvegarde validée.");
             return true;
         }
         catch (Exception exception)
         {
             LastError = exception.Message;
             GD.PushError("SaveManager - sauvegarde groupée impossible : " + LastError);
+            TracerSauvegarde("ÉCHEC : " + LastError);
             if (transaction && database != IntPtr.Zero)
             {
                 try { Execute(database, "ROLLBACK;"); }
-                catch (Exception rollbackError) { GD.PushWarning("Rollback SQLite : " + rollbackError.Message); }
+                catch (Exception rollbackError)
+                {
+                    GD.PushWarning("Rollback SQLite : " + rollbackError.Message);
+                    TracerSauvegarde("ÉCHEC ROLLBACK : " + rollbackError.Message);
+                }
             }
             return false;
         }
         finally
         {
             if (database != IntPtr.Zero)
-                SqliteClose(database);
+            {
+                int result = SqliteClose(database);
+                if (result != SqliteOk)
+                    TracerSauvegarde("SQLite : avertissement fermeture connexion, code " + result);
+            }
+        }
+    }
+
+    /// <summary>Lit une clé sur la connexion transactionnelle active.</summary>
+    private static string LireEtatDepuisConnexion(IntPtr database, string cle)
+    {
+        IntPtr statement = IntPtr.Zero;
+        try
+        {
+            int resultat = SqlitePrepare(database,
+                "SELECT value FROM game_state WHERE key = " + Quote(cle) + " LIMIT 1;",
+                -1, out statement, IntPtr.Zero);
+
+            if (resultat != SqliteOk)
+                throw new InvalidOperationException(GetDatabaseError(database));
+
+            resultat = SqliteStep(statement);
+            if (resultat != SqliteRow)
+                throw new InvalidOperationException("Clé de sauvegarde non trouvée : " + cle);
+
+            IntPtr texte = SqliteColumnText(statement, 0);
+            return texte == IntPtr.Zero ? "" : Marshal.PtrToStringUTF8(texte);
+        }
+        finally
+        {
+            if (statement != IntPtr.Zero)
+                SqliteFinalize(statement);
         }
     }
 
