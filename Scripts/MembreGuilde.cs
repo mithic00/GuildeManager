@@ -19,6 +19,7 @@ public sealed class MembreGuilde
     public string Race { get; set; } = "";
     /// <summary>Identifiant persistant de l’équipe de recrutement. Vide pour un membre solo.</summary>
     public string EquipeId { get; set; } = "";
+    public Dictionary<string, int> MissionsReussiesParRang { get; set; } = new();
     public string Metier { get; set; } = "";
     public List<string> Competences { get; set; } = new();
     public string Sexe { get; set; } = "H";
