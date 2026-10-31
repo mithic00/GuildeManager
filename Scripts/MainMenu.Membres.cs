@@ -117,6 +117,16 @@ public partial class MainMenu
                            "  |  Potentiel : " + potentiel;
             Texture2D icone = ConstruireIconePouvoirs(membre.Pouvoirs);
             int index = _listeDesMembres.AddItem(texte, icone);
+            if (!string.IsNullOrWhiteSpace(membre.EquipeId))
+            {
+                // Même couleur stable pour chaque équipe, même après chargement.
+                uint h = 2166136261;
+                foreach (char lettre in membre.EquipeId)
+                    h = (h ^ lettre) * 16777619;
+                float nuance = (h % 360) / 360f;
+                Color fond = Color.FromHsv(nuance, 0.23f, 0.30f, 0.72f);
+                _listeDesMembres.SetItemCustomBgColor(index, fond);
+            }
             _listeDesMembres.SetItemTooltip(index, "Pouvoir(s) : " +
                 (membre.Pouvoirs.Count == 0 ? "Aucun" : string.Join(", ", membre.Pouvoirs)) +
                 "\nRang : " + rang + "\nNiveau magique : " + membre.NiveauMagique);
@@ -209,6 +219,16 @@ public partial class MainMenu
         void Remplir(string chemin, string libelle, string valeur) => GetNode<Label>(chemin).Text = libelle + " : " + valeur;
         string inconnu = "Inconnu";
         GetNode<Label>(baseFiche + "LabelNomPrenom").Text = m.NomComplet;
+        string membresEquipe = "Aucune";
+        if (!string.IsNullOrWhiteSpace(m.EquipeId) && _registreMembres != null)
+        {
+            var equipiers = _registreMembres.Membres
+                .Where(autre => autre.EquipeId == m.EquipeId)
+                .Select(autre => autre.NomComplet).ToList();
+            if (equipiers.Count > 1)
+                membresEquipe = string.Join(", ", equipiers);
+        }
+        GetNode<Label>(g2 + "LabelConnaissanceMagique2").Text = "Équipe : " + membresEquipe;
         Remplir(g1 + "LabelPrenom", "Prénom", m.Prenom);
         Remplir(g1 + "LabelNom", "Nom", string.IsNullOrEmpty(m.Nom) ? "—" : m.Nom);
         Remplir(g1 + "LabelAge", "Âge", m.Age.HasValue ? m.Age.Value + " ans" : inconnu);
