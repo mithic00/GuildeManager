@@ -279,9 +279,14 @@ public partial class MainMenu
         List<CandidatAuberge> nouvellesRecrues = equipe.Where(c => !c.Recrute).ToList();
         if (nouvellesRecrues.Count == 0) return;
 
-        // Tous les membres d'une équipe signent ensemble : aucune recrue isolée.
+        // Un identifiant commun, unique entre rendez-vous et persistant en sauvegarde.
+        string identifiantEquipe = equipe.Count > 1
+            ? (string.IsNullOrWhiteSpace(equipe[0].Personnage.EquipeId)
+                ? Guid.NewGuid().ToString("N") : equipe[0].Personnage.EquipeId)
+            : "";
         foreach (CandidatAuberge nouvelle in nouvellesRecrues)
         {
+            nouvelle.Personnage.EquipeId = identifiantEquipe;
             nouvelle.Recrute = true;
             _registreMembres.Membres.Add(nouvelle.Personnage);
         }
