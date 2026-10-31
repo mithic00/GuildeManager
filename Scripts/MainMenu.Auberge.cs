@@ -179,7 +179,7 @@ public partial class MainMenu
         var m = candidat.Personnage;
         // Les candidats n'ont jamais de portrait spécifique lors des entretiens.
         _portraitAuberge.Texture = ResourceLoader.Load<Texture2D>(
-            "res://Images/Portraits/Portait_Defaut.png");
+            "res://Images/Portraits/GrandFormat/Portait_Defaut.png");
 
         var equipe = MembresEquipe(candidat);
         int positionEquipe = equipe.FindIndex(c => c.Personnage.Id == m.Id) + 1;
@@ -216,9 +216,12 @@ public partial class MainMenu
         if (candidat == null || candidat.DiscussionBloquee || candidat.Recrute) return;
         int charisme = _registreMembres?.Membres.FirstOrDefault(m => m.EstJoueur)?
             .Statistiques.GetValueOrDefault("Charisme", 10) ?? 10;
-        int bonus = candidat.Personnage.Statistiques.GetValueOrDefault("Communication") >= 15 ? 3 : 0;
+        // Le charisme agit désormais comme modificateur du d20 face au seuil 10.
+        // Bonus contextuel de communication du candidat conservé.
+        int bonusCommunication = candidat.Personnage.Statistiques.GetValueOrDefault("Communication") >= 15 ? 3 : 0;
         int jet = Random.Shared.Next(1, 21);
-        if (jet > charisme + bonus)
+        int resultat = jet + ReglesCaracteristiques.Modificateur(charisme) + bonusCommunication;
+        if (resultat < 10)
         {
             candidat.DiscussionBloquee = true;
             AfficherInformationAuberge("Vous n'apprenez rien de plus après cette discussion");
@@ -237,7 +240,7 @@ public partial class MainMenu
                 if (cachees.Length > 0)
                     candidat.StatsConnues.Add(cachees[Random.Shared.Next(cachees.Length)]);
             }
-            AfficherInformationAuberge("Discussion réussie (d20 : " + jet + ").");
+            // En cas de réussite, rafraîchir directement les statistiques sans popup.
         }
         AfficherCandidat();
     }
