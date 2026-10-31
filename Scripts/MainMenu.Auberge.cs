@@ -18,7 +18,7 @@ public partial class MainMenu
     private TextureRect _portraitAuberge;
     private RichTextLabel _infoAuberge, _statAuberge;
     private Label _rencontresRestantes;
-    private Button _discuterAuberge, _suivantAuberge, _recruterAuberge, _partirAuberge;
+    private Button _discuterAuberge, _precedentAuberge, _suivantAuberge, _recruterAuberge, _partirAuberge;
     private string _villeDepart;
 
     private void InitialiserRecrutementAuberge()
@@ -33,6 +33,7 @@ public partial class MainMenu
         _statAuberge = GetNode<RichTextLabel>(chemin + "Panel/HBoxContainer/RichTextLabelStat");
         _rencontresRestantes = GetNode<Label>(chemin + "Panel/LabelRencontreRestante");
         _discuterAuberge = GetNode<Button>(chemin + "Boutons/BoutonDiscuter");
+        _precedentAuberge = GetNode<Button>(chemin + "Boutons/BoutonPrécedent");
         _suivantAuberge = GetNode<Button>(chemin + "Boutons/BoutonSuivant");
         _recruterAuberge = GetNode<Button>(chemin + "Boutons/BoutonRecruter");
         _partirAuberge = GetNode<Button>(chemin + "Boutons/BoutonPartir");
@@ -48,6 +49,7 @@ public partial class MainMenu
         _choixRecrutement.CloseRequested += () => _choixRecrutement.Hide();
 
         _discuterAuberge.Pressed += DiscuterAvecCandidat;
+        _precedentAuberge.Pressed += CandidatPrecedent;
         _suivantAuberge.Pressed += CandidatSuivant;
         _recruterAuberge.Pressed += RecruterCandidat;
         _partirAuberge.Pressed += QuitterAuberge;
@@ -169,7 +171,8 @@ public partial class MainMenu
         {
             _infoAuberge.Text = "Les entretiens sont terminés.";
             _statAuberge.Text = "";
-            _discuterAuberge.Disabled = _suivantAuberge.Disabled = _recruterAuberge.Disabled = true;
+            _discuterAuberge.Disabled = _precedentAuberge.Disabled =
+                _suivantAuberge.Disabled = _recruterAuberge.Disabled = true;
             return;
         }
 
@@ -178,7 +181,14 @@ public partial class MainMenu
         _portraitAuberge.Texture = ResourceLoader.Load<Texture2D>(
             "res://Images/Portraits/Portait_Defaut.png");
 
-        _infoAuberge.Text = "Prénom : " + m.Prenom +
+        var equipe = MembresEquipe(candidat);
+        int positionEquipe = equipe.FindIndex(c => c.Personnage.Id == m.Id) + 1;
+        string descriptionEquipe = equipe.Count > 1
+            ? "Équipe de " + equipe.Count + " candidats (" + positionEquipe + "/" + equipe.Count +
+              "). Recrutement indissociable : tous les membres rejoindront la guilde ensemble.\n\n"
+            : "Candidat indépendant.\n\n";
+
+        _infoAuberge.Text = descriptionEquipe + "Prénom : " + m.Prenom +
             "\nNom : " + m.Nom + "\nÂge : " + m.Age +
             "\nRace : " + m.Race + "\nPouvoirs : " + string.Join(", ", m.Pouvoirs) +
             "\nNiveau magique : " + m.NiveauMagique;
@@ -195,7 +205,8 @@ public partial class MainMenu
         _discuterAuberge.Disabled = candidat.DiscussionBloquee || candidat.Recrute ||
             (candidat.StatsConnues.Count >= GenerateurCandidats.Stats.Length &&
              candidat.StatsConnues.Contains("Motivation"));
-        _recruterAuberge.Disabled = candidat.Recrute;
+        _recruterAuberge.Disabled = equipe.All(c => c.Recrute);
+        _precedentAuberge.Disabled = rdv.Index <= 0;
         _suivantAuberge.Disabled = rdv.Index >= rdv.Candidats.Count - 1;
     }
 
@@ -231,6 +242,23 @@ public partial class MainMenu
         AfficherCandidat();
     }
 
+    private List<CandidatAuberge> MembresEquipe(CandidatAuberge candidat)
+    {
+        if (candidat == null) return new List<CandidatAuberge>();
+        // Les anciens rendez-vous ne contiennent pas encore d’identifiant d’équipe.
+        if (candidat.GroupeId < 0) return new List<CandidatAuberge> { candidat };
+        return _aubergeEtat.RendezVous.Candidats
+            .Where(c => c.GroupeId == candidat.GroupeId).ToList();
+    }
+
+    private void CandidatPrecedent()
+    {
+        var rdv = _aubergeEtat?.RendezVous;
+        if (rdv == null || rdv.Index <= 0) return;
+        rdv.Index--;
+        AfficherCandidat();
+    }
+
     private void CandidatSuivant()
     {
         var rdv = _aubergeEtat?.RendezVous;
@@ -242,25 +270,37 @@ public partial class MainMenu
     private void RecruterCandidat()
     {
         var candidat = CandidatCourant;
-        if (candidat == null || candidat.Recrute || _registreMembres == null) return;
-        candidat.Recrute = true;
-        MembreGuilde membre = candidat.Personnage;
-        _registreMembres.Membres.Add(membre);
-        // Classement de départ des membres ordinaires : niveau magique décroissant.
-        // Lorsque la modification manuelle du classement sera ajoutée,
-        // ce recalcul pourra être limité aux nouvelles recrues.
+        if (candidat == null || _registreMembres == null || _etat == null) return;
+
+        List<CandidatAuberge> equipe = MembresEquipe(candidat);
+        List<CandidatAuberge> nouvellesRecrues = equipe.Where(c => !c.Recrute).ToList();
+        if (nouvellesRecrues.Count == 0) return;
+
+        // Tous les membres d'une équipe signent ensemble : aucune recrue isolée.
+        foreach (CandidatAuberge nouvelle in nouvellesRecrues)
+        {
+            nouvelle.Recrute = true;
+            _registreMembres.Membres.Add(nouvelle.Personnage);
+        }
+
         int classement = 1;
-        foreach (MembreGuilde m in _registreMembres.Membres
+        foreach (MembreGuilde membre in _registreMembres.Membres
             .Where(m => !m.EstMaitreDeGuilde && m.Rang != "U")
             .OrderByDescending(m => m.NiveauMagique).ThenBy(m => m.NomComplet))
-            m.Classement = classement++;
-        foreach (MembreGuilde m in _registreMembres.Membres.Where(m => !m.EstMaitreDeGuilde && m.Rang == "U"))
-            m.Classement = 0;
+            membre.Classement = classement++;
+        foreach (MembreGuilde membre in _registreMembres.Membres
+            .Where(m => !m.EstMaitreDeGuilde && m.Rang == "U"))
+            membre.Classement = 0;
+
         _etat.Membres = _registreMembres.Membres.Count;
         _etat.Pouvoir = _registreMembres.Membres.Sum(m => (long)m.NiveauMagique);
         AfficherValeur(_membres, _etat.Membres);
         AfficherValeur(_pouvoir, _etat.Pouvoir);
-        AjouterEntreeJournal(membre.NomComplet + " rejoint la guilde.", "recrutement");
+        AjouterEntreeJournal(nouvellesRecrues.Count == 1
+            ? nouvellesRecrues[0].Personnage.NomComplet + " rejoint la guilde."
+            : "Une équipe de " + nouvellesRecrues.Count + " membres rejoint la guilde : " +
+              string.Join(", ", nouvellesRecrues.Select(c => c.Personnage.NomComplet)) + ".",
+            "recrutement");
         AfficherCandidat();
     }
 
