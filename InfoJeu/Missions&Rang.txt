@@ -43,7 +43,7 @@ U : Au moins 100000
 Il existe plusieurs catégorie de missions : 
 - Enquête : Prix dans le bas de la fourchette. Précision : cette catégorie n'implique pas de résoudre le problème. Simplement apporter des informations.
 - Escorte : Prix dans la moyenne de la fourchette.
-- Elimination de danger : Prix dans le haut de la fourchette. Précision : cette catégorie peut impliquer une quête préalable. Mais le fait de devoir résoudre le problème une fois élucidé range la mission dans cette catégorie.
+- Élimination de danger : Prix dans le haut de la fourchette. Précision : cette catégorie peut impliquer une quête préalable. Mais le fait de devoir résoudre le problème une fois élucidé range la mission dans cette catégorie.
 - Recherche mort ou vif : Prix dans le haut de la fourchette.
 - Capture vif : Prix dans la moyenne de la fourchette.
 - Protection d'un lieu : Prix dans le bas de la fourchette.
@@ -52,3 +52,11 @@ Il existe plusieurs catégorie de missions :
 - Recherche d'un animal : Prix dans la moyenne de la fourchette.
 - Service : Prix dans le bas de la fourchette.
 - Renfort pour Assaut : Prix dans le haut de la fourchette. Forcément demandé par une cité, un royaume ou une guilde de mercenaire. L'assaut peut être l'offensive sur un camp de bandit comme une offensive dans une grande guerre selon le niveau de la mission.
+
+La mission peut être demandé par plusieurs missionnaires :
+- Cité : Tout niveau de mission. Toute catégorie.
+- Autre Cité : A partir du niveau S. Toute catégorie.
+- Particulier : Tout niveau de mission.Uniquement Toute catégorie sauf Renfort pour Assaut.
+- Marchand : Tout niveau de mission. Uniquement Enquête, Escorte, Recherche d'objet, Service.
+- Commerçant de la ville : Tout niveau de mission.  Toute catégorie sauf Renfort pour Assaut, Rechercher mort ou vif et capture vif.
+- Guilde de Mercenaire : à partir du niveau ***. Toute type de catégorie sauf Renfort pour Assaut, Enquête et Service.
