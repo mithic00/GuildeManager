@@ -51,7 +51,7 @@ Spécialité : Invocation.
 
 - Archimage
 Description : L’arChimage est une magie très partiCuLière, Car eLLe est La seuLe à ne posséder auCuns sort d’attaque. Malgré tout très recherché, ils sont souvent utiles pour fertiliser les Champs, créer de La nourriture, purifier de L’eau portabLe, réparer des structures, objets, soigner légèrement...
-Rareté : 20
+Rareté : 20 (40 si ça n'est pas le premier choix de pouvoir)
 Avantage : Panel de sort utilitaire inégalable. Très peu consommateur en magie. Très apprécié pour des "Petite mission".
 Défaut : Un archimage ne peut pas se défendre avec sa magie.
 Anecdote : L'archimage est une magie très ancienne, tiré d'une malformation du mage. Cette magie à très longtemps été rejeté.
@@ -441,7 +441,7 @@ Spécialité : Animation d'objet
 
 - Devin
 Description : La divination est considérée par certains peuples, comme la parole des esprits. Certains pratique la divination sans user du pouvoir du devin. Un devin va utiliser de la magie brute pour prédire des évènements. Les plus grands devins sont également capables de changer le cours du temps avant même qu’un évènement ne se produise. Ce pouvoir est souvent appris en plus d'un autre.
-Rareté : 10 (40 si ça n'est pas le seul pouvoir de l'être magique)
+Rareté : 10 (40 si ça n'est pas le premier choix de pouvoir)
 Avantage : Apport utilitaire inégalable.
 Défaut : Extrêment difficile a apprendre et très faible panel de sort.
 Anecdote : On dit que certains des plus grand devins se sont donné la mort plutôt que d'affronté la mort qu'ils les attendait. Dans ces cas précis, les esprits/dieux ne les apprécient pas.
@@ -465,7 +465,7 @@ Spécialité : Création d'image virtuel dans l'esprit des gens.
 
 - Télépathe
 Description : Presque inoffensive, cette magie peut être pratiquer sans apprendre de sort. Car Le Coeur même de Cette magie, peut être pratiquer sans magie. Le téLépathe, utiLise de La magie brute pour Lire dans L’esprit des CibLes, et peut également lui inculquer des pensées. Elle est souvent pratiqué en plus d'une autre magie.
-Rareté : 35
+Rareté : 15 (35 si ça n'est pas le premier choix de pouvoir)
 Avantage : Capacité d'enquête inégalable.
 Défaut : La gestion de cette magie dans une foule est très complexe. Difficile à apprendre.
 Anecdote : Certains télépathe peuvent se voir refusé l'entrée d'un lieu.
