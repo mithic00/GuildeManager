@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 /// <summary>Journal durable des événements de la partie, du plus ancien au plus récent.</summary>
 public sealed class JournalPartie
@@ -62,6 +63,8 @@ public sealed class JournalPartie
         return true;
     }
 
+    // Ne pas inclure cette propriété dans le JSON : elle sérialise l'objet lui-même.
+    [JsonIgnore]
     public string ValeurSauvegardee => JsonSerializer.Serialize(this);
 
     public bool Enregistrer()
