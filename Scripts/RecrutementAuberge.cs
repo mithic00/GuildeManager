@@ -18,6 +18,9 @@ public sealed class CandidatAuberge
     public List<string> StatsConnues { get; set; } = new();
     public bool DiscussionBloquee { get; set; }
     public bool Recrute { get; set; }
+    // Identifiant stable du groupe au sein d'un rendez-vous.
+    // -1 désigne les candidats des anciennes sauvegardes (recrutables seuls).
+    public int GroupeId { get; set; } = -1;
 }
 public sealed class RecrutementAubergeEtat
 {
@@ -138,12 +141,44 @@ public static class GenerateurCandidats
         return Math.Clamp((int)Math.Floor(-coefficient * Math.Log(1.0 - Random.Shared.NextDouble())), 1, 1000);
     }
 
+    // Poids de formation d'un groupe : 25 % solo, 40 % duo, 20 % trio,
+    // 10 % quatuor et 5 % groupe de cinq.
+    // Les groupes plus grands que le nombre de places restantes sont exclus.
+    private static readonly (int Taille, int Poids)[] TaillesGroupes =
+    {
+        (1, 25), (2, 40), (3, 20), (4, 10), (5, 5)
+    };
+
     public static List<CandidatAuberge> Generer(string ville)
     {
+        // La quantité totale reste uniforme de 1 à 10, comme auparavant.
         int total = Random.Shared.Next(1, 11);
         List<CandidatAuberge> resultat = new();
-        for (int i = 0; i < total; i++) resultat.Add(GenererCandidat(ville));
+        int groupeId = 0;
+        while (resultat.Count < total)
+        {
+            int taille = TirerTailleGroupe(total - resultat.Count);
+            for (int i = 0; i < taille; i++)
+            {
+                CandidatAuberge candidat = GenererCandidat(ville);
+                candidat.GroupeId = groupeId;
+                resultat.Add(candidat);
+            }
+            groupeId++;
+        }
         return resultat;
+    }
+
+    private static int TirerTailleGroupe(int placesRestantes)
+    {
+        var possibles = TaillesGroupes.Where(g => g.Taille <= placesRestantes).ToArray();
+        int tirage = Random.Shared.Next(possibles.Sum(g => g.Poids));
+        foreach (var groupe in possibles)
+        {
+            tirage -= groupe.Poids;
+            if (tirage < 0) return groupe.Taille;
+        }
+        return possibles[^1].Taille;
     }
 
     private static CandidatAuberge GenererCandidat(string ville)
