@@ -245,10 +245,17 @@ public partial class MainMenu
         if (candidat == null || candidat.Recrute || _registreMembres == null) return;
         candidat.Recrute = true;
         MembreGuilde membre = candidat.Personnage;
-        int classement = _registreMembres.Membres.Where(m => m.Classement > 0 && m.Classement < int.MaxValue)
-            .Select(m => m.Classement).DefaultIfEmpty(0).Max() + 1;
-        membre.Classement = membre.Rang == "U" ? 0 : classement;
         _registreMembres.Membres.Add(membre);
+        // Classement de départ des membres ordinaires : niveau magique décroissant.
+        // Lorsque la modification manuelle du classement sera ajoutée,
+        // ce recalcul pourra être limité aux nouvelles recrues.
+        int classement = 1;
+        foreach (MembreGuilde m in _registreMembres.Membres
+            .Where(m => !m.EstMaitreDeGuilde && m.Rang != "U")
+            .OrderByDescending(m => m.NiveauMagique).ThenBy(m => m.NomComplet))
+            m.Classement = classement++;
+        foreach (MembreGuilde m in _registreMembres.Membres.Where(m => !m.EstMaitreDeGuilde && m.Rang == "U"))
+            m.Classement = 0;
         _etat.Membres = _registreMembres.Membres.Count;
         _etat.Pouvoir = _registreMembres.Membres.Sum(m => (long)m.NiveauMagique);
         AfficherValeur(_membres, _etat.Membres);
