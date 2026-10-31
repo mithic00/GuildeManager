@@ -107,7 +107,7 @@ public partial class MainMenu
         foreach (MembreGuilde membre in _membresAffiches)
         {
             string nom = membre.NomComplet;
-            string potentiel = membre.PotentielMagique.HasValue ? membre.PotentielMagique.Value.ToString() : "?";
+            string potentiel = membre.PotentielMagiqueRevele && membre.PotentielMagique.HasValue ? membre.PotentielMagique.Value.ToString() : "?";
             string rang = string.IsNullOrWhiteSpace(membre.RangAffiche) ? "?" : membre.RangAffiche;
             string classement = membre.EstMaitreDeGuilde ? "MG" :
                 membre.Classement == 0 ? "U" :
@@ -219,7 +219,7 @@ public partial class MainMenu
         Remplir(g1 + "LabelNiveau", "Niveau", m.Niveau?.ToString() ?? inconnu);
         Remplir(g2 + "LabelPouvoirs", "Pouvoirs", m.Pouvoirs.Count == 0 ? "Aucun" : string.Join(", ", m.Pouvoirs));
         Remplir(g2 + "LabelNiveauMagique", "Niveau magique", m.NiveauMagique.ToString());
-        Remplir(g2 + "LabelPotentielMagique", "Potentiel magique", m.PotentielMagique?.ToString() ?? inconnu);
+        Remplir(g2 + "LabelPotentielMagique", "Potentiel magique", m.PotentielMagiqueRevele ? (m.PotentielMagique?.ToString() ?? inconnu) : inconnu);
         Remplir(g2 + "LabelPV", "Points de vie", m.PointsDeVie?.ToString() ?? inconnu);
         Remplir(g2 + "LabelPM", "Points de magie", m.PointsDeMagie?.ToString() ?? inconnu);
         Remplir(g2 + "LabelConnaissanceMagique", "Connaissance magique", m.ConnaissanceMagique.ToString());
