@@ -461,11 +461,38 @@ theme_override_font_sizes/font_size = 26
 text = "An 600 - 1er Janvier - 08h00"
 horizontal_alignment = 1
 
+[node name="JournalJoueur" type="Panel" parent="." unique_id=2021975247]
+layout_mode = 0
+offset_left = 451.0
+offset_top = 919.0
+offset_right = 1903.0
+offset_bottom = 1065.0
+
+[node name="MarginContainer" type="MarginContainer" parent="JournalJoueur" unique_id=259203310]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="InfoJournalJoueur" type="RichTextLabel" parent="JournalJoueur/MarginContainer" unique_id=54587232]
+layout_mode = 2
+theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "Test d'info jeu du carnet du joeuur"
+vertical_alignment = 2
+
 [node name="FenetreMenuQuitter" type="Window" parent="." unique_id=1322838180]
 transparent_bg = true
 oversampling_override = 1.0
 initial_position = 3
-size = Vector2i(600, 400)
+size = Vector2i(700, 500)
 current_screen = 0
 visible = false
 exclusive = true
@@ -487,6 +514,14 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 theme_override_constants/separation = 30
 alignment = 1
+
+[node name="BoutonSave" type="Button" parent="FenetreMenuQuitter/Marge/Layout" unique_id=857172138]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Sauvegarder
+"
 
 [node name="BoutonSaveEtQuitter" type="Button" parent="FenetreMenuQuitter/Marge/Layout" unique_id=61711232]
 custom_minimum_size = Vector2(260, 65)
@@ -847,29 +882,37 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Fermer"
 
-[node name="JournalJoueur" type="Panel" parent="." unique_id=2021975247]
-layout_mode = 0
-offset_left = 451.0
-offset_top = 919.0
-offset_right = 1903.0
-offset_bottom = 1065.0
+[node name="FenetreInfo" type="Window" parent="." unique_id=1874766587]
+transparent_bg = true
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(600, 400)
+visible = false
+exclusive = true
+unresizable = true
+transparent = true
 
-[node name="MarginContainer" type="MarginContainer" parent="JournalJoueur" unique_id=259203310]
-layout_mode = 1
+[node name="MarginContainer" type="MarginContainer" parent="FenetreInfo" unique_id=1067289331]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
 
-[node name="InfoJournalJoueur" type="RichTextLabel" parent="JournalJoueur/MarginContainer" unique_id=54587232]
+[node name="VBoxContainer" type="VBoxContainer" parent="FenetreInfo/MarginContainer" unique_id=1176653073]
 layout_mode = 2
-theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
-theme_override_font_sizes/normal_font_size = 30
-bbcode_enabled = true
-text = "Test d'info jeu du carnet du joeuur"
-vertical_alignment = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="FenetreInfo/MarginContainer/VBoxContainer" unique_id=1773799002]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="FenetreInfo/MarginContainer/VBoxContainer" unique_id=1807747975]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "OK"
