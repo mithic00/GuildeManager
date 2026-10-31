@@ -166,6 +166,7 @@ public static class GenerateurCandidats
                 membres.Add(candidat);
             }
             HarmoniserEquipe(membres);
+            HarmoniserNiveauxMagiques(membres);
             resultat.AddRange(membres);
             groupeId++;
         }
@@ -202,6 +203,22 @@ public static class GenerateurCandidats
                     membre.Personnage.Nom = nomCommun;
             }
         }
+    }
+
+    /// <summary>
+    /// Niveaux de l'équipe à moins de 10 % de son membre le plus fort.
+    /// Le potentiel individuel reste un plafond absolu : aucune valeur ne le dépasse.
+    /// </summary>
+    private static void HarmoniserNiveauxMagiques(List<CandidatAuberge> equipe)
+    {
+        if (equipe.Count < 2) return;
+        int potentielMinimum = equipe.Min(c => c.Personnage.PotentielMagique ?? 1);
+        int maximum = Math.Min(80, Math.Min(potentielMinimum,
+            equipe.Max(c => c.Personnage.NiveauMagique)));
+        maximum = Math.Max(1, maximum);
+        int minimum = Math.Max(1, (int)Math.Ceiling(maximum * 0.90));
+        foreach (CandidatAuberge candidat in equipe)
+            candidat.Personnage.NiveauMagique = Random.Shared.Next(minimum, maximum + 1);
     }
 
     private const int AgeMinimumRecrutement = 14;
