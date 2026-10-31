@@ -128,6 +128,7 @@ public partial class MainMenu
 
         // Les événements programmés sont prioritaires sur les jalons fixes.
         if (VerifierRendezVousAuberge()) return;
+        if (TraiterMinuteMissions()) return;
 
         // L'arrêt est effectué à la minute exacte du jalon, même à minuit.
         if (_horloge.EstJalon())
