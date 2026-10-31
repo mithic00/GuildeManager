@@ -282,7 +282,7 @@ expand_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_font_sizes/normal_font_size = 45
+theme_override_font_sizes/normal_font_size = 30
 text = "Nom : LudoTest
 Prénom : Prenomtest
 Age : 35
@@ -319,7 +319,7 @@ text = "Rencontre restante : X"
 [node name="Boutons" type="HBoxContainer" parent="LayoutsPanneauPrincipal/RecrutementAuberge" unique_id=1642508256]
 layout_mode = 2
 size_flags_vertical = 8
-theme_override_constants/separation = 70
+theme_override_constants/separation = 30
 alignment = 1
 
 [node name="BoutonDiscuter" type="Button" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Boutons" unique_id=1032304157]
@@ -328,6 +328,14 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Discuter
+"
+
+[node name="BoutonPrécedent" type="Button" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Boutons" unique_id=1283278375]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Précedent
 "
 
 [node name="BoutonSuivant" type="Button" parent="LayoutsPanneauPrincipal/RecrutementAuberge/Boutons" unique_id=581965973]
