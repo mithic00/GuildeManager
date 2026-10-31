@@ -1,4 +1,23 @@
 Il existera plusieurs façon de recruter de nouveaux membres dans la guilde : 
 - Candidature spontanée : en fonction de la population, du moment, de la notoriété de la guilde, etc, ... Un EM peut se présenter spontanément à la guilde pour la rejoindre. Le joueur aura le choix de le mettre à l'épreuve, de s'entretenir avec lui ou de refuser sa candidature. Le niveau max des EM qui candidate dépend de la notoriété de la guilde.
 - Campagne de recrutement : coute de l'argent chaque jour, mais permet selon la porté de la campagne, d'attirer des EM de bon niveau.
-- Recrutement à la taverne : cout unitaire. Permet de recruter tout type d'EM (très mauvais comme très bon), avec plus de chance d'obtenir de mauvais EM.
+- Recrutement à la auberge : cout unitaire. Permet de recruter tout type d'EM (très mauvais comme très bon), avec plus de chance d'obtenir de mauvais EM.
+
+Règle sur le spawn des stats des personnages :
+- Motivation : 50% de chance d'avoir 9 ou moins. 30% de chance d'avoir entre 10 et 14, 10% de chance d'avoir entre 15 et 17. 5% de chance d'avoir 18, 3% de chance d'avoir 19 et 2% de chance d'avoir 20.
+- Mémoire : 60% de chance d'avoir 13 ou moins. 35% de chance d'avoir entre 14 et 17. 4% de chance d'avoir 18 ou 19. 1% d'avoir 20.
+- Potentiel magique : Courbe logarithmique exponentiel.
+- Nom/Prénom : basé sur la base de nom/prénom.
+- Pouvoirs : Premier pouvoir en fonction de sa rareté (système de poids). 30% de chance qu'il ai un second pouvoir, auquel cas il pioche de nouveau dans la liste 
+
+
+
+Recrutement à l'auberge :
+- La guilde est prélevé immédiatement de 300 écus.
+- Le RdV est placé au moins 48 heures après, à 20h.
+- Une fois le rdv atteint, l'interface change pour afficher celle de l'auberge.
+- Il y a entre 1 et 10 candidats à chaque fois. Avec une probabilité égale.
+- Stats des candidats :
+  - Niveau magique inférieur ou égal à 80. 
+  - Pas de limite de potentiel.
+  - 50% de plus d'avoir une motivation inférieur à 10.
