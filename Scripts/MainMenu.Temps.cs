@@ -97,7 +97,10 @@ public partial class MainMenu
         _tempsEnCours = false;
         _timerHorloge.Stop();
         ActualiserBoutonTemps();
-        AjouterEntreeJournal(raison, "temps");
+        // Les arrêts manuels et jalons horaires ne sont pas des événements de quête.
+        // Les autres raisons (rendez-vous, erreurs...) restent journalisées.
+        if (!EstMessageTechniqueTemps(raison))
+            AjouterEntreeJournal(raison, "temps");
     }
 
     private void AvancerTempsUnTick()
@@ -196,6 +199,12 @@ public partial class MainMenu
             (minutesDuJour - debut) * 100.0 / (fin - debut), 0.0, 100.0);
     }
 
+    private static bool EstMessageTechniqueTemps(string description)
+    {
+        return description == "Avancée du temps interrompue par le joueur." ||
+               description.StartsWith("Jalon horaire atteint :", StringComparison.Ordinal);
+    }
+
     private void AjouterEntreeJournal(string description, string type)
     {
         if (_journalPartie == null || _horloge == null)
@@ -227,8 +236,13 @@ public partial class MainMenu
 
         // Les entrées sont du texte brut : les noms d'événements ne sont pas
         // interprétés comme du BBCode dans le RichTextLabel.
-        foreach (EntreeJournal entree in _journalPartie.Entrees
-                     .Skip(Math.Max(0, _journalPartie.Entrees.Count - MaxEntreesJournalVisibles)))
+        // Cacher également les anciens messages déjà présents dans les sauvegardes.
+        // On n'efface pas leur historique stocké : seuls les événements utiles s'affichent.
+        var entreesVisibles = _journalPartie.Entrees
+            .Where(entree => entree.Type != "temps" || !EstMessageTechniqueTemps(entree.Description))
+            .ToList();
+        foreach (EntreeJournal entree in entreesVisibles
+                     .Skip(Math.Max(0, entreesVisibles.Count - MaxEntreesJournalVisibles)))
         {
             string date = entree.DateJeu;
             if (DateTime.TryParseExact(entree.DateJeu, "yyyy-MM-dd'T'HH:mm:ss",
