@@ -25,6 +25,8 @@ public sealed class MembreGuilde
     public int Classement { get; set; } = 1;
     public int NiveauMagique { get; set; } = 1;
     public int? PotentielMagique { get; set; }
+    /// <summary>Le potentiel réel existe, mais reste caché tant qu'il n'est pas révélé.</summary>
+    public bool PotentielMagiqueRevele { get; set; }
     public List<string> Pouvoirs { get; set; } = new();
     public Dictionary<string, int> Statistiques { get; set; } = new();
     public int Bonheur { get; set; } = 20;
