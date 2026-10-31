@@ -17,6 +17,12 @@ Règle par défaut sur le spawn des stats des personnages :
 - bonheur : Quand un personnage rejoins la guilde, son bonheur est à 100
 - Toutes les autres stats sont généré aléatoirement.
 
+40% équipe de 2
+20% équipe de 3
+10% équipe de 4
+5% équipe de 5
+25% candidat solo.
+
 
 
 Recrutement à l'auberge :
