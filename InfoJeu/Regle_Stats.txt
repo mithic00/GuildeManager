@@ -51,6 +51,7 @@ P***** : 20000
 U : 1000000
 
 Niveau : Caractéristique qui reflète l'expérience d'un personnage en tant que membre de guilde. Elle sert également de base pour le calcule de PV/PM. La vraie caractéristique qui permet de déterminer la qualité d'un être magique est le niveau magique.
+Pour passer du niveau 1 à 2, il faut 75 d'xp. Chaque augmentation de niveau demandera 10% de plus que le niveau précédent.
 
 Bonheur : Commence à 20 par défaut. S'il tombe à 0 : le personnage membre de guilde quitte la guilde. Le bonheur change en fonction des interactions et des missions.
 Moral : Le moral est changeant. Il monte ou baisse d'un jour à l'autre, en fonction des événements et des missions. Un personnage avec un moral bas peut mal réagir dans les cas où il devrait réagir correctement.
