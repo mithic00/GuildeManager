@@ -929,3 +929,65 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "OK"
+
+[node name="FenetreNouvelleMission" type="Window" parent="." unique_id=557877074]
+transparent_bg = true
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(800, 600)
+visible = false
+exclusive = true
+unresizable = true
+transparent = true
+
+[node name="Marge" type="MarginContainer" parent="FenetreNouvelleMission" unique_id=423057788]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="Layout" type="VBoxContainer" parent="FenetreNouvelleMission/Marge" unique_id=439309383]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="FenetreNouvelleMission/Marge/Layout" unique_id=1196775269]
+layout_mode = 2
+theme_override_font_sizes/font_size = 35
+text = "Une nouvelle mission vous est parvenue"
+horizontal_alignment = 1
+
+[node name="InfoMission" type="RichTextLabel" parent="FenetreNouvelleMission/Marge/Layout" unique_id=209638165]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+bbcode_enabled = true
+text = "Catégorie de la mission : Enquête
+Niveau requis : **
+récompense : 120 écus
+Demandeur : Cité
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Boutons" type="HBoxContainer" parent="FenetreNouvelleMission/Marge/Layout" unique_id=2104382684]
+layout_mode = 2
+theme_override_constants/separation = 93
+alignment = 1
+
+[node name="BoutonAccepter" type="Button" parent="FenetreNouvelleMission/Marge/Layout/Boutons" unique_id=1638873130]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Accepter"
+
+[node name="BoutonRefuser" type="Button" parent="FenetreNouvelleMission/Marge/Layout/Boutons" unique_id=2110805310]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Refuser"
