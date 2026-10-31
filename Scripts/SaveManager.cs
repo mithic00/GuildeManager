@@ -310,7 +310,7 @@ public static class SaveManager
         {
             File.AppendAllText(
                 ProjectSettings.GlobalizePath("user://diagnostic_sauvegarde.txt"),
-                message + Environment.NewLine);
+                message + System.Environment.NewLine);
         }
         catch (Exception e)
         {
