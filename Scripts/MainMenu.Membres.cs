@@ -283,9 +283,6 @@ public partial class MainMenu
 
     private void AfficherInformationFiche(string message)
     {
-        AcceptDialog d = new() { Title = "Information", DialogText = message };
-        _fenetreFiche.AddChild(d);
-        d.Confirmed += () => d.QueueFree();
-        d.PopupCentered();
+        AfficherInformation(message);
     }
 }
