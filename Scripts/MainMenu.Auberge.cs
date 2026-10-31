@@ -174,22 +174,23 @@ public partial class MainMenu
         }
 
         var m = candidat.Personnage;
-        string genre = m.Sexe == "F" ? "Femme" : "Homme";
-        string[] nomsPortraits = { "Humain", "ElfeGris", "Grumol", "HumainDesMonts",
-            "HautElfe", "Nain", "Tanneur", "Khajiit" };
-        string racePortrait = m.ApparenceId is >= 1 and <= 8 ? nomsPortraits[m.ApparenceId - 1] : "";
-        string portrait = "res://Images/Portraits/" + racePortrait + "_" + genre + ".png";
+        // Les candidats n'ont jamais de portrait spécifique lors des entretiens.
         _portraitAuberge.Texture = ResourceLoader.Load<Texture2D>(
-            ResourceLoader.Exists(portrait) ? portrait : "res://Images/Portraits/Portait_Defaut.png");
+            "res://Images/Portraits/Portait_Defaut.png");
 
         _infoAuberge.Text = "Prénom : " + m.Prenom +
             "\nNom : " + m.Nom + "\nÂge : " + m.Age +
             "\nRace : " + m.Race + "\nPouvoirs : " + string.Join(", ", m.Pouvoirs) +
             "\nNiveau magique : " + m.NiveauMagique;
 
+        // Motivation n'appartient pas au dictionnaire Statistiques.
+        // Elle est révélée et affichée à part, une seule fois.
         var connues = candidat.StatsConnues
+            .Where(n => n != "Motivation")
+            .Distinct()
             .Select(n => n + " : " + m.Statistiques.GetValueOrDefault(n).ToString()).ToList();
-        if (candidat.StatsConnues.Contains("Motivation")) connues.Add("Motivation : " + m.Motivation);
+        if (candidat.StatsConnues.Contains("Motivation"))
+            connues.Add("Motivation : " + m.Motivation);
         _statAuberge.Text = "Statistiques connues :\n" + string.Join("\n", connues);
         _discuterAuberge.Disabled = candidat.DiscussionBloquee || candidat.Recrute ||
             (candidat.StatsConnues.Count >= GenerateurCandidats.Stats.Length &&
@@ -209,8 +210,7 @@ public partial class MainMenu
         if (jet > charisme + bonus)
         {
             candidat.DiscussionBloquee = true;
-            AfficherInformationAuberge("Discussion échouée (d20 : " + jet + ", seuil : " +
-                (charisme + bonus) + ").");
+            AfficherInformationAuberge("Vous n'apprenez rien de plus après cette discussion");
         }
         else
         {
@@ -276,12 +276,6 @@ public partial class MainMenu
 
     private void AfficherInformationAuberge(string message)
     {
-        // La fenêtre de choix est fermée avant l'affichage pour éviter
-        // deux fenêtres exclusives simultanées.
-        AcceptDialog dialogue = new() { Title = "Recrutement", DialogText = message };
-        AddChild(dialogue);
-        dialogue.Confirmed += () => dialogue.QueueFree();
-        dialogue.Canceled += () => dialogue.QueueFree();
-        dialogue.PopupCentered();
+        AfficherInformation(message);
     }
 }
