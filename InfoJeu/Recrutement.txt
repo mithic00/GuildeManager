@@ -35,6 +35,7 @@ Recrutement à l'auberge :
   - Pas de limite de potentiel : Coefficient de rareté = 120.
   - 50% de plus d'avoir une motivation inférieur à 10.
   - Niveau : 60% niveau 1, 30% niveau 2, 10% niveau 3.
+  - 80% de chance que l'age du candidats soit inférieur à la moitié de sa carrière.
 - Sera connu automatiquement : 
   - Nom, Prénom, Age, Race, Pouvoirs, Niveau magique.
 - Sera connu en plus, entre 1 et 7 stats du personnage (parmi les catégorie Sociale, Mental et Physique)

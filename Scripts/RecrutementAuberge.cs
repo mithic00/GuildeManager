@@ -173,20 +173,20 @@ public static class GenerateurCandidats
     }
 
     /// <summary>
-    /// Chaque équipe partage une fenêtre d'âge de cinq ans au maximum.
-    /// On respecte le maximum de la race la moins longévive du groupe.
-    /// Les noms de famille peuvent être partagés uniquement par des membres de même race.
+    /// Tous les membres d'une équipe ont au maximum cinq années d'écart.
+    /// Le tirage 80/20 s'applique à l'équipe dans la plage de carrière de
+    /// sa race la plus limitée : chaque âge reste ainsi valide pour chaque membre.
+    /// Les noms de famille sont partagés uniquement entre membres de même race.
     /// </summary>
     private static void HarmoniserEquipe(List<CandidatAuberge> equipe)
     {
         if (equipe.Count <= 1) return;
 
-        int ageMaximumCommun = equipe.Min(c => AgeMaximum(c.Personnage.Race));
-        // Une équipe d'âges proches est tirée sans favoriser un seul âge fixe.
-        int premierAge = Random.Shared.Next(14, ageMaximumCommun + 1);
-        int finFenetre = Math.Min(premierAge + 5, ageMaximumCommun);
+        int finCarriereCommune = equipe.Min(c => AgeMaximalRecrutable(c.Personnage.Race));
+        int premierAge = TirerAgeAuberge(finCarriereCommune, out int limiteTranche);
+        int dernierAge = Math.Min(premierAge + 5, limiteTranche);
         foreach (CandidatAuberge candidat in equipe)
-            candidat.Personnage.Age = Random.Shared.Next(premierAge, finFenetre + 1);
+            candidat.Personnage.Age = Random.Shared.Next(premierAge, dernierAge + 1);
 
         // 50 % des équipes : même nom au sein de chaque sous-groupe d'une
         // même race. Les races sans noms de famille (Tanneurs, etc.) restent inchangées.
@@ -204,18 +204,47 @@ public static class GenerateurCandidats
         }
     }
 
-    private static int AgeMaximum(string race) => race switch
+    private const int AgeMinimumRecrutement = 14;
+
+    /// <summary>
+    /// Âge de fin de carrière le plus tardif de chaque race, distinct de
+    /// l'espérance de vie (InfoJeu/Regle_Stats.txt).
+    /// </summary>
+    private static int AgeMaximalRecrutable(string race) => race switch
     {
-        "Humain" => 90,
-        "Nain" => 150,
-        "Elfe gris" => 180,
-        "Haut-Elfe" => 220,
-        "Grumol" => 70,
-        "Humain des monts" => 50,
-        "Tanneur" => 80,
-        "Khajiit" => 70,
-        _ => 70
+        "Humain" => 80,
+        "Nain" => 120,
+        "Elfe gris" => 170,
+        "Haut-Elfe" => 200,
+        "Grumol" => 60,
+        "Humain des monts" => 45,
+        "Tanneur" => 70,
+        "Khajiit" => 60,
+        _ => throw new ArgumentException("Race inconnue pour les limites de carrière : " + race)
     };
+
+    /// <summary>
+    /// 80 % des tirages dans la première moitié de la carrière [14, fin],
+    /// 20 % dans la seconde. La limite supérieure renvoyée permet aux équipes
+    /// de rester dans la même tranche en respectant leurs cinq ans d'écart.
+    /// </summary>
+    private static int TirerAgeAuberge(int finCarriere, out int limiteTranche)
+    {
+        if (finCarriere < AgeMinimumRecrutement + 2)
+            throw new ArgumentOutOfRangeException(nameof(finCarriere));
+
+        int milieu = AgeMinimumRecrutement +
+            (finCarriere - AgeMinimumRecrutement) / 2;
+
+        if (Random.Shared.Next(100) < 80)
+        {
+            limiteTranche = milieu - 1;
+            return Random.Shared.Next(AgeMinimumRecrutement, milieu);
+        }
+
+        limiteTranche = finCarriere;
+        return Random.Shared.Next(milieu, finCarriere + 1);
+    }
 
     private static int TirerTailleGroupe(int placesRestantes)
     {
@@ -272,7 +301,7 @@ public static class GenerateurCandidats
 
     private static int TirerAge(string race)
     {
-        return Random.Shared.Next(14, AgeMaximum(race) + 1);
+        return TirerAgeAuberge(AgeMaximalRecrutable(race), out _);
     }
     private static int TirerNiveau() {int d=Random.Shared.Next(100);return d<60?1:d<90?2:3;}
     private static int TirerMemoire()
