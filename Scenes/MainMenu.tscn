@@ -585,6 +585,7 @@ vertical_alignment = 1
 
 [node name="StatsGeneral" type="HBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout" unique_id=1195563824]
 layout_mode = 2
+theme_override_constants/separation = 74
 
 [node name="Portait" type="TextureRect" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral" unique_id=1931079625]
 custom_minimum_size = Vector2(180, 180)
@@ -655,6 +656,10 @@ text = "Point de Magie : "
 [node name="LabelConnaissanceMagique" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout2" unique_id=1373955537]
 layout_mode = 2
 text = "Connaissance Magique : "
+
+[node name="LabelConnaissanceMagique2" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout2" unique_id=279434600]
+layout_mode = 2
+text = "Equipe : Hector, Jaque, Noa"
 
 [node name="LabelStatistiques" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout" unique_id=1569490453]
 layout_mode = 2
