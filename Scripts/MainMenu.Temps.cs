@@ -113,6 +113,9 @@ public partial class MainMenu
         _date.Text = HorlogeJeu.Formater(_horloge.Instant);
         ActualiserProgressionTemps();
 
+        // Les événements programmés sont prioritaires sur les jalons fixes.
+        if (VerifierRendezVousAuberge()) return;
+
         // L'arrêt est effectué à la minute exacte du jalon, même à minuit.
         if (_horloge.EstJalon())
         {
