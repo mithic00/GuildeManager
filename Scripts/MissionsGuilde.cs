@@ -93,6 +93,13 @@ public static class ReglesMissions
         1, 2, 4, 7, 10, 10, 10, 10, 10, 10, 10,
         10, 10, 10, 10, 10, 10, 0
     };
+    // Niveau magique minimal du rang que l'on souhaite atteindre.
+    // InfoJeu/Missions&Rang.txt : ** = 21, *** = 41, etc.
+    private static readonly int[] NiveauMagiqueMinimumParRang =
+    {
+        0, 21, 41, 61, 81, 151, 201, 251, 301, 351, 401,
+        601, 701, 781, 851, 911, 961, 1000
+    };
     private static readonly (string Nom, int PositionPrix)[] Categories =
     {
         ("Enquête", 0), ("Escorte", 1), ("Élimination de danger", 2),
@@ -224,8 +231,8 @@ public static class ReglesMissions
 
     /// <summary>
     /// Comptabilise toute mission réussie, y compris une mission sans incident.
-    /// Les promotions classiques dépendent du nombre de victoires AU RANG
-    /// ACTUEL, sans condition de niveau magique.
+    /// Une promotion exige le nombre de victoires au rang actuel ET le niveau
+    /// magique minimum du rang suivant.
     /// </summary>
     public static bool EnregistrerReussiteEtPromouvoir(MembreGuilde membre, string rangMission)
     {
@@ -236,10 +243,10 @@ public static class ReglesMissions
     }
 
     /// <summary>
-    /// Réévalue également les promotions déjà acquises dans les anciennes
-    /// sauvegardes, sans modifier les compteurs ni refaire les tirages.
+    /// Vérifie les conditions de promotion après une mission ou un gain
+    /// de niveau magique, jamais lors du chargement d'une sauvegarde.
     /// Les passages ***** vers S et S***** vers P attendent les concours.
-    /// Le rang U, conformément aux règles, exige uniquement 1000 de magie.
+    /// Le rang U exige uniquement 1000 de niveau magique.
     /// </summary>
     public static bool AppliquerPromotionsAcquises(MembreGuilde membre)
     {
@@ -267,7 +274,8 @@ public static class ReglesMissions
 
             int victoires = 0;
             membre.MissionsReussiesParRang?.TryGetValue(Rangs[rangActuel], out victoires);
-            if (victoires < MissionsPourPromotion[rangActuel])
+            if (victoires < MissionsPourPromotion[rangActuel] ||
+                membre.NiveauMagique < NiveauMagiqueMinimumParRang[rangActuel + 1])
                 break;
 
             rangActuel++;
