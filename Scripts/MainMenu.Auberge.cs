@@ -294,14 +294,7 @@ public partial class MainMenu
             _registreMembres.Membres.Add(nouvelle.Personnage);
         }
 
-        int classement = 1;
-        foreach (MembreGuilde membre in _registreMembres.Membres
-            .Where(m => !m.EstMaitreDeGuilde && m.Rang != "U")
-            .OrderByDescending(m => m.NiveauMagique).ThenBy(m => m.NomComplet))
-            membre.Classement = classement++;
-        foreach (MembreGuilde membre in _registreMembres.Membres
-            .Where(m => !m.EstMaitreDeGuilde && m.Rang == "U"))
-            membre.Classement = 0;
+        _registreMembres.RecalculerClassement();
 
         _etat.Membres = _registreMembres.Membres.Count;
         _etat.Pouvoir = _registreMembres.Membres.Sum(m => (long)m.NiveauMagique);
