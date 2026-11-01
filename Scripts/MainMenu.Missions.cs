@@ -11,6 +11,8 @@ public partial class MainMenu
     private EtatMissions _etatMissions;
     private Window _fenetreNouvelleMission;
     private RichTextLabel _infoNouvelleMission;
+    private Window _fenetreInfoMission;
+    private RichTextLabel _detailsMission;
     private GridContainer _tableauDesMissions;
 
     private void InitialiserMissions()
@@ -21,6 +23,16 @@ public partial class MainMenu
             "FenetreNouvelleMission/Marge/Layout/InfoMission");
         _tableauDesMissions = GetNode<GridContainer>(
             "LayoutsPanneauPrincipal/TableauDesMissions/ListeMission");
+
+        _fenetreInfoMission = GetNode<Window>("FenetreInfoMission");
+        _detailsMission = GetNode<RichTextLabel>(
+            "FenetreInfoMission/Marge/Layout/InfoMission");
+        GetNode<Button>("FenetreInfoMission/Marge/Layout/Boutons/ButtonFermer")
+            .Pressed += () => _fenetreInfoMission.Hide();
+        _fenetreInfoMission.CloseRequested += () => _fenetreInfoMission.Hide();
+        // La prise de mission par le maître de guilde sera développée séparément.
+        GetNode<Button>("FenetreInfoMission/Marge/Layout/Boutons/BoutonPrendre").Disabled = true;
+        _fenetreInfoMission.Hide();
 
         GetNode<Button>("FenetreNouvelleMission/Marge/Layout/Boutons/BoutonAccepter")
             .Pressed += AccepterPropositionMission;
@@ -138,42 +150,63 @@ public partial class MainMenu
     private void RaffraichirTableauMissions()
     {
         if (_tableauDesMissions == null || _etatMissions == null) return;
-        foreach (Node n in _tableauDesMissions.GetChildren())
+        foreach (Node ancien in _tableauDesMissions.GetChildren())
         {
-            _tableauDesMissions.RemoveChild(n);
-            n.QueueFree();
+            _tableauDesMissions.RemoveChild(ancien);
+            ancien.QueueFree();
         }
 
-        string[] entetes = { "Rang", "Catégorie", "Demandeur", "Écus", "État", "Équipe" };
-        foreach (string entete in entetes)
-            AjouterCelluleMission(entete, true);
-
+        // Le tableau affiche désormais un bouton 30 × 30 par mission.
+        // La grille de la scène conserve son nombre de colonnes (6 actuellement).
         foreach (MissionGuilde mission in _etatMissions.Missions
-            .Where(m => m.Etat != "Terminee"))
+            .Where(m => m.Etat == "Disponible" || m.Etat == "EnCours"))
         {
-            AjouterCelluleMission(mission.Rang);
-            AjouterCelluleMission(mission.Categorie);
-            AjouterCelluleMission(mission.Demandeur);
-            AjouterCelluleMission(mission.Recompense.ToString());
-            AjouterCelluleMission(mission.Etat == "Disponible" ? "Disponible" : "En cours");
-            var participants = _registreMembres?.Membres
-                .Where(m => mission.ParticipantIds.Contains(m.Id))
-                .Select(m => m.Prenom).ToArray() ?? Array.Empty<string>();
-            AjouterCelluleMission(participants.Length == 0
-                ? "—" : string.Join(", ", participants));
+            MissionGuilde missionSelectionnee = mission;
+            Button bouton = new()
+            {
+                Name = "Mission_" + mission.Id,
+                Text = mission.Rang,
+                CustomMinimumSize = new Vector2(30, 30),
+                SizeFlagsHorizontal = Control.SizeFlags.ShrinkBegin,
+                SizeFlagsVertical = Control.SizeFlags.ShrinkBegin,
+                ClipText = true,
+                TooltipText = mission.Categorie + " — Rang " + mission.Rang +
+                    " — " + (mission.Etat == "EnCours" ? "En cours" : "Disponible")
+            };
+            // Les rangs longs (S*****, P*****) doivent tenir dans le format compact.
+            bouton.AddThemeFontSizeOverride("font_size", mission.Rang.Length >= 4 ? 8 : 11);
+            bouton.Pressed += () => OuvrirInfoMission(missionSelectionnee);
+            _tableauDesMissions.AddChild(bouton);
         }
     }
 
-    private void AjouterCelluleMission(string contenu, bool entete = false)
+    private void OuvrirInfoMission(MissionGuilde mission)
     {
-        Label cellule = new()
+        if (mission == null || _detailsMission == null || _fenetreInfoMission == null)
+            return;
+
+        bool enCours = mission.Etat == "EnCours";
+        string texte = "Catégorie : " + mission.Categorie +
+            "\nRang requis : " + mission.Rang +
+            "\nRécompense : " + mission.Recompense + " écus" +
+            "\nDemandeur : " + mission.Demandeur +
+            "\nÉtat : " + (enCours ? "En cours" : "Disponible");
+
+        if (enCours)
         {
-            Text = contenu,
-            AutowrapMode = TextServer.AutowrapMode.WordSmart,
-            CustomMinimumSize = new Vector2(115, 36)
-        };
-        if (entete) cellule.AddThemeFontSizeOverride("font_size", 17);
-        _tableauDesMissions.AddChild(cellule);
+            string[] participants = (_registreMembres?.Membres ?? new List<MembreGuilde>())
+                .Where(m => mission.ParticipantIds != null && mission.ParticipantIds.Contains(m.Id))
+                .Select(m => m.NomComplet).ToArray();
+            texte += "\nParticipants : " +
+                (participants.Length > 0 ? string.Join(", ", participants) : "Inconnus");
+            if (!string.IsNullOrWhiteSpace(mission.DateDepart))
+                texte += "\nDépart : " + HorlogeJeu.Formater(ReglesMissions.LireDate(mission.DateDepart));
+            if (!string.IsNullOrWhiteSpace(mission.DateRetour))
+                texte += "\nProchaine échéance : " + HorlogeJeu.Formater(ReglesMissions.LireDate(mission.DateRetour));
+        }
+
+        _detailsMission.Text = texte;
+        _fenetreInfoMission.PopupCentered();
     }
 
     private static bool JetStat(MembreGuilde membre, string stat, int cible) =>
