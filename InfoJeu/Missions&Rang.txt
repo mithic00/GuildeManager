@@ -64,12 +64,16 @@ La mission peut être demandé par plusieurs missionnaires :
 
 
 Spawn d'une mission : 
-Un jet d'apparition est lancé chaque jour à 08h, 12h, 16h et 20h (quatre jets par jour).
+Un jet d'apparition est lancé chaque jour à 08h, 10h, 12h, 14h, 16h, 18h et 20h (sept jets par jour).
+Ces jets d'apparition n'ajoutent pas de jalons d'arrêt à l'horloge.
 Chaque jet utilise le taux ci-dessous, qui évolue selon le prestige.
-Si le jet réussit, une nouvelle mission apparaît à un moment aléatoire avant le prochain jalon :
-- Jet de 08h : apparition entre 08h01 et 11h59.
-- Jet de 12h : apparition entre 12h01 et 15h59.
-- Jet de 16h : apparition entre 16h01 et 19h59.
+Si le jet réussit, une nouvelle mission apparaît à un moment aléatoire avant le prochain jalon de spawn :
+- Jet de 08h : apparition entre 08h01 et 09h59.
+- Jet de 10h : apparition entre 10h01 et 11h59.
+- Jet de 12h : apparition entre 12h01 et 13h59.
+- Jet de 14h : apparition entre 14h01 et 15h59.
+- Jet de 16h : apparition entre 16h01 et 17h59.
+- Jet de 18h : apparition entre 18h01 et 19h59.
 - Jet de 20h : apparition entre 20h01 et 23h59.
 Plusieurs missions peuvent donc apparaître au cours d'une même journée.
 Une proposition non encore acceptée ou refusée, ou une annonce déjà programmée,
