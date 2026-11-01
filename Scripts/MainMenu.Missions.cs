@@ -505,6 +505,20 @@ public partial class MainMenu
             _etat.Pouvoir = _registreMembres.Membres.Sum(m => (long)m.NiveauMagique);
             foreach (var exclu in _registreMembres.Membres.Where(m => !m.EstMaitreDeGuilde && m.Bonheur <= 0).ToList())
                 _registreMembres.Membres.Remove(exclu);
+
+            // Après les décès et les départs de la guilde, une équipe réduite
+            // à un seul membre est dissoute : son survivant devient indépendant.
+            // Le système de départ en mission et la fiche de membre utilisent
+            // déjà EquipeId vide pour identifier les membres solos.
+            var membresDevenusSolos = _registreMembres.Membres
+                .Where(m => !string.IsNullOrWhiteSpace(m.EquipeId))
+                .GroupBy(m => m.EquipeId)
+                .Where(g => g.Count() == 1)
+                .Select(g => g.First())
+                .ToList();
+            foreach (MembreGuilde membre in membresDevenusSolos)
+                membre.EquipeId = "";
+
             _etat.Membres = _registreMembres.Membres.Count;
             _etat.Pouvoir = _registreMembres.Membres.Sum(m => (long)m.NiveauMagique);
             _etat.Savoir = _registreMembres.Membres.Sum(m => (long)m.ConnaissanceMagique);
