@@ -44,6 +44,12 @@ public sealed class MissionGuilde
     public string DateRetour { get; set; } = "";
     public List<string> ParticipantIds { get; set; } = new();
     public bool? Reussie { get; set; }
+    public int JoursEcoules { get; set; }
+    public int DureeFixee { get; set; }
+    public int EchecsEnqueteConsecutifs { get; set; }
+    public bool SansIncident { get; set; }
+    public bool SansGainSecondaire { get; set; }
+    public string DetailResultat { get; set; } = "";
 }
 
 public static class ReglesMissions
@@ -70,13 +76,14 @@ public static class ReglesMissions
         50, 100, 200, 400, 800, 2000, 2500, 3000, 3500, 4000, 5000,
         10000, 12000, 14000, 16000, 18000, 20000, 1000000
     };
-    private static readonly int[] PrestigeGagne =
+    private static readonly int[] PrestigeVariation =
     {
-        1, 2, 4, 8, 20, 50, 55, 60, 65, 70, 100, 300, 400, 500, 600, 700, 800, 10000
+        1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15, 30, 32, 34, 36, 38, 50, 500
     };
-    private static readonly int[] PrestigePerdu =
+    private static readonly double[] PoidsApparition =
     {
-        1, 2, 3, 5, 15, 30, 30, 40, 40, 50, 80, 200, 300, 400, 500, 600, 700, 0
+        10, 18, 18.5, 16, 15, 3, 2.8, 2.6, 2.4, 2.2, 2,
+        1.5, 1.4, 1.3, 1.2, 1.1, 1, 0
     };
     private static readonly int[] MissionsPourPromotion =
     {
@@ -111,8 +118,19 @@ public static class ReglesMissions
     }
 
     public static int ExperiencePourMission(string rang) => PointsExperience[IndexRang(rang)];
-    public static int VariationPrestige(string rang, bool reussite) =>
-        reussite ? PrestigeGagne[IndexRang(rang)] : -PrestigePerdu[IndexRang(rang)];
+
+    public static int VariationPrestige(string rang, bool reussite)
+    {
+        int valeur = PrestigeVariation[IndexRang(rang)];
+        return reussite ? valeur : -valeur;
+    }
+
+    // Formule telle que définie dans InfoJeu/Missions&Rang.txt.
+    public static double ProbabiliteApparition(long prestige)
+    {
+        double x = Math.Max(0.0, prestige) / 5000.0;
+        return 0.1 + 0.4 * Math.Tanh(Math.Pow(x, 1.3));
+    }
 
     public static string DateIso(DateTime date) =>
         date.ToString("yyyy-MM-dd'T'HH:mm:ss", CultureInfo.InvariantCulture);
@@ -123,11 +141,24 @@ public static class ReglesMissions
 
     public static MissionGuilde Generer(IEnumerable<MembreGuilde> membres)
     {
-        int plusHaut = membres.Where(m => m != null)
+        // Les missions U ne peuvent jamais apparaître naturellement.
+        // Une mission n'apparaît que si un membre de la guilde possède le rang demandé.
+        int rangMax = membres.Where(m => m != null)
             .Select(m => IndexRang(m.Rang)).DefaultIfEmpty(0).Max();
+        var possibles = Enumerable.Range(0, Rangs.Length)
+            .Where(i => i <= rangMax && PoidsApparition[i] > 0 &&
+                membres.Any(m => m != null && IndexRang(m.Rang) >= i))
+            .Select(i => (Index: i, Poids: PoidsApparition[i])).ToArray();
+        if (possibles.Length == 0) return null;
 
-        // Tirage uniforme provisoire parmi les rangs accessibles.
-        int indexRang = Random.Shared.Next(plusHaut + 1);
+        double tirage = Random.Shared.NextDouble() * possibles.Sum(p => p.Poids);
+        int indexRang = possibles[^1].Index;
+        foreach (var candidat in possibles)
+        {
+            tirage -= candidat.Poids;
+            if (tirage < 0) { indexRang = candidat.Index; break; }
+        }
+
         var categorie = Categories[Random.Shared.Next(Categories.Length)];
         string[] demandeursValides = Demandeurs
             .Where(d => DemandeurAccepte(d, categorie.Nom, indexRang)).ToArray();
@@ -136,8 +167,7 @@ public static class ReglesMissions
         int debut = MinEcus[indexRang];
         int fin = MaxEcus[indexRang];
         int amplitude = fin - debut;
-        // Traduction provisoire de « bas / moyenne / haut de fourchette »
-        // par tiers égaux de la fourchette disponible.
+        // Bas/milieu/haut : trois tiers de la fourchette.
         int borneMin = debut + amplitude * categorie.PositionPrix / 3;
         int borneMax = categorie.PositionPrix == 2
             ? fin : debut + amplitude * (categorie.PositionPrix + 1) / 3;
@@ -163,9 +193,10 @@ public static class ReglesMissions
                 categorie == "Recherche d'un objet" || categorie == "Service",
             "Commerçant de la ville" => categorie != "Renfort pour Assaut" &&
                 categorie != "Recherche mort ou vif" && categorie != "Capture vif",
+            // La règle particulière « Renfort pour Assaut » autorise également
+            // les guildes de mercenaires malgré l'exclusion générale.
             "Guilde de Mercenaire" => rang >= IndexRang("***") &&
-                categorie != "Renfort pour Assaut" && categorie != "Enquête" &&
-                categorie != "Service",
+                categorie != "Enquête" && categorie != "Service",
             _ => false
         };
     }
