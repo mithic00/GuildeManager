@@ -132,8 +132,6 @@ public static class ResolutionMissions
                 break;
             case "Protection d'un lieu":
                 if(mission.DureeFixee==0)mission.DureeFixee=DureeFixee(mission);
-                if(!mission.SansIncident && mission.JoursEcoules==1)
-                    mission.SansIncident=Random.Shared.NextDouble()<0.5;
                 if(mission.SansIncident)
                 {
                     if(jour>=mission.DureeFixee) {issue=IssueMission.Reussite;sansIncident=true;}
