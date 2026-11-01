@@ -89,14 +89,18 @@ public static class ResolutionMissions
             case "Enquête":
             {
                 int cible=CibleInvestigation(mission.Rang);
-                bool a=JetGroupe(equipe,"Intelligence",cible), b=JetGroupe(equipe,"Charisme",cible);
-                if(a&&b) issue=IssueMission.Reussite;
+                int intelligence=Random.Shared.Next(1,21) + equipe.Max(m =>
+                    ReglesCaracteristiques.Modificateur(Math.Clamp(
+                        m.Statistiques.GetValueOrDefault("Intelligence",10),1,20)));
+                int charisme=Random.Shared.Next(1,21) + equipe.Max(m =>
+                    ReglesCaracteristiques.Modificateur(Math.Clamp(
+                        m.Statistiques.GetValueOrDefault("Charisme",10),1,20)));
+                if(intelligence>=cible && charisme>=cible) issue=IssueMission.Reussite;
                 else
                 {
-                    if(!a&&!b && !JetGroupe(equipe,"Intelligence",10) && !JetGroupe(equipe,"Charisme",10))
-                        mission.EchecsEnqueteConsecutifs++;
-                    else mission.EchecsEnqueteConsecutifs=0;
-                    if(mission.EchecsEnqueteConsecutifs>=2)issue=IssueMission.Echec;
+                    mission.EchecsEnqueteConsecutifs = intelligence<10 && charisme<10
+                        ? mission.EchecsEnqueteConsecutifs+1 : 0;
+                    if(mission.EchecsEnqueteConsecutifs>=2) issue=IssueMission.Echec;
                 }
                 break;
             }
