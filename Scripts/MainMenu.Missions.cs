@@ -42,20 +42,31 @@ public partial class MainMenu
     {
         if (_etatMissions == null || _horloge == null) return false;
         DateTime maintenant = _horloge.Instant;
-        if (maintenant.Hour == 0 && maintenant.Minute == 0)
+        // Quatre jets indépendants par jour : 08h, 12h, 16h et 20h.
+        // Chaque réussite annonce une mission avant le jalon suivant.
+        if (maintenant.Minute == 0 &&
+            (maintenant.Hour == 8 || maintenant.Hour == 12 ||
+             maintenant.Hour == 16 || maintenant.Hour == 20))
         {
-            string jour = maintenant.ToString("yyyy-MM-dd");
-            if (_etatMissions.DernierMinuitTraite != jour)
+            string jalon = ReglesMissions.DateIso(maintenant);
+            if (_etatMissions.DernierJalonApparitionTraite != jalon)
             {
-                _etatMissions.DernierMinuitTraite = jour;
+                _etatMissions.DernierJalonApparitionTraite = jalon;
                 if (_etatMissions.Proposition == null &&
                     string.IsNullOrEmpty(_etatMissions.DateAnnoncePrevue) &&
-                    Random.Shared.NextDouble() < ReglesMissions.ProbabiliteApparition(_etat.Prestige))
+                    _etat != null && _registreMembres != null)
                 {
-                    // Horaire compris entre 08:00 et 16:00 inclus.
-                    int minutes = Random.Shared.Next(8 * 60, 16 * 60 + 1);
-                    _etatMissions.DateAnnoncePrevue =
-                        ReglesMissions.DateIso(maintenant.Date.AddMinutes(minutes));
+                    double probabilite = ReglesMissions.ProbabiliteApparition(_etat.Prestige);
+                    // Multiplicateur de la ville de départ prévu dans les règles.
+                    if (_villeDepart == "Gori Nirog")
+                        probabilite = Math.Min(1.0, probabilite * 2.0);
+                    if (Random.Shared.NextDouble() < probabilite)
+                    {
+                        // 1 à 239 minutes après le jalon : au plus tard XXh59.
+                        // Pour 20h, l'annonce précède minuit.
+                        _etatMissions.DateAnnoncePrevue = ReglesMissions.DateIso(
+                            maintenant.AddMinutes(Random.Shared.Next(1, 240)));
+                    }
                 }
             }
         }
