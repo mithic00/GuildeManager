@@ -6,12 +6,7 @@ using System.Collections.Generic;
 /// <summary>Gestion des propositions, tableau des missions et départs automatiques.</summary>
 public partial class MainMenu
 {
-    // Paramètres provisoires en attente des règles complètes de fatigue.
-    private const int FatigueMaxPourPartir = 10;
-    private const int MoralMinPourPartir = 25;
-    private const int ChanceMissionQuotidienne = 10;
-    private const int CibleMotivation = 10;
-    private const double TauxSuccesMission = 0.50;
+    private const int MoralMinPourPartir = 20;
 
     private EtatMissions _etatMissions;
     private Window _fenetreNouvelleMission;
@@ -55,7 +50,7 @@ public partial class MainMenu
                 _etatMissions.DernierMinuitTraite = jour;
                 if (_etatMissions.Proposition == null &&
                     string.IsNullOrEmpty(_etatMissions.DateAnnoncePrevue) &&
-                    Random.Shared.Next(100) < ChanceMissionQuotidienne)
+                    Random.Shared.NextDouble() < ReglesMissions.ProbabiliteApparition(_etat.Prestige))
                 {
                     // Horaire compris entre 08:00 et 16:00 inclus.
                     int minutes = Random.Shared.Next(8 * 60, 16 * 60 + 1);
@@ -66,10 +61,10 @@ public partial class MainMenu
         }
 
         TerminerMissionsArrivees(maintenant);
+        if (maintenant.Hour == 8 && maintenant.Minute == 0)
+            ActualiserReposEtMoral();
         if (maintenant.Minute == 0 &&
-            (maintenant.Hour == 0 || maintenant.Hour == 8 ||
-             maintenant.Hour == 12 || maintenant.Hour == 16 ||
-             maintenant.Hour == 20))
+            (maintenant.Hour == 8 || maintenant.Hour == 12 || maintenant.Hour == 16))
             ProposerMissionsAuxEquipes(maintenant);
 
         if (string.IsNullOrWhiteSpace(_etatMissions.DateAnnoncePrevue) ||
@@ -79,6 +74,7 @@ public partial class MainMenu
         _etatMissions.DateAnnoncePrevue = "";
         if (_etatMissions.Proposition != null) return false;
         _etatMissions.Proposition = ReglesMissions.Generer(_registreMembres.Membres);
+        if (_etatMissions.Proposition == null) return false;
         InterrompreAvanceeTemps("Une nouvelle mission est proposée à la guilde.");
         AfficherPropositionMission();
         return true;
@@ -157,47 +153,110 @@ public partial class MainMenu
         _tableauDesMissions.AddChild(cellule);
     }
 
+    private static bool JetStat(MembreGuilde membre, string stat, int cible) =>
+        Random.Shared.Next(1, 21) + ReglesCaracteristiques.Modificateur(
+            Math.Clamp(membre.Statistiques.GetValueOrDefault(stat, 10), 1, 20)) >= cible;
+
+    private static int MaxStat(List<MembreGuilde> equipe, string stat) =>
+        equipe.Max(m => m.Statistiques.GetValueOrDefault(stat, 10));
+
+    private static bool AdmissibleCategorie(List<MembreGuilde> equipe, MissionGuilde mission)
+    {
+        switch (mission.Categorie)
+        {
+            case "Enquête":
+                return MaxStat(equipe, "Intelligence") >=
+                    (ReglesMissions.IndexRang(mission.Rang) >= ReglesMissions.IndexRang("S") ? 15 : 12);
+            case "Service":
+                return MaxStat(equipe, "Gentillesse") >= 10 || MaxStat(equipe, "Empathie") >= 10;
+            case "Recherche mort ou vif":
+                return MaxStat(equipe, "Intelligence") >= 10;
+            case "Capture vif":
+                return MaxStat(equipe, "Agilite") >= 10;
+            default: return true;
+        }
+    }
+
+    private bool GroupeDisponible(List<MembreGuilde> equipe)
+    {
+        if (equipe.Any(m => m.Moral < MoralMinPourPartir)) return false;
+        if (_etatMissions.Missions.Any(m => m.Etat == "EnCours" &&
+            m.ParticipantIds.Any(id => equipe.Any(p => p.Id == id)))) return false;
+        foreach (MembreGuilde membre in equipe)
+        {
+            int fatigue = membre.Fatigue ?? 0;
+            if (fatigue > 75) return false;
+            if (fatigue >= 50 && !JetStat(membre, "Constitution", 12)) return false;
+        }
+        return true;
+    }
+
     private void ProposerMissionsAuxEquipes(DateTime instant)
     {
         if (_etatMissions == null || _registreMembres == null) return;
-        if (!_etatMissions.Missions.Any(m => m.Etat == "Disponible")) return;
-
-        // Les vrais groupes et les indépendants sont chacun une unité de départ.
-        // Le maître de guilde n'effectue pas encore de départ automatique.
-        var candidats = _registreMembres.Membres.Where(m => !m.EstMaitreDeGuilde)
+        var disponibles = _etatMissions.Missions.Where(m => m.Etat == "Disponible")
+            .OrderBy(_ => Random.Shared.Next()).ToList();
+        if (disponibles.Count == 0) return;
+        var groupes = _registreMembres.Membres.Where(m => !m.EstMaitreDeGuilde)
             .GroupBy(m => string.IsNullOrWhiteSpace(m.EquipeId)
                 ? "solo:" + m.Id : "equipe:" + m.EquipeId)
-            .Select(g => g.ToList())
-            .OrderBy(_ => Random.Shared.Next()).ToList();
+            .Select(g => g.ToList()).ToList();
 
-        foreach (List<MembreGuilde> equipe in candidats)
+        // L'ordre est à nouveau tiré pour CHAQUE mission.
+        foreach (MissionGuilde mission in disponibles)
         {
-            MissionGuilde mission = _etatMissions.Missions
-                .Where(m => m.Etat == "Disponible" &&
-                    equipe.All(p => ReglesMissions.RangSuffisant(p, m.Rang)))
-                .OrderBy(_ => Random.Shared.Next()).FirstOrDefault();
-            if (mission == null) continue;
-            if (equipe.Any(m => (m.Fatigue ?? 0) > FatigueMaxPourPartir ||
-                                m.Moral < MoralMinPourPartir)) continue;
-            if (_etatMissions.Missions.Any(m => m.Etat == "EnCours" &&
-                m.ParticipantIds.Any(id => equipe.Any(p => p.Id == id)))) continue;
+            foreach (var equipe in groupes.OrderBy(_ => Random.Shared.Next()))
+            {
+                if (!equipe.All(m => ReglesMissions.RangSuffisant(m, mission.Rang)) ||
+                    !AdmissibleCategorie(equipe, mission) ||
+                    !GroupeDisponible(equipe)) continue;
+                int meilleurBonusVolonte = equipe.Max(m => ReglesCaracteristiques.Modificateur(
+                    Math.Clamp(m.Statistiques.GetValueOrDefault("Volonte", 10), 1, 20)));
+                if (Random.Shared.Next(1, 21) + meilleurBonusVolonte < 5) continue;
 
-            // Une équipe part seulement si chacun de ses membres est partant.
-            bool motivés = equipe.All(m =>
-                Random.Shared.Next(1, 21) +
-                ReglesCaracteristiques.Modificateur(Math.Clamp(m.Motivation ?? 10, 1, 20))
-                >= CibleMotivation);
-            if (!motivés) continue;
-
-            mission.Etat = "EnCours";
-            mission.DateDepart = ReglesMissions.DateIso(instant);
-            mission.DateRetour = ReglesMissions.DateIso(instant.AddDays(1));
-            mission.ParticipantIds = equipe.Select(m => m.Id).ToList();
-            AjouterEntreeJournal(string.Join(", ", equipe.Select(m => m.NomComplet)) +
-                " partent en mission (" + mission.Rang + " : " + mission.Categorie + ").",
-                "mission");
+                mission.Etat = "EnCours";
+                mission.DateDepart = ReglesMissions.DateIso(instant);
+                mission.DateRetour = ReglesMissions.DateIso(instant.AddDays(1));
+                mission.ParticipantIds = equipe.Select(m => m.Id).ToList();
+                mission.JoursEcoules = 0;
+                mission.DureeFixee = ResolutionMissions.DureeFixee(mission);
+                mission.SansIncident = mission.Categorie == "Protection d'un lieu" &&
+                    Random.Shared.Next(2) == 0;
+                AjouterEntreeJournal(string.Join(", ", equipe.Select(m => m.NomComplet)) +
+                    " partent en mission (" + mission.Rang + " : " + mission.Categorie + ").",
+                    "mission");
+                break;
+            }
         }
         RaffraichirTableauMissions();
+    }
+
+    private void ActualiserReposEtMoral()
+    {
+        if (_registreMembres == null) return;
+        foreach (var membre in _registreMembres.Membres)
+        {
+            // Repos quotidien uniquement pour les membres présents dans la guilde.
+            bool absent = _etatMissions.Missions.Any(q => q.Etat == "EnCours" &&
+                q.ParticipantIds.Contains(membre.Id));
+            if (absent) continue;
+            membre.Fatigue = Math.Max(0, (membre.Fatigue ?? 0) - Random.Shared.Next(1, 6));
+            int frustration = membre.Statistiques.GetValueOrDefault("Frustration", 10);
+            bool reussi = JetStat(membre, "Volonte", 8);
+            int malus = frustration >= 10 ? 10 : frustration >= 5 ? 15 : 20;
+            membre.Moral = Math.Clamp(membre.Moral + (reussi ? 10 : -malus), 0, 100);
+        }
+    }
+
+    private static int PerteMoral(MembreGuilde membre)
+    {
+        int frustration = membre.Statistiques.GetValueOrDefault("Frustration", 10);
+        return frustration >= 10 ? 1 : frustration >= 5 ? 2 : 4;
+    }
+    private static int PerteMort(MembreGuilde membre)
+    {
+        int frustration = membre.Statistiques.GetValueOrDefault("Frustration", 10);
+        return frustration >= 10 ? 10 : frustration >= 5 ? 20 : 40;
     }
 
     private void TerminerMissionsArrivees(DateTime instant)
@@ -207,44 +266,83 @@ public partial class MainMenu
             m.Etat == "EnCours" && !string.IsNullOrEmpty(m.DateRetour) &&
             ReglesMissions.LireDate(m.DateRetour) <= instant).ToList())
         {
-            List<MembreGuilde> participants = _registreMembres.Membres
-                .Where(m => mission.ParticipantIds.Contains(m.Id)).ToList();
+            var participants = _registreMembres.Membres.Where(m =>
+                mission.ParticipantIds.Contains(m.Id)).ToList();
+            if (participants.Count == 0) { mission.Etat = "Terminee"; mission.Reussie = false; continue; }
+
+            mission.JoursEcoules++;
+            ResultatJourMission resultat = ResolutionMissions.Resoudre(mission, participants);
+            if (resultat.Issue == IssueMission.Continue)
+            {
+                mission.DateRetour = ReglesMissions.DateIso(instant.AddDays(1));
+                continue;
+            }
+
             mission.Etat = "Terminee";
-            bool victoire = Random.Shared.NextDouble() < TauxSuccesMission;
+            bool victoire = resultat.Issue == IssueMission.Reussite;
             mission.Reussie = victoire;
+            mission.SansGainSecondaire = resultat.SansIncident;
+            int nombreMorts = resultat.Issue == IssueMission.Mort
+                ? Random.Shared.Next(1, participants.Count + 1) : 0;
+            var morts = participants.OrderBy(_ => Random.Shared.Next()).Take(nombreMorts).ToList();
+            var survivants = participants.Where(m => !morts.Contains(m)).ToList();
+
             _etat.Prestige = Math.Max(0,
                 _etat.Prestige + ReglesMissions.VariationPrestige(mission.Rang, victoire));
 
             int xpPart = participants.Count == 0 ? 0 :
                 ReglesMissions.ExperiencePourMission(mission.Rang) / participants.Count;
-            int ecusPart = victoire && participants.Count > 0
-                ? mission.Recompense / participants.Count : 0;
+            int partGuilde = victoire ? mission.Recompense * 20 / 100 : 0;
+            int ecusPart = victoire ? (mission.Recompense - partGuilde) / participants.Count : 0;
+            _etat.Ecus += partGuilde;
 
-            foreach (MembreGuilde m in participants)
+            foreach (MembreGuilde m in survivants)
             {
-                ReglesMissions.AjouterExperience(m, xpPart);
-                if (victoire)
-                    ReglesMissions.EnregistrerReussiteEtPromouvoir(m, mission.Rang);
-                int connaissance = Random.Shared.Next(0, 3);
-                m.ConnaissanceMagique += connaissance;
-                _etat.Savoir += connaissance;
+                if (!resultat.SansIncident)
+                {
+                    ReglesMissions.AjouterExperience(m, xpPart);
+                    if (victoire)
+                    {
+                        ReglesMissions.EnregistrerReussiteEtPromouvoir(m, mission.Rang);
+                        bool magieElevee = mission.Categorie == "Élimination de danger" ||
+                            mission.Categorie == "Recherche mort ou vif" ||
+                            mission.Categorie == "Renfort pour Assaut";
+                        bool magieStandard = magieElevee || mission.Categorie == "Escorte" ||
+                            mission.Categorie == "Capture vif" || mission.Categorie == "Protection d'un lieu";
+                        if (magieStandard) ResolutionMissions.ProgresserMagie(m, magieElevee);
+                    }
+                }
+                if (victoire && !resultat.SansIncident)
+                    ResolutionMissions.BonusStats(mission, new List<MembreGuilde> { m });
 
-                // Application littérale de « fait perdre de la fatigue ».
+                int savoir = Random.Shared.Next(0, 3);
+                if (!resultat.SansIncident) { m.ConnaissanceMagique += savoir; _etat.Savoir += savoir; }
                 int constitution = m.Statistiques.GetValueOrDefault("Constitution", 10);
-                int variation = 20 + ReglesCaracteristiques.Modificateur(
-                    Math.Clamp(constitution, 1, 20));
-                m.Fatigue = Math.Max(0, (m.Fatigue ?? 0) - variation);
-                if (victoire)
-                    _etat.Ecus += m.EstMaitreDeGuilde ? ecusPart
-                        : ecusPart * 20 / 100; // 20 % pour la guilde
+                m.Fatigue = Math.Clamp((m.Fatigue ?? 0) + 20 -
+                    ReglesCaracteristiques.Modificateur(Math.Clamp(constitution, 1, 20)), 0, 100);
+                m.Bonheur = Math.Clamp(m.Bonheur + (victoire ? 1 : -1) - 10 * nombreMorts, 0, 100);
+                m.Moral = Math.Clamp(m.Moral + (victoire ? 1 : -PerteMoral(m)) -
+                    PerteMort(m) * nombreMorts, 0, 100);
+                if (victoire) m.EcusPersonnels += ecusPart;
             }
+
+            foreach (MembreGuilde mort in morts) _registreMembres.Membres.Remove(mort);
+            _etat.Membres = _registreMembres.Membres.Count;
+            _etat.Pouvoir = _registreMembres.Membres.Sum(m => (long)m.NiveauMagique);
+            foreach (var exclu in _registreMembres.Membres.Where(m => !m.EstMaitreDeGuilde && m.Bonheur <= 0).ToList())
+                _registreMembres.Membres.Remove(exclu);
+            _etat.Membres = _registreMembres.Membres.Count;
+            _etat.Pouvoir = _registreMembres.Membres.Sum(m => (long)m.NiveauMagique);
+            _etat.Savoir = _registreMembres.Membres.Sum(m => (long)m.ConnaissanceMagique);
 
             AfficherValeur(_ecus, _etat.Ecus);
             AfficherValeur(_savoir, _etat.Savoir);
             AfficherValeur(_prestige, _etat.Prestige);
+            AfficherValeur(_membres, _etat.Membres);
+            AfficherValeur(_pouvoir, _etat.Pouvoir);
             AjouterEntreeJournal((victoire ? "Mission réussie" : "Mission échouée") +
-                " : " + mission.Categorie + " (rang " + mission.Rang + ").",
-                "mission");
+                " : " + mission.Categorie + " (rang " + mission.Rang + ")." +
+                (nombreMorts > 0 ? " " + nombreMorts + " membre(s) décédé(s)." : ""), "mission");
         }
         RaffraichirTableauMissions();
     }
