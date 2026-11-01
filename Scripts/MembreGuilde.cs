@@ -35,6 +35,18 @@ public sealed class MembreGuilde
     public bool PotentielMagiqueRevele { get; set; }
     public List<string> Pouvoirs { get; set; } = new();
     public Dictionary<string, int> Statistiques { get; set; } = new();
+    /// <summary>
+    /// Noms des caractéristiques révélées pendant les entretiens à l'auberge.
+    /// Null pour les anciennes recrues, dont la connaissance n'était pas sauvegardée.
+    /// Le maître de guilde connaît toujours ses propres caractéristiques.
+    /// </summary>
+    public List<string> StatistiquesConnues { get; set; }
+
+    public bool ConnaitStatistique(string nom)
+    {
+        return EstJoueur || EstMaitreDeGuilde ||
+               (StatistiquesConnues != null && StatistiquesConnues.Contains(nom));
+    }
     public int Bonheur { get; set; } = 20;
     public int Moral { get; set; } = 100;
     public int ConnaissanceMagique { get; set; } = 0;
