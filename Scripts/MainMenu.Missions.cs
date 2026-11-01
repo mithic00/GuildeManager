@@ -88,35 +88,38 @@ public partial class MainMenu
 
     private void TirerApparitionAuJalon(DateTime maintenant)
     {
-        // Quatre jets indépendants par jour : 08h, 12h, 16h et 20h.
-        // Chaque réussite annonce une mission avant le jalon suivant.
-        if (maintenant.Minute == 0 &&
-            (maintenant.Hour == 8 || maintenant.Hour == 12 ||
-             maintenant.Hour == 16 || maintenant.Hour == 20))
-        {
-            string jalon = ReglesMissions.DateIso(maintenant);
-            if (_etatMissions.DernierJalonApparitionTraite != jalon)
-            {
-                _etatMissions.DernierJalonApparitionTraite = jalon;
-                if (_etatMissions.Proposition == null &&
-                    string.IsNullOrEmpty(_etatMissions.DateAnnoncePrevue) &&
-                    _etat != null && _registreMembres != null)
-                {
-                    double probabilite = ReglesMissions.ProbabiliteApparition(_etat.Prestige);
-                    // Multiplicateur de la ville de départ prévu dans les règles.
-                    if (_villeDepart == "Gori Nirog")
-                        probabilite = Math.Min(1.0, probabilite * 2.0);
-                    if (Random.Shared.NextDouble() < probabilite)
-                    {
-                        // 1 à 239 minutes après le jalon : au plus tard XXh59.
-                        // Pour 20h, l'annonce précède minuit.
-                        _etatMissions.DateAnnoncePrevue = ReglesMissions.DateIso(
-                            maintenant.AddMinutes(Random.Shared.Next(1, 240)));
-                    }
-                }
-            }
-        }
+        // Sept jets de spawn quotidiens, indépendants des jalons d'arrêt du temps :
+        // 08h, 10h, 12h, 14h, 16h, 18h et 20h.
+        if (maintenant.Minute != 0 ||
+            (maintenant.Hour != 8 && maintenant.Hour != 10 &&
+             maintenant.Hour != 12 && maintenant.Hour != 14 &&
+             maintenant.Hour != 16 && maintenant.Hour != 18 &&
+             maintenant.Hour != 20))
+            return;
 
+        string jalon = ReglesMissions.DateIso(maintenant);
+        if (_etatMissions.DernierJalonApparitionTraite == jalon)
+            return;
+
+        _etatMissions.DernierJalonApparitionTraite = jalon;
+        if (_etatMissions.Proposition != null ||
+            !string.IsNullOrEmpty(_etatMissions.DateAnnoncePrevue) ||
+            _etat == null || _registreMembres == null)
+            return;
+
+        double probabilite = ReglesMissions.ProbabiliteApparition(_etat.Prestige);
+        if (_villeDepart == "Gori Nirog")
+            probabilite = Math.Min(1.0, probabilite * 2.0);
+
+        if (Random.Shared.NextDouble() >= probabilite)
+            return;
+
+        // Jusqu'à 19h59 pour les jets de 08h à 18h (fenêtre de 2h).
+        // Celui de 20h peut donner une mission entre 20h01 et 23h59.
+        int minutesAvantProchainJalon = maintenant.Hour == 20 ? 240 : 120;
+        int delai = Random.Shared.Next(1, minutesAvantProchainJalon);
+        _etatMissions.DateAnnoncePrevue =
+            ReglesMissions.DateIso(maintenant.AddMinutes(delai));
     }
 
     private void AfficherPropositionMission()
