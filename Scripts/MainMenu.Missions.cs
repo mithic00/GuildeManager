@@ -44,8 +44,6 @@ public partial class MainMenu
         _fenetreNouvelleMission.Hide();
 
         _tableauDesMissions.Resized += PositionnerParchemins;
-        // Le Control de la scène peut ne pas avoir sa taille définitive à _Ready.
-        _tableauDesMissions.SetDeferred(Control.PropertyName.CustomMinimumSize, new Vector2(720, 340));
         RaffraichirTableauMissions();
         CallDeferred(nameof(PositionnerParchemins));
 
