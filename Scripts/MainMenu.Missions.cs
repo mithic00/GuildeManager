@@ -236,11 +236,12 @@ public partial class MainMenu
         if (_registreMembres == null) return;
         foreach (var membre in _registreMembres.Membres)
         {
-            // Repos quotidien uniquement pour les membres présents dans la guilde.
+            // La récupération concerne les membres présents ; le jet quotidien
+            // de moral concerne tous les membres, y compris ceux en mission.
             bool absent = _etatMissions.Missions.Any(q => q.Etat == "EnCours" &&
                 q.ParticipantIds.Contains(membre.Id));
-            if (absent) continue;
-            membre.Fatigue = Math.Max(0, (membre.Fatigue ?? 0) - Random.Shared.Next(1, 6));
+            if (!absent)
+                membre.Fatigue = Math.Max(0, (membre.Fatigue ?? 0) - Random.Shared.Next(1, 6));
             int frustration = membre.Statistiques.GetValueOrDefault("Frustration", 10);
             bool reussi = JetStat(membre, "Volonte", 8);
             int malus = frustration >= 10 ? 10 : frustration >= 5 ? 15 : 20;
