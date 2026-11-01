@@ -493,8 +493,9 @@ public partial class MainMenu
             // En cas de décès, seuls les survivants rentrent effectivement.
             if (survivants.Count > 0)
             {
-                string sujetRetour = participants.Count > 1
-                    ? "Equipe de " + participants[0].NomComplet
+                // Ne jamais annoncer le retour d'un membre qui est décédé.
+                string sujetRetour = survivants.Count > 1
+                    ? "Equipe de " + survivants[0].NomComplet
                     : survivants[0].NomComplet;
                 AjouterEntreeJournal(sujetRetour + " rentre de mission (" +
                     mission.Rang + " : " + mission.Categorie + ").", "mission");
@@ -528,9 +529,19 @@ public partial class MainMenu
             AfficherValeur(_prestige, _etat.Prestige);
             AfficherValeur(_membres, _etat.Membres);
             AfficherValeur(_pouvoir, _etat.Pouvoir);
-            AjouterEntreeJournal((victoire ? "Mission réussie" : "Mission échouée") +
-                " : " + mission.Categorie + " (rang " + mission.Rang + ")." +
-                (nombreMorts > 0 ? " " + nombreMorts + " membre(s) décédé(s)." : ""), "mission");
+            string descriptionResultat = (victoire ? "Mission réussie" : "Mission échouée") +
+                " : " + mission.Categorie + " (rang " + mission.Rang + ").";
+            if (morts.Count == 1)
+                descriptionResultat += " " + morts[0].NomComplet + " est décédé en mission.";
+            else if (morts.Count > 1)
+                descriptionResultat += " Membres décédés en mission : " +
+                    string.Join(", ", morts.Select(m => m.NomComplet)) + ".";
+
+            // Le type de résultat est conservé dans le journal pour que sa
+            // couleur reste la même après sauvegarde et rechargement.
+            string typeResultat = victoire ? "mission_reussite" :
+                morts.Count > 0 ? "mission_deces" : "mission_echec";
+            AjouterEntreeJournal(descriptionResultat, typeResultat);
         }
         RaffraichirTableauMissions();
     }
