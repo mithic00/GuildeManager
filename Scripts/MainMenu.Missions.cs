@@ -31,6 +31,12 @@ public partial class MainMenu
 
         RaffraichirTableauMissions();
 
+        // Une nouvelle partie démarre à 08h00 : tirer le premier jalon dès
+        // l'initialisation, sans appliquer deux fois le repos/moral au chargement.
+        if (_horloge != null && _horloge.Instant.Hour == 8 &&
+            _horloge.Instant.Minute == 0)
+            TirerApparitionAuJalon(_horloge.Instant);
+
         // Réouverture d'une proposition non tranchée après chargement.
         if (_etatMissions.Proposition != null &&
             _etatMissions.Proposition.Etat == "Proposee")
@@ -42,6 +48,30 @@ public partial class MainMenu
     {
         if (_etatMissions == null || _horloge == null) return false;
         DateTime maintenant = _horloge.Instant;
+        TirerApparitionAuJalon(maintenant);
+
+        TerminerMissionsArrivees(maintenant);
+        if (maintenant.Hour == 8 && maintenant.Minute == 0)
+            ActualiserReposEtMoral();
+        if (maintenant.Minute == 0 &&
+            (maintenant.Hour == 8 || maintenant.Hour == 12 || maintenant.Hour == 16))
+            ProposerMissionsAuxEquipes(maintenant);
+
+        if (string.IsNullOrWhiteSpace(_etatMissions.DateAnnoncePrevue) ||
+            maintenant < ReglesMissions.LireDate(_etatMissions.DateAnnoncePrevue))
+            return false;
+
+        _etatMissions.DateAnnoncePrevue = "";
+        if (_etatMissions.Proposition != null) return false;
+        _etatMissions.Proposition = ReglesMissions.Generer(_registreMembres.Membres);
+        if (_etatMissions.Proposition == null) return false;
+        InterrompreAvanceeTemps("Une nouvelle mission est proposée à la guilde.");
+        AfficherPropositionMission();
+        return true;
+    }
+
+    private void TirerApparitionAuJalon(DateTime maintenant)
+    {
         // Quatre jets indépendants par jour : 08h, 12h, 16h et 20h.
         // Chaque réussite annonce une mission avant le jalon suivant.
         if (maintenant.Minute == 0 &&
@@ -71,24 +101,6 @@ public partial class MainMenu
             }
         }
 
-        TerminerMissionsArrivees(maintenant);
-        if (maintenant.Hour == 8 && maintenant.Minute == 0)
-            ActualiserReposEtMoral();
-        if (maintenant.Minute == 0 &&
-            (maintenant.Hour == 8 || maintenant.Hour == 12 || maintenant.Hour == 16))
-            ProposerMissionsAuxEquipes(maintenant);
-
-        if (string.IsNullOrWhiteSpace(_etatMissions.DateAnnoncePrevue) ||
-            maintenant < ReglesMissions.LireDate(_etatMissions.DateAnnoncePrevue))
-            return false;
-
-        _etatMissions.DateAnnoncePrevue = "";
-        if (_etatMissions.Proposition != null) return false;
-        _etatMissions.Proposition = ReglesMissions.Generer(_registreMembres.Membres);
-        if (_etatMissions.Proposition == null) return false;
-        InterrompreAvanceeTemps("Une nouvelle mission est proposée à la guilde.");
-        AfficherPropositionMission();
-        return true;
     }
 
     private void AfficherPropositionMission()
