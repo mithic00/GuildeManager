@@ -35,7 +35,7 @@ public partial class MainMenu
 
         GetNode<Button>(racine + "BoutonMembreGuilde").Pressed += AfficherListeMembres;
         GetNode<Button>(racine + "BoutonTableauMission").Pressed += () => BasculerPanneau("missions");
-        GetNode<Button>(racine + "BoutonMagasins").Pressed += () => BasculerPanneau("magasin");
+        GetNode<Button>(racine + "BoutonMagasins").Pressed += OuvrirMagasins;
         GetNode<Button>(racine + "BoutonRecrutement").Pressed += OuvrirChoixRecrutement;
         GetNode<Button>(racine + "BoutonBudget").Pressed += () => BasculerPanneau("budget");
         GetNode<Button>(racine + "BoutonEvenements").Pressed += () => BasculerPanneau("evenements");
@@ -79,6 +79,8 @@ public partial class MainMenu
         _fondMagasin.Visible = nom == "magasin";
         _panneauMissions.Visible = nom == "missions";
         _panneauMembres.Visible = nom == "membres";
+        if (_zoneMagasins != null)
+            _zoneMagasins.Visible = nom == "magasin";
         GetNode<Control>("JournalJoueur").Visible = nom == "bureau";
         if (_contenuAuberge != null) _contenuAuberge.Visible = nom == "auberge";
         if (_fondAuberge != null) _fondAuberge.Visible = nom == "auberge";
