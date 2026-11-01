@@ -358,18 +358,25 @@ public partial class MainMenu
 
             foreach (MembreGuilde m in survivants)
             {
+                if (victoire)
+                {
+                    string ancienRang = m.Rang;
+                    if (ReglesMissions.EnregistrerReussiteEtPromouvoir(m, mission.Rang))
+                        AjouterEntreeJournal(m.NomComplet + " est promu au rang " +
+                            m.Rang + " (ancien rang : " + ancienRang + ").", "mission");
+                }
                 if (!resultat.SansIncident)
                 {
                     ReglesMissions.AjouterExperience(m, xpPart);
                     if (victoire)
                     {
-                        ReglesMissions.EnregistrerReussiteEtPromouvoir(m, mission.Rang);
                         bool magieElevee = mission.Categorie == "Élimination de danger" ||
                             mission.Categorie == "Recherche mort ou vif" ||
                             mission.Categorie == "Renfort pour Assaut";
                         bool magieStandard = magieElevee || mission.Categorie == "Escorte" ||
                             mission.Categorie == "Capture vif" || mission.Categorie == "Protection d'un lieu";
                         if (magieStandard) ResolutionMissions.ProgresserMagie(m, magieElevee);
+                        ReglesMissions.AppliquerPromotionsAcquises(m);
                     }
                 }
                 if (victoire && !resultat.SansIncident)
