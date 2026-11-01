@@ -126,45 +126,54 @@ Dans le cas où une mission échoue et entraine une mort et qu'il s'agit d'une �
 - Renfort pour Assaut : Minimum 1 jour. Chaque jour, calcule de réussite en fonction du niveau magique moyen de l'équipe ou le niveau magique du membre solo : Si aligné avec le niveau de la mission : 60% réussite, 30% neutre (on continue une journée de plus), 5% échec, 5% mort. S'il y a un rang d'écart en terme de niveau magique entre le membre/l'équipe et la mission : 80% réussite, 15% neutre, 4% échec, 1% mort. S'il y a au moins 2 rang d'écart en terme de niveau magique entre le membre/l'équipe et la mission : 90% réussite, 9% neutre, 1% échec. Quand la mission est réussie : Gain de niveau magique élevé.
 
 Gain niveau magique :
-Standard : gain brut = random de 1 à 5. Le gain final dépend de la motivation, du niveau magique et du potentiel magique :
+Standard : à chaque progression applicable, gain brut aléatoire entre 1 et 5.
+Élevé : même calcul, mais gain brut multiplié par 1,20.
+
 ======================================================================
-FORMULE DE PROGRESSION (EXPOSANT VARIABLE)
+FORMULE DE PROGRESSION MAGIQUE VALIDÉE (20 COURBES DE MOTIVATION)
 ======================================================================
 
 NouveauNiveau = Min(NiveauActuel + Gain, Potentiel)
+CheminRestant = (Potentiel - NiveauActuel) / Potentiel
+Exposant = ((20 - Motivation) ^ 2) / 38
+Gain = VitesseBase * (CheminRestant ^ Exposant)
 
-Où :
-- CheminRestant = (Potentiel - NiveauActuel) / Potentiel
-- Exposant      = (20 - Motivation) / 2
-- Gain          = VitesseBase * (CheminRestant ^ Exposant)
+Variables :
+- NiveauActuel : niveau magique réel actuel, décimales conservées en interne.
+- Potentiel : plafond individuel du niveau magique, qui ne change pas.
+- Motivation : valeur de 1 à 20.
+- VitesseBase : tirage de 1 à 5 (mission standard), multiplié par 1,20 pour une mission à gain élevé.
+- ^ : puissance (Math.Pow).
+- Si NiveauActuel >= Potentiel, aucun gain n'est appliqué.
+- L'affichage du niveau magique reste entier (partie entière du niveau réel).
+- Les fractions ne sont pas perdues : elles sont conservées d'une mission à la suivante.
 
+Exposants représentatifs :
+Motivation 20 : 0,000 (linéaire jusqu'au plafond)
+Motivation 18 : 0,105
+Motivation 15 : 0,658
+Motivation 10 : 2,632
+Motivation 5  : 5,921
+Motivation 1  : 9,500
 
-EXPLICATION DES VARIABLES :
-----------------------------------------------------------------------
-- NiveauActuel : Niveau du personnage au moment du gain (ex: 120).
-- Potentiel    : Niveau maximum atteignable (ex: 800).
-- Motivation   : Valeur entre 1 et 20.
-- VitesseBase  : Gain maximum par action pour un perso motivé à 20 (ex: 10).
-- ^            : Symbole de la puissance / exposant (Pow).
+Les 20 valeurs de motivation produisent 20 courbes continues via une formule unique.
+À motivation 20, le gain égale la vitesse de base jusqu'au potentiel.
+Plus la motivation est basse, plus la progression s'écrase en s'approchant du potentiel.
+Une motivation très basse peut nécessiter plusieurs milliers de missions pour
+s'approcher du potentiel, qui peut rester inaccessible dans une carrière ordinaire.
 
-Simulation pour confirmer : Niveau = 120 et Potentiel = 800
-Nombre de gainsMotivation = 20(Exposant p=0 — Linéaire)Motivation = 10(Exposant p=2,5 — Amorti)Motivation = 1(Exposant p=9,5 — S'écrase)
-0 (Départ)	120,0	120,0	120,0
-10 gains	220,0 (+100 pts)	201,3 (+81,3 pts)	120,01 (+0,01 pt)
-35 gains	470,0 (+350 pts)	344,2 (+224,2 pts)	120,06 (+0,06 pt)
-68 gains	800,0 (Potentiel ATTEINT !)	481,2 (+361,2 pts)	120,12 (+0,12 pt)
-150 gains	800,0 (Plafond)	628,4 (+508,4 pts)	120,28 (+0,28 pt)
-1 000 gains	800,0 (Plafond)	788,1 (Proche du potentiel)	121,90 (Gains minuscules)
+SIMULATION DE RÉFÉRENCE (gain brut FIXE de 3, pour isoler l'effet de la motivation) :
+Niveau magique initial = 120 ; Potentiel = 800.
+En jeu le gain brut reste ALÉATOIRE entre 1 et 5 ; les chiffres ci-dessous sont
+des exemples déterministes et non des garanties pour une partie réelle.
 
-(Niveau 30 Potentiel 100, Vitesse Base = 1)
-Gain N°	Motivation = 20 (Linéaire)	Motivation = 10 (Courbe standard)	Motivation = 1 (S'écrase immédiatement)
-0 (Départ)	30	30	30
-10	40 (+10)	35,4	30,0001 (gain dérisoire)
-30	60 (+30)	44,1	30,0004
-70 (Arrivée)	100 (Potentiel atteint !)	56,2	30,0010
-1000	—	81,9	30,0200
-
-Gain niveau magique élevé : gain standard *1.20.
+Missions   Motivation 20   Motivation 15   Motivation 10   Motivation 5   Motivation 1
+0          120,00          120,00          120,00          120,00         120,00
+150        570,00          450,62          309,86          223,21         180,40
+250        800,00          597,80          377,80          258,92         202,61
+500        800,00          775,59          475,95          312,72         237,45
+1000       800,00          800,00          565,99          367,83         275,02
+5000       800,00          800,00          704,21          482,58         360,76
 
 
 Fatigue :
