@@ -250,7 +250,20 @@ public partial class MainMenu
                     CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime instant))
                 date = HorlogeJeu.Formater(instant);
 
+            // Couleurs uniquement pour les résultats des missions.
+            // PushColor/Pop permettent de conserver les autres messages inchangés.
+            Color? couleurResultat = entree.Type switch
+            {
+                "mission_reussite" => new Color("#38a856"),
+                "mission_echec" => new Color("#ed982f"),
+                "mission_deces" => new Color("#dc4040"),
+                _ => null
+            };
+            if (couleurResultat.HasValue)
+                _journalAffichage.PushColor(couleurResultat.Value);
             _journalAffichage.AddText("[" + date + "] " + entree.Description + "\n");
+            if (couleurResultat.HasValue)
+                _journalAffichage.Pop();
         }
 
         _journalAffichage.ScrollToLine(Math.Max(0, _journalAffichage.GetLineCount() - 1));
