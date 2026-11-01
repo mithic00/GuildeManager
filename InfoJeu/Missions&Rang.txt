@@ -69,8 +69,8 @@ La formule Sigmoïde f(x) = 0.1 + 0.4 \cdot \tanh\left(\left(\frac{x}{5000}\righ
 avec x = statistique de prestige. Quelques exemple :
 Statistique (x)Taux de spawn
 0	10,00%	Taux de base
-1 000	20,38%	
-2 500	31,79%
+1 000	14,91 %
+2 500	25,41 %
 5 000	40,46%
 10 000	48,93%
 
