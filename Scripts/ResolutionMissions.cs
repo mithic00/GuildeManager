@@ -180,9 +180,13 @@ public static class ResolutionMissions
         double potentiel=membre.PotentielMagique.Value;
         if(actuel>=potentiel)return;
         double vitesse=Random.Shared.Next(1,6)*(eleve?1.20:1.0);
-        double exponent=(20-Math.Clamp(membre.Motivation??10,1,20))/2.0;
-        double reste=(potentiel-actuel)/potentiel;
-        membre.NiveauMagiquePrecis=Math.Min(potentiel,actuel+vitesse*Math.Pow(reste,exponent));
+        // Une même formule génère 20 courbes : linéaire à motivation 20,
+        // ralentissement de plus en plus marqué lorsque la motivation diminue.
+        int motivation = Math.Clamp(membre.Motivation ?? 10, 1, 20);
+        double exposant = Math.Pow(20 - motivation, 2) / 38.0;
+        double reste = (potentiel - actuel) / potentiel;
+        membre.NiveauMagiquePrecis = Math.Min(potentiel,
+            actuel + vitesse * Math.Pow(reste, exposant));
         membre.NiveauMagique=(int)Math.Floor(membre.NiveauMagiquePrecis);
     }
 
