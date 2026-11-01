@@ -161,11 +161,16 @@ public static class ResolutionMissions
                     "Service"=>new[]{"Empathie","Gentillesse","Communication"},
                     _=>new[]{"Intelligence"}
                 };
-                bool reussite=stats.All(stat=>JetGroupe(equipe,stat,CibleRecherche(mission.Rang)));
+                // Recherche et service : la table défavorable ne s'applique
+                // que si au moins deux des trois D20 échouent. Chaque jet est
+                // effectué, même si un précédent a échoué.
+                int cible = CibleRecherche(mission.Rang);
+                int echecs = stats.Count(stat => !JetGroupe(equipe, stat, cible));
+                bool jetsFavorables = echecs < 2;
                 if(cat=="Recherche d'un animal")
-                    issue=reussite?TirerIssue((IssueMission.Reussite,79),(IssueMission.Continue,15),(IssueMission.Echec,5),(IssueMission.Mort,1)):
+                    issue=jetsFavorables?TirerIssue((IssueMission.Reussite,79),(IssueMission.Continue,15),(IssueMission.Echec,5),(IssueMission.Mort,1)):
                         TirerIssue((IssueMission.Continue,79),(IssueMission.Echec,15),(IssueMission.Reussite,5),(IssueMission.Mort,1));
-                else issue=reussite?TirerIssue((IssueMission.Reussite,80),(IssueMission.Continue,15),(IssueMission.Echec,5)):
+                else issue=jetsFavorables?TirerIssue((IssueMission.Reussite,80),(IssueMission.Continue,15),(IssueMission.Echec,5)):
                     TirerIssue((IssueMission.Continue,80),(IssueMission.Echec,15),(IssueMission.Reussite,5));
                 break;
             }
