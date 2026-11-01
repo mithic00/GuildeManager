@@ -437,8 +437,13 @@ public partial class MainMenu
             var morts = participants.OrderBy(_ => Random.Shared.Next()).Take(nombreMorts).ToList();
             var survivants = participants.Where(m => !morts.Contains(m)).ToList();
 
-            _etat.Prestige = Math.Max(0,
-                _etat.Prestige + ReglesMissions.VariationPrestige(mission.Rang, victoire));
+            // Le prestige dépend du rang de la mission, jamais de celui de
+            // l'équipe qui l'a effectuée. Conserver la variation réelle permet
+            // de diagnostiquer les gains compensés par une autre mission.
+            long prestigeAvantMission = _etat.Prestige;
+            int variationPrestige = ReglesMissions.VariationPrestige(mission.Rang, victoire);
+            _etat.Prestige = Math.Max(0, prestigeAvantMission + variationPrestige);
+            long prestigeGagneOuPerdu = _etat.Prestige - prestigeAvantMission;
 
             int xpPart = participants.Count == 0 ? 0 :
                 ReglesMissions.ExperiencePourMission(mission.Rang) / participants.Count;
@@ -529,8 +534,11 @@ public partial class MainMenu
             AfficherValeur(_prestige, _etat.Prestige);
             AfficherValeur(_membres, _etat.Membres);
             AfficherValeur(_pouvoir, _etat.Pouvoir);
+            string signePrestige = prestigeGagneOuPerdu > 0 ? "+" : "";
             string descriptionResultat = (victoire ? "Mission réussie" : "Mission échouée") +
-                " : " + mission.Categorie + " (rang " + mission.Rang + ").";
+                " : " + mission.Categorie + " (rang " + mission.Rang + ")." +
+                " Prestige : " + signePrestige + prestigeGagneOuPerdu +
+                " (total : " + _etat.Prestige + ").";
             if (morts.Count == 1)
                 descriptionResultat += " " + morts[0].NomComplet + " est décédé en mission.";
             else if (morts.Count > 1)
