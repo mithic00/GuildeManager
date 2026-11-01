@@ -278,8 +278,11 @@ public partial class MainMenu
                 mission.DureeFixee = ResolutionMissions.DureeFixee(mission);
                 mission.SansIncident = mission.Categorie == "Protection d'un lieu" &&
                     Random.Shared.Next(2) == 0;
-                AjouterEntreeJournal(string.Join(", ", equipe.Select(m => m.NomComplet)) +
-                    " partent en mission (" + mission.Rang + " : " + mission.Categorie + ").",
+                string sujetDepart = equipe.Count == 1
+                    ? equipe[0].NomComplet
+                    : "Equipe de " + equipe[0].NomComplet;
+                AjouterEntreeJournal(sujetDepart +
+                    " part en mission (" + mission.Rang + " : " + mission.Categorie + ").",
                     "mission");
                 break;
             }
@@ -381,6 +384,17 @@ public partial class MainMenu
                 m.Moral = Math.Clamp(m.Moral + (victoire ? 1 : -PerteMoral(m)) -
                     PerteMort(m) * nombreMorts, 0, 100);
                 if (victoire) m.EcusPersonnels += ecusPart;
+            }
+
+            // Le retour est notifié même lorsque la mission a échoué.
+            // En cas de décès, seuls les survivants rentrent effectivement.
+            if (survivants.Count > 0)
+            {
+                string sujetRetour = participants.Count > 1
+                    ? "Equipe de " + participants[0].NomComplet
+                    : survivants[0].NomComplet;
+                AjouterEntreeJournal(sujetRetour + " rentre de mission (" +
+                    mission.Rang + " : " + mission.Categorie + ").", "mission");
             }
 
             foreach (MembreGuilde mort in morts) _registreMembres.Membres.Remove(mort);
