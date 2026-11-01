@@ -525,6 +525,7 @@ public partial class MainMenu
             foreach (MembreGuilde membre in membresDevenusSolos)
                 membre.EquipeId = "";
 
+            _registreMembres.RecalculerClassement();
             _etat.Membres = _registreMembres.Membres.Count;
             _etat.Pouvoir = _registreMembres.Membres.Sum(m => (long)m.NiveauMagique);
             _etat.Savoir = _registreMembres.Membres.Sum(m => (long)m.ConnaissanceMagique);
