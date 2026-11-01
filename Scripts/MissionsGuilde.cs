@@ -12,7 +12,10 @@ public sealed class EtatMissions
 {
     public const string CleSauvegarde = "missions_guilde";
     public int Version { get; set; } = 1;
+    // Conservé pour pouvoir relire les sauvegardes de l'ancien tirage à minuit.
     public string DernierMinuitTraite { get; set; } = "";
+    // Date ET heure du dernier jet, afin de ne pas le rejouer après chargement.
+    public string DernierJalonApparitionTraite { get; set; } = "";
     public string DateAnnoncePrevue { get; set; } = "";
     public MissionGuilde Proposition { get; set; }
     public List<MissionGuilde> Missions { get; set; } = new();
