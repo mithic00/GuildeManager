@@ -219,11 +219,8 @@ theme_override_constants/margin_top = 40
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 40
 
-[node name="ListeMission" type="GridContainer" parent="LayoutsPanneauPrincipal/TableauDesMissions" unique_id=293260194]
+[node name="ListeMission" type="Control" parent="LayoutsPanneauPrincipal/TableauDesMissions" unique_id=509624728]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-columns = 6
 
 [node name="ListeDesMembres" type="MarginContainer" parent="LayoutsPanneauPrincipal" unique_id=1136047692]
 visible = false
