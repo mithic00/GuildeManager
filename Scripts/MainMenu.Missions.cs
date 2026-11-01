@@ -375,8 +375,14 @@ public partial class MainMenu
                             mission.Categorie == "Renfort pour Assaut";
                         bool magieStandard = magieElevee || mission.Categorie == "Escorte" ||
                             mission.Categorie == "Capture vif" || mission.Categorie == "Protection d'un lieu";
-                        if (magieStandard) ResolutionMissions.ProgresserMagie(m, magieElevee);
-                        ReglesMissions.AppliquerPromotionsAcquises(m);
+                        if (magieStandard)
+                        {
+                            ResolutionMissions.ProgresserMagie(m, magieElevee);
+                            string rangAvantProgression = m.Rang;
+                            if (ReglesMissions.AppliquerPromotionsAcquises(m))
+                                AjouterEntreeJournal(m.NomComplet + " est promu au rang " +
+                                    m.Rang + " (ancien rang : " + rangAvantProgression + ").", "mission");
+                        }
                     }
                 }
                 if (victoire && !resultat.SansIncident)
