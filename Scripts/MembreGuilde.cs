@@ -27,6 +27,9 @@ public sealed class MembreGuilde
     public string Rang { get; set; } = "*";
     public int Classement { get; set; } = 1;
     public int NiveauMagique { get; set; } = 1;
+    // Précision décimale conservée pour les petits gains de magie.
+    public double NiveauMagiquePrecis { get; set; }
+    public long EcusPersonnels { get; set; }
     public int? PotentielMagique { get; set; }
     /// <summary>Le potentiel réel existe, mais reste caché tant qu'il n'est pas révélé.</summary>
     public bool PotentielMagiqueRevele { get; set; }
