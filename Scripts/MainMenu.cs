@@ -52,6 +52,7 @@ public partial class MainMenu : Control
         InitialiserNavigationEtMembres();
         InitialiserTempsEtJournal();
         InitialiserRecrutementAuberge();
+        InitialiserNavigationMagasins();
         InitialiserMissions();
     }
 
