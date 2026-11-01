@@ -98,7 +98,7 @@ Pour déterminer si une équipe ou un membre solo de la guilde prend une mission
 - Pour les équipes : on utilisera la stats la plus élevé parmi les membres si une stats est impliqué.
 - Seul les membres de la guilde présent peuvent prendre une mission. Quand un membre ou une équipe prend une mission, il est absent de la guilde.
 - Si un membre de l'équipe ou le membre solo à moins de 20 de moral, il ne prend pas de mission.
-- Si un membre possède moins de 50 de fatigue, il peut prendre une mission. S'il possède entre 51 et 75 de fatigue, il fera un D20 de constitution avec 12 en cible. S'il réussi, il peut prendre une mission. Il ne prendra pas de mission dans le cas contraire. S'il possède plus de 76 de fatigue, il ne prendra pas de mission et son équipe non plus.
+- Si un membre possède moins de 50 de fatigue, il peut prendre une mission. S'il possède entre 50 et 75 de fatigue, il fera un D20 de constitution avec 12 en cible. S'il réussi, il peut prendre une mission. Il ne prendra pas de mission dans le cas contraire. S'il possède plus de 75 de fatigue, il ne prendra pas de mission et son équipe non plus.
 - Certains profil de personnage ne feront pas certains type de mission :
 -- Enquête Niveau * à ***** : Stat d'intelligence minimum de 12
 -- Enquête Niveau S et + : Stat d'intelligence minimum de 15
