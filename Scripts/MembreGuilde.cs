@@ -235,8 +235,6 @@ public sealed class RegistreMembresGuilde
                         migrationNecessaire = true;
                     if (membre.NormaliserClassementReserve())
                         migrationNecessaire = true;
-                    if (ReglesMissions.AppliquerPromotionsAcquises(membre))
-                        migrationNecessaire = true;
                 }
 
                 // Migration persistée une seule fois. Au chargement suivant,
