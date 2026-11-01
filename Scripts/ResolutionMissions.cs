@@ -60,7 +60,7 @@ public static class ResolutionMissions
         if(avantage >= 2) return TirerIssue((IssueMission.Reussite,90),(IssueMission.Continue,captureVivant?9:5),
             (IssueMission.Echec,captureVivant?1:5));
         if(avantage == 1) return TirerIssue((IssueMission.Reussite,captureVivant?80:70),
-            (IssueMission.Continue,15),(IssueMission.Echec,4),(IssueMission.Mort,1));
+            (IssueMission.Continue,captureVivant?15:25),(IssueMission.Echec,4),(IssueMission.Mort,1));
         return TirerIssue((IssueMission.Reussite,captureVivant?60:50),
             (IssueMission.Continue,30),(IssueMission.Echec,captureVivant?5:15),(IssueMission.Mort,5));
     }
