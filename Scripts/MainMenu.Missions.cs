@@ -156,25 +156,25 @@ public partial class MainMenu
             ancien.QueueFree();
         }
 
-        // Le tableau affiche désormais un bouton 30 × 30 par mission.
-        // La grille de la scène conserve son nombre de colonnes (6 actuellement).
+        // Chaque mission est un parchemin cliquable de 60 × 60 pixels,
+        // sans texte par-dessus ; le rang reste visible dans l'infobulle.
+        Texture2D textureMission = GD.Load<Texture2D>("res://Images/UI/Bouton_Mission.png");
         foreach (MissionGuilde mission in _etatMissions.Missions
             .Where(m => m.Etat == "Disponible" || m.Etat == "EnCours"))
         {
             MissionGuilde missionSelectionnee = mission;
-            Button bouton = new()
+            TextureButton bouton = new()
             {
                 Name = "Mission_" + mission.Id,
-                Text = mission.Rang,
-                CustomMinimumSize = new Vector2(30, 30),
+                TextureNormal = textureMission,
+                IgnoreTextureSize = true,
+                StretchMode = TextureButton.StretchModeEnum.Scale,
+                CustomMinimumSize = new Vector2(60, 60),
                 SizeFlagsHorizontal = Control.SizeFlags.ShrinkBegin,
                 SizeFlagsVertical = Control.SizeFlags.ShrinkBegin,
-                ClipText = true,
                 TooltipText = mission.Categorie + " — Rang " + mission.Rang +
                     " — " + (mission.Etat == "EnCours" ? "En cours" : "Disponible")
             };
-            // Les rangs longs (S*****, P*****) doivent tenir dans le format compact.
-            bouton.AddThemeFontSizeOverride("font_size", mission.Rang.Length >= 4 ? 8 : 11);
             bouton.Pressed += () => OuvrirInfoMission(missionSelectionnee);
             _tableauDesMissions.AddChild(bouton);
         }
