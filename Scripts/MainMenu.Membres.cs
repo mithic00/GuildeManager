@@ -97,11 +97,12 @@ public partial class MainMenu
         _listeDesMembres.Clear();
         _membresAffiches.Clear();
         if (_registreMembres == null) return;
-        // Le classement sauvegardé est la seule position de tri :
-        // -1 = maître de guilde, 0 = rang U, 1, 2, 3... = autres membres.
+        // Le rang prime sur la magie ; recalculer aussi à l'ouverture de la liste,
+        // notamment après chargement, sans migration ni écriture automatique.
+        _registreMembres.RecalculerClassement();
         _membresAffiches.AddRange(_registreMembres.Membres
             .OrderBy(m => m.Classement)
-            .ThenBy(m => m.NiveauMagique * -1)
+            .ThenByDescending(m => m.NiveauMagique)
             .ThenBy(m => m.NomComplet, StringComparer.CurrentCultureIgnoreCase));
         _listeDesMembres.FixedIconSize = new Vector2I(52, 28);
         foreach (MembreGuilde membre in _membresAffiches)
