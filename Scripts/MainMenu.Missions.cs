@@ -13,7 +13,9 @@ public partial class MainMenu
     private RichTextLabel _infoNouvelleMission;
     private Window _fenetreInfoMission;
     private RichTextLabel _detailsMission;
-    private GridContainer _tableauDesMissions;
+    private Control _tableauDesMissions;
+    private const float TailleParchemin = 60f;
+    private const float MargeParchemin = 8f;
 
     private void InitialiserMissions()
     {
@@ -21,7 +23,7 @@ public partial class MainMenu
         _fenetreNouvelleMission = GetNode<Window>("FenetreNouvelleMission");
         _infoNouvelleMission = GetNode<RichTextLabel>(
             "FenetreNouvelleMission/Marge/Layout/InfoMission");
-        _tableauDesMissions = GetNode<GridContainer>(
+        _tableauDesMissions = GetNode<Control>(
             "LayoutsPanneauPrincipal/TableauDesMissions/ListeMission");
 
         _fenetreInfoMission = GetNode<Window>("FenetreInfoMission");
@@ -41,7 +43,11 @@ public partial class MainMenu
         _fenetreNouvelleMission.CloseRequested += RefuserPropositionMission;
         _fenetreNouvelleMission.Hide();
 
+        _tableauDesMissions.Resized += PositionnerParchemins;
+        // Le Control de la scène peut ne pas avoir sa taille définitive à _Ready.
+        _tableauDesMissions.SetDeferred(Control.PropertyName.CustomMinimumSize, new Vector2(720, 340));
         RaffraichirTableauMissions();
+        CallDeferred(nameof(PositionnerParchemins));
 
         // Une nouvelle partie démarre à 08h00 : tirer le premier jalon dès
         // l'initialisation, sans appliquer deux fois le repos/moral au chargement.
@@ -156,28 +162,114 @@ public partial class MainMenu
             ancien.QueueFree();
         }
 
-        // Chaque mission est un parchemin cliquable de 60 × 60 pixels,
-        // sans texte par-dessus ; le rang reste visible dans l'infobulle.
         Texture2D textureMission = GD.Load<Texture2D>("res://Images/UI/Bouton_Mission.png");
         foreach (MissionGuilde mission in _etatMissions.Missions
             .Where(m => m.Etat == "Disponible" || m.Etat == "EnCours"))
         {
-            MissionGuilde missionSelectionnee = mission;
+            MissionGuilde selection = mission;
             TextureButton bouton = new()
             {
                 Name = "Mission_" + mission.Id,
                 TextureNormal = textureMission,
                 IgnoreTextureSize = true,
                 StretchMode = TextureButton.StretchModeEnum.Scale,
-                CustomMinimumSize = new Vector2(60, 60),
-                SizeFlagsHorizontal = Control.SizeFlags.ShrinkBegin,
-                SizeFlagsVertical = Control.SizeFlags.ShrinkBegin,
+                CustomMinimumSize = new Vector2(TailleParchemin, TailleParchemin),
+                Size = new Vector2(TailleParchemin, TailleParchemin),
                 TooltipText = mission.Categorie + " — Rang " + mission.Rang +
                     " — " + (mission.Etat == "EnCours" ? "En cours" : "Disponible")
             };
-            bouton.Pressed += () => OuvrirInfoMission(missionSelectionnee);
+            bouton.Pressed += () => OuvrirInfoMission(selection);
             _tableauDesMissions.AddChild(bouton);
         }
+        PositionnerParchemins();
+    }
+
+    /// <summary>
+    /// Utilise des coordonnées relatives persistées. À l'apparition d'une mission,
+    /// cherche une place libre, sans déplacer les parchemins déjà présents.
+    /// </summary>
+    private void PositionnerParchemins()
+    {
+        if (_tableauDesMissions == null || _etatMissions == null) return;
+        Vector2 surface = _tableauDesMissions.Size;
+        if (surface.X < TailleParchemin || surface.Y < TailleParchemin)
+            return; // Le conteneur n'est pas encore disposé par Godot.
+
+        float largeur = Math.Max(0, surface.X - TailleParchemin);
+        float hauteur = Math.Max(0, surface.Y - TailleParchemin);
+        var occupees = new List<Rect2>();
+        var actives = _etatMissions.Missions
+            .Where(m => m.Etat == "Disponible" || m.Etat == "EnCours").ToList();
+
+        // Traiter les anciennes positions en premier évite de les modifier
+        // lorsque de nouvelles missions arrivent.
+        foreach (MissionGuilde mission in actives
+            .OrderByDescending(m => m.PositionTableauX.HasValue && m.PositionTableauY.HasValue))
+        {
+            TextureButton bouton = _tableauDesMissions.GetNodeOrNull<TextureButton>(
+                "Mission_" + mission.Id);
+            if (bouton == null) continue;
+
+            bool possedePosition = mission.PositionTableauX.HasValue &&
+                mission.PositionTableauY.HasValue;
+            Vector2 position = possedePosition
+                ? new Vector2(
+                    Math.Clamp(mission.PositionTableauX.Value, 0f, 1f) * largeur,
+                    Math.Clamp(mission.PositionTableauY.Value, 0f, 1f) * hauteur)
+                : TrouverPositionLibre(largeur, hauteur, occupees);
+
+            if (!possedePosition)
+            {
+                mission.PositionTableauX = largeur > 0 ? position.X / largeur : 0;
+                mission.PositionTableauY = hauteur > 0 ? position.Y / hauteur : 0;
+            }
+
+            bouton.Position = position;
+            bouton.Size = new Vector2(TailleParchemin, TailleParchemin);
+            occupees.Add(new Rect2(position, new Vector2(TailleParchemin, TailleParchemin)));
+        }
+    }
+
+    private static Vector2 TrouverPositionLibre(float largeur, float hauteur, List<Rect2> occupees)
+    {
+        Vector2 taille = new(TailleParchemin + MargeParchemin,
+            TailleParchemin + MargeParchemin);
+        bool Libre(Vector2 p) => occupees.All(r =>
+            !new Rect2(p - new Vector2(MargeParchemin / 2, MargeParchemin / 2),
+                taille).Intersects(r));
+
+        for (int essai = 0; essai < 160; essai++)
+        {
+            Vector2 position = new(
+                (float)Random.Shared.NextDouble() * largeur,
+                (float)Random.Shared.NextDouble() * hauteur);
+            if (Libre(position)) return position;
+        }
+
+        // Cherche ensuite un emplacement sur un quadrillage décalé aléatoirement.
+        // Si le tableau est plein, limite les collisions autant que possible.
+        Vector2 meilleure = Vector2.Zero;
+        int collisionsMin = int.MaxValue;
+        int colonnes = Math.Max(1, (int)MathF.Ceiling(largeur / 12f) + 1);
+        int lignes = Math.Max(1, (int)MathF.Ceiling(hauteur / 12f) + 1);
+        int decalageX = Random.Shared.Next(colonnes);
+        int decalageY = Random.Shared.Next(lignes);
+        for (int y = 0; y < lignes; y++)
+            for (int x = 0; x < colonnes; x++)
+            {
+                Vector2 p = new(
+                    Math.Min(largeur, ((x + decalageX) % colonnes) * 12f),
+                    Math.Min(hauteur, ((y + decalageY) % lignes) * 12f));
+                if (Libre(p)) return p;
+                int collisions = occupees.Count(r =>
+                    new Rect2(p, new Vector2(TailleParchemin, TailleParchemin)).Intersects(r));
+                if (collisions < collisionsMin)
+                {
+                    collisionsMin = collisions;
+                    meilleure = p;
+                }
+            }
+        return meilleure;
     }
 
     private void OuvrirInfoMission(MissionGuilde mission)
