@@ -233,7 +233,8 @@ public partial class MainMenu
         Remplir(g1 + "LabelNom", "Nom", string.IsNullOrEmpty(m.Nom) ? "—" : m.Nom);
         Remplir(g1 + "LabelAge", "Âge", m.Age.HasValue ? m.Age.Value + " ans" : inconnu);
         Remplir(g1 + "LabelRang", "Rang", m.RangAffiche);
-        Remplir(g1 + "LabelMotivation", "Motivation", m.Motivation?.ToString() ?? inconnu);
+        Remplir(g1 + "LabelMotivation", "Motivation",
+            m.ConnaitStatistique("Motivation") ? (m.Motivation?.ToString() ?? inconnu) : inconnu);
         Remplir(g1 + "LabelFatigue", "Fatigue", m.Fatigue?.ToString() ?? inconnu);
         Remplir(g1 + "LabelExpérience", "Expérience", m.Experience?.ToString() ?? inconnu);
         Remplir(g1 + "LabelNiveau", "Niveau", m.Niveau?.ToString() ?? inconnu);
@@ -264,7 +265,8 @@ public partial class MainMenu
             {
                 string cle = stats[c][i];
                 string etiquette = labels[c][i];
-                string valeur = m.Statistiques.TryGetValue(cle, out int nombre) ? nombre + "/20" : inconnu;
+                string valeur = m.ConnaitStatistique(cle) &&
+                    m.Statistiques.TryGetValue(cle, out int nombre) ? nombre + "/20" : inconnu;
                 Remplir(sg + chemins[c] + "/Label" + etiquette, etiquette, valeur);
             }
 
