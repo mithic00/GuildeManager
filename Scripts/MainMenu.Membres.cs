@@ -112,9 +112,14 @@ public partial class MainMenu
             string classement = membre.EstMaitreDeGuilde ? "MG" :
                 membre.Classement == 0 ? "U" :
                 membre.Classement == 1 ? "1er" : membre.Classement + "e";
+            bool enMission = _etatMissions?.Missions.Any(mission =>
+                mission.Etat == "EnCours" &&
+                mission.ParticipantIds != null &&
+                mission.ParticipantIds.Contains(membre.Id)) == true;
             string texte = classement + "  |  " + rang + "  |  " + nom + "  |  " +
                            membre.Race + "  |  Magie : " + membre.NiveauMagique +
-                           "  |  Potentiel : " + potentiel;
+                           "  |  Potentiel : " + potentiel +
+                           (enMission ? "  |  EN MISSION" : "");
             Texture2D icone = ConstruireIconePouvoirs(membre.Pouvoirs);
             int index = _listeDesMembres.AddItem(texte, icone);
             if (!string.IsNullOrWhiteSpace(membre.EquipeId))
@@ -129,7 +134,8 @@ public partial class MainMenu
             }
             _listeDesMembres.SetItemTooltip(index, "Pouvoir(s) : " +
                 (membre.Pouvoirs.Count == 0 ? "Aucun" : string.Join(", ", membre.Pouvoirs)) +
-                "\nRang : " + rang + "\nNiveau magique : " + membre.NiveauMagique);
+                "\nRang : " + rang + "\nNiveau magique : " + membre.NiveauMagique +
+                (enMission ? "\nStatut : En mission (absent)" : ""));
         }
     }
 
