@@ -1,0 +1,16 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cr8ys2w0xtxnw"
+
+[deps]
+
+source_file="res://Images/Icone_Magasins/GuildeManager_12_Icones_Magasins/Correspondance_Magasins.csv"
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

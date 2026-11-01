@@ -1,0 +1,17 @@
+GUILDEMANAGER — ICÔNES DES 12 MAGASINS
+======================================
+Source : InfoJeu/Magasins&Depense.txt (GitHub mithic00/GuildeManager).
+
+12 emblèmes individuels : Vendeur de mobilier, Enchanteur, Marché, Paysan,
+Port, Forgeron, Herboriste, Alchimiste, Libraire, Tailleur, Bijoutier et Écurie.
+
+Formats : PNG_30x30/, PNG_64x64/, PNG_128x128/, PNG_256x256/ et SVG_vectoriels/.
+Tous les fichiers sont distincts, avec coins/fond transparents et cadre circulaire doré.
+Aucune scène Godot (.tscn) ou documentation InfoJeu n'a été modifiée.
+
+Import Godot 4 C# : utiliser TextureRect.Texture, Sprite2D.Texture ou Button.Icon.
+Conserver une zone carrée afin de ne pas déformer le médaillon.
+
+LICENCE : Les silhouettes centrales proviennent de Font Awesome Free Icons,
+© Fonticons, Inc., CC BY 4.0 — https://fontawesome.com/license/free
+Le cadre, les dégradés et la mise en page sont une création spécifique à GuildeManager.

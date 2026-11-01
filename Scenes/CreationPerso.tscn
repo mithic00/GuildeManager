@@ -24,6 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://cosu5868rduqj" path="res://Images/BlasonGuilde/Blason_Rouge_Focus.png" id="19_xaci0"]
 [ext_resource type="Texture2D" uid="uid://bvmgqlpvy7o70" path="res://Images/BlasonGuilde/Blason_Vert_Focus.png" id="21_jc8vq"]
 [ext_resource type="Texture2D" uid="uid://d0byad6yrdv5c" path="res://Images/BlasonGuilde/Blason_Violet_Focus.png" id="23_5fwl7"]
+[ext_resource type="FontFile" uid="uid://bovsx02ky1tsv" path="res://Font/Relationship of mélodrame.ttf" id="39_07dxn"]
 [ext_resource type="Texture2D" uid="uid://beme8pkxvyfqu" path="res://Images/Portraits/ElfeGris_Femme_Focus.png" id="portrait_Femme_ElfeGris_focus"]
 [ext_resource type="Texture2D" uid="uid://c72ejuwwi3205" path="res://Images/Portraits/ElfeGris_Femme.png" id="portrait_Femme_ElfeGris_normal"]
 [ext_resource type="Texture2D" uid="uid://cdgdf85l7q7xc" path="res://Images/Portraits/Grumol_Femme_Focus.png" id="portrait_Femme_Grumol_focus"]
@@ -679,6 +680,7 @@ expand_mode = 1
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("39_07dxn")
 theme_override_font_sizes/normal_font_size = 16
 bbcode_enabled = true
 text = "- Comté de Rose Vallée, Royaume Humain.
@@ -704,6 +706,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_constants/line_separation = 0
+theme_override_fonts/normal_font = ExtResource("39_07dxn")
 theme_override_font_sizes/normal_font_size = 22
 bbcode_enabled = true
 text = "Préfecture de son comté, la petite commune de Rose-Vallée cherche un maitre de guilde depuis longtemps pour ne plus dépendre des comtés voisin en matière de guilde magique. Au cœur des grandes vallées du royaume Humain, Rose-Vallée est une petite commune paisible installée au bord de la rivière Tangue. Elle vit principalement du commerce de fleurs."
