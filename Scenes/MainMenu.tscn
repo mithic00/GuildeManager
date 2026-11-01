@@ -991,3 +991,50 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Refuser"
+
+[node name="FenetreInfoMission" type="Window" parent="." unique_id=1496879398]
+transparent_bg = true
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(700, 500)
+visible = false
+exclusive = true
+unresizable = true
+transparent = true
+
+[node name="Marge" type="MarginContainer" parent="FenetreInfoMission" unique_id=1394478713]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="Layout" type="VBoxContainer" parent="FenetreInfoMission/Marge" unique_id=1845453396]
+layout_mode = 2
+
+[node name="InfoMission" type="RichTextLabel" parent="FenetreInfoMission/Marge/Layout" unique_id=845410724]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Boutons" type="HBoxContainer" parent="FenetreInfoMission/Marge/Layout" unique_id=1369858702]
+layout_mode = 2
+theme_override_constants/separation = 51
+alignment = 1
+
+[node name="BoutonPrendre" type="Button" parent="FenetreInfoMission/Marge/Layout/Boutons" unique_id=915407997]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Prendre la mission"
+
+[node name="ButtonFermer" type="Button" parent="FenetreInfoMission/Marge/Layout/Boutons" unique_id=555453773]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Fermer"
