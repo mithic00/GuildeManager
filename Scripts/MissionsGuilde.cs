@@ -93,12 +93,6 @@ public static class ReglesMissions
         1, 2, 4, 7, 10, 10, 10, 10, 10, 10, 10,
         10, 10, 10, 10, 10, 10, 0
     };
-    private static readonly int[] NiveauMagiquePourRang =
-    {
-        0, 21, 41, 61, 81, 151, 201, 251, 301, 351, 401,
-        601, 701, 781, 851, 911, 961, 1000
-    };
-
     private static readonly (string Nom, int PositionPrix)[] Categories =
     {
         ("Enquête", 0), ("Escorte", 1), ("Élimination de danger", 2),
@@ -228,23 +222,60 @@ public static class ReglesMissions
         membre.Niveau = niveau;
     }
 
-    public static void EnregistrerReussiteEtPromouvoir(MembreGuilde membre, string rangMission)
+    /// <summary>
+    /// Comptabilise toute mission réussie, y compris une mission sans incident.
+    /// Les promotions classiques dépendent du nombre de victoires AU RANG
+    /// ACTUEL, sans condition de niveau magique.
+    /// </summary>
+    public static bool EnregistrerReussiteEtPromouvoir(MembreGuilde membre, string rangMission)
     {
         membre.MissionsReussiesParRang ??= new Dictionary<string, int>();
-        membre.MissionsReussiesParRang.TryGetValue(rangMission, out int ancien);
-        membre.MissionsReussiesParRang[rangMission] = ancien + 1;
+        membre.MissionsReussiesParRang.TryGetValue(rangMission, out int reussites);
+        membre.MissionsReussiesParRang[rangMission] = reussites + 1;
+        return AppliquerPromotionsAcquises(membre);
+    }
+
+    /// <summary>
+    /// Réévalue également les promotions déjà acquises dans les anciennes
+    /// sauvegardes, sans modifier les compteurs ni refaire les tirages.
+    /// Les passages ***** vers S et S***** vers P attendent les concours.
+    /// Le rang U, conformément aux règles, exige uniquement 1000 de magie.
+    /// </summary>
+    public static bool AppliquerPromotionsAcquises(MembreGuilde membre)
+    {
+        if (membre == null || membre.EstMaitreDeGuilde)
+            return false;
+
+        if (membre.NiveauMagique >= 1000 && membre.Rang != "U")
+        {
+            membre.Rang = "U";
+            membre.Classement = 0;
+            return true;
+        }
 
         int rangActuel = IndexRang(membre.Rang);
-        if (rangActuel >= Rangs.Length - 1 || rangActuel != IndexRang(rangMission))
-            return;
+        if (rangActuel >= Rangs.Length - 1)
+            return false;
 
-        // S et P requièrent un concours spécifique : ne pas les attribuer automatiquement.
-        if (rangActuel == IndexRang("*****") ||
-            rangActuel == IndexRang("S*****"))
-            return;
+        bool progression = false;
+        while (rangActuel < Rangs.Length - 2)
+        {
+            // Les deux promotions par concours seront gérées ultérieurement.
+            if (rangActuel == IndexRang("*****") ||
+                rangActuel == IndexRang("S*****"))
+                break;
 
-        if (ancien + 1 >= MissionsPourPromotion[rangActuel] &&
-            membre.NiveauMagique >= NiveauMagiquePourRang[rangActuel + 1])
-            membre.Rang = Rangs[rangActuel + 1];
+            int victoires = 0;
+            membre.MissionsReussiesParRang?.TryGetValue(Rangs[rangActuel], out victoires);
+            if (victoires < MissionsPourPromotion[rangActuel])
+                break;
+
+            rangActuel++;
+            membre.Rang = Rangs[rangActuel];
+            progression = true;
+        }
+
+        return progression;
     }
+
 }
