@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -193,6 +194,32 @@ public sealed class RegistreMembresGuilde
     public List<MembreGuilde> Membres { get; set; } = new();
 
     public static string DerniereErreur { get; private set; } = "";
+
+    /// <summary>
+    /// Classement global : maître de guilde (-1), rang U (0), puis 1er, 2e...
+    /// Les membres ordinaires sont ordonnés d'abord par rang décroissant,
+    /// puis par niveau magique décroissant à rang égal.
+    /// </summary>
+    public void RecalculerClassement()
+    {
+        foreach (MembreGuilde membre in Membres.Where(m => m.EstMaitreDeGuilde))
+            membre.Classement = -1;
+
+        foreach (MembreGuilde membre in Membres.Where(m =>
+            !m.EstMaitreDeGuilde && m.Rang == "U"))
+            membre.Classement = 0;
+
+        int classement = 1;
+        foreach (MembreGuilde membre in Membres
+            .Where(m => !m.EstMaitreDeGuilde && m.Rang != "U")
+            .OrderByDescending(m => ReglesMissions.IndexRang(m.Rang))
+            .ThenByDescending(m => m.NiveauMagique)
+            .ThenBy(m => m.NomComplet, StringComparer.CurrentCultureIgnoreCase)
+            .ThenBy(m => m.Id, StringComparer.Ordinal))
+        {
+            membre.Classement = classement++;
+        }
+    }
 
     public static RegistreMembresGuilde Nouveau(CreationPerso.DonneesCreationInitiale creation)
     {
