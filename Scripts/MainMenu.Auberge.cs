@@ -287,6 +287,9 @@ public partial class MainMenu
         foreach (CandidatAuberge nouvelle in nouvellesRecrues)
         {
             nouvelle.Personnage.EquipeId = identifiantEquipe;
+            // Les connaissances des entretiens appartiennent désormais au membre.
+            nouvelle.Personnage.StatistiquesConnues = nouvelle.StatsConnues
+                .Distinct(StringComparer.Ordinal).ToList();
             nouvelle.Recrute = true;
             _registreMembres.Membres.Add(nouvelle.Personnage);
         }
