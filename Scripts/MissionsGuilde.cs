@@ -53,6 +53,11 @@ public sealed class MissionGuilde
     public bool SansIncident { get; set; }
     public bool SansGainSecondaire { get; set; }
     public string DetailResultat { get; set; } = "";
+    // Coordonnées normalisées (0 à 1) du parchemin sur le tableau.
+    // Null : mission jamais placée ; la position est créée au premier affichage.
+    // Ces valeurs sont sauvegardées avec l'état des missions.
+    public float? PositionTableauX { get; set; }
+    public float? PositionTableauY { get; set; }
 }
 
 public static class ReglesMissions
