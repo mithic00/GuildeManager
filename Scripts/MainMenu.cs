@@ -40,6 +40,7 @@ public partial class MainMenu : Control
         InitialiserFenetreInfo();
 
         GetNode<Button>("MargeChoixMenu/BoutonsMenu/BoutonQuitter").Pressed += () => _fenetreQuitter.PopupCentered();
+        GetNode<Button>("FenetreMenuQuitter/Marge/Layout/BoutonSave").Pressed += SauvegarderSansQuitter;
         GetNode<Button>("FenetreMenuQuitter/Marge/Layout/BoutonSaveEtQuitter").Pressed += () => Quitter(true);
         GetNode<Button>("FenetreMenuQuitter/Marge/Layout/BoutonQuitterSansSave").Pressed += () => Quitter(false);
         _fenetreQuitter.CloseRequested += () => _fenetreQuitter.Hide();
@@ -158,55 +159,75 @@ public partial class MainMenu : Control
 
     private bool _sortieEnCours;
 
+    /// <summary>
+    /// Un seul point d'entrée pour les deux boutons de sauvegarde :
+    /// ressources, horloge, journal, membres, recrutement, missions
+    /// et historique sont enregistrés dans une transaction atomique.
+    /// Le temps en session n'est jamais réinitialisé par une sauvegarde.
+    /// </summary>
+    private bool SauvegarderPartie()
+    {
+        if (!SaveManager.HasCurrentSave || _etat == null || _horloge == null ||
+            _journalPartie == null || _registreMembres == null ||
+            _aubergeEtat == null || _etatMissions == null || _historiqueMembres == null)
+        {
+            AfficherInformation("Impossible de sauvegarder : certaines données de la partie sont indisponibles.");
+            return false;
+        }
+
+        try
+        {
+            SaveManager.TracerSauvegarde("Début : préparation des données en mémoire.");
+            var donnees = new System.Collections.Generic.Dictionary<string, string>
+            {
+                [EtatGuilde.CleSauvegarde] = JsonSerializer.Serialize(_etat),
+                [HorlogeJeu.CleSauvegarde] = _horloge.ValeurSauvegardee,
+                [JournalPartie.CleSauvegarde] = _journalPartie.ValeurSauvegardee,
+                [RegistreMembresGuilde.CleSauvegarde] = JsonSerializer.Serialize(_registreMembres),
+                [RecrutementAubergeEtat.CleSauvegarde] = _aubergeEtat.Serialiser(),
+                [EtatMissions.CleSauvegarde] = _etatMissions.Serialiser(),
+                [HistoriqueMembresGuilde.CleSauvegarde] = _historiqueMembres.Serialiser()
+            };
+            SaveManager.TracerSauvegarde("Toutes les données sont sérialisées.");
+
+            if (!SaveManager.SetValuesAtomically(donnees))
+            {
+                AfficherInformation("Impossible de sauvegarder la partie : " + SaveManager.LastError);
+                return false;
+            }
+
+            SaveManager.TracerSauvegarde("Sauvegarde complète effectuée.");
+            return true;
+        }
+        catch (Exception exception)
+        {
+            GD.PushError("MainMenu : échec de la sauvegarde : " + exception);
+            SaveManager.TracerSauvegarde("EXCEPTION : " + exception);
+            AfficherInformation("La sauvegarde a échoué : " + exception.Message +
+                "\nLa partie reste ouverte. Consulte le fichier user://diagnostic_sauvegarde.txt.");
+            return false;
+        }
+    }
+
+    private void SauvegarderSansQuitter()
+    {
+        if (_sortieEnCours || !SauvegarderPartie())
+            return;
+
+        // On reste sur la partie après confirmation ; ne pas rouvrir
+        // automatiquement la fenêtre de sortie à la fermeture du message.
+        _fenetreQuitter.Hide();
+        AfficherInformation("Partie sauvegardée avec succès.");
+    }
+
     private void Quitter(bool sauvegarder)
     {
         if (_sortieEnCours) return;
-        ArreterHorlogeSansJournal();
-
-        if (sauvegarder)
-        {
-            if (_etat == null || _horloge == null || _journalPartie == null ||
-                _registreMembres == null || _aubergeEtat == null || _etatMissions == null ||
-                _historiqueMembres == null)
-            {
-                AfficherInformation("Impossible de sauvegarder : certaines données de la partie sont indisponibles.");
-                return;
-            }
-
-            try
-            {
-                SaveManager.TracerSauvegarde("Début : préparation des données en mémoire.");
-                var donnees = new System.Collections.Generic.Dictionary<string, string>();
-                donnees[EtatGuilde.CleSauvegarde] = JsonSerializer.Serialize(_etat);
-                SaveManager.TracerSauvegarde("Ressources sérialisées.");
-                donnees[HorlogeJeu.CleSauvegarde] = _horloge.ValeurSauvegardee;
-                donnees[JournalPartie.CleSauvegarde] = _journalPartie.ValeurSauvegardee;
-                SaveManager.TracerSauvegarde("Horloge et journal sérialisés.");
-                donnees[RegistreMembresGuilde.CleSauvegarde] = JsonSerializer.Serialize(_registreMembres);
-                SaveManager.TracerSauvegarde("Membres sérialisés.");
-                donnees[RecrutementAubergeEtat.CleSauvegarde] = _aubergeEtat.Serialiser();
-                donnees[EtatMissions.CleSauvegarde] = _etatMissions.Serialiser();
-                donnees[HistoriqueMembresGuilde.CleSauvegarde] = _historiqueMembres.Serialiser();
-                SaveManager.TracerSauvegarde("Recrutement, missions et historique des membres sérialisés.");
-
-                if (!SaveManager.SetValuesAtomically(donnees))
-                {
-                    AfficherInformation("Impossible de sauvegarder la partie : " + SaveManager.LastError);
-                    return;
-                }
-                SaveManager.TracerSauvegarde("Toutes les données ont été sauvegardées. Retour au menu.");
-            }
-            catch (Exception exception)
-            {
-                GD.PushError("MainMenu : échec de la sauvegarde : " + exception);
-                SaveManager.TracerSauvegarde("EXCEPTION : " + exception);
-                AfficherInformation("La sauvegarde a échoué : " + exception.Message +
-                    "\nLa partie reste ouverte. Consulte le fichier user://diagnostic_sauvegarde.txt.");
-                return;
-            }
-        }
+        if (sauvegarder && !SauvegarderPartie())
+            return;
 
         _sortieEnCours = true;
+        ArreterHorlogeSansJournal();
         _fenetreQuitter.Hide();
         if (ResourceLoader.Exists(SceneDemarrage))
             GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, SceneDemarrage);
