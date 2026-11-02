@@ -148,6 +148,9 @@ public partial class MainMenu
         }
 
         _date.Text = HorlogeJeu.Formater(_horloge.Instant);
+        if (_horloge.Instant.Minute == 0 &&
+            (_horloge.Instant.Hour == 0 || _horloge.Instant.Hour == 8))
+            ActualiserBoutonConversation();
         // Les anniversaires sont recalculés au passage à la nouvelle date,
         // indépendamment des jalons et de la vitesse de l'horloge.
         if (_horloge.Instant.Hour == 0 && _horloge.Instant.Minute == 0)
@@ -192,6 +195,9 @@ public partial class MainMenu
                 if (_horloge.Instant.Hour == 0 && _horloge.Instant.Minute == 0)
                     ActualiserAnniversaires();
                 _date.Text = HorlogeJeu.Formater(_horloge.Instant);
+                if (_horloge.Instant.Minute == 0 &&
+                    (_horloge.Instant.Hour == 0 || _horloge.Instant.Hour == 8))
+                    ActualiserBoutonConversation();
 
                 // Ne pas court-circuiter le traitement des missions si
                 // un rendez-vous d'auberge se présente à la même minute.
