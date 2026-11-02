@@ -130,7 +130,7 @@ public partial class MainMenu
         MissionGuilde mission = _etatMissions.Proposition;
         _infoNouvelleMission.Text =
             "Catégorie de la mission : " + mission.Categorie +
-            "\nNiveau requis : " + mission.Rang +
+            "\nNiveau requis : " + ReglesMissions.FormaterRang(mission.Rang) +
             "\nRécompense : " + mission.Recompense + " écus" +
             "\nDemandeur : " + mission.Demandeur;
         _fenetreNouvelleMission.PopupCentered();
@@ -144,7 +144,7 @@ public partial class MainMenu
         _etatMissions.Missions.Add(mission);
         _etatMissions.Proposition = null;
         _fenetreNouvelleMission.Hide();
-        AjouterEntreeJournal("Mission de rang " + mission.Rang +
+        AjouterEntreeJournal("Mission de rang " + ReglesMissions.FormaterRang(mission.Rang) +
             " acceptée : " + mission.Categorie + " (" + mission.Recompense + " écus).", "mission");
         RaffraichirTableauMissions();
     }
@@ -178,7 +178,7 @@ public partial class MainMenu
                 StretchMode = TextureButton.StretchModeEnum.Scale,
                 CustomMinimumSize = new Vector2(TailleParchemin, TailleParchemin),
                 Size = new Vector2(TailleParchemin, TailleParchemin),
-                TooltipText = mission.Categorie + " — Rang " + mission.Rang +
+                TooltipText = mission.Categorie + " — Rang " + ReglesMissions.FormaterRang(mission.Rang) +
                     " — " + (mission.Etat == "EnCours" ? "En cours" : "Disponible")
             };
             bouton.Pressed += () => OuvrirInfoMission(selection);
@@ -282,7 +282,7 @@ public partial class MainMenu
 
         bool enCours = mission.Etat == "EnCours";
         string texte = "Catégorie : " + mission.Categorie +
-            "\nRang requis : " + mission.Rang +
+            "\nRang requis : " + ReglesMissions.FormaterRang(mission.Rang) +
             "\nRécompense : " + mission.Recompense + " écus" +
             "\nDemandeur : " + mission.Demandeur +
             "\nÉtat : " + (enCours ? "En cours" : "Disponible");
@@ -378,7 +378,7 @@ public partial class MainMenu
                 mission.ParticipantIds = equipe.Select(m => m.Id).ToList();
                 foreach (MembreGuilde membre in equipe)
                     _historiqueMembres?.Ajouter(membre, instant, "DepartMission",
-                        "Départ en mission : " + mission.Categorie + " (" + mission.Rang + ").",
+                        "Départ en mission : " + mission.Categorie + " (" + ReglesMissions.FormaterRang(mission.Rang) + ").",
                         mission);
                 mission.JoursEcoules = 0;
                 mission.DureeFixee = ResolutionMissions.DureeFixee(mission);
@@ -388,7 +388,7 @@ public partial class MainMenu
                     ? equipe[0].NomComplet
                     : "Equipe de " + equipe[0].NomComplet;
                 AjouterEntreeJournal(sujetDepart +
-                    " part en mission (" + mission.Rang + " : " + mission.Categorie + ").",
+                    " part en mission (" + ReglesMissions.FormaterRang(mission.Rang) + " : " + mission.Categorie + ").",
                     "mission");
                 break;
             }
@@ -459,12 +459,12 @@ public partial class MainMenu
                 _historiqueMembres?.Ajouter(participant, instant,
                     victoire ? "MissionReussie" : "MissionEchouee",
                     (victoire ? "Mission réussie : " : "Mission échouée : ") +
-                    mission.Categorie + " (" + mission.Rang + ")." +
+                    mission.Categorie + " (" + ReglesMissions.FormaterRang(mission.Rang) + ")." +
                     (morts.Contains(participant) ? " Décès au cours de la mission." : ""),
                     mission);
             foreach (MembreGuilde mort in morts)
                 _historiqueMembres?.Ajouter(mort, instant, "Deces",
-                    "Décédé durant la mission " + mission.Categorie + " (" + mission.Rang + ").",
+                    "Décédé durant la mission " + mission.Categorie + " (" + ReglesMissions.FormaterRang(mission.Rang) + ").",
                     mission);
 
             // Le prestige dépend du rang de la mission, jamais de celui de
@@ -500,7 +500,7 @@ public partial class MainMenu
                     string ancienRang = m.Rang;
                     if (ReglesMissions.EnregistrerReussiteEtPromouvoir(m, mission.Rang))
                         AjouterEntreeJournal(m.NomComplet + " est promu au rang " +
-                            m.Rang + " (ancien rang : " + ancienRang + ").", "mission");
+                            ReglesMissions.FormaterRang(m.Rang) + " (ancien rang : " + ReglesMissions.FormaterRang(ancienRang) + ").", "mission");
                 }
                 if (!resultat.SansIncident)
                 {
@@ -522,7 +522,7 @@ public partial class MainMenu
                             string rangAvantProgression = m.Rang;
                             if (ReglesMissions.AppliquerPromotionsAcquises(m))
                                 AjouterEntreeJournal(m.NomComplet + " est promu au rang " +
-                                    m.Rang + " (ancien rang : " + rangAvantProgression + ").", "mission");
+                                    ReglesMissions.FormaterRang(m.Rang) + " (ancien rang : " + ReglesMissions.FormaterRang(rangAvantProgression) + ").", "mission");
                         }
                     }
                 }
@@ -566,7 +566,7 @@ public partial class MainMenu
                             "Statistique", ancien.Key, ancien.Value, nouveau);
                 if (m.Rang != rangAvantMission)
                     _historiqueMembres?.Ajouter(m, instant, "Promotion",
-                        "Promotion : " + rangAvantMission + " → " + m.Rang + ".", mission);
+                        "Promotion : " + ReglesMissions.FormaterRang(rangAvantMission) + " → " + ReglesMissions.FormaterRang(m.Rang) + ".", mission);
             }
 
             // Le retour est notifié même lorsque la mission a échoué.
@@ -616,7 +616,7 @@ public partial class MainMenu
             AfficherValeur(_pouvoir, _etat.Pouvoir);
             string signePrestige = prestigeGagneOuPerdu > 0 ? "+" : "";
             string descriptionResultat = (victoire ? "Mission réussie" : "Mission échouée") +
-                " : " + mission.Categorie + " (rang " + mission.Rang + ")." +
+                " : " + mission.Categorie + " (rang " + ReglesMissions.FormaterRang(mission.Rang) + ")." +
                 " Prestige : " + signePrestige + prestigeGagneOuPerdu +
                 " (total : " + _etat.Prestige + ").";
             if (morts.Count == 1)
