@@ -21,6 +21,15 @@ public sealed class MembreGuilde
     public string Race { get; set; } = "";
     /// <summary>Identifiant persistant de l’équipe de recrutement. Vide pour un membre solo.</summary>
     public string EquipeId { get; set; } = "";
+    /// <summary>Relation réciproque indexée par ID de membre, entre -100 et 100.</summary>
+    public Dictionary<string, int> Relations { get; set; } = new();
+    public bool EstAdjoint { get; set; }
+    /// <summary>Concours actif : "S" ou "P". Vide en dehors d'un concours.</summary>
+    public string ConcoursEnCours { get; set; } = "";
+    public string DateRetourConcours { get; set; } = "";
+    /// <summary>Le concours est terminé, mais ses règles de résultat ne sont pas encore définies.</summary>
+    public bool ResultatConcoursEnAttente { get; set; }
+
     public Dictionary<string, int> MissionsReussiesParRang { get; set; } = new();
     public string Metier { get; set; } = "";
     public List<string> Competences { get; set; } = new();
