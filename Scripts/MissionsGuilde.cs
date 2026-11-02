@@ -127,6 +127,12 @@ public static class ReglesMissions
         "Commerçant de la ville", "Guilde de Mercenaire"
     };
 
+    /// <summary>
+    /// Les rangs conservent leurs identifiants internes (*, S*, P*, etc.)
+    /// pour les calculs et les sauvegardes. Seul l'affichage utilise ★.
+    /// </summary>
+    public static string FormaterRang(string rang) => (rang ?? "").Replace('*', '★');
+
     public static int IndexRang(string rang)
     {
         int index = Array.IndexOf(Rangs, rang ?? "");
