@@ -184,7 +184,8 @@ public partial class MainMenu
 
         // Préparer la fin de partie en mémoire. Si l'écriture échoue,
         // restaurer l'ensemble des mutations et rester dans la partie.
-        bool ancienStatut = cible.EstMaitreDeGuilde, ancienAdjoint = cible.EstAdjoint;
+        bool ancienStatut = cible.EstMaitreDeGuilde;
+        var anciensAdjoints = _registreMembres.Membres.ToDictionary(m => m.Id, m => m.EstAdjoint);
         bool ancienneFin = _etat.PartieTerminee;
         string ancienSuccesseur = _etat.SuccesseurId;
         long anciensMembres = _etat.Membres, ancienPouvoir = _etat.Pouvoir;
@@ -210,7 +211,9 @@ public partial class MainMenu
             _registreMembres.Membres.Add(joueur);
             joueur.EstMaitreDeGuilde = true;
             cible.EstMaitreDeGuilde = ancienStatut;
-            cible.EstAdjoint = ancienAdjoint;
+            foreach (var membre in _registreMembres.Membres)
+                if (anciensAdjoints.TryGetValue(membre.Id, out bool etaitAdjoint))
+                    membre.EstAdjoint = etaitAdjoint;
             _etat.PartieTerminee = ancienneFin;
             _etat.SuccesseurId = ancienSuccesseur;
             _etat.Membres = anciensMembres;
@@ -220,7 +223,10 @@ public partial class MainMenu
             while (_historiqueMembres != null && _historiqueMembres.Evenements.Count > nbHistorique)
                 _historiqueMembres.Evenements.RemoveAt(_historiqueMembres.Evenements.Count - 1);
             _registreMembres.RecalculerClassement();
-            _fenetreFiche.PopupCentered();
+            if (_fenetreInfo?.Visible == true)
+                _fenetreAReouvrirApresInfo = _fenetreFiche;
+            else
+                _fenetreFiche.PopupCentered();
             return;
         }
         _sortieEnCours = true;
@@ -328,7 +334,6 @@ public partial class MainMenu
         _registreMembres.RecalculerClassement();
         if (_membreConsulte != null && _fenetreFiche.Visible)
             RemplirFiche(_membreConsulte);
-        InterrompreAvanceeTemps();
         return true;
     }
 }
