@@ -80,7 +80,8 @@ public partial class MainMenu
         // se termine exactement à ce jalon. Arrêter ensuite l'horloge.
         if (concoursTermine)
         {
-            InterrompreAvanceeTemps();
+            if (!_traitementTempsDiscussion)
+                InterrompreAvanceeTemps();
             return true;
         }
 
@@ -92,8 +93,11 @@ public partial class MainMenu
         if (_etatMissions.Proposition != null) return false;
         _etatMissions.Proposition = ReglesMissions.Generer(_registreMembres.Membres);
         if (_etatMissions.Proposition == null) return false;
-        InterrompreAvanceeTemps("Une nouvelle mission est proposée à la guilde.");
-        AfficherPropositionMission();
+        if (!_traitementTempsDiscussion)
+        {
+            InterrompreAvanceeTemps("Une nouvelle mission est proposée à la guilde.");
+            AfficherPropositionMission();
+        }
         return true;
     }
 
@@ -339,6 +343,10 @@ public partial class MainMenu
 
     private bool GroupeDisponible(List<MembreGuilde> equipe)
     {
+        if (equipe.Any(m => m.Absent)) return false;
+        // Ne pas envoyer un interlocuteur en mission pendant l'échange.
+        if (_traitementTempsDiscussion && _cibleDiscussion != null &&
+            equipe.Any(m => m.Id == _cibleDiscussion.Id)) return false;
         if (equipe.Any(m => !string.IsNullOrWhiteSpace(m.ConcoursEnCours))) return false;
         if (equipe.Any(m => m.Moral < MoralMinPourPartir)) return false;
         if (_etatMissions.Missions.Any(m => m.Etat == "EnCours" &&
