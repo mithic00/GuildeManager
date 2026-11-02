@@ -118,10 +118,12 @@ public partial class MainMenu
                 mission.Etat == "EnCours" &&
                 mission.ParticipantIds != null &&
                 mission.ParticipantIds.Contains(membre.Id)) == true;
+            bool enConcours = !string.IsNullOrWhiteSpace(membre.ConcoursEnCours);
             string texte = classement + "  |  " + rang + "  |  " + nom + "  |  " +
                            membre.Race + "  |  Magie : " + membre.NiveauMagique +
                            "  |  Potentiel : " + potentiel +
-                           (enMission ? "  |  EN MISSION" : "");
+                           (enMission ? "  |  EN MISSION" : "") +
+                           (enConcours ? "  |  EN CONCOURS " + membre.ConcoursEnCours : "");
             Texture2D icone = ConstruireIconePouvoirs(membre.Pouvoirs);
             int index = _listeDesMembres.AddItem(texte, icone);
             if (!string.IsNullOrWhiteSpace(membre.EquipeId))
@@ -137,7 +139,9 @@ public partial class MainMenu
             _listeDesMembres.SetItemTooltip(index, "Pouvoir(s) : " +
                 (membre.Pouvoirs.Count == 0 ? "Aucun" : string.Join(", ", membre.Pouvoirs)) +
                 "\nRang : " + rang + "\nNiveau magique : " + membre.NiveauMagique +
-                (enMission ? "\nStatut : En mission (absent)" : ""));
+                (enMission ? "\nStatut : En mission (absent)" : "") +
+                (enConcours ? "\nStatut : En concours " + membre.ConcoursEnCours +
+                    "\nRetour prévu : " + membre.DateRetourConcours : ""));
         }
     }
 
