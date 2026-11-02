@@ -54,6 +54,7 @@ public partial class MainMenu : Control
         InitialiserRecrutementAuberge();
         InitialiserNavigationMagasins();
         InitialiserMissions();
+        ActualiserAnniversaires();
     }
 
     private void ChargerAffichage()
