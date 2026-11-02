@@ -504,6 +504,10 @@ public partial class MainMenu
                 }
                 if (!resultat.SansIncident)
                 {
+                    if (xpPart > 0)
+                        _historiqueMembres?.Ajouter(m, instant, "GainExperience",
+                            "Gain de " + xpPart + " XP pour " + mission.Categorie + ".",
+                            mission, 0, xpPart);
                     ReglesMissions.AjouterExperience(m, xpPart);
                     if (victoire)
                     {
@@ -629,11 +633,26 @@ public partial class MainMenu
             if (victoire && mission.MalusVolonteTraits < 0 &&
                 !string.IsNullOrWhiteSpace(mission.MembreDefavorableNom))
             {
+                string nomMission = mission.Categorie switch
+                {
+                    "Enquête" => "d'enquête",
+                    "Escorte" => "d'escorte",
+                    "Élimination de danger" => "d'élimination de danger",
+                    "Recherche mort ou vif" => "de recherche mort ou vif",
+                    "Capture vif" => "de capture vive",
+                    "Protection d'un lieu" => "de protection d'un lieu",
+                    "Recherche d'un objet" => "de recherche d'objet",
+                    "Recherche d'un ingrédient" => "de recherche d'ingrédient",
+                    "Recherche d'un animal" => "de recherche d'animal",
+                    "Service" => "de service",
+                    "Renfort pour Assaut" => "de renfort pour un assaut",
+                    _ => "de type " + mission.Categorie
+                };
                 string messageMiracle = participants.Count > 1
                     ? "Miracle ! " + mission.MembreDefavorableNom +
-                      " et son équipe ont réussi une mission d'" + mission.Categorie + " !"
+                      " et son équipe ont réussi une mission " + nomMission + " !"
                     : "Miracle ! " + mission.MembreDefavorableNom +
-                      " a réussi une mission d'" + mission.Categorie + " !";
+                      " a réussi une mission " + nomMission + " !";
                 AjouterEntreeJournal(messageMiracle, "mission_reussite");
                 foreach (MembreGuilde participant in participants)
                     _historiqueMembres?.Ajouter(participant, instant, "Miracle",
