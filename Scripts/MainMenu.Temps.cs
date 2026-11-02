@@ -162,6 +162,34 @@ public partial class MainMenu
         }
     }
 
+    /// <summary>
+    /// Les dialogues consomment du temps de jeu minute par minute.
+    /// Les événements programmés ne sont pas sautés : un événement
+    /// prioritaire peut écourter l'échange et ferme la conversation.
+    /// </summary>
+    private bool AvancerTempsPourDiscussion(int minutes)
+    {
+        if (_horloge == null) return false;
+        for (int i = 0; i < minutes; i++)
+        {
+            if (!_horloge.AvancerUneMinute())
+            {
+                GD.PushError("Échec du passage du temps en discussion : " + HorlogeJeu.DerniereErreur);
+                return false;
+            }
+            if (_horloge.Instant.Hour == 0 && _horloge.Instant.Minute == 0)
+                ActualiserAnniversaires();
+            _date.Text = HorlogeJeu.Formater(_horloge.Instant);
+            if (VerifierRendezVousAuberge() || TraiterMinuteMissions())
+            {
+                ActualiserProgressionTemps();
+                return false;
+            }
+        }
+        ActualiserProgressionTemps();
+        return true;
+    }
+
     private void ActualiserBoutonTemps()
     {
         if (_boutonAvancerTemps != null)
