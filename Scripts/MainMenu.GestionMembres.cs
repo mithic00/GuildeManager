@@ -89,7 +89,8 @@ public partial class MainMenu
             int valeur = RelationsMembres.Lire(_membreConsulte, autre);
             string lien = autre.NomComplet + " : " + RelationsMembres.Qualifier(valeur) +
                 " (" + (valeur > 0 ? "+" : "") + valeur + ")";
-            if (valeur >= 0) proches.Add(lien);
+            // Neutre couvre bien toute la plage -9 à +9.
+            if (valeur >= -9) proches.Add(lien);
             else distants.Add(lien);
         }
         _bonnesRelations.Text = "Bonnes relations et relations neutres :\n" +
@@ -259,10 +260,16 @@ public partial class MainMenu
     private void ActualiserBoutonConcours()
     {
         int[] selection = _listeConcours.GetSelectedItems();
-        _lancerConcours.Disabled = selection.Length == 0 ||
-            selection[0] < 0 || selection[0] >= _membresConcours.Count ||
-            _etat == null || _etat.Ecus < ReglesConcours.Prix(
-                ReglesConcours.ConcoursEligible(_membresConcours[selection[0]]));
+        if (selection.Length == 0 || selection[0] < 0 ||
+            selection[0] >= _membresConcours.Count || _etat == null)
+        {
+            _lancerConcours.Disabled = true;
+            return;
+        }
+        var candidat = _membresConcours[selection[0]];
+        string concours = ReglesConcours.ConcoursEligible(candidat);
+        _lancerConcours.Disabled = concours == "" || EstAbsent(candidat) ||
+            _etat.Ecus < (concours == "" ? int.MaxValue : ReglesConcours.Prix(concours));
     }
 
     private void ProposerEnvoiConcours()
