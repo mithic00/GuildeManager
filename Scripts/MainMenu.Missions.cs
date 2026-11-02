@@ -69,6 +69,7 @@ public partial class MainMenu
         TirerApparitionAuJalon(maintenant);
 
         TerminerMissionsArrivees(maintenant);
+        if (TraiterRetoursConcours(maintenant)) return true;
         if (maintenant.Hour == 8 && maintenant.Minute == 0)
             ActualiserReposEtMoral();
         if (maintenant.Minute == 0 &&
@@ -330,6 +331,7 @@ public partial class MainMenu
 
     private bool GroupeDisponible(List<MembreGuilde> equipe)
     {
+        if (equipe.Any(m => !string.IsNullOrWhiteSpace(m.ConcoursEnCours))) return false;
         if (equipe.Any(m => m.Moral < MoralMinPourPartir)) return false;
         if (_etatMissions.Missions.Any(m => m.Etat == "EnCours" &&
             m.ParticipantIds.Any(id => equipe.Any(p => p.Id == id)))) return false;
