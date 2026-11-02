@@ -404,8 +404,9 @@ RÈGLES D'UTILISATION PROPOSÉES — À VALIDER
    Ils peuvent évoluer si les statistiques évoluent. Ceux qui utilisent la
    Motivation sont, par construction, potentiellement évolutifs.
 3. Les états temporaires sont recalculés à partir de leurs jauges respectives.
-4. Au départ, aucun effet de gameplay additionnel n'est imposé par ce document :
-   les statistiques servent déjà aux jets du jeu.
+4. Les traits exercent maintenant un effet sur les missions selon les règles
+   détaillées ci-dessous. Les états temporaires ne participent pas aux
+   associations missions dans la version actuelle.
 5. Ne pas afficher au joueur un trait fondé sur des caractéristiques inconnues
    s'il risque de révéler indirectement leurs valeurs lors du recrutement.
 6. Les archétypes recouvrent plusieurs familles (tempérament, rôle social,
@@ -417,6 +418,140 @@ RÈGLES D'UTILISATION PROPOSÉES — À VALIDER
    caractéristiques au recrutement.
 9. Cette base de connaissances ne crée aucune condition liée à la race,
    au rang, au métier ou au niveau magique : ces extensions restent possibles.
+
+RÈGLES ACTIVES : INFLUENCE DES TRAITS SUR LES MISSIONS
+======================================================
+Implémentées dans Scripts/BonusTraitsMissions.cs,
+Scripts/ResolutionMissions.cs et Scripts/MainMenu.Missions.cs.
+Associations positif / négatif : InfoJeu/Traits_Missions_GuildeManager.txt.
+
+1. IDENTIFICATION DES TRAITS
+----------------------------
+Les 100 archétypes et 12 états sont calculés à partir des caractéristiques
+réelles à l'instant considéré, via ReglesTraitsPersonnage.Evaluer().
+L'influence sur les missions ne retient que les archétypes associés à
+la catégorie (les états temporaires sont exclus pour l'instant).
+Les statistiques encore inconnues du joueur ne réduisent pas l'influence
+réelle d'un trait ; elles restent toutefois cachées dans la fiche membre.
+
+2. COMPTAGE EN ÉQUIPE ET COMPENSATION
+------------------------------------
+- Côté positif : chaque MEMBRE qui possède au moins un trait favorable
+  à la catégorie compte comme UN membre favorable. Le nombre de traits
+  positifs supplémentaires d'un même membre ne multiplie pas les bonus.
+- Côté négatif : on calcule le nombre de TRAITS défavorables chez chaque
+  membre. On ne conserve QUE LE NOMBRE LE PLUS ÉLEVÉ d'un seul membre.
+  Les nombres des autres membres ne s'additionnent pas.
+- Solde = nombre de membres favorables - maximum de traits négatifs
+  portés par un même membre.
+- Solde > 0  : un avantage de mission disponible.
+- Solde = 0  : neutre, aucun effet.
+- Solde < 0  : -2 au D20 de Volonté d'acceptation par point de déficit.
+               Aucun avantage n'est alors disponible.
+
+Exemples (P = membres favorables, N = maximum individuel défavorable) :
+  P=1, N=3 : solde -2, malus -4 au D20 de Volonté.
+  P=0, N=3 : solde -3, malus -6 au D20 de Volonté.
+  P=2, N=1 : solde +1, un seul avantage de mission.
+  P=1, N=1 : solde 0, ni avantage ni malus.
+  P=4, N=0 : solde +4, toujours un seul avantage.
+Si un membre a 2 traits négatifs et un autre 3, le maximum N est 3,
+et non 5 ; sans membre favorable, le malus est donc -6.
+
+3. EFFET DES TRAITS NÉGATIFS : DÉPART EN MISSION
+-----------------------------------------------
+Aux jalons d'acceptation (08h, 12h et 16h), le jeu conserve le meilleur
+modificateur de Volonté disponible dans l'équipe.
+  D20 + meilleur modificateur Volonté + malus de traits >= cible 5.
+Un malus de traits défavorables réduit les chances d'accepter la mission.
+La catégorie n'est JAMAIS totalement interdite du seul fait des traits.
+Les règles de rang, de moral, de fatigue et d'admissibilité à la catégorie
+restent appliquées comme auparavant.
+
+4. EFFET DES TRAITS POSITIFS : JETS D20
+--------------------------------------
+Au maximum UN SEUL AVANTAGE par mission, quel que soit le nombre de
+membres ou de traits positifs. Il est conservé pendant la mission jusqu'à
+utilisation ; son état est mémorisé dans la sauvegarde.
+
+- Enquête : sur les jets d'Intelligence et de Charisme, un D20 raté
+  peut être relancé une fois (même bonus de statistique).
+- Recherche mort ou vif / Capture vif : relance sur les jets
+  d'Intelligence (localisation) ou d'Agilité (interception).
+- Protection d'un lieu : en cas d'incident, chaque membre passe ses
+  jets individuels de Calme et d'Endurance. Le premier échec peut
+  consommer la relance unique de l'équipe.
+- Recherche d'objet, d'ingrédient, d'animal et Service : trois D20,
+  avec la meilleure stat de l'équipe pour chaque jet. La relance
+  unique n'est utilisée que si au moins deux jets ont échoué,
+  afin de pouvoir revenir dans la table de résultats favorable.
+- Les jets de groupe conservent le plus haut modificateur de
+  caractéristique du groupe. Les stats des membres ne s'additionnent pas.
+- Une relance ratée ne peut pas être relancée à nouveau.
+
+5. EFFET DES TRAITS POSITIFS : MISSIONS SANS D20
+-----------------------------------------------
+Catégories : Escorte, Élimination de danger, Renfort pour Assaut.
+À la première table de résolution réellement lancée (donc pas dans
+une escorte sans incident), un avantage unique permet de transférer
+JUSQU'À 5 points de pourcentage de la probabilité de Continuation,
+puis d'Échec, vers la probabilité de Réussite.
+
+Exemple : 60 % réussite / 30 % continuation / 5 % échec / 5 % mort
+devient 65 % / 25 % / 5 % / 5 %.
+Le risque de décès reste INCHANGÉ.
+Si la table ne dispose que de moins de cinq points transférables,
+le gain est limité au disponible (ex. 99 % réussite / 1 % échec
+devient 100 % réussite).
+Il n'y a qu'un bonus, pas un bonus quotidien réutilisable.
+
+6. JOURNAL : RÉUSSITE IMPROBABLE (MIRACLE)
+-----------------------------------------
+Si une équipe ou un membre solo a accepté une mission malgré un malus
+de traits négatifs, et réussit cette mission, le journal affiche un
+message spécial « Miracle ! ... a réussi une mission ... ! ».
+Pour un groupe, le membre cité est celui qui avait le plus de traits
+négatifs sur cette catégorie, et le message mentionne aussi son équipe.
+Ce message figure également dans l'historique individuel.
+
+7. HISTORIQUE INDIVIDUEL DES MEMBRES
+------------------------------------
+La guilde conserve un registre d'événements par membre, prévu pour une
+future interface de consultation :
+  Scripts/HistoriqueMembresGuilde.cs
+  Clé sauvegarde : historique_membres_guilde
+
+Données enregistrées avec date du jeu, ID de membre et identité :
+- Départs en mission et résultats (réussite / échec), avec catégorie,
+  rang et identifiant de mission.
+- Décès en mission et départs de la guilde.
+- Promotions de rang et évolutions du niveau.
+- Gains d'expérience et de niveau magique (valeur avant / après).
+- Variations de statistiques (caractéristiques /20) et de
+  connaissance magique, ainsi que les évolutions de PV, PM,
+  moral, bonheur, fatigue et écus personnels provoquées par les missions.
+- Réussites exceptionnelles (« Miracle ! »).
+
+Les données restent conservées même après le décès ou le départ d'un
+membre, car elles sont séparées de la liste des membres actifs.
+Elles sont enregistrées en SQLite uniquement lors de la sauvegarde
+explicite de la partie, dans la même transaction que les missions.
+Leur consultation en jeu n'est PAS encore implémentée.
+Les missions terminées avant l'activation de ce système ne sont pas
+reconstituées rétroactivement.
+
+8. LIMITES ET ÉQUILIBRAGE
+------------------------
+- Au plus un avantage par mission.
+- Aucun effet direct des traits négatifs sur le risque de décès.
+- La différence de traits négatifs et positifs affecte seulement
+  la décision de partir ; si le groupe part, on ne lui applique
+  pas un deuxième malus pendant sa résolution.
+- La progression magique, les seuils de rang et les probabilités
+  de base de Missions&Rang.txt restent inchangés hors effet explicite
+  de l'avantage.
+- Les états temporaires (Moral, Bonheur, Fatigue) ne figurent pas
+  dans les associations aux catégories de missions pour l'instant.
 
 TOTAL : 100 ARCHÉTYPES PROPOSÉS + 12 ÉTATS TEMPORAIRES.
 FIN DU DOCUMENT.
