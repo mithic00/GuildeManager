@@ -24,6 +24,8 @@
 [ext_resource type="Texture2D" uid="uid://b07b7fbmd735i" path="res://Images/Icone_Magasins/GuildeManager_12_Icones_Magasins/PNG_64x64/ecurie.png" id="20_ke15f"]
 [ext_resource type="Texture2D" uid="uid://blns2ef8d5ht4" path="res://Images/Icone_Magasins/GuildeManager_12_Icones_Magasins/PNG_64x64/paysan.png" id="21_311ux"]
 [ext_resource type="Texture2D" uid="uid://c1hwps7buqsd5" path="res://Images/Icone_Magasins/GuildeManager_12_Icones_Magasins/PNG_64x64/port.png" id="22_pnils"]
+[ext_resource type="Texture2D" uid="uid://dq1gmyr5qk62f" path="res://Images/Portraits/GrandFormat/Portait_Defaut.png" id="26_iqn0u"]
+[ext_resource type="Texture2D" uid="uid://chla477av4ljv" path="res://Images/Portraits/GrandFormat/ElfeGris_Femme.png" id="27_3u44c"]
 [ext_resource type="Script" uid="uid://b3ewfrysu0a26" path="res://Scripts/MainMenu.cs" id="main_menu_script"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_853f1"]
@@ -2472,23 +2474,6 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Retour"
 
-[node name="LayoutConversation" type="MarginContainer" parent="FenetreFichePerso" unique_id=1627123896]
-visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 60
-theme_override_constants/margin_top = 60
-theme_override_constants/margin_right = 60
-theme_override_constants/margin_bottom = 60
-
-[node name="VBoxContainer" type="VBoxContainer" parent="FenetreFichePerso/LayoutConversation" unique_id=887495755]
-layout_mode = 2
-theme_override_constants/separation = 51
-alignment = 1
-
 [node name="LayoutGestion" type="MarginContainer" parent="FenetreFichePerso" unique_id=676657309]
 visible = false
 anchors_preset = 15
@@ -2818,3 +2803,85 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Fermer"
+
+[node name="FenetreDiscussion" type="Window" parent="." unique_id=372884197]
+transparent_bg = true
+oversampling_override = 1.0
+initial_position = 3
+size = Vector2i(1200, 800)
+current_screen = 0
+visible = false
+exclusive = true
+unresizable = true
+transparent = true
+
+[node name="LayoutConversation" type="MarginContainer" parent="FenetreDiscussion" unique_id=1627123896]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 60
+
+[node name="Layout" type="VBoxContainer" parent="FenetreDiscussion/LayoutConversation" unique_id=887495755]
+layout_mode = 2
+theme_override_constants/separation = 51
+
+[node name="Label" type="Label" parent="FenetreDiscussion/LayoutConversation/Layout" unique_id=1088303691]
+layout_mode = 2
+theme_override_font_sizes/font_size = 52
+text = "Conversation"
+horizontal_alignment = 1
+
+[node name="RésultatDiscussion" type="RichTextLabel" parent="FenetreDiscussion/LayoutConversation/Layout" unique_id=1638677153]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="InterfaceInteractive" type="HBoxContainer" parent="FenetreDiscussion/LayoutConversation/Layout" unique_id=1681547244]
+layout_mode = 2
+theme_override_constants/separation = 36
+alignment = 1
+
+[node name="PortraitCible" type="TextureRect" parent="FenetreDiscussion/LayoutConversation/Layout/InterfaceInteractive" unique_id=1777711225]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+texture = ExtResource("26_iqn0u")
+expand_mode = 1
+
+[node name="ListeSujetDiscussion" type="GridContainer" parent="FenetreDiscussion/LayoutConversation/Layout/InterfaceInteractive" unique_id=359473823]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/h_separation = 30
+theme_override_constants/v_separation = 30
+columns = 2
+
+[node name="BoutonFermer" type="Button" parent="FenetreDiscussion/LayoutConversation/Layout/InterfaceInteractive/ListeSujetDiscussion" unique_id=1843648790]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Fermer"
+
+[node name="BoutonFaireConnaissance" type="Button" parent="FenetreDiscussion/LayoutConversation/Layout/InterfaceInteractive/ListeSujetDiscussion" unique_id=1468718997]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Faire Connaissance"
+
+[node name="BoutonConversationAmicale" type="Button" parent="FenetreDiscussion/LayoutConversation/Layout/InterfaceInteractive/ListeSujetDiscussion" unique_id=2117992303]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Conversation Amicale"
+
+[node name="PortraitJoueur" type="TextureRect" parent="FenetreDiscussion/LayoutConversation/Layout/InterfaceInteractive" unique_id=745771779]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+texture = ExtResource("27_3u44c")
+expand_mode = 1
