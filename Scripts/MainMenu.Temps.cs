@@ -286,7 +286,8 @@ public partial class MainMenu
             };
             if (couleurResultat.HasValue)
                 _journalAffichage.PushColor(couleurResultat.Value);
-            _journalAffichage.AddText("[" + date + "] " +\n                ReglesMissions.FormaterRangsDansTexte(entree.Description) + "\n");
+            _journalAffichage.AddText("[" + date + "] " +
+                ReglesMissions.FormaterRangsDansTexte(entree.Description) + "\n");
             if (couleurResultat.HasValue)
                 _journalAffichage.Pop();
         }
