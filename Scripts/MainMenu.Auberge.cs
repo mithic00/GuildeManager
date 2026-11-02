@@ -133,6 +133,8 @@ public partial class MainMenu
         if (_aubergeEtat?.RendezVous == null || _aubergeEtat.RendezVous.EnCours)
             return false;
         if (!HeureRendezVousAtteinte()) return false;
+        // L'horaire est respecté, mais l'interface attend la fin de l'échange.
+        if (_traitementTempsDiscussion) return true;
 
         InterrompreAvanceeTemps("Rendez-vous de recrutement à l'auberge.");
         OuvrirAuberge();
