@@ -1,0 +1,299 @@
+GUILDEMANAGER - ASSOCIATION DES TRAITS AUX CATÉGORIES DE MISSIONS
+================================================================
+
+Document de conception - base de connaissances - VERSION PROPOSÉE
+Références :
+  - InfoJeu/Missions&Rang.txt (11 catégories et résolutions des missions)
+  - Traits_Personnage.txt (100 archétypes + 12 états temporaires)
+  - InfoJeu/Stat_Personnage.txt (liste des caractéristiques)
+  - InfoJeu/Regle_Stats.txt (sens des caractéristiques)
+
+OBJECTIF
+--------
+Pour chaque catégorie de mission, identifier des archétypes qui pourraient
+être favorables (POSITIF) ou défavorables (NÉGATIF) à son déroulement.
+Ces associations sont des PROPOSITIONS DE GAME DESIGN. Les règles actuelles
+des jets, leur probabilité et les conditions de départ ne sont pas modifiées.
+
+RÈGLES DE LECTURE
+----------------
+  POSITIF : archétype considéré comme un atout potentiel pour cette mission.
+  NÉGATIF : archétype considéré comme un handicap potentiel pour cette mission.
+  NOM DU TRAIT : reprend EXACTEMENT le nom du catalogue Traits_Personnage.txt.
+  JUSTIFICATION : explique l'association ; ne constitue pas un effet codé.
+
+  - Un même trait peut être positif pour une catégorie et négatif pour une autre.
+  - Un personnage peut avoir plusieurs traits (positifs et négatifs).
+  - Les associations ne sont ni exclusives ni hiérarchisées.
+  - Aucun bonus, malus, poids, cumul, priorité ou seuil d'activation n'est
+    fixé dans cette version.
+  - Les traits sont individuels ; leur application à une équipe entière reste
+    à spécifier (chef, meilleur profil, membre le moins adapté, moyenne, etc.).
+  - Un trait ne doit pas être compté deux fois par accident avec les stats
+    déjà utilisées dans le jet de mission ; ce risque sera examiné au moment
+    d'implémenter les effets.
+  - Les 12 états temporaires ne sont PAS intégrés à ces associations : une
+    seconde phase pourra prendre en compte fatigue, moral et bonheur.
+  - La statistique Frustration mesure la TOLÉRANCE aux contrariétés : une
+    valeur ÉLEVÉE est positive, une valeur FAIBLE est négative.
+
+CATALOGUE DES ASSOCIATIONS
+==========================
+
+01. ENQUÊTE
+-----------
+Mécanique actuelle : Collecte d’informations et échanges ; jets d’Intelligence et de Charisme.
+
+TRAITS POSITIFS :
+  + Érudit : Maîtrise des connaissances utiles à une investigation.
+  + Analyste : Interprétation rigoureuse des informations.
+  + Observateur : Repérage et mémorisation des détails.
+  + Logicien : Déduction et recoupement des témoignages.
+  + Méthodique : Recueil structuré des preuves et informations.
+  + Diplomate : Entretiens délicats et obtention de témoignages.
+  + Espion charmeur : Recueil discret d’informations auprès d’interlocuteurs.
+
+TRAITS NÉGATIFS :
+  - Génie distrait : Oublis de détails malgré une intelligence élevée.
+  - Timide : Difficulté à interroger ou convaincre des personnes.
+  - Irréfléchi : Conclusions hâtives et éléments négligés.
+  - Impatient : Abandon prématuré de pistes longues.
+  - Bavard : Risque de divulguer ou de brouiller des informations.
+
+02. ESCORTE
+-----------
+Mécanique actuelle : Accompagnement et protection d’un convoi ou d’une personne ; résolution surtout fondée sur le niveau magique moyen.
+
+TRAITS POSITIFS :
+  + Garde du corps : Protection rapprochée des personnes escortées.
+  + Rempart : Résistance lors d’une attaque.
+  + Gardien vigilant : Surveillance du trajet et anticipation des menaces.
+  + Chef de crise : Organisation des réactions en cas d’incident.
+  + Marathonien : Tenue dans la durée du déplacement.
+  + Chevalier protecteur : Priorité donnée à la sécurité du groupe.
+  + Esprit d'équipe : Coordination entre les membres escortant la cible.
+  + Sang-froid exceptionnel : Réactions mesurées durant les embuscades.
+
+TRAITS NÉGATIFS :
+  - Impatient : Précipitation nuisant au rythme du convoi.
+  - Provocateur : Risque de conflit évitable pendant le trajet.
+  - Berserker : Réactions excessives face à une menace.
+  - Éclair fragile : Vulnérabilité en cas d’affrontement prolongé.
+  - Coureur explosif : Manque d’endurance sur un long parcours.
+  - Facilement découragé : Difficulté à poursuivre une escorte compliquée.
+
+03. ÉLIMINATION DE DANGER
+-------------------------
+Mécanique actuelle : Affrontement et neutralisation d’une menace ; résolution dépendant du niveau magique moyen.
+
+TRAITS POSITIFS :
+  + Sage guerrier : Combinaison de puissance et de jugement.
+  + Combattant stratégique : Évaluation tactique d’un affrontement.
+  + Duelliste : Maîtrise d’une confrontation directe.
+  + Tacticien : Adaptation des actions pendant le combat.
+  + Capitaine stratège : Planification et coordination des combattants.
+  + Chef de crise : Conduite du groupe quand la situation se dégrade.
+  + Meneur de charge : Capacité à prendre l’initiative d’une attaque.
+  + Titan : Puissance et robustesse dans un affrontement physique.
+
+TRAITS NÉGATIFS :
+  - Irréfléchi : Mise en danger par décisions trop rapides.
+  - Indécis : Hésitation au moment de neutraliser une menace.
+  - Éclair fragile : Faible résistance à une riposte.
+  - Rapide maladroit : Manque de précision malgré sa vitesse.
+  - Nerveux : Maîtrise difficile des réactions sous tension.
+
+04. RECHERCHE MORT OU VIF
+-------------------------
+Mécanique actuelle : Enquête initiale, traque puis éventuelle capture ou élimination ; Intelligence, Agilité et puissance magique.
+
+TRAITS POSITIFS :
+  + Chasseur méthodique : Patience et suivi de pistes.
+  + Éclaireur : Déplacement, repérage et mémoire des lieux.
+  + Observateur : Identification d’indices sur la cible.
+  + Tacticien : Choix du moment et du mode d’interception.
+  + Main sûre : Geste précis lors de l’interpellation.
+  + Espion charmeur : Obtention d’informations sur le fugitif.
+  + Capitaine stratège : Coordination d’une traque menée en équipe.
+
+TRAITS NÉGATIFS :
+  - Impatient : Interception prématurée de la cible.
+  - Génie distrait : Risque d’oublier un indice déterminant.
+  - Irréfléchi : Poursuite sans préparation suffisante.
+  - Rapide maladroit : Erreur possible au moment d’intercepter.
+  - Colérique : Réactions mal maîtrisées face à une cible provocante.
+  - Éclair fragile : Fragilité lors de l’affrontement final.
+
+05. CAPTURE VIF
+---------------
+Mécanique actuelle : Localisation puis capture sans tuer ; Intelligence au premier jour, Agilité ensuite, puis niveau magique.
+
+TRAITS POSITIFS :
+  + Main sûre : Précision nécessaire pour immobiliser sans tuer.
+  + Chasseur méthodique : Approche patiente et suivi de la cible.
+  + Duelliste : Précision et contrôle de ses gestes.
+  + Bretteur : Adresse et maîtrise durant la confrontation.
+  + Sang-froid exceptionnel : Évite des réactions excessives.
+  + Éclaireur : Repérage et approche de la cible.
+  + Tacticien : Prépare une capture plutôt qu’un affrontement mortel.
+
+TRAITS NÉGATIFS :
+  - Berserker : Impulsivité problématique pour préserver la cible en vie.
+  - Brute : Force difficile à modérer sous l’effet de la colère.
+  - Colérique : Risque de dépasser le niveau de force nécessaire.
+  - Costaud maladroit : Difficulté à contrôler l’immobilisation.
+  - Rapide maladroit : Imprécision dans l’exécution de la capture.
+  - Irréfléchi : Choix d’interception prématurés ou risqués.
+
+06. PROTECTION D'UN LIEU
+------------------------
+Mécanique actuelle : Défense d’un poste sur 1 à 3 jours ; en cas d’incident, Calme et Endurance de chaque membre.
+
+TRAITS POSITIFS :
+  + Gardien vigilant : Surveillance régulière du lieu confié.
+  + Rempart : Capacité à tenir une position.
+  + Stoïque : Tolérance au stress et aux contrariétés.
+  + Chef de crise : Gestion d’une attaque ou d’une alerte.
+  + Garde du corps : Instinct de protection.
+  + Sang-froid exceptionnel : Décisions mesurées malgré la pression.
+  + Marathonien : Bonne résistance durant une garde prolongée.
+  + Persévérant : Maintien de la vigilance sur plusieurs jours.
+
+TRAITS NÉGATIFS :
+  - Impatient : Difficulté à rester en poste longtemps.
+  - Nerveux : Risque de réactions disproportionnées à une alerte.
+  - Éclair fragile : Mauvaise tenue en cas de confrontation.
+  - Facilement découragé : Baisse de persévérance si la garde devient pénible.
+  - Colérique : Contrôle difficile des tensions.
+  - Sprinteur : Faible endurance pour une garde longue.
+
+07. RECHERCHE D'UN OBJET
+------------------------
+Mécanique actuelle : Investigation et récupération ; Intelligence, Frustration (tolérance aux revers), Charisme.
+
+TRAITS POSITIFS :
+  + Analyste : Interprétation des indices.
+  + Observateur : Détection d’indices discrets.
+  + Archiviste : Restitution d’informations anciennes.
+  + Méthodique : Fouille organisée et suivi des pistes.
+  + Espion charmeur : Collecte d’indices auprès de personnes.
+  + Négociateur : Échanges utiles pour localiser ou récupérer un objet.
+  + Persévérant : Poursuite de pistes malgré les obstacles.
+  + Logicien : Déduction de l’emplacement recherché.
+
+TRAITS NÉGATIFS :
+  - Génie distrait : Oubli d’un détail utile à la recherche.
+  - Impatient : Fouille trop rapide ou abandonnée.
+  - Facilement découragé : Réaction défavorable aux pistes infructueuses.
+  - Irréfléchi : Mauvaises hypothèses retenues sans vérification.
+  - Timide : Difficulté à obtenir des renseignements.
+  - Rancunier : Faible tolérance aux contrariétés et conflits possibles.
+
+08. RECHERCHE D'UN INGRÉDIENT
+-----------------------------
+Mécanique actuelle : Prospection et collecte ; Force, Frustration (tolérance aux revers), Agilité.
+
+TRAITS POSITIFS :
+  + Explorateur : Adaptation à un terrain inconnu.
+  + Chasseur méthodique : Repérage patient des ressources.
+  + Main sûre : Récolte précise sans détériorer l’ingrédient.
+  + Athlète complet : Polyvalence dans les déplacements et la collecte.
+  + Esprit tenace : Patience quand la récolte se complique.
+  + Éclaireur : Repérage de zones de collecte.
+  + Résilient : Supporte les recherches infructueuses.
+
+TRAITS NÉGATIFS :
+  - Costaud maladroit : Risque d’abîmer une ressource fragile.
+  - Rapide maladroit : Récolte trop brusque ou imprécise.
+  - Impatient : Néglige une recherche minutieuse.
+  - Facilement découragé : Abandon après plusieurs essais.
+  - Éclair fragile : Difficulté dans un environnement dangereux.
+
+09. RECHERCHE D'UN ANIMAL
+-------------------------
+Mécanique actuelle : Pistage, déplacement et poursuite ; Vitesse, Endurance, Agilité.
+
+TRAITS POSITIFS :
+  + Éclaireur : Déplacements rapides et repérage de traces.
+  + Chasseur méthodique : Pistage attentif et patient.
+  + Marathonien : Résistance lors de longues poursuites.
+  + Athlète complet : Équilibre de vitesse, endurance et adresse.
+  + Acrobate : Mobilité et adaptation aux obstacles.
+  + Éclaireur solitaire : Discrétion et autonomie en repérage.
+  + Main sûre : Gestes précis pour une approche délicate.
+
+TRAITS NÉGATIFS :
+  - Géant lent : Difficulté à suivre un animal rapide.
+  - Rapide maladroit : Manque de coordination pendant la poursuite.
+  - Costaud maladroit : Gestes peu adaptés à une approche discrète.
+  - Sprinteur : Essoufflement durant une poursuite longue.
+  - Impatient : Risque de faire fuir l’animal.
+  - Brute : Approche physique trop agressive.
+
+10. SERVICE
+-----------
+Mécanique actuelle : Prestations rendues à autrui ; Empathie, Gentillesse, Communication.
+
+TRAITS POSITIFS :
+  + Attentionné : Prend en compte les attentes du demandeur.
+  + Sociable : Contact facile avec les bénéficiaires.
+  + Diplomate : Résout les désaccords sans conflit.
+  + Pédagogue : Explique clairement son intervention.
+  + Médiateur : Concilie les besoins de plusieurs personnes.
+  + Précepteur : Aide et accompagne les personnes.
+  + Esprit d'équipe : Partage efficacement le travail.
+  + Fédérateur : Mobilise des personnes autour d’une tâche.
+
+TRAITS NÉGATIFS :
+  - Manipulateur : Risque de privilégier son intérêt à celui du client.
+  - Chef autoritaire : Difficulté à s’adapter aux demandes.
+  - Provocateur : Déclenche des conflits avec les bénéficiaires.
+  - Distant : Peu d’attention portée à l’interlocuteur.
+  - Timide : Difficulté à communiquer avec le demandeur.
+  - Solitaire : Peu d’aisance dans une prestation collective.
+  - Colérique : Gestion difficile d’un client mécontent.
+
+11. RENFORT POUR ASSAUT
+-----------------------
+Mécanique actuelle : Opération collective de combat ; résolution fondée surtout sur le niveau magique moyen.
+
+TRAITS POSITIFS :
+  + Capitaine stratège : Conçoit et transmet un plan d’attaque.
+  + Meneur de charge : Entraîne le groupe au moment de l’assaut.
+  + Chef de crise : Garde la maîtrise de l’opération sous pression.
+  + Combattant stratégique : Gère efficacement une confrontation.
+  + Tacticien : Adapte les actions aux circonstances.
+  + Rempart : Protège ses alliés lors de l’avancée.
+  + Esprit d'équipe : Coordination avec les autres combattants.
+  + Sage guerrier : Équilibre action et réflexion.
+
+TRAITS NÉGATIFS :
+  - Solitaire : Collaboration difficile dans une opération collective.
+  - Indécis : Hésitation au moment d’agir.
+  - Irréfléchi : Prise de risques mal calculée.
+  - Éclair fragile : Vulnérabilité au cœur d’un assaut.
+  - Facilement découragé : Difficulté face aux revers militaires.
+  - Provocateur : Risque de tensions entre unités alliées.
+
+POINTS À ARBITRER AVANT LE CODAGE DES EFFETS
+---------------------------------------------
+1. Portée : un trait agit-il pour son porteur seulement ou pour toute l'équipe ?
+2. Calcul : bonus/malus sur D20, sur les probabilités de résolution, ou sur
+   une mécanique secondaire ? Ne pas appliquer un effet aux deux sans raison.
+3. Cumul : que faire quand plusieurs membres possèdent le même trait ?
+4. Conflit : que faire si un personnage possède à la fois un trait favorable
+   et un trait défavorable ?
+5. Redondance : certains traits exigent déjà les caractéristiques utilisées
+   par les jets (ex. "Main sûre" et l'Agilité de Capture vif).
+6. Variété : toutes les catégories n'utilisent pas les mêmes jets : certaines
+   reposent surtout sur le niveau magique et ne doivent pas recevoir les mêmes
+   effets que celles reposant sur trois D20.
+7. Affichage : conserver la confidentialité des statistiques inconnues au
+   recrutement si les traits sont montrés au joueur.
+8. États temporaires : traiter à part les effets du Moral, du Bonheur et de
+   la Fatigue lorsqu'on souhaitera les ajouter.
+9. Équilibrage : tester les fréquences d'apparition de chaque trait, car
+   des combinaisons à trois statistiques >= 16 peuvent être très rares.
+
+AUCUN EFFET DE JEU N'EST APPLIQUÉ PAR CE DOCUMENT.
+AUCUN FICHIER .cs OU .tscn N'A BESOIN D'ÊTRE MODIFIÉ À CE STADE.
