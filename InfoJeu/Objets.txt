@@ -4,9 +4,12 @@ Chaque objets est référencé dans une catégorie :
 -- Choux : Présent partout sur le globe.
 -- Tomate : Présent partout sur le globe.
 -- Dlo : Céréale semblable à du blé (qui n'existe pas dans cet univers). Présent partout sur le globe.
+-- Carotte : Présent partout sur le globe.
+-- Pain : Présent partout sur le globe.
 - Boisson non alcoolisé
 - Boisson alcoolisé
 - Monture
+- Vehicule
 - Arme
 - Armure
 - Objet Magique Divers
