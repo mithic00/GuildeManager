@@ -156,7 +156,12 @@ public partial class MainMenu
         if (joueur == null || !_registreMembres.Membres.Contains(cible) || EstAbsent(cible))
         { _fenetreFiche.PopupCentered(); return; }
         foreach (MembreGuilde membre in _registreMembres.Membres)
+        {
+            if (membre.EstAdjoint && membre.Id != cible.Id)
+                _historiqueMembres?.Ajouter(membre, _horloge.Instant,
+                    "FinFonctionAdjoint", "N'est plus adjoint de la guilde.");
             membre.EstAdjoint = membre.Id == cible.Id;
+        }
         int relation = RelationsMembres.Ajuster(joueur, cible, 20);
         AjouterEntreeJournal(cible.NomComplet + " devient l'adjoint de la guilde.", "gestion");
         _historiqueMembres?.Ajouter(cible, _horloge.Instant, "NominationAdjoint",
@@ -339,6 +344,8 @@ public partial class MainMenu
         }
         if (!retour) return false;
         _registreMembres.RecalculerClassement();
+        if (_panneauActif == "membres")
+            RafraichirListeMembres();
         if (_membreConsulte != null && _fenetreFiche.Visible)
             RemplirFiche(_membreConsulte);
         return true;
