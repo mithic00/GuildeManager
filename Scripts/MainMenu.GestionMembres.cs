@@ -35,7 +35,7 @@ public partial class MainMenu
         GetNode<Button>(racine + "LayoutSocial/VBoxContainer/BoutonRelation")
             .Pressed += AfficherRelations;
         GetNode<Button>(racine + "LayoutSocial/VBoxContainer/BoutonConversation")
-            .Pressed += () => AfficherInformation("Les conversations seront développées ultérieurement.");
+            .Pressed += OuvrirDiscussion;
         GetNode<Button>(racine + "LayoutSocial/VBoxContainer/BoutonRetour")
             .Pressed += RetourFiche;
         GetNode<Button>(racine + "LayoutRelation/Layout/BoutonRetour")
@@ -102,7 +102,7 @@ public partial class MainMenu
     }
 
     private bool EstAbsent(MembreGuilde membre) =>
-        membre == null || !string.IsNullOrWhiteSpace(membre.ConcoursEnCours) ||
+        membre == null || membre.Absent || !string.IsNullOrWhiteSpace(membre.ConcoursEnCours) ||
         _etatMissions?.Missions.Any(q => q.Etat == "EnCours" &&
             q.ParticipantIds.Contains(membre.Id)) == true;
 
