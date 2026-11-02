@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 /// <summary>
 /// État des missions de la partie : aucune écriture sur disque avant la
@@ -132,6 +133,18 @@ public static class ReglesMissions
     /// pour les calculs et les sauvegardes. Seul l'affichage utilise ★.
     /// </summary>
     public static string FormaterRang(string rang) => (rang ?? "").Replace('*', '★');
+
+    /// <summary>
+    /// Adapte les anciens messages du journal contenant des rangs en étoiles
+    /// ASCII (ex. **, S***, P****) sans altérer les sauvegardes ni les noms.
+    /// </summary>
+    public static string FormaterRangsDansTexte(string texte)
+    {
+        if (string.IsNullOrEmpty(texte)) return texte ?? "";
+        return Regex.Replace(texte,
+            @"(?<![\p{L}\p{N}★*])(?:S|P)?\*{1,5}(?![\p{L}\p{N}★*])",
+            match => FormaterRang(match.Value));
+    }
 
     public static int IndexRang(string rang)
     {
