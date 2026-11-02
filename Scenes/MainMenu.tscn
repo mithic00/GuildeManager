@@ -2810,7 +2810,6 @@ oversampling_override = 1.0
 initial_position = 3
 size = Vector2i(1200, 800)
 current_screen = 0
-visible = false
 exclusive = true
 unresizable = true
 transparent = true
@@ -2879,6 +2878,39 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Conversation Amicale"
+
+[node name="ListeReponsesConversation" type="GridContainer" parent="FenetreDiscussion/LayoutConversation/Layout/InterfaceInteractive" unique_id=757848097]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/h_separation = 30
+theme_override_constants/v_separation = 30
+columns = 2
+
+[node name="BoutonReponse1" type="Button" parent="FenetreDiscussion/LayoutConversation/Layout/InterfaceInteractive/ListeReponsesConversation" unique_id=780919891]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="BoutonReponse2" type="Button" parent="FenetreDiscussion/LayoutConversation/Layout/InterfaceInteractive/ListeReponsesConversation" unique_id=1919008185]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="BoutonReponse3" type="Button" parent="FenetreDiscussion/LayoutConversation/Layout/InterfaceInteractive/ListeReponsesConversation" unique_id=183542067]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="BoutonReponse4" type="Button" parent="FenetreDiscussion/LayoutConversation/Layout/InterfaceInteractive/ListeReponsesConversation" unique_id=1641562276]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
 [node name="PortraitJoueur" type="TextureRect" parent="FenetreDiscussion/LayoutConversation/Layout/InterfaceInteractive" unique_id=745771779]
 custom_minimum_size = Vector2(160, 160)
