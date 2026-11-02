@@ -45,7 +45,7 @@ Si Moral < 20
     D20 Communication cible 18
     -> réussi : "Ok, rapide s'il vous plait. J'ai pas le moral."        -> +3 relation, +1 bonheur, +10 moral
     -> échoué : "C'est pas le moment."                                  -> -5 relation.
-  Si relation < 9
+  Si relation < 10
     D20 Communication cible 18
     -> réussi : "Ok, rapide s'il vous plait. J'ai pas le moral."        -> +1 relation, +5 moral
     -> échoué : "C'est pas le moment."                                  -> -5 relation, -2 bonheur, -5 moral
