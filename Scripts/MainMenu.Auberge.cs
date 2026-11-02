@@ -107,7 +107,7 @@ public partial class MainMenu
         if (date < limite) date = date.AddDays(1);
 
         List<CandidatAuberge> candidats;
-        try { candidats = GenerateurCandidats.Generer(_villeDepart); }
+        try { candidats = GenerateurCandidats.Generer(_villeDepart, date); }
         catch (Exception e)
         {
             GD.PushError("Recrutement : " + e.Message);
