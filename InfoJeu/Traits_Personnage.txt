@@ -1,0 +1,422 @@
+GUILDEMANAGER — TRAITS, ARCHÉTYPES ET ÉTATS DE PERSONNAGE
+========================================================
+
+Document de conception / base de connaissances — version de travail
+Sources du projet : InfoJeu/Stat_Personnage.txt et InfoJeu/Regle_Stats.txt.
+
+IMPORTANT : les noms, les combinaisons et les seuils ci-dessous sont des
+PROPOSITIONS de conception. Ils ne sont pas encore des règles implémentées.
+
+PRINCIPE FONDAMENTAL
+-------------------
+Pour les 15 caractéristiques sociales, mentales et physiques notées sur 20,
+PLUS LA VALEUR EST ÉLEVÉE, PLUS LA CAPACITÉ EST POSITIVE.
+
+En particulier, la statistique FRUSTRATION mesure la capacité à supporter
+la contrariété, et non la propension à s'énerver :
+- Frustration = 20 : ne se frustre pratiquement jamais.
+- Frustration >= 16 : tolérance élevée aux contrariétés.
+- Frustration <= 6 : se frustre facilement, supporte mal les revers.
+- Frustration = 1 : tolérance extrêmement faible aux frustrations.
+
+Autres exemples :
+- Calme élevé = garde son sang-froid ; Calme faible = s'emporte facilement.
+- Volonté élevée = ténacité et capacité à poursuivre les efforts.
+- Mémoire élevée = retient facilement informations et événements.
+- Empathie et Gentillesse élevées = dispositions sociales positives.
+
+ATTENTION : la Fatigue /100 est une jauge d'épuisement, pas une aptitude
+sur 20. Une Fatigue élevée indique un personnage fatigué.
+Motivation /20, Moral /100 et Bonheur /100 sont des valeurs évolutives.
+
+SEUILS DE CONCEPTION SUGGÉRÉS
+-----------------------------
+1 à 6 : très faible ; 7 à 9 : faible ; 10 à 13 : moyen ; 14 à 15 : bon ;
+16 à 19 : très élevé ; 20 : exceptionnel.
+
+NOTATION
+--------
+>= : supérieur ou égal ; <= : inférieur ou égal ; ET : les conditions
+sont cumulatives. On évalue les valeurs réelles du personnage.
+Plusieurs archétypes peuvent s'appliquer à une même personne.
+
+CATALOGUE : 100 ARCHÉTYPES + 12 ÉTATS TEMPORAIRES
+================================================
+
+A. PROFILS INTELLECTUELS ET MENTAUX — 18
+----------------------------------------
+01. Érudit
+    Conditions : Intelligence >= 16 ET Mémoire >= 16 ET Calme >= 16
+    Portrait : esprit studieux, cultivé, réfléchi.
+02. Savant passionné
+    Conditions : Intelligence >= 16 ET Mémoire >= 16 ET Motivation >= 16
+    Portrait : s'investit avec enthousiasme dans l'apprentissage.
+03. Analyste
+    Conditions : Intelligence >= 16 ET Calme >= 16 ET Mémoire >= 14
+    Portrait : examine soigneusement les faits avant de conclure.
+04. Stratège
+    Conditions : Intelligence >= 16 ET Leadership >= 16 ET Calme >= 14
+    Portrait : sait élaborer un plan et guider une équipe.
+05. Tacticien
+    Conditions : Intelligence >= 16 ET Calme >= 14 ET Volonté >= 14
+    Portrait : prend des décisions structurées sous pression.
+06. Archiviste
+    Conditions : Mémoire >= 18 ET Calme >= 16
+    Portrait : conserve et organise quantité d'informations.
+07. Mémoire prodigieuse
+    Conditions : Mémoire >= 19 ET Intelligence >= 12
+    Portrait : retient très précisément ce qu'il apprend.
+08. Observateur
+    Conditions : Mémoire >= 16 ET Calme >= 16 ET Communication <= 8
+    Portrait : écoute et remarque les détails sans beaucoup parler.
+09. Pédagogue
+    Conditions : Intelligence >= 14 ET Communication >= 16 ET Empathie >= 14
+    Portrait : transmet ses connaissances avec clarté et tact.
+10. Mentor
+    Conditions : Intelligence >= 16 ET Mémoire >= 14 ET Empathie >= 14
+    Portrait : accompagne la progression des autres.
+11. Logicien
+    Conditions : Intelligence >= 16 ET Calme >= 14 ET Charisme <= 8
+    Portrait : privilégie les raisonnements à l'aisance sociale.
+12. Penseur solitaire
+    Conditions : Intelligence >= 16 ET Mémoire >= 14 ET Communication <= 6
+    Portrait : réfléchit plus volontiers seul.
+13. Génie distrait
+    Conditions : Intelligence >= 18 ET Mémoire <= 6
+    Portrait : brillant, mais oublie facilement les détails.
+14. Pragmatique
+    Conditions : Intelligence >= 14 ET Force >= 14 ET Calme >= 14
+    Portrait : lie le raisonnement aux solutions concrètes.
+15. Esprit tenace
+    Conditions : Intelligence >= 14 ET Volonté >= 16 ET Frustration >= 14
+    Portrait : persiste sans mal supporter les contrariétés.
+16. Autodidacte
+    Conditions : Intelligence >= 16 ET Motivation >= 16 ET Mémoire >= 14
+    Portrait : apprend avec efficacité de manière autonome.
+17. Planificateur
+    Conditions : Intelligence >= 16 ET Mémoire >= 14 ET Volonté >= 14
+    Portrait : prépare et suit des plans sur la durée.
+18. Méthodique
+    Conditions : Intelligence >= 14 ET Mémoire >= 14 ET Calme >= 16
+    Portrait : aborde les tâches avec ordre et rigueur.
+
+B. PROFILS SOCIAUX ET RELATIONNELS — 22
+---------------------------------------
+01. Leader né
+    Conditions : Leadership >= 16 ET Charisme >= 16
+    Portrait : fédère spontanément autour de lui.
+02. Coordinateur
+    Conditions : Leadership >= 16 ET Communication >= 16
+    Portrait : sait répartir le travail et communiquer.
+03. Chef posé
+    Conditions : Leadership >= 16 ET Calme >= 16
+    Portrait : dirige sans se laisser emporter.
+04. Chef bienveillant
+    Conditions : Leadership >= 16 ET Empathie >= 16 ET Gentillesse >= 14
+    Portrait : commande en veillant au bien-être de ses compagnons.
+05. Chef autoritaire
+    Conditions : Leadership >= 16 ET Empathie <= 6 ET Gentillesse <= 8
+    Portrait : impose ses décisions et se soucie peu des autres.
+06. Tribun
+    Conditions : Charisme >= 16 ET Communication >= 16 ET Leadership >= 14
+    Portrait : inspire par la parole.
+07. Diplomate
+    Conditions : Empathie >= 16 ET Calme >= 16 ET Communication >= 14
+    Portrait : recherche la conciliation et l'apaisement.
+08. Négociateur
+    Conditions : Charisme >= 16 ET Communication >= 16 ET Calme >= 14
+    Portrait : défend efficacement ses intérêts en discutant.
+09. Médiateur
+    Conditions : Empathie >= 16 ET Calme >= 16 ET Leadership >= 14
+    Portrait : rapproche les membres en désaccord.
+10. Fédérateur
+    Conditions : Leadership >= 16 ET Gentillesse >= 16 ET Communication >= 14
+    Portrait : renforce la cohésion d'un groupe.
+11. Charmeur
+    Conditions : Charisme >= 16 ET Empathie >= 14
+    Portrait : séduit et comprend facilement ses interlocuteurs.
+12. Manipulateur
+    Conditions : Charisme >= 16 ET Empathie <= 6 ET Gentillesse <= 6
+    Portrait : utilise son influence sans grande considération pour autrui.
+13. Provocateur
+    Conditions : Communication >= 16 ET Gentillesse <= 6 ET Calme <= 6
+    Portrait : verbalise souvent ses tensions de manière conflictuelle.
+14. Bavard
+    Conditions : Communication >= 18 ET Calme <= 10
+    Portrait : parle beaucoup et filtre parfois peu ses propos.
+15. Sociable
+    Conditions : Communication >= 16 ET Empathie >= 14 ET Gentillesse >= 14
+    Portrait : recherche volontiers les échanges chaleureux.
+16. Discret
+    Conditions : Communication <= 6 ET Calme >= 16
+    Portrait : réservé et peu démonstratif.
+17. Timide
+    Conditions : Communication <= 6 ET Charisme <= 6 ET Empathie >= 14
+    Portrait : attentif à autrui mais peu à l'aise pour prendre la parole.
+18. Solitaire
+    Conditions : Communication <= 6 ET Leadership <= 6
+    Portrait : recherche peu les activités collectives.
+19. Attentionné
+    Conditions : Empathie >= 16 ET Gentillesse >= 16
+    Portrait : prend soin de ceux qui l'entourent.
+20. Distant
+    Conditions : Empathie <= 6 ET Communication <= 6 ET Calme >= 14
+    Portrait : reste peu impliqué dans les relations personnelles.
+21. Esprit d'équipe
+    Conditions : Communication >= 14 ET Empathie >= 14 ET Leadership >= 14
+    Portrait : collabore et participe à la réussite commune.
+22. Indépendant
+    Conditions : Volonté >= 16 ET Leadership <= 6 ET Communication <= 8
+    Portrait : avance volontiers seul et selon ses propres choix.
+
+C. TEMPÉRAMENTS ET GESTION DES ÉMOTIONS — 20
+-------------------------------------------
+01. Stoïque
+    Conditions : Calme >= 16 ET Frustration >= 16 ET Volonté >= 16
+    Portrait : reste maître de lui-même face aux revers.
+02. Impassible
+    Conditions : Calme >= 18 ET Empathie <= 6
+    Portrait : manifeste très peu d'émotions.
+03. Sang-froid exceptionnel
+    Conditions : Calme >= 16 ET Volonté >= 16
+    Portrait : conserve sa lucidité sous pression.
+04. Résilient
+    Conditions : Frustration >= 16 ET Volonté >= 16
+    Portrait : encaisse les échecs et repart de l'avant.
+05. Inébranlable
+    Conditions : Volonté >= 18 ET Frustration >= 16
+    Portrait : poursuit ses objectifs malgré les obstacles.
+06. Discipliné
+    Conditions : Calme >= 16 ET Volonté >= 16 ET Motivation >= 14
+    Portrait : suit régulièrement ses engagements.
+07. Persévérant
+    Conditions : Volonté >= 16 ET Endurance >= 14 ET Motivation >= 14
+    Portrait : maintient ses efforts dans la durée.
+08. Déterminé
+    Conditions : Volonté >= 16 ET Motivation >= 16
+    Portrait : s'investit pleinement dans ses décisions.
+09. Travailleur acharné
+    Conditions : Motivation >= 16 ET Endurance >= 16
+    Portrait : accepte de fournir de grands efforts.
+10. Impatient
+    Conditions : Calme <= 6 ET Vitesse >= 16
+    Portrait : veut agir vite et supporte mal l'attente.
+11. Colérique
+    Conditions : Calme <= 6 ET Frustration <= 6
+    Portrait : se met facilement en colère et supporte mal les contrariétés.
+12. Explosif
+    Conditions : Calme <= 6 ET Frustration <= 6 ET Communication >= 14
+    Portrait : exprime bruyamment ses accès de colère.
+13. Rancunier
+    Conditions : Mémoire >= 16 ET Frustration <= 6
+    Portrait : se rappelle longtemps les affronts et les digère mal.
+14. Susceptible
+    Conditions : Frustration <= 6 ET Empathie >= 14
+    Portrait : perçoit vivement les remarques et se vexe facilement.
+15. Nerveux
+    Conditions : Calme <= 6 ET Volonté >= 14
+    Portrait : reste tendu même lorsqu'il est déterminé.
+16. Irréfléchi
+    Conditions : Calme <= 6 ET Intelligence <= 6
+    Portrait : agit sans considérer suffisamment les conséquences.
+17. Indécis
+    Conditions : Volonté <= 6 ET Intelligence >= 14
+    Portrait : comprend les options mais hésite à choisir.
+18. Facilement découragé
+    Conditions : Frustration <= 6 ET Volonté <= 6
+    Portrait : accepte mal les revers et renonce vite.
+19. Contemplatif
+    Conditions : Calme >= 16 ET Motivation <= 8
+    Portrait : préfère observer plutôt qu'entreprendre.
+20. Indomptable
+    Conditions : Volonté >= 16 ET Calme <= 6 ET Frustration >= 14
+    Portrait : impulsif, mais peu affecté par les obstacles.
+
+D. PROFILS ET APTITUDES PHYSIQUES — 20
+-------------------------------------
+01. Colosse
+    Conditions : Force >= 16 ET Constitution >= 16
+    Portrait : fort et robuste.
+02. Titan
+    Conditions : Force >= 18 ET Constitution >= 18 ET Endurance >= 16
+    Portrait : possède une puissance physique hors norme.
+03. Athlète complet
+    Conditions : Force >= 14 ET Agilité >= 14 ET Endurance >= 14 ET Vitesse >= 14
+    Portrait : présente un excellent équilibre physique.
+04. Acrobate
+    Conditions : Agilité >= 16 ET Vitesse >= 16
+    Portrait : rapide et adroit dans ses mouvements.
+05. Voltigeur
+    Conditions : Agilité >= 18 ET Vitesse >= 16
+    Portrait : réalise aisément des mouvements très précis.
+06. Sprinteur
+    Conditions : Vitesse >= 18 ET Endurance <= 8
+    Portrait : très rapide, mais peu endurant.
+07. Marathonien
+    Conditions : Endurance >= 18 ET Constitution >= 16
+    Portrait : supporte les efforts prolongés.
+08. Coureur explosif
+    Conditions : Vitesse >= 16 ET Force >= 14 ET Endurance <= 6
+    Portrait : démarre très fort mais s'essouffle rapidement.
+09. Rempart
+    Conditions : Constitution >= 16 ET Endurance >= 16 ET Calme >= 14
+    Portrait : résiste bien tout en gardant la tête froide.
+10. Dur à cuire
+    Conditions : Constitution >= 16 ET Frustration >= 16
+    Portrait : supporte les épreuves physiques et les contrariétés.
+11. Bretteur
+    Conditions : Agilité >= 16 ET Volonté >= 14 ET Calme >= 14
+    Portrait : adroit, déterminé et posé.
+12. Brute
+    Conditions : Force >= 16 ET Calme <= 6
+    Portrait : fort mais impulsif.
+13. Berserker
+    Conditions : Force >= 16 ET Endurance >= 16 ET Calme <= 6
+    Portrait : vigoureux et sujet aux emportements.
+14. Géant lent
+    Conditions : Force >= 16 ET Constitution >= 16 ET Vitesse <= 6
+    Portrait : très solide mais lent.
+15. Éclair fragile
+    Conditions : Vitesse >= 16 ET Constitution <= 6
+    Portrait : rapide mais vulnérable.
+16. Agile mais fragile
+    Conditions : Agilité >= 16 ET Constitution <= 6
+    Portrait : adroit mais de constitution faible.
+17. Costaud maladroit
+    Conditions : Force >= 16 ET Agilité <= 6
+    Portrait : puissant, mais manque de précision.
+18. Rapide maladroit
+    Conditions : Vitesse >= 16 ET Agilité <= 6
+    Portrait : rapide, mais mal coordonné.
+19. Main sûre
+    Conditions : Agilité >= 16 ET Calme >= 16
+    Portrait : précis même dans les circonstances difficiles.
+20. Infatigable
+    Conditions : Endurance >= 16 ET Constitution >= 16 ET Motivation >= 16
+    Portrait : résistant et très motivé dans l'effort.
+
+E. ARCHÉTYPES HYBRIDES — 20
+---------------------------
+01. Chevalier protecteur
+    Conditions : Force >= 16 ET Gentillesse >= 16 ET Leadership >= 14
+    Portrait : utilise sa puissance au service d'autrui.
+02. Sage guerrier
+    Conditions : Force >= 14 ET Intelligence >= 16 ET Calme >= 16
+    Portrait : combine force, réflexion et sang-froid.
+03. Gardien vigilant
+    Conditions : Constitution >= 16 ET Calme >= 16 ET Mémoire >= 14
+    Portrait : veille avec sérieux sur ce qui lui est confié.
+04. Éclaireur
+    Conditions : Agilité >= 16 ET Vitesse >= 16 ET Mémoire >= 14
+    Portrait : explore vite et retient les détails observés.
+05. Chasseur méthodique
+    Conditions : Calme >= 16 ET Vitesse >= 14 ET Mémoire >= 14
+    Portrait : suit les pistes avec patience.
+06. Explorateur
+    Conditions : Endurance >= 16 ET Motivation >= 16 ET Agilité >= 14
+    Portrait : recherche de nouveaux horizons et les efforts physiques.
+07. Capitaine stratège
+    Conditions : Leadership >= 16 ET Intelligence >= 16 ET Calme >= 14
+    Portrait : dirige une équipe à partir d'un plan réfléchi.
+08. Négociateur intrépide
+    Conditions : Charisme >= 16 ET Volonté >= 16 ET Calme >= 14
+    Portrait : ose discuter même dans des situations risquées.
+09. Poing de fer
+    Conditions : Force >= 16 ET Leadership >= 16 ET Gentillesse <= 6
+    Portrait : commande avec dureté.
+10. Meneur de charge
+    Conditions : Force >= 16 ET Leadership >= 16 ET Volonté >= 16
+    Portrait : entraîne ses compagnons dans l'action.
+11. Conseiller avisé
+    Conditions : Intelligence >= 16 ET Empathie >= 16 ET Calme >= 16
+    Portrait : sait comprendre les situations et les personnes.
+12. Espion charmeur
+    Conditions : Charisme >= 16 ET Agilité >= 16 ET Communication >= 14
+    Portrait : mêle aisance sociale et dextérité.
+13. Garde du corps
+    Conditions : Force >= 16 ET Constitution >= 16 ET Empathie >= 14
+    Portrait : protège physiquement ceux qui lui importent.
+14. Précepteur
+    Conditions : Empathie >= 16 ET Intelligence >= 16 ET Mémoire >= 14
+    Portrait : accompagne les apprentissages d'autrui.
+15. Bâtisseur
+    Conditions : Force >= 16 ET Intelligence >= 14 ET Volonté >= 14
+    Portrait : possède l'énergie et le jugement nécessaires aux grands projets.
+16. Duelliste
+    Conditions : Vitesse >= 16 ET Agilité >= 16 ET Calme >= 16
+    Portrait : rapide, précis et maître de lui-même.
+17. Éclaireur solitaire
+    Conditions : Vitesse >= 16 ET Agilité >= 16 ET Communication <= 6
+    Portrait : préfère explorer seul.
+18. Cœur courageux
+    Conditions : Volonté >= 16 ET Gentillesse >= 16 ET Constitution >= 14
+    Portrait : supporte les difficultés pour aider les autres.
+19. Chef de crise
+    Conditions : Leadership >= 16 ET Calme >= 16 ET Frustration >= 16
+    Portrait : reste stable et dirige sans céder aux contrariétés.
+20. Combattant stratégique
+    Conditions : Force >= 16 ET Intelligence >= 16 ET Calme >= 14
+    Portrait : associe puissance et intelligence tactique.
+
+F. ÉTATS TEMPORAIRES (12, EN DEHORS DES 100 ARCHÉTYPES)
+------------------------------------------------------
+01. Enthousiaste
+    Conditions : Motivation >= 16 ET Moral >= 80
+    Portrait : très motivé et de bonne humeur.
+02. Exalté
+    Conditions : Moral >= 90 ET Charisme >= 14
+    Portrait : exprime fortement son enthousiasme.
+03. Comblé
+    Conditions : Bonheur >= 80 ET Moral >= 80
+    Portrait : très satisfait de sa situation.
+04. Confiant
+    Conditions : Moral >= 80 ET Volonté >= 16
+    Portrait : croit en sa capacité à réussir.
+05. Disponible
+    Conditions : Fatigue <= 20 ET Moral >= 60
+    Portrait : reposé et prêt à agir.
+06. Épuisé
+    Conditions : Fatigue >= 80
+    Portrait : peine à récupérer après les efforts.
+07. Surmené
+    Conditions : Fatigue >= 80 ET Volonté >= 16
+    Portrait : continue malgré une fatigue très importante.
+08. Découragé
+    Conditions : Moral <= 25 ET Volonté <= 8
+    Portrait : manque de confiance dans ses efforts.
+09. Désabusé
+    Conditions : Bonheur <= 20 ET Motivation <= 8
+    Portrait : ne trouve plus de satisfaction dans son activité.
+10. Irritable
+    Conditions : Fatigue >= 70 ET Calme <= 8 ET Frustration <= 8
+    Portrait : réagit mal aux contrariétés sous l'effet de la fatigue.
+11. Au bord de la rupture
+    Conditions : Moral <= 20 ET Frustration <= 6
+    Portrait : supporte très mal les difficultés du moment.
+12. En retrait
+    Conditions : Bonheur <= 25 ET Communication <= 8
+    Portrait : s'isole davantage lorsqu'il est malheureux.
+
+RÈGLES D'UTILISATION PROPOSÉES — À VALIDER
+-----------------------------------------
+1. Un membre peut avoir plusieurs traits / archétypes / états simultanément.
+2. Les archétypes sont calculés à partir des caractéristiques du personnage.
+   Ils peuvent évoluer si les statistiques évoluent. Ceux qui utilisent la
+   Motivation sont, par construction, potentiellement évolutifs.
+3. Les états temporaires sont recalculés à partir de leurs jauges respectives.
+4. Au départ, aucun effet de gameplay additionnel n'est imposé par ce document :
+   les statistiques servent déjà aux jets du jeu.
+5. Ne pas afficher au joueur un trait fondé sur des caractéristiques inconnues
+   s'il risque de révéler indirectement leurs valeurs lors du recrutement.
+6. Les archétypes recouvrent plusieurs familles (tempérament, rôle social,
+   capacité physique et aptitude intellectuelle). Les étiquettes sont donc
+   descriptives, pas des diagnostics psychologiques.
+7. Si plusieurs archétypes se recoupent, conserver les correspondances ;
+   décider séparément de la priorité et du nombre à afficher sur la fiche.
+8. Les seuils devront être équilibrés selon la distribution réelle des
+   caractéristiques au recrutement.
+9. Cette base de connaissances ne crée aucune condition liée à la race,
+   au rang, au métier ou au niveau magique : ces extensions restent possibles.
+
+TOTAL : 100 ARCHÉTYPES PROPOSÉS + 12 ÉTATS TEMPORAIRES.
+FIN DU DOCUMENT.
