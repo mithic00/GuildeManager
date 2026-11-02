@@ -1,48 +1,246 @@
-Plus la valeur est haute, plus la stat est positive.
+STATISTIQUES DES PERSONNAGES - ÉTAT ACTUEL DU JEU
+================================================
+Référence : scripts C# de GuildeManager (novembre 2026).
+Ce document décrit les effets réellement présents dans le code.
+Les effets futurs souhaités mais non implémentés sont signalés explicitement.
 
-Générale :
-Nom : {String}
-Prénom : {String}
-Age : {Int}
-Race : {String}
+RÈGLE GÉNÉRALE
+--------------
+Les caractéristiques sociales, mentales et physiques vont de 1 à 20.
+PLUS UNE CARACTÉRISTIQUE EST ÉLEVÉE, PLUS ELLE EST FAVORABLE.
+Pour Frustration, une valeur haute signifie une forte tolérance aux
+contrariétés, et non une propension accrue à se frustrer.
+
+Modificateur de D20 : 1=-5 ; 2-3=-4 ; 4-5=-3 ; 6-7=-2 ; 8-9=-1 ;
+10=0 ; 11-12=+1 ; 13-14=+2 ; 15-16=+3 ; 17-19=+4 ; 20=+5.
+Le jet réussi si D20 + modificateur atteint la cible.
+
+ATTENTION : la Fatigue est une jauge d'épuisement /100 et constitue
+une exception : plus elle est élevée, plus le membre est fatigué.
+
+GÉNÉRALES
+---------
+Nom / Prénom : String
+  Identité générée selon la race ou renseignée par le joueur.
+  Utilisés dans la liste des membres, les fiches, missions et journaux.
+
+Âge : Int
+  Le maître de guilde commence à 25 ans, quelle que soit sa race.
+  L'âge des candidats est généré dans la période de carrière de leur race.
+  L'âge évolue automatiquement avec les anniversaires du calendrier du jeu.
+  Aucun départ automatique à la retraite n'est actuellement codé.
+
+Date de naissance : String (yyyy-MM-dd, calendrier du jeu)
+  Persistée pour chaque personnage ; sert à recalculer son âge lors du
+  passage à une nouvelle date. Visible au survol du label Âge.
+  Gestion du 29 février : anniversaire le 28 février hors année bissextile.
+
+Race : String
+  Influe sur les noms, les âges de recrutement et les dés de points de vie.
+  La race du joueur est choisie par son apparence.
+
 Sexe : H/F
-Métiers : {String}
-Rang : {(* -> *****) < (S -> S*****) < (P -> P*****) < U}
-Compétences : {String}
+  Intervient dans la génération des noms et l'affichage des portraits.
+  Aucun effet de jet de mission n'est codé.
+
+Métiers : String
+  Métier actuel ou passé ; au recrutement, les métiers génèrent une
+  compétence cohérente. Aucun bonus de métier en mission n'est codé.
+
+Rang : * à *****, S à S*****, P à P*****, U
+  Détermine les missions admissibles, leur difficulté, et l'ordre dans la
+  liste de guilde (rang avant niveau magique). La promotion nécessite
+  le nombre de missions réussies au rang et le niveau magique minimal
+  suivant. Les passages ***** -> S et S***** -> P attendent un concours.
+  Le maître de guilde affiche MG et occupe toujours la première place.
+
+Compétences : liste de String
+  Générées au recrutement ; non prises en compte par les jets actuels.
+  À distinguer des traits/archétypes calculés à partir des statistiques.
+
 Motivation : Int/20
+  Influe directement sur la vitesse de progression du niveau magique vers
+  le potentiel (avec ralentissement marqué à faible Motivation).
+  Au recrutement, associée à Mémoire et Potentiel élevé, augmente la
+  probabilité de pouvoirs additionnels ; intervient dans les archétypes.
+  Motivation du maître de guilde = 20 au départ.
+
 Fatigue : Int/100
+  Jauge d'épuisement. Une équipe est bloquée si un membre >75 de fatigue ;
+  entre 50 et 75 inclus, un D20 de Constitution (cible 12) décide.
+  En dessous de 50, la fatigue ne bloque pas le départ.
+  En mission, +20 - modificateur de Constitution, limité à 0..100.
+  Hors mission, repos quotidien -1 à -5 à 08h ; intervient dans
+  certains états temporaires de caractère.
+
 Expérience : Int
+  Gagnée après les missions terminées, réussies ou échouées, hors missions
+  sans incident ; gain du rang partagé entre les participants survivants.
+  L'expérience sert à augmenter le Niveau ; le compteur d'expérience
+  restant est conservé après chaque montée de niveau.
+
 Niveau : Int
+  Niveau d'expérience du membre. Le passage du niveau 1 à 2 nécessite
+  75 XP ; la cible augmente de 10 % à chaque niveau.
+  Chaque niveau gagné ajoute un tirage de PV et de PM selon la race
+  et les pouvoirs. Distinct du niveau magique.
+
 Bonheur : Int/100
+  +1 à la réussite d'une mission, -1 à l'échec ; -10 par mort au sein
+  de l'équipe. À 0, le membre quitte la guilde après la mission.
+  Sert à évaluer les états temporaires de caractère.
+
 Moral : Int/100
+  Condition de départ : un membre de l'équipe sous 20 bloque la mission.
+  À 08h, D20 de Volonté cible 8 : +10 si réussi ; sinon -10, -15
+  ou -20 selon la tolérance à la Frustration.
+  À la fin de mission : +1 en cas de réussite, -1/-2/-4 en cas
+  d'échec selon Frustration ; une mort d'équipier ajoute une perte
+  de -10/-20/-40 selon cette même caractéristique.
+  Sert aux états temporaires de caractère.
 
-
-
-Sociale :
+SOCIALES (1 À 20)
+-----------------
 Communication : Int/20
+  Jet D20 du Service ; un candidat avec Communication >=15 accorde
+  +3 au jet de discussion du maître de guilde pendant l'entretien.
+  Sert également aux conditions des traits. Aucun autre effet direct.
+
 Leadership : Int/20
+  Sert à déterminer les traits de chef et les archétypes sociaux.
+  La désignation automatique du chef par Leadership est prévue dans
+  Regle_Stats.txt mais NON implémentée dans le code actuel ;
+  le Leadership ne modifie pas encore les résolutions de missions.
+
 Charisme : Int/20
+  Jet D20 d'Enquête et de Recherche d'un objet.
+  Le Charisme du maître de guilde modifie ses jets de discussion
+  lors des entretiens à l'auberge.
+  Peut gagner +1 après une Enquête ou Recherche d'objet réussie
+  (tirage de bonus statistique). Sert aussi aux traits.
+
 Empathie : Int/20
+  Jet D20 de Service ; une équipe avec Gentillesse >=10 OU Empathie >=10
+  peut prendre une mission de Service.
+  Peut gagner +1 après Service réussi ; sert aux traits.
+
 Gentillesse : Int/20
+  Jet D20 de Service et admissibilité à cette catégorie (>=10,
+  ou Empathie >=10). Peut gagner +1 après Service réussi.
+  Sert aux traits. La compatibilité des tempéraments pour créer
+  les équipes est documentée comme objectif, mais non contrôlée
+  par le code d'harmonisation actuel.
 
-Mentale :
+MENTALES (1 À 20)
+-----------------
 Intelligence : Int/20
-Mémoire : Int/20
-Volonté : Int/20
+  Jet D20 d'Enquête ; condition d'accès aux Enquêtes
+  (>=12 rangs * à *****, >=15 à partir de S).
+  Jet initial de Recherche mort ou vif et Capture vif ; accès
+  à Recherche mort ou vif si Intelligence >=10.
+  Jet D20 de Recherche d'un objet.
+  Peut gagner +1 lors de missions de recherche/capture/enquête
+  selon le bonus statistique ; sert aux traits.
+
+Mémoire : Int/20 (clé C# : Memoire)
+  Au recrutement, si Mémoire >16 avec Motivation >16 et Potentiel >399,
+  la chance de recevoir certains pouvoirs supplémentaires passe de
+  3 % à 10 % (lors de tirages additionnels).
+  Peut être révélée par entretien ; sert aux traits.
+  La Mémoire n'intervient PAS directement dans la formule actuelle
+  de progression du niveau magique après une mission, contrairement
+  à l'intention décrite dans Regle_Stats.txt.
+
+Volonté : Int/20 (clé C# : Volonte)
+  Le meilleur modificateur de Volonté de l'équipe est utilisé pour
+  le D20 d'acceptation d'une mission (cible 5, aux jalons 08h/12h/16h).
+  Un malus de traits défavorables de -2 par point de déséquilibre
+  peut désormais s'ajouter à ce jet.
+  À 08h, D20 individuel de Volonté cible 8 pour le Moral.
+  Sert aux archétypes.
+
 Calme : Int/20
+  Protection d'un lieu avec incident : CHAQUE membre fait un jet
+  individuel de Calme cible 10 et un jet d'Endurance cible 10.
+  Peut gagner +1 après cette mission ; sert aux traits.
+
 Frustration : Int/20
+  Mesure la tolérance aux contrariétés. Valeur élevée = favorable.
+  Jets D20 de Recherche d'un objet et Recherche d'un ingrédient.
+  Conditionne les pertes de Moral (échec, décès, échec du jet
+  quotidien). Peut gagner +1 sur ces recherches ; sert aux traits.
 
-Physique :
+PHYSIQUES (1 À 20)
+------------------
 Force : Int/20
-Agilité : Int/20
-Constitution : Int/20
-Vitesse : Int/20
-Endurance : Int/20
+  Jet D20 de Recherche d'un ingrédient. Peut gagner +1 après
+  cette catégorie de mission ; participe aux traits physiques.
 
-Magie :
-Pouvoirs : {String}
-Niveau Magique : Int/1000
-Potentiel Magique : Int/1000
-Point de vie : {Int}
-Point de Magie : {Int}
-Connaissance Magique : {Int}
+Agilité : Int/20 (clé C# : Agilite)
+  Jet de Capture vif et de Recherche mort ou vif à partir du 2e jour.
+  L'accès à Capture vif exige Agilité >=10.
+  Jet D20 de Recherche d'un ingrédient et d'un animal.
+  Peut gagner +1 lors des missions correspondantes ; sert aux traits.
+
+Constitution : Int/20
+  Conditionne le départ d'un membre avec Fatigue de 50 à 75
+  (D20 cible 12). Réduit la Fatigue ajoutée au retour de mission
+  grâce à son modificateur. Sert aux traits physiques.
+
+Vitesse : Int/20
+  Jet D20 de Recherche d'un animal ; peut gagner +1 après
+  cette mission. Sert aux traits physiques.
+
+Endurance : Int/20
+  Jet D20 de Recherche d'un animal et jet individuel de
+  Protection d'un lieu avec incident ; peut gagner +1 après
+  ces missions. Sert aux traits physiques.
+
+MAGIE
+-----
+Pouvoirs : liste de String
+  Déterminent la famille donnant le bonus de PV le plus haut,
+  et le dé de PM le plus favorable, à chaque niveau.
+  Le pouvoir n'applique pas encore d'effet élémentaire ou de
+  capacité spécifique dans le moteur de résolution des missions.
+
+Niveau magique : Int/1000
+  Puissance magique utilisée pour comparer le groupe au rang d'une
+  mission : MOYENNE du niveau magique des membres en équipe.
+  Influe directement sur les tables de résolution d'Escorte,
+  d'Élimination de danger, de Capture/Recherche mort ou vif,
+  de Protection d'un lieu et de Renfort pour Assaut.
+  Détermine l'ordre au sein d'un même rang et les promotions.
+  Progresse après certaines missions réussies, jusqu'au potentiel.
+
+Potentiel magique : Int/1000
+  Plafond de progression magique d'un membre. Tiré au recrutement ;
+  le potentiel du maître de guilde n'est jamais déterminé.
+  Peut rester caché au joueur, mais limite réellement la progression.
+
+Points de vie : Int
+  Tirés selon la race et le pouvoir, puis augmentés à chaque niveau.
+  Aucune soustraction progressive des PV lors des missions :
+  la mort est déterminée par une issue de mission probabiliste.
+
+Points de magie : Int
+  Tirés selon les pouvoirs et augmentés à chaque niveau.
+  Pas de consommation de PM par le système de missions actuel.
+
+Connaissance magique : Int
+  Augmente de 0 à 2 à la fin des missions, réussies ou non,
+  sauf les missions sans incident ; additionnée au Savoir total de guilde.
+
+INFORMATIONS COMPLÉMENTAIRES
+----------------------------
+- Les jets collectifs utilisent la meilleure statistique de l'équipe,
+  sauf Protection d'un lieu qui teste CHAQUE membre avec incident.
+- Les traits dépendent des stats réellement possédées, mais les traits
+  affichés sur la fiche ne divulguent pas les stats inconnues.
+- Les traits favorables apportent au maximum une relance de D20 par
+  mission, ou jusqu'à +5 points de réussite pour les catégories sans
+  D20 (sans modifier directement le risque de décès).
+- Les traits défavorables réduisent la probabilité d'accepter la mission,
+  selon les règles précisées dans Traits_Personnage.txt.
+- Missions, décès et progressions de statistiques sont historisés
+  individuellement dans la sauvegarde pour un futur écran de consultation.
