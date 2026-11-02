@@ -240,7 +240,17 @@ public partial class MainMenu
         GetNode<Label>(g2 + "LabelConnaissanceMagique2").Text = "Équipe : " + membresEquipe;
         Remplir(g1 + "LabelPrenom", "Prénom", m.Prenom);
         Remplir(g1 + "LabelNom", "Nom", string.IsNullOrEmpty(m.Nom) ? "—" : m.Nom);
+        if (_horloge != null)
+            m.ActualiserAge(_horloge.Instant);
         Remplir(g1 + "LabelAge", "Âge", m.Age.HasValue ? m.Age.Value + " ans" : inconnu);
+        Label labelAge = GetNode<Label>(g1 + "LabelAge");
+        DateTime? naissance = m.LireDateNaissance();
+        labelAge.TooltipText = naissance.HasValue
+            ? "Date de naissance : " +
+              naissance.Value.ToString("dd MMMM yyyy", CultureInfo.GetCultureInfo("fr-FR")) +
+              " (an " + naissance.Value.Year + ")"
+            : "Date de naissance inconnue.";
+        labelAge.MouseFilter = Control.MouseFilterEnum.Stop;
         Remplir(g1 + "LabelRang", "Rang", m.RangAffiche);
         Remplir(sg + "Layout2/LabelMotivation", "Motivation",
             m.ConnaitStatistique("Motivation") ? (m.Motivation?.ToString() ?? inconnu) : inconnu);
