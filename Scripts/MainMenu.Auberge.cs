@@ -319,6 +319,10 @@ public partial class MainMenu
         AfficherPanneau("bureau");
         ActualiserBoutonTemps();
         AjouterEntreeJournal("Fin des entretiens à l'auberge.", "recrutement");
+        // Une annonce peut avoir été différée pendant une discussion qui
+        // s'est achevée sur le début de ce rendez-vous.
+        if (_etatMissions?.Proposition?.Etat == "Proposee")
+            AfficherPropositionMission();
     }
 
     private void AfficherInformationAuberge(string message)
