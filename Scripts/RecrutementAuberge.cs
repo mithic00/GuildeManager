@@ -149,7 +149,7 @@ public static class GenerateurCandidats
         (1, 25), (2, 40), (3, 20), (4, 10), (5, 5)
     };
 
-    public static List<CandidatAuberge> Generer(string ville)
+    public static List<CandidatAuberge> Generer(string ville, DateTime dateRendezVous)
     {
         // La quantité totale reste uniforme de 1 à 10, comme auparavant.
         int total = Random.Shared.Next(1, 11);
@@ -167,6 +167,8 @@ public static class GenerateurCandidats
             }
             HarmoniserEquipe(membres);
             HarmoniserNiveauxMagiques(membres);
+            foreach (CandidatAuberge candidat in membres)
+                candidat.Personnage.InitialiserDateNaissance(dateRendezVous);
             resultat.AddRange(membres);
             groupeId++;
         }
