@@ -9,6 +9,7 @@ public partial class MainMenu
     private const int MoralMinPourPartir = 20;
 
     private EtatMissions _etatMissions;
+    private HistoriqueMembresGuilde _historiqueMembres;
     private Window _fenetreNouvelleMission;
     private RichTextLabel _infoNouvelleMission;
     private Window _fenetreInfoMission;
@@ -20,6 +21,7 @@ public partial class MainMenu
     private void InitialiserMissions()
     {
         _etatMissions = EtatMissions.Charger();
+        _historiqueMembres = HistoriqueMembresGuilde.Charger();
         _fenetreNouvelleMission = GetNode<Window>("FenetreNouvelleMission");
         _infoNouvelleMission = GetNode<RichTextLabel>(
             "FenetreNouvelleMission/Marge/Layout/InfoMission");
@@ -359,14 +361,25 @@ public partial class MainMenu
                 if (!equipe.All(m => ReglesMissions.RangSuffisant(m, mission.Rang)) ||
                     !AdmissibleCategorie(equipe, mission) ||
                     !GroupeDisponible(equipe)) continue;
+                BonusTraitsMissions.Bilan bilan = BonusTraitsMissions.Evaluer(equipe, mission.Categorie);
                 int meilleurBonusVolonte = equipe.Max(m => ReglesCaracteristiques.Modificateur(
                     Math.Clamp(m.Statistiques.GetValueOrDefault("Volonte", 10), 1, 20)));
-                if (Random.Shared.Next(1, 21) + meilleurBonusVolonte < 5) continue;
+                if (Random.Shared.Next(1, 21) + meilleurBonusVolonte + bilan.MalusVolonte < 5)
+                    continue;
 
+                mission.AvantageTraitsDisponible = bilan.Avantage;
+                mission.AvantageTraitsConsomme = false;
+                mission.MalusVolonteTraits = bilan.MalusVolonte;
+                mission.MembreDefavorableId = bilan.MembreLePlusDefavorable?.Id ?? "";
+                mission.MembreDefavorableNom = bilan.MembreLePlusDefavorable?.NomComplet ?? "";
                 mission.Etat = "EnCours";
                 mission.DateDepart = ReglesMissions.DateIso(instant);
                 mission.DateRetour = ReglesMissions.DateIso(instant.AddDays(1));
                 mission.ParticipantIds = equipe.Select(m => m.Id).ToList();
+                foreach (MembreGuilde membre in equipe)
+                    _historiqueMembres?.Ajouter(membre, instant, "DepartMission",
+                        "Départ en mission : " + mission.Categorie + " (" + mission.Rang + ").",
+                        mission);
                 mission.JoursEcoules = 0;
                 mission.DureeFixee = ResolutionMissions.DureeFixee(mission);
                 mission.SansIncident = mission.Categorie == "Protection d'un lieu" &&
@@ -440,6 +453,20 @@ public partial class MainMenu
             var morts = participants.OrderBy(_ => Random.Shared.Next()).Take(nombreMorts).ToList();
             var survivants = participants.Where(m => !morts.Contains(m)).ToList();
 
+            // Historiser le résultat pour TOUS les participants, y compris les
+            // victimes : leur fiche pourra être consultée dans l'historique futur.
+            foreach (MembreGuilde participant in participants)
+                _historiqueMembres?.Ajouter(participant, instant,
+                    victoire ? "MissionReussie" : "MissionEchouee",
+                    (victoire ? "Mission réussie : " : "Mission échouée : ") +
+                    mission.Categorie + " (" + mission.Rang + ")." +
+                    (morts.Contains(participant) ? " Décès au cours de la mission." : ""),
+                    mission);
+            foreach (MembreGuilde mort in morts)
+                _historiqueMembres?.Ajouter(mort, instant, "Deces",
+                    "Décédé durant la mission " + mission.Categorie + " (" + mission.Rang + ").",
+                    mission);
+
             // Le prestige dépend du rang de la mission, jamais de celui de
             // l'équipe qui l'a effectuée. Conserver la variation réelle permet
             // de diagnostiquer les gains compensés par une autre mission.
@@ -456,6 +483,18 @@ public partial class MainMenu
 
             foreach (MembreGuilde m in survivants)
             {
+                int xpAvant = m.Experience ?? 0;
+                int niveauAvant = m.Niveau ?? 1;
+                int pvAvant = m.PointsDeVie ?? 0;
+                int pmAvant = m.PointsDeMagie ?? 0;
+                double magieAvant = Math.Max(m.NiveauMagique, m.NiveauMagiquePrecis);
+                int connaissanceAvant = m.ConnaissanceMagique;
+                long ecusAvant = m.EcusPersonnels;
+                int bonheurAvant = m.Bonheur;
+                int moralAvant = m.Moral;
+                int fatigueAvant = m.Fatigue ?? 0;
+                string rangAvantMission = m.Rang;
+                var statsAvant = new Dictionary<string, int>(m.Statistiques);
                 if (victoire)
                 {
                     string ancienRang = m.Rang;
@@ -495,6 +534,35 @@ public partial class MainMenu
                 m.Moral = Math.Clamp(m.Moral + (victoire ? 1 : -PerteMoral(m)) -
                     PerteMort(m) * nombreMorts, 0, 100);
                 if (victoire) m.EcusPersonnels += ecusPart;
+
+                // Historique structuré des progressions causées par la mission.
+                HistoriserVariation(m, instant, mission, "Experience", "Expérience",
+                    xpAvant, m.Experience ?? 0);
+                HistoriserVariation(m, instant, mission, "Niveau", "Niveau",
+                    niveauAvant, m.Niveau ?? 1);
+                HistoriserVariation(m, instant, mission, "PV", "Points de vie",
+                    pvAvant, m.PointsDeVie ?? 0);
+                HistoriserVariation(m, instant, mission, "PM", "Points de magie",
+                    pmAvant, m.PointsDeMagie ?? 0);
+                HistoriserVariation(m, instant, mission, "NiveauMagique", "Niveau magique",
+                    magieAvant, Math.Max(m.NiveauMagique, m.NiveauMagiquePrecis));
+                HistoriserVariation(m, instant, mission, "ConnaissanceMagique", "Connaissance magique",
+                    connaissanceAvant, m.ConnaissanceMagique);
+                HistoriserVariation(m, instant, mission, "EcusPersonnels", "Écus personnels",
+                    ecusAvant, m.EcusPersonnels);
+                HistoriserVariation(m, instant, mission, "Bonheur", "Bonheur",
+                    bonheurAvant, m.Bonheur);
+                HistoriserVariation(m, instant, mission, "Moral", "Moral",
+                    moralAvant, m.Moral);
+                HistoriserVariation(m, instant, mission, "Fatigue", "Fatigue",
+                    fatigueAvant, m.Fatigue ?? 0);
+                foreach (var ancien in statsAvant)
+                    if (m.Statistiques.TryGetValue(ancien.Key, out int nouveau))
+                        HistoriserVariation(m, instant, mission,
+                            "Statistique", ancien.Key, ancien.Value, nouveau);
+                if (m.Rang != rangAvantMission)
+                    _historiqueMembres?.Ajouter(m, instant, "Promotion",
+                        "Promotion : " + rangAvantMission + " → " + m.Rang + ".", mission);
             }
 
             // Le retour est notifié même lorsque la mission a échoué.
@@ -513,7 +581,11 @@ public partial class MainMenu
             _etat.Membres = _registreMembres.Membres.Count;
             _etat.Pouvoir = _registreMembres.Membres.Sum(m => (long)m.NiveauMagique);
             foreach (var exclu in _registreMembres.Membres.Where(m => !m.EstMaitreDeGuilde && m.Bonheur <= 0).ToList())
+            {
+                _historiqueMembres?.Ajouter(exclu, instant, "DepartGuilde",
+                    "A quitté la guilde après une baisse de bonheur.", mission);
                 _registreMembres.Membres.Remove(exclu);
+            }
 
             // Après les décès et les départs de la guilde, une équipe réduite
             // à un seul membre est dissoute : son survivant devient indépendant.
@@ -554,7 +626,31 @@ public partial class MainMenu
             string typeResultat = victoire ? "mission_reussite" :
                 morts.Count > 0 ? "mission_deces" : "mission_echec";
             AjouterEntreeJournal(descriptionResultat, typeResultat);
+            if (victoire && mission.MalusVolonteTraits < 0 &&
+                !string.IsNullOrWhiteSpace(mission.MembreDefavorableNom))
+            {
+                string messageMiracle = participants.Count > 1
+                    ? "Miracle ! " + mission.MembreDefavorableNom +
+                      " et son équipe ont réussi une mission d'" + mission.Categorie + " !"
+                    : "Miracle ! " + mission.MembreDefavorableNom +
+                      " a réussi une mission d'" + mission.Categorie + " !";
+                AjouterEntreeJournal(messageMiracle, "mission_reussite");
+                foreach (MembreGuilde participant in participants)
+                    _historiqueMembres?.Ajouter(participant, instant, "Miracle",
+                        messageMiracle, mission);
+            }
         }
         RaffraichirTableauMissions();
+    }
+
+    private void HistoriserVariation(MembreGuilde membre, DateTime date,
+        MissionGuilde mission, string type, string libelle, double avant, double apres)
+    {
+        if (Math.Abs(apres - avant) < 0.000001)
+            return;
+        _historiqueMembres?.Ajouter(membre, date, type,
+            libelle + " : " + avant.ToString("0.###", System.Globalization.CultureInfo.InvariantCulture) +
+            " → " + apres.ToString("0.###", System.Globalization.CultureInfo.InvariantCulture) + ".",
+            mission, avant, apres);
     }
 }
