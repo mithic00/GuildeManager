@@ -2185,10 +2185,6 @@ text = "Age : 32 ans"
 layout_mode = 2
 text = "Rang : S*****"
 
-[node name="LabelMotivation" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout1" unique_id=1585948560]
-layout_mode = 2
-text = "Motivation : 100"
-
 [node name="LabelFatigue" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout1" unique_id=215426302]
 layout_mode = 2
 text = "Fatigue : 20"
@@ -2200,6 +2196,10 @@ text = "Expérience : 645135"
 [node name="LabelNiveau" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout1" unique_id=914469576]
 layout_mode = 2
 text = "Niveau : 15"
+
+[node name="LabelTraitsPositifs" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout1" unique_id=174359676]
+layout_mode = 2
+text = "Traits Positifs : "
 
 [node name="Layout2" type="VBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral" unique_id=137312420]
 layout_mode = 2
@@ -2232,6 +2232,10 @@ text = "Connaissance Magique : "
 [node name="LabelConnaissanceMagique2" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout2" unique_id=279434600]
 layout_mode = 2
 text = "Equipe : Hector, Jaque, Noa"
+
+[node name="LabelTraitsNegatifs" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout2" unique_id=1974053573]
+layout_mode = 2
+text = "Traits Négatifs  : "
 
 [node name="LabelStatistiques" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout" unique_id=1569490453]
 layout_mode = 2
@@ -2298,6 +2302,10 @@ text = "Calme : "
 [node name="LabelFrustration" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout2" unique_id=909572473]
 layout_mode = 2
 text = "Frustration : "
+
+[node name="LabelMotivation" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats/Layout2" unique_id=73599001]
+layout_mode = 2
+text = "Motivation : 100"
 
 [node name="Layout3" type="VBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats" unique_id=1237494337]
 layout_mode = 2
@@ -2494,6 +2502,12 @@ layout_mode = 2
 [node name="RichTextLabel" type="RichTextLabel" parent="FenetreInfo/MarginContainer/VBoxContainer" unique_id=1773799002]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_fonts/normal_font = ExtResource("11_if7li")
+theme_override_font_sizes/normal_font_size = 30
+text = "Ceci est un texte de test"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Button" type="Button" parent="FenetreInfo/MarginContainer/VBoxContainer" unique_id=1807747975]
 custom_minimum_size = Vector2(260, 65)
