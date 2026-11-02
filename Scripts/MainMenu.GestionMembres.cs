@@ -66,7 +66,6 @@ public partial class MainMenu
     {
         _contenuFiche.Hide();
         _contenuGestion.Hide();
-        _contenuConversation.Hide();
         _contenuSocial.Hide();
         _contenuRelations.Hide();
         _contenuConcours.Hide();
