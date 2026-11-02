@@ -10,7 +10,7 @@ public partial class MainMenu
     private RichTextLabel _bonnesRelations, _mauvaisesRelations, _texteConfirmation;
     private ItemList _listeConcours;
     private Window _fenetreConfirmation;
-    private Button _lancerConcours, _promouvoir, _promouvoirAdjoint;
+    private Button _lancerConcours, _promouvoir, _promouvoirAdjoint, _boutonConversation;
     private readonly List<MembreGuilde> _membresConcours = new();
     private Action _confirmationPrevue;
 
@@ -34,8 +34,9 @@ public partial class MainMenu
             .Pressed += AfficherSocial;
         GetNode<Button>(racine + "LayoutSocial/VBoxContainer/BoutonRelation")
             .Pressed += AfficherRelations;
-        GetNode<Button>(racine + "LayoutSocial/VBoxContainer/BoutonConversation")
-            .Pressed += OuvrirDiscussion;
+        _boutonConversation = GetNode<Button>(
+            racine + "LayoutSocial/VBoxContainer/BoutonConversation");
+        _boutonConversation.Pressed += OuvrirDiscussion;
         GetNode<Button>(racine + "LayoutSocial/VBoxContainer/BoutonRetour")
             .Pressed += RetourFiche;
         GetNode<Button>(racine + "LayoutRelation/Layout/BoutonRetour")
@@ -60,6 +61,19 @@ public partial class MainMenu
         _contenuSocial.Hide();
         _contenuRelations.Hide();
         _contenuConcours.Hide();
+        ActualiserBoutonConversation();
+    }
+
+    /// <summary>
+    /// Disponible pour démarrer une conversation uniquement de 08h00 à 23h59.
+    /// Les conversations déjà ouvertes ne sont pas interrompues à minuit.
+    /// </summary>
+    private void ActualiserBoutonConversation()
+    {
+        if (_boutonConversation == null)
+            return;
+        _boutonConversation.Disabled = _horloge == null ||
+            !HoraireDiscussionDisponible(_horloge.Instant);
     }
 
     private void MasquerOngletsFiche()
@@ -73,6 +87,7 @@ public partial class MainMenu
 
     private void AfficherSocial()
     {
+        ActualiserBoutonConversation();
         MasquerOngletsFiche();
         _contenuSocial.Show();
     }
