@@ -147,6 +147,8 @@ public partial class MainMenu
         MembreGuilde cible = _cibleDiscussion;
         bool basMoral = cible.Moral < 20;
         int relationAvant = RelationsMembres.Lire(joueur, cible);
+        int bonheurAvant = cible.Bonheur;
+        int moralAvant = cible.Moral;
         bool bonneRelation = relationAvant >= 10;
 
         int seuil = amicale
@@ -242,6 +244,27 @@ public partial class MainMenu
             (amicale ? "Discussion amicale" : "Faire connaissance") +
             " avec le maître de guilde : " + (reussite ? "réussite" : "échec") +
             ", relation " + relationDelta + ".");
+        if (relationApres != relationAvant)
+        {
+            string relationDetail = "Relation avec " + joueur.NomComplet +
+                " : " + relationAvant + " → " + relationApres + ".";
+            _historiqueMembres?.Ajouter(cible, _horloge.Instant, "Relation",
+                relationDetail, avant: relationAvant, apres: relationApres);
+            _historiqueMembres?.Ajouter(joueur, _horloge.Instant, "Relation",
+                "Relation avec " + cible.NomComplet + " : " + relationAvant +
+                " → " + relationApres + ".", avant: relationAvant, apres: relationApres);
+        }
+        if (cible.Bonheur != bonheurAvant)
+            _historiqueMembres?.Ajouter(cible, _horloge.Instant, "Bonheur",
+                "Bonheur : " + bonheurAvant + " → " + cible.Bonheur + ".",
+                avant: bonheurAvant, apres: cible.Bonheur);
+        if (cible.Moral != moralAvant)
+            _historiqueMembres?.Ajouter(cible, _horloge.Instant, "Moral",
+                "Moral : " + moralAvant + " → " + cible.Moral + ".",
+                avant: moralAvant, apres: cible.Moral);
+        if (decouvertes > 0)
+            _historiqueMembres?.Ajouter(cible, _horloge.Instant, "Connaissance",
+                decouvertes + " caractéristique(s) révélée(s) lors d'une conversation.");
         _discussionEnCours = false;
         if (!tempsComplet || EstAbsent(cible))
             FermerDiscussion();
