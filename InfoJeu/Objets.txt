@@ -1,1 +1,21 @@
-
+Chaque objets est référencé dans une catégorie :
+- Nourriture
+-- Falaquant : Grosse pomme de terre (qui n'existe pas dans cet univers) orange. Présent partout sur le globe.
+-- Choux : Présent partout sur le globe.
+-- Tomate : Présent partout sur le globe.
+-- Dlo : Céréale semblable à du blé (qui n'existe pas dans cet univers). Présent partout sur le globe.
+- Boisson non alcoolisé
+- Boisson alcoolisé
+- Monture
+- Arme
+- Armure
+- Objet Magique Divers
+- Arme Magique
+- Armure Magique
+- Meuble
+- Potion
+- Composant Potion
+- Vêtement
+- Matière Première
+- Objet de Décoration
+- Objet Divers
