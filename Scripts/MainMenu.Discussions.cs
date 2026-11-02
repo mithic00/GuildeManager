@@ -311,6 +311,10 @@ public partial class MainMenu
 
         if (_fenetreFiche != null && !_fenetreFiche.Visible)
         {
+            // Les nouvelles statistiques découvertes sont immédiatement
+            // reflétées dans la fiche lorsque le joueur y retourne.
+            if (_membreConsulte != null)
+                RemplirFiche(_membreConsulte);
             _fenetreFiche.PopupCentered();
             AfficherSocial();
         }
