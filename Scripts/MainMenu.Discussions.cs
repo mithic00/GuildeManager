@@ -54,23 +54,20 @@ public partial class MainMenu
         return de + ReglesCaracteristiques.Modificateur(Math.Clamp(stat, 1, 20)) >= cible;
     }
 
-    // Plage de discussion : à partir de 08h00 et jusqu'à minuit.
-    // On réserve la durée maximale d'un échange (30 minutes) avant le
-    // prochain minuit : aucune conversation ne peut déborder après 00h00.
-    private static bool HoraireDiscussionDisponible(DateTime instant)
-    {
-        return instant.TimeOfDay >= TimeSpan.FromHours(8) &&
-            instant.AddMinutes(30) <= instant.Date.AddDays(1);
-    }
+    // Seule l'heure de DÉBUT est limitée : de 08h00 à 23h59.
+    // Une discussion commencée avant minuit peut se terminer après.
+    private static bool HoraireDiscussionDisponible(DateTime instant) =>
+        instant.Hour >= 8;
 
-    private bool DialogueAccessible(MembreGuilde cible, bool afficherErreur)
+    private bool DialogueAccessible(MembreGuilde cible, bool afficherErreur,
+        bool verifierHoraire = true)
     {
-        if (_horloge != null && !HoraireDiscussionDisponible(_horloge.Instant))
+        if (verifierHoraire && _horloge != null &&
+            !HoraireDiscussionDisponible(_horloge.Instant))
         {
             if (afficherErreur)
                 AfficherInformation(
-                    "Les discussions sont possibles à partir de 08h00. " +
-                    "Aucun échange ne peut se poursuivre après minuit.");
+                    "Vous ne pouvez pas entamer une conversation entre 00h00 et 07h59.");
             return false;
         }
         MembreGuilde joueur = _registreMembres?.Membres.FirstOrDefault(m => m.EstJoueur);
@@ -154,7 +151,9 @@ public partial class MainMenu
     {
         if (_discussionEnCours || _cibleDiscussion == null ||
             (continuation && !_connaissanceAContinuer)) return;
-        if (!DialogueAccessible(_cibleDiscussion, true))
+        // Le dialogue a déjà été ouvert pendant les heures autorisées :
+        // ses échanges et sa continuation sont permis au-delà de minuit.
+        if (!DialogueAccessible(_cibleDiscussion, true, verifierHoraire: false))
         {
             FermerDiscussion();
             return;
@@ -252,10 +251,8 @@ public partial class MainMenu
         // de ce dialogue. Une nouvelle conversation peut ensuite être entamée.
         _connaissanceAContinuer = reussite && !amicale && !continuation;
         bool tempsComplet = AvancerTempsPourDiscussion(minutes);
-        // L'horloge a avancé : ne pas afficher le bouton « Continuer »
-        // lorsqu'un nouvel échange atteindrait ou dépasserait minuit.
-        AfficherReponsesDiscussion(_connaissanceAContinuer &&
-            _horloge != null && HoraireDiscussionDisponible(_horloge.Instant));
+        // Une conversation entamée avant minuit peut continuer après minuit.
+        AfficherReponsesDiscussion(_connaissanceAContinuer);
         if (!reussite)
             cible.DiscussionBloqueeJusqua = ReglesMissions.DateIso(_horloge.Instant.AddHours(24));
         ActualiserInfobulleTraitsDiscussion();
