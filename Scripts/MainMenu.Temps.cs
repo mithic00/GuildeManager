@@ -111,6 +111,27 @@ public partial class MainMenu
             AvancerTempsUneMinute();
     }
 
+    private void ActualiserAnniversaires()
+    {
+        if (_horloge == null) return;
+        DateTime maintenant = _horloge.Instant;
+        if (_registreMembres != null)
+            foreach (MembreGuilde membre in _registreMembres.Membres)
+            {
+                membre.InitialiserDateNaissance(maintenant);
+                membre.ActualiserAge(maintenant);
+            }
+
+        // Les candidats sont créés pour la date future du rendez-vous.
+        // Leur âge reste synchronisé si le rendez-vous est décalé ou traversé.
+        if (_aubergeEtat?.RendezVous?.Candidats != null)
+            foreach (CandidatAuberge candidat in _aubergeEtat.RendezVous.Candidats)
+            {
+                candidat.Personnage.InitialiserDateNaissance(maintenant);
+                candidat.Personnage.ActualiserAge(maintenant);
+            }
+    }
+
     private void AvancerTempsUneMinute()
     {
         if (!_tempsEnCours || _horloge == null)
@@ -124,6 +145,10 @@ public partial class MainMenu
         }
 
         _date.Text = HorlogeJeu.Formater(_horloge.Instant);
+        // Les anniversaires sont recalculés au passage à la nouvelle date,
+        // indépendamment des jalons et de la vitesse de l'horloge.
+        if (_horloge.Instant.Hour == 0 && _horloge.Instant.Minute == 0)
+            ActualiserAnniversaires();
         ActualiserProgressionTemps();
 
         // Les événements programmés sont prioritaires sur les jalons fixes.
