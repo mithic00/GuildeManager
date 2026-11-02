@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -52,6 +53,72 @@ public sealed class MembreGuilde
     public int Moral { get; set; } = 100;
     public int ConnaissanceMagique { get; set; } = 0;
     public int? Age { get; set; }
+    /// <summary>Date de naissance dans le calendrier du jeu, au format yyyy-MM-dd.</summary>
+    public string DateNaissance { get; set; } = "";
+
+    private const string FormatNaissance = "yyyy-MM-dd";
+
+    public DateTime? LireDateNaissance()
+    {
+        return DateTime.TryParseExact(DateNaissance, FormatNaissance,
+            CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date)
+            ? date.Date : null;
+    }
+
+    /// <summary>
+    /// Initialise une date cohérente avec l'âge connu au jour de référence.
+    /// Les personnages plus anciens sans date de naissance reçoivent ainsi
+    /// un anniversaire stable, enregistré lors de la prochaine sauvegarde.
+    /// </summary>
+    public bool InitialiserDateNaissance(DateTime reference)
+    {
+        if (LireDateNaissance().HasValue)
+        {
+            ActualiserAge(reference);
+            return false;
+        }
+
+        // Le maître de guilde commence à 25 ans, quelle que soit sa race.
+        int ageInitial = EstJoueur ? 25 : Math.Max(0, Age ?? 25);
+        DateTime jour = reference.Date;
+        DateTime debut = jour.AddYears(-ageInitial - 1).AddDays(1);
+        DateTime fin = jour.AddYears(-ageInitial);
+
+        // La vérification tient également compte des années bissextiles.
+        DateTime naissance;
+        do
+        {
+            naissance = debut.AddDays(Random.Shared.Next((fin - debut).Days + 1));
+        } while (CalculerAge(naissance, jour) != ageInitial);
+
+        DateNaissance = naissance.ToString(FormatNaissance, CultureInfo.InvariantCulture);
+        Age = ageInitial;
+        return true;
+    }
+
+    /// <summary>
+    /// Calcule l'âge à la date actuelle, sans l'incrémenter aveuglément :
+    /// plusieurs passages ou rechargements ne doublent jamais l'anniversaire.
+    /// Un anniversaire le 29 février est célébré le 28 en année non bissextile.
+    /// </summary>
+    public void ActualiserAge(DateTime maintenant)
+    {
+        DateTime? naissance = LireDateNaissance();
+        if (naissance.HasValue)
+            Age = CalculerAge(naissance.Value, maintenant.Date);
+    }
+
+    private static int CalculerAge(DateTime naissance, DateTime maintenant)
+    {
+        int age = maintenant.Year - naissance.Year;
+        int jourAnniversaire = Math.Min(naissance.Day,
+            DateTime.DaysInMonth(maintenant.Year, naissance.Month));
+        DateTime anniversaire = new DateTime(maintenant.Year, naissance.Month, jourAnniversaire);
+        if (maintenant.Date < anniversaire)
+            age--;
+        return Math.Max(0, age);
+    }
+
     public int? Motivation { get; set; }
     public int? Fatigue { get; set; }
     public int? Experience { get; set; }
@@ -174,11 +241,14 @@ public sealed class MembreGuilde
             Bonheur = 20,
             Moral = 100,
             ConnaissanceMagique = 0,
+            Age = 25,
             Motivation = 20,
             Fatigue = 0,
             Experience = 0,
             Niveau = 1
         };
+
+        joueur.InitialiserDateNaissance(HorlogeJeu.DateInitiale);
 
         // Un dé par niveau et par type de ressource, une seule fois.
         joueur.CompleterInitialisationJoueur();
