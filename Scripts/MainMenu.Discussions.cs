@@ -237,7 +237,7 @@ public partial class MainMenu
             ", relation " + relationDelta + ".");
         _discussionEnCours = false;
         if (!tempsComplet || EstAbsent(cible))
-            FermerDiscussion();
+            FermerDiscussionSansRetour();
     }
 
     private int RevelerCaracteristiquesDiscussion(MembreGuilde membre, int quantite)
@@ -256,9 +256,17 @@ public partial class MainMenu
         return possibles.Count;
     }
 
-    private void FermerDiscussion()
+    private void FermerDiscussionSansRetour()
     {
         _fenetreDiscussion?.Hide();
+        _cibleDiscussion = null;
+        _connaissanceAContinuer = false;
+        _discussionEnCours = false;
+    }
+
+    private void FermerDiscussion()
+    {
+        FermerDiscussionSansRetour();
         _cibleDiscussion = null;
         _connaissanceAContinuer = false;
         _discussionEnCours = false;
