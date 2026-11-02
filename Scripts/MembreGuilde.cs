@@ -130,7 +130,7 @@ public sealed class MembreGuilde
 
     /// <summary>Affichage de la direction, sans perdre le rang de missions du joueur.</summary>
     [JsonIgnore]
-    public string RangAffiche => EstMaitreDeGuilde ? "MG" : Rang;
+    public string RangAffiche => EstMaitreDeGuilde ? "MG" : ReglesMissions.FormaterRang(Rang);
 
     /// <summary>
     /// Les positions -1 et 0 sont réservées au maître de guilde et au rang U.
