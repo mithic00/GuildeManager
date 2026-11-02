@@ -24,6 +24,10 @@ public sealed class MembreGuilde
     /// <summary>Relation réciproque indexée par ID de membre, entre -100 et 100.</summary>
     public Dictionary<string, int> Relations { get; set; } = new();
     public bool EstAdjoint { get; set; }
+    /// <summary>Fin du blocage des dialogues après échec, date du calendrier de jeu.</summary>
+    public string DiscussionBloqueeJusqua { get; set; } = "";
+    /// <summary>Prévu pour les absences autres que les missions et concours.</summary>
+    public bool Absent { get; set; }
     /// <summary>Concours actif : "S" ou "P". Vide en dehors d'un concours.</summary>
     public string ConcoursEnCours { get; set; } = "";
     public string DateRetourConcours { get; set; } = "";
