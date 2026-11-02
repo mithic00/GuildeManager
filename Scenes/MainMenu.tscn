@@ -2534,6 +2534,46 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Retour"
 
+[node name="LayoutConcours" type="MarginContainer" parent="FenetreFichePerso" unique_id=2140604529]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 60
+
+[node name="Layout" type="VBoxContainer" parent="FenetreFichePerso/LayoutConcours" unique_id=21120278]
+layout_mode = 2
+theme_override_constants/separation = 51
+alignment = 1
+
+[node name="ListeMembreEligible" type="ItemList" parent="FenetreFichePerso/LayoutConcours/Layout" unique_id=1124211079]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Boutons" type="HBoxContainer" parent="FenetreFichePerso/LayoutConcours/Layout" unique_id=1030279097]
+layout_mode = 2
+theme_override_constants/separation = 156
+alignment = 1
+
+[node name="BoutonLancerConcours" type="Button" parent="FenetreFichePerso/LayoutConcours/Layout/Boutons" unique_id=775806112]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Envoyer au Concours"
+
+[node name="BoutonRetour" type="Button" parent="FenetreFichePerso/LayoutConcours/Layout/Boutons" unique_id=632178943]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Retour"
+
 [node name="FenetreChoixRecrutement" type="Window" parent="." unique_id=137447160]
 transparent_bg = true
 oversampling_override = 1.0
