@@ -2065,7 +2065,7 @@ theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
 theme_override_fonts/normal_font = ExtResource("11_if7li")
 theme_override_font_sizes/normal_font_size = 30
 bbcode_enabled = true
-text = "[1er janvier 600 - 08h32] Test d'info jeu du carnet du joeuur"
+text = "[1er janvier 600 - 08h32] Test d'info jeu du carnet du joeuur ★"
 vertical_alignment = 2
 
 [node name="FenetreMenuQuitter" type="Window" parent="." unique_id=1322838180]
@@ -2343,12 +2343,12 @@ theme_override_constants/h_separation = 150
 theme_override_constants/v_separation = 40
 columns = 2
 
-[node name="BoutonConversation" type="Button" parent="FenetreFichePerso/MargeFichePerso/Layout/Boutons/GridContainer" unique_id=1514484294]
+[node name="BoutonSocial" type="Button" parent="FenetreFichePerso/MargeFichePerso/Layout/Boutons/GridContainer" unique_id=1514484294]
 custom_minimum_size = Vector2(260, 65)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-text = "Conversation"
+text = "Social"
 
 [node name="BoutonGestion" type="Button" parent="FenetreFichePerso/MargeFichePerso/Layout/Boutons/GridContainer" unique_id=325212864]
 custom_minimum_size = Vector2(260, 65)
@@ -2371,7 +2371,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Fermer"
 
-[node name="LayoutConversation" type="MarginContainer" parent="FenetreFichePerso" unique_id=1529852994]
+[node name="LayoutSocial" type="MarginContainer" parent="FenetreFichePerso" unique_id=1529852994]
 visible = false
 anchors_preset = 15
 anchor_right = 1.0
@@ -2382,6 +2382,112 @@ theme_override_constants/margin_left = 60
 theme_override_constants/margin_top = 60
 theme_override_constants/margin_right = 60
 theme_override_constants/margin_bottom = 60
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FenetreFichePerso/LayoutSocial" unique_id=34735601]
+layout_mode = 2
+theme_override_constants/separation = 51
+alignment = 1
+
+[node name="Label" type="Label" parent="FenetreFichePerso/LayoutSocial/VBoxContainer" unique_id=1985389173]
+layout_mode = 2
+theme_override_font_sizes/font_size = 52
+text = "Social"
+horizontal_alignment = 1
+
+[node name="BoutonConversation" type="Button" parent="FenetreFichePerso/LayoutSocial/VBoxContainer" unique_id=667441579]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Conversation"
+
+[node name="BoutonRelation" type="Button" parent="FenetreFichePerso/LayoutSocial/VBoxContainer" unique_id=30046375]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Relation"
+
+[node name="BoutonRetour" type="Button" parent="FenetreFichePerso/LayoutSocial/VBoxContainer" unique_id=2082253919]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Retour"
+
+[node name="LayoutRelation" type="MarginContainer" parent="FenetreFichePerso" unique_id=1634206379]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 60
+
+[node name="Layout" type="VBoxContainer" parent="FenetreFichePerso/LayoutRelation" unique_id=910266871]
+layout_mode = 2
+theme_override_constants/separation = 51
+
+[node name="Label" type="Label" parent="FenetreFichePerso/LayoutRelation/Layout" unique_id=1325736133]
+layout_mode = 2
+theme_override_font_sizes/font_size = 52
+text = "Relations"
+horizontal_alignment = 1
+
+[node name="InfosRelation" type="HBoxContainer" parent="FenetreFichePerso/LayoutRelation/Layout" unique_id=705086427]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BonnesRelations" type="RichTextLabel" parent="FenetreFichePerso/LayoutRelation/Layout/InfosRelation" unique_id=487397321]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_font_sizes/normal_font_size = 22
+bbcode_enabled = true
+text = "Bonnes Relations :
+- Hector Dupont : Ami
+- Anne Martin : Connaissance"
+horizontal_alignment = 1
+
+[node name="MauvaisesRelations" type="RichTextLabel" parent="FenetreFichePerso/LayoutRelation/Layout/InfosRelation" unique_id=391678549]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_font_sizes/normal_font_size = 22
+bbcode_enabled = true
+text = "Bonnes Relations :
+- Jacque Dupont : Ennemi
+- Gil  Martin : S'évite"
+horizontal_alignment = 1
+
+[node name="BoutonRetour" type="Button" parent="FenetreFichePerso/LayoutRelation/Layout" unique_id=1811026953]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Retour"
+
+[node name="LayoutConversation" type="MarginContainer" parent="FenetreFichePerso" unique_id=1627123896]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 60
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FenetreFichePerso/LayoutConversation" unique_id=887495755]
+layout_mode = 2
+theme_override_constants/separation = 51
+alignment = 1
 
 [node name="LayoutGestion" type="MarginContainer" parent="FenetreFichePerso" unique_id=676657309]
 visible = false
@@ -2515,6 +2621,54 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "OK"
+
+[node name="FenetreConfirmation" type="Window" parent="." unique_id=525282935]
+transparent_bg = true
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(600, 400)
+visible = false
+exclusive = true
+unresizable = true
+transparent = true
+
+[node name="Marge" type="MarginContainer" parent="FenetreConfirmation" unique_id=139309180]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="Layout" type="VBoxContainer" parent="FenetreConfirmation/Marge" unique_id=1848071367]
+layout_mode = 2
+
+[node name="Info" type="RichTextLabel" parent="FenetreConfirmation/Marge/Layout" unique_id=1679106455]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_fonts/normal_font = ExtResource("11_if7li")
+theme_override_font_sizes/normal_font_size = 30
+text = "Ceci est un texte de test"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BoutonConfirmation" type="Button" parent="FenetreConfirmation/Marge/Layout" unique_id=1621386733]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Confirmer"
+
+[node name="BoutonAnnuler" type="Button" parent="FenetreConfirmation/Marge/Layout" unique_id=414178754]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Annuler"
 
 [node name="FenetreNouvelleMission" type="Window" parent="." unique_id=557877074]
 transparent_bg = true
