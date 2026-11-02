@@ -54,8 +54,25 @@ public partial class MainMenu
         return de + ReglesCaracteristiques.Modificateur(Math.Clamp(stat, 1, 20)) >= cible;
     }
 
+    // Plage de discussion : à partir de 08h00 et jusqu'à minuit.
+    // On réserve la durée maximale d'un échange (30 minutes) avant le
+    // prochain minuit : aucune conversation ne peut déborder après 00h00.
+    private static bool HoraireDiscussionDisponible(DateTime instant)
+    {
+        return instant.TimeOfDay >= TimeSpan.FromHours(8) &&
+            instant.AddMinutes(30) <= instant.Date.AddDays(1);
+    }
+
     private bool DialogueAccessible(MembreGuilde cible, bool afficherErreur)
     {
+        if (_horloge != null && !HoraireDiscussionDisponible(_horloge.Instant))
+        {
+            if (afficherErreur)
+                AfficherInformation(
+                    "Les discussions sont possibles à partir de 08h00. " +
+                    "Aucun échange ne peut se poursuivre après minuit.");
+            return false;
+        }
         MembreGuilde joueur = _registreMembres?.Membres.FirstOrDefault(m => m.EstJoueur);
         if (cible != null && joueur != null && cible.Id != joueur.Id &&
             _registreMembres.Membres.Contains(cible) && !EstAbsent(cible) && _horloge != null)
@@ -234,8 +251,11 @@ public partial class MainMenu
         // La suite prévue dans Discussion.txt est le deuxième et dernier échange
         // de ce dialogue. Une nouvelle conversation peut ensuite être entamée.
         _connaissanceAContinuer = reussite && !amicale && !continuation;
-        AfficherReponsesDiscussion(_connaissanceAContinuer);
         bool tempsComplet = AvancerTempsPourDiscussion(minutes);
+        // L'horloge a avancé : ne pas afficher le bouton « Continuer »
+        // lorsqu'un nouvel échange atteindrait ou dépasserait minuit.
+        AfficherReponsesDiscussion(_connaissanceAContinuer &&
+            _horloge != null && HoraireDiscussionDisponible(_horloge.Instant));
         if (!reussite)
             cible.DiscussionBloqueeJusqua = ReglesMissions.DateIso(_horloge.Instant.AddHours(24));
         ActualiserInfobulleTraitsDiscussion();
