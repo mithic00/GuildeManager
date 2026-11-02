@@ -12,8 +12,12 @@ OBJECTIF
 --------
 Pour chaque catégorie de mission, identifier des archétypes qui pourraient
 être favorables (POSITIF) ou défavorables (NÉGATIF) à son déroulement.
-Ces associations sont des PROPOSITIONS DE GAME DESIGN. Les règles actuelles
-des jets, leur probabilité et les conditions de départ ne sont pas modifiées.
+Les associations ci-dessous sont désormais utilisées par le jeu pour le
+calcul des avantages de traits et des malus d'acceptation de mission.
+Les modalités et limites des effets appliqués figurent dans
+InfoJeu/Traits_Personnage.txt, section « RÈGLES ACTIVES ».
+Les seuils de D20 et probabilités de base de Missions&Rang.txt restent
+inchangés, hormis l'effet explicite de l'avantage sur la réussite.
 
 RÈGLES DE LECTURE
 ----------------
@@ -295,5 +299,8 @@ POINTS À ARBITRER AVANT LE CODAGE DES EFFETS
 9. Équilibrage : tester les fréquences d'apparition de chaque trait, car
    des combinaisons à trois statistiques >= 16 peuvent être très rares.
 
-AUCUN EFFET DE JEU N'EST APPLIQUÉ PAR CE DOCUMENT.
-AUCUN FICHIER .cs OU .tscn N'A BESOIN D'ÊTRE MODIFIÉ À CE STADE.
+ÉTAT ACTUEL : les associations alimentent BonusTraitsMissions.cs.
+Les effets sont désormais codés dans ResolutionMissions.cs et
+MainMenu.Missions.cs. Voir Traits_Personnage.txt pour le calcul précis
+des bonus, malus, règles de cumul et historique individuel.
+Aucune scène .tscn n'a été modifiée pour ce fonctionnement.
