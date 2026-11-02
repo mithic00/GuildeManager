@@ -1,0 +1,51 @@
+Il existera plusieurs discussion possible avec les membres. La fenêtre de discussion sera utilisé pour tous les type de discussion. A terme, également pour les dialogues des quêtes.
+En survolant le portrait de la cible, ses traits s'affichent.
+
+Différent dialogue possible : 
+"Faire Connaissance"
+1 - Joueur : "Bonjour ! Apprenons un peu à se connaitre"
+2 - Cible : 
+Si Moral > 19
+D20 Communication cible 6 
+-> réussi : "Avec plaisir."                                         -> +3 relation, +3 stats découvert hors potentiel magique.
+-> échoué : "Je suis occupé pour le moment désolé."                 -> -1 relation
+Si Moral < 20
+D20 Communication cible 18
+-> réussi : "Ok, rapide s'il vous plait. J'ai pas le moral."        -> +3 relation, +1 stats découvert hors potentiel magique.
+-> échoué : "C'est pas le moment."                                  -> -3 relation.
+
+3 - Si réussite - Joueur : *Continuer la conversation*
+4 - Cible :
+Si Moral > 19
+D20 Communication cible 6 
+-> réussi : "Avec plaisir."                                         -> +3 relation, +3 stats découvert hors potentiel magique.
+-> échoué : "Je vais devoir y aller désolé."                        -> -1 relation
+Si Moral < 20
+D20 Communication cible 20
+-> réussi : "Ok, rapide s'il vous plait. J'ai pas le moral."        -> +1 relation, +1 stats découvert hors potentiel magique.
+-> échoué : "C'est pas le moment."                                  -> -10 relation.
+
+3 - Réussite ou non - Joueur : *Mettre fin à la conversation*
+
+
+"Discussion Amicale"
+1 - Joueur : "Bonjour ! Quoi de neuf ?"
+2 - Cible :
+Si Moral > 19
+  Si relation > 9
+    D20 Communication cible 4
+    -> réussi : "Avec plaisir."                                         -> +3 relation, +1 bonheur, +10 moral
+    -> échoué : "Je suis occupé pour le moment désolé."                 -> -1 relation
+  Si relation < 10
+    D20 Communication cible 10
+    -> réussi : "Avec plaisir."                                         -> +5 relation, +5 moral
+    -> échoué : "Je suis occupé pour le moment désolé."                 -> -3 relation, -1 bonheur
+Si Moral < 20
+  Si relation > 9
+    D20 Communication cible 18
+    -> réussi : "Ok, rapide s'il vous plait. J'ai pas le moral."        -> +3 relation, +1 bonheur, +10 moral
+    -> échoué : "C'est pas le moment."                                  -> -5 relation.
+  Si relation < 9
+    D20 Communication cible 18
+    -> réussi : "Ok, rapide s'il vous plait. J'ai pas le moral."        -> +1 relation, +5 moral
+    -> échoué : "C'est pas le moment."                                  -> -5 relation, -2 bonheur, -5 moral
