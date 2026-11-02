@@ -167,6 +167,7 @@ public static class GenerateurCandidats
             }
             HarmoniserEquipe(membres);
             HarmoniserNiveauxMagiques(membres);
+            RelationsMembres.InitialiserEquipe(membres.Select(c => c.Personnage).ToList());
             foreach (CandidatAuberge candidat in membres)
                 candidat.Personnage.InitialiserDateNaissance(dateRendezVous);
             resultat.AddRange(membres);
