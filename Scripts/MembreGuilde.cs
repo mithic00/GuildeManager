@@ -33,6 +33,11 @@ public sealed class MembreGuilde
     public string DateRetourConcours { get; set; } = "";
     /// <summary>Le concours est terminé, mais ses règles de résultat ne sont pas encore définies.</summary>
     public bool ResultatConcoursEnAttente { get; set; }
+    /// <summary>État de présence extensible aux futures sorties hors guilde.</summary>
+    public bool EstPresent { get; set; } = true;
+    /// <summary>Date/heure de la prochaine conversation possible après un échec.</summary>
+    public string DateProchaineDiscussion { get; set; } = "";
+
 
     public Dictionary<string, int> MissionsReussiesParRang { get; set; } = new();
     public string Metier { get; set; } = "";
