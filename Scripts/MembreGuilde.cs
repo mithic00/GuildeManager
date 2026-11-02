@@ -343,6 +343,8 @@ public sealed class RegistreMembresGuilde
                         migrationNecessaire = true;
                 }
 
+                RelationsMembres.CompleterEquipesExistantes(registre.Membres);
+
                 // Migration persistée une seule fois. Au chargement suivant,
                 // les mêmes PV/PM seront relus sans aucun nouveau tirage.
                 if (migrationNecessaire && !registre.Sauvegarder())
