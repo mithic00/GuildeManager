@@ -242,7 +242,7 @@ public partial class MainMenu
         Remplir(g1 + "LabelNom", "Nom", string.IsNullOrEmpty(m.Nom) ? "—" : m.Nom);
         Remplir(g1 + "LabelAge", "Âge", m.Age.HasValue ? m.Age.Value + " ans" : inconnu);
         Remplir(g1 + "LabelRang", "Rang", m.RangAffiche);
-        Remplir(g1 + "LabelMotivation", "Motivation",
+        Remplir(sg + "Layout2/LabelMotivation", "Motivation",
             m.ConnaitStatistique("Motivation") ? (m.Motivation?.ToString() ?? inconnu) : inconnu);
         Remplir(g1 + "LabelFatigue", "Fatigue", m.Fatigue?.ToString() ?? inconnu);
         Remplir(g1 + "LabelExpérience", "Expérience", m.Experience?.ToString() ?? inconnu);
