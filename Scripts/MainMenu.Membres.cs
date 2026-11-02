@@ -46,12 +46,11 @@ public partial class MainMenu
         const string actions = "FenetreFichePerso/MargeFichePerso/Layout/Boutons/GridContainer/";
         GetNode<Button>(actions + "BoutonFermer").Pressed += FermerFiche;
         GetNode<Button>(actions + "BoutonGestion").Pressed += AfficherGestion;
-        GetNode<Button>(actions + "BoutonConversation").Pressed += () => AfficherInformationFiche("Les conversations seront développées ultérieurement.");
+        // Le bouton Social et ses sous-pages sont reliés par MainMenu.GestionMembres.cs.
         GetNode<Button>(actions + "BoutonVirer").Disabled = true; // Le maître ne peut pas s'exclure lui-même.
         const string gestion = "FenetreFichePerso/LayoutGestion/Boutons/";
         GetNode<Button>(gestion + "BoutonRetour").Pressed += RetourFiche;
-        foreach (string nom in new[] { "BoutonPromouvoir", "BoutonPromouvoirAdjoint", "BoutonConcours" })
-            GetNode<Button>(gestion + nom).Disabled = true; // Aucun système de promotion implémenté.
+        // Actions des trois boutons connectées par InitialiserGestionMembres().
 
         _registreMembres = RegistreMembresGuilde.ChargerOuInitialiser();
         if (_registreMembres == null && SaveManager.HasCurrentSave)
@@ -119,10 +118,12 @@ public partial class MainMenu
                 mission.Etat == "EnCours" &&
                 mission.ParticipantIds != null &&
                 mission.ParticipantIds.Contains(membre.Id)) == true;
+            bool enConcours = !string.IsNullOrWhiteSpace(membre.ConcoursEnCours);
             string texte = classement + "  |  " + rang + "  |  " + nom + "  |  " +
                            membre.Race + "  |  Magie : " + membre.NiveauMagique +
                            "  |  Potentiel : " + potentiel +
-                           (enMission ? "  |  EN MISSION" : "");
+                           (enMission ? "  |  EN MISSION" : "") +
+                           (enConcours ? "  |  EN CONCOURS " + membre.ConcoursEnCours : "");
             Texture2D icone = ConstruireIconePouvoirs(membre.Pouvoirs);
             int index = _listeDesMembres.AddItem(texte, icone);
             if (!string.IsNullOrWhiteSpace(membre.EquipeId))
@@ -138,7 +139,9 @@ public partial class MainMenu
             _listeDesMembres.SetItemTooltip(index, "Pouvoir(s) : " +
                 (membre.Pouvoirs.Count == 0 ? "Aucun" : string.Join(", ", membre.Pouvoirs)) +
                 "\nRang : " + rang + "\nNiveau magique : " + membre.NiveauMagique +
-                (enMission ? "\nStatut : En mission (absent)" : ""));
+                (enMission ? "\nStatut : En mission (absent)" : "") +
+                (enConcours ? "\nStatut : En concours " + membre.ConcoursEnCours +
+                    "\nRetour prévu : " + membre.DateRetourConcours : ""));
         }
     }
 
@@ -252,6 +255,11 @@ public partial class MainMenu
             : "Date de naissance inconnue.";
         labelAge.MouseFilter = Control.MouseFilterEnum.Stop;
         Remplir(g1 + "LabelRang", "Rang", m.RangAffiche);
+        // Le statut d'adjoint est affiché sans changer le classement de rang.
+        if (m.EstAdjoint)
+            GetNode<Label>(g1 + "LabelRang").Text += " (Adjoint)";
+        if (!string.IsNullOrWhiteSpace(m.ConcoursEnCours))
+            GetNode<Label>(g1 + "LabelRang").Text += " — en concours " + m.ConcoursEnCours;
         Remplir(sg + "Layout2/LabelMotivation", "Motivation",
             m.ConnaitStatistique("Motivation") ? (m.Motivation?.ToString() ?? inconnu) : inconnu);
         Remplir(g1 + "LabelFatigue", "Fatigue", m.Fatigue?.ToString() ?? inconnu);
@@ -311,15 +319,14 @@ public partial class MainMenu
 
     private void AfficherGestion()
     {
-        _contenuFiche.Hide();
-        _contenuConversation.Hide();
+        MasquerOngletsFiche();
+        ActualiserBoutonsGestion();
         _contenuGestion.Show();
     }
 
     private void RetourFiche()
     {
-        _contenuGestion.Hide();
-        _contenuConversation.Hide();
+        MasquerOngletsFiche();
         _contenuFiche.Show();
     }
 

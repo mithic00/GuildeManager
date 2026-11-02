@@ -16,6 +16,10 @@ public sealed class EtatGuilde
     public long Savoir { get; set; } = 0;
     public long Pouvoir { get; set; } = 1;
     public long Prestige { get; set; } = 0;
+    /// <summary>Fin de partie après passation volontaire de la guilde.</summary>
+    public bool PartieTerminee { get; set; }
+    public string SuccesseurId { get; set; } = "";
+
 
     public static string DerniereErreur { get; private set; } = "";
 

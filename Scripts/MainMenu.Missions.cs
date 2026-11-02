@@ -69,11 +69,20 @@ public partial class MainMenu
         TirerApparitionAuJalon(maintenant);
 
         TerminerMissionsArrivees(maintenant);
+        bool concoursTermine = TraiterRetoursConcours(maintenant);
         if (maintenant.Hour == 8 && maintenant.Minute == 0)
             ActualiserReposEtMoral();
         if (maintenant.Minute == 0 &&
             (maintenant.Hour == 8 || maintenant.Hour == 12 || maintenant.Hour == 16))
             ProposerMissionsAuxEquipes(maintenant);
+
+        // Les traitements de 08h ne doivent pas être sautés si un concours
+        // se termine exactement à ce jalon. Arrêter ensuite l'horloge.
+        if (concoursTermine)
+        {
+            InterrompreAvanceeTemps();
+            return true;
+        }
 
         if (string.IsNullOrWhiteSpace(_etatMissions.DateAnnoncePrevue) ||
             maintenant < ReglesMissions.LireDate(_etatMissions.DateAnnoncePrevue))
@@ -330,6 +339,7 @@ public partial class MainMenu
 
     private bool GroupeDisponible(List<MembreGuilde> equipe)
     {
+        if (equipe.Any(m => !string.IsNullOrWhiteSpace(m.ConcoursEnCours))) return false;
         if (equipe.Any(m => m.Moral < MoralMinPourPartir)) return false;
         if (_etatMissions.Missions.Any(m => m.Etat == "EnCours" &&
             m.ParticipantIds.Any(id => equipe.Any(p => p.Id == id)))) return false;

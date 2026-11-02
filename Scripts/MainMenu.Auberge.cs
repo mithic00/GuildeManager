@@ -294,6 +294,7 @@ public partial class MainMenu
             _registreMembres.Membres.Add(nouvelle.Personnage);
         }
 
+        RelationsMembres.CompleterEquipesExistantes(_registreMembres.Membres);
         _registreMembres.RecalculerClassement();
 
         _etat.Membres = _registreMembres.Membres.Count;
