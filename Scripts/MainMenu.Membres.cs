@@ -11,7 +11,7 @@ public partial class MainMenu
     private Control _panneauMissions, _panneauMembres;
     private ItemList _listeDesMembres;
     private Window _fenetreFiche;
-    private Control _contenuFiche, _contenuGestion, _contenuConversation;
+    private Control _contenuFiche, _contenuGestion;
     private RegistreMembresGuilde _registreMembres;
     private readonly List<MembreGuilde> _membresAffiches = new();
     private MembreGuilde _membreConsulte;
@@ -31,7 +31,7 @@ public partial class MainMenu
         _fenetreFiche = GetNode<Window>("FenetreFichePerso");
         _contenuFiche = GetNode<Control>("FenetreFichePerso/MargeFichePerso");
         _contenuGestion = GetNode<Control>("FenetreFichePerso/LayoutGestion");
-        _contenuConversation = GetNode<Control>("FenetreFichePerso/LayoutConversation");
+        // La fenêtre de discussion est indépendante de la fiche personnage.
 
         GetNode<Button>(racine + "BoutonMembreGuilde").Pressed += AfficherListeMembres;
         GetNode<Button>(racine + "BoutonTableauMission").Pressed += () => BasculerPanneau("missions");
