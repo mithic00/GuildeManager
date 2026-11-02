@@ -50,12 +50,22 @@ public partial class MainMenu : Control
         // Budget et Événements seront reliées quand leur contenu existera.
         // MainBouton est également réservé à une future navigation.
         ChargerAffichage();
+        // Une guilde déjà transmise est une partie terminée : ne pas
+        // permettre de poursuivre la direction en rechargeant la sauvegarde.
+        if (_etat?.PartieTerminee == true)
+        {
+            GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, SceneDemarrage);
+            return;
+        }
         InitialiserNavigationEtMembres();
         InitialiserTempsEtJournal();
         InitialiserRecrutementAuberge();
         InitialiserNavigationMagasins();
         InitialiserMissions();
+        InitialiserGestionMembres();
         ActualiserAnniversaires();
+        if (_horloge != null)
+            TraiterRetoursConcours(_horloge.Instant);
     }
 
     private void ChargerAffichage()
