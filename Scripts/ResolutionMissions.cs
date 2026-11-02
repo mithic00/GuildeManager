@@ -12,12 +12,46 @@ public sealed class ResultatJourMission
 /// <summary>Jets par catégorie et progression magique, selon InfoJeu/Missions&Rang.txt.</summary>
 public static class ResolutionMissions
 {
-    private static bool Jet(MembreGuilde membre, string stat, int cible) =>
-        Random.Shared.Next(1, 21) + ReglesCaracteristiques.Modificateur(
-            Math.Clamp(membre.Statistiques.GetValueOrDefault(stat, 10), 1, 20)) >= cible;
+    private static bool PeutRelancer(MissionGuilde mission) =>
+        mission.AvantageTraitsDisponible && !mission.AvantageTraitsConsomme;
+
+    // Comme auparavant : un seul D20 avec le meilleur bonus parmi les membres.
+    private static int JetGroupeResultat(MissionGuilde mission,
+        List<MembreGuilde> equipe, string stat, int cible)
+    {
+        int bonus = equipe.Max(m => ReglesCaracteristiques.Modificateur(
+            Math.Clamp(m.Statistiques.GetValueOrDefault(stat, 10), 1, 20)));
+        int resultat = Random.Shared.Next(1, 21) + bonus;
+        if (resultat < cible && PeutRelancer(mission))
+        {
+            mission.AvantageTraitsConsomme = true;
+            resultat = Random.Shared.Next(1, 21) + bonus;
+        }
+        return resultat;
+    }
+
     private static bool JetGroupe(List<MembreGuilde> equipe, string stat, int cible) =>
         Random.Shared.Next(1, 21) + equipe.Max(m => ReglesCaracteristiques.Modificateur(
             Math.Clamp(m.Statistiques.GetValueOrDefault(stat, 10), 1, 20))) >= cible;
+
+    private static bool JetGroupeAvecAvantage(MissionGuilde mission,
+        List<MembreGuilde> equipe, string stat, int cible) =>
+        JetGroupeResultat(mission, equipe, stat, cible) >= cible;
+
+    // Exception Protection d'un lieu : TOUS les membres sont testés.
+    private static bool JetIndividuel(MissionGuilde mission,
+        MembreGuilde membre, string stat, int cible)
+    {
+        int bonus = ReglesCaracteristiques.Modificateur(
+            Math.Clamp(membre.Statistiques.GetValueOrDefault(stat, 10), 1, 20));
+        int resultat = Random.Shared.Next(1, 21) + bonus;
+        if (resultat < cible && PeutRelancer(mission))
+        {
+            mission.AvantageTraitsConsomme = true;
+            resultat = Random.Shared.Next(1, 21) + bonus;
+        }
+        return resultat >= cible;
+    }
     private static IssueMission TirerIssue(params (IssueMission issue, double poids)[] issues)
     {
         double total = issues.Sum(x => x.poids);
@@ -25,6 +59,40 @@ public static class ResolutionMissions
         foreach (var i in issues) { val -= i.poids; if (val < 0) return i.issue; }
         return issues[^1].issue;
     }
+    /// <summary>
+    /// Une fois par mission sans D20 : transfère AU PLUS 5 points de
+    /// continuation/échec vers la réussite, sans toucher au risque de décès.
+    /// </summary>
+    private static IssueMission TirerIssueAvecTraits(MissionGuilde mission,
+        params (IssueMission issue, double poids)[] issues)
+    {
+        if (!PeutRelancer(mission))
+            return TirerIssue(issues);
+
+        var modifiees = issues.ToArray();
+        int indexReussite = Array.FindIndex(modifiees, x => x.issue == IssueMission.Reussite);
+        if (indexReussite < 0) return TirerIssue(issues);
+
+        double transfert = 0;
+        foreach (IssueMission source in new[] { IssueMission.Continue, IssueMission.Echec })
+        {
+            for (int i = 0; i < modifiees.Length && transfert < 5; i++)
+            {
+                if (modifiees[i].issue != source) continue;
+                double retire = Math.Min(5 - transfert, modifiees[i].poids);
+                modifiees[i] = (modifiees[i].issue, modifiees[i].poids - retire);
+                transfert += retire;
+            }
+        }
+        if (transfert > 0)
+        {
+            modifiees[indexReussite] = (IssueMission.Reussite,
+                modifiees[indexReussite].poids + transfert);
+            mission.AvantageTraitsConsomme = true;
+        }
+        return TirerIssue(modifiees);
+    }
+
     // Écart entre le niveau magique moyen du groupe et le palier attendu de la mission.
     private static int Avantage(MissionGuilde mission, List<MembreGuilde> groupe)
     {
@@ -64,11 +132,11 @@ public static class ResolutionMissions
         return TirerIssue((IssueMission.Reussite,captureVivant?60:50),
             (IssueMission.Continue,30),(IssueMission.Echec,captureVivant?5:15),(IssueMission.Mort,5));
     }
-    private static IssueMission MagieDanger(int avantage)
+    private static IssueMission MagieDanger(MissionGuilde mission, int avantage)
     {
-        if(avantage >= 2) return TirerIssue((IssueMission.Reussite,90),(IssueMission.Continue,9),(IssueMission.Echec,1));
-        if(avantage == 1) return TirerIssue((IssueMission.Reussite,80),(IssueMission.Continue,15),(IssueMission.Echec,4),(IssueMission.Mort,1));
-        return TirerIssue((IssueMission.Reussite,60),(IssueMission.Continue,30),(IssueMission.Echec,5),(IssueMission.Mort,5));
+        if(avantage >= 2) return TirerIssueAvecTraits(mission,(IssueMission.Reussite,90),(IssueMission.Continue,9),(IssueMission.Echec,1));
+        if(avantage == 1) return TirerIssueAvecTraits(mission,(IssueMission.Reussite,80),(IssueMission.Continue,15),(IssueMission.Echec,4),(IssueMission.Mort,1));
+        return TirerIssueAvecTraits(mission,(IssueMission.Reussite,60),(IssueMission.Continue,30),(IssueMission.Echec,5),(IssueMission.Mort,5));
     }
     public static int DureeFixee(MissionGuilde mission)
     {
@@ -89,12 +157,8 @@ public static class ResolutionMissions
             case "Enquête":
             {
                 int cible=CibleInvestigation(mission.Rang);
-                int intelligence=Random.Shared.Next(1,21) + equipe.Max(m =>
-                    ReglesCaracteristiques.Modificateur(Math.Clamp(
-                        m.Statistiques.GetValueOrDefault("Intelligence",10),1,20)));
-                int charisme=Random.Shared.Next(1,21) + equipe.Max(m =>
-                    ReglesCaracteristiques.Modificateur(Math.Clamp(
-                        m.Statistiques.GetValueOrDefault("Charisme",10),1,20)));
+                int intelligence=JetGroupeResultat(mission,equipe,"Intelligence",cible);
+                int charisme=JetGroupeResultat(mission,equipe,"Charisme",cible);
                 if(intelligence>=cible && charisme>=cible) issue=IssueMission.Reussite;
                 else
                 {
@@ -108,24 +172,24 @@ public static class ResolutionMissions
                 if(jour>=mission.DureeFixee)
                 {
                     if(Random.Shared.NextDouble()<0.35) {issue=IssueMission.Reussite;sansIncident=true;}
-                    else if(avantage>=2)issue=TirerIssue((IssueMission.Reussite,99),(IssueMission.Echec,1));
-                    else if(avantage==1)issue=TirerIssue((IssueMission.Reussite,90),(IssueMission.Echec,9),(IssueMission.Mort,1));
-                    else issue=TirerIssue((IssueMission.Reussite,80),(IssueMission.Echec,15),(IssueMission.Mort,5));
+                    else if(avantage>=2)issue=TirerIssueAvecTraits(mission,(IssueMission.Reussite,99),(IssueMission.Echec,1));
+                    else if(avantage==1)issue=TirerIssueAvecTraits(mission,(IssueMission.Reussite,90),(IssueMission.Echec,9),(IssueMission.Mort,1));
+                    else issue=TirerIssueAvecTraits(mission,(IssueMission.Reussite,80),(IssueMission.Echec,15),(IssueMission.Mort,5));
                 }
                 break;
             case "Élimination de danger":
             case "Renfort pour Assaut":
-                issue=MagieDanger(avantage);
+                issue=MagieDanger(mission,avantage);
                 break;
             case "Recherche mort ou vif":
             case "Capture vif":
                 if(jour==1)
                 {
-                    if(!JetGroupe(equipe,"Intelligence",CibleTraque(mission.Rang)))issue=IssueMission.Echec;
+                    if(!JetGroupeAvecAvantage(mission,equipe,"Intelligence",CibleTraque(mission.Rang)))issue=IssueMission.Echec;
                 }
                 else
                 {
-                    bool capture=JetGroupe(equipe,"Agilite",10);
+                    bool capture=JetGroupeAvecAvantage(mission,equipe,"Agilite",10);
                     if(cat=="Capture vif"&&!capture)issue=IssueMission.Echec;
                     else issue=Affrontement(avantage,capture);
                 }
@@ -138,7 +202,7 @@ public static class ResolutionMissions
                 }
                 else
                 {
-                    bool tests=equipe.All(m=>Jet(m,"Calme",10)&&Jet(m,"Endurance",10));
+                    bool tests=equipe.All(m=>JetIndividuel(mission,m,"Calme",10)&&JetIndividuel(mission,m,"Endurance",10));
                     if(tests)
                     {
                         issue=avantage>=2?TirerIssue((IssueMission.Reussite,95),(IssueMission.Echec,1),(IssueMission.Continue,4)):
@@ -165,7 +229,16 @@ public static class ResolutionMissions
                 // que si au moins deux des trois D20 échouent. Chaque jet est
                 // effectué, même si un précédent a échoué.
                 int cible = CibleRecherche(mission.Rang);
-                int echecs = stats.Count(stat => !JetGroupe(equipe, stat, cible));
+                var jetsRates = stats.Where(stat => !JetGroupe(equipe, stat, cible)).ToList();
+                int echecs = jetsRates.Count;
+                // En recherche/service, un seul échec ne rend pas le résultat
+                // défavorable. La relance est réservée au deuxième échec.
+                if (echecs >= 2 && PeutRelancer(mission))
+                {
+                    mission.AvantageTraitsConsomme = true;
+                    if (JetGroupe(equipe, jetsRates[0], cible))
+                        echecs--;
+                }
                 bool jetsFavorables = echecs < 2;
                 if(cat=="Recherche d'un animal")
                     issue=jetsFavorables?TirerIssue((IssueMission.Reussite,79),(IssueMission.Continue,15),(IssueMission.Echec,5),(IssueMission.Mort,1)):
