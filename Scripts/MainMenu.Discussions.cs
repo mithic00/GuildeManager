@@ -78,6 +78,11 @@ public partial class MainMenu
 
     private void OuvrirDiscussion()
     {
+        if (_tempsEnCours || _traitementTempsDiscussion)
+        {
+            AfficherInformation("Arrêtez l'avancée du temps avant de discuter.");
+            return;
+        }
         if (!DialogueAccessible(_membreConsulte, true)) return;
         _cibleDiscussion = _membreConsulte;
         _connaissanceAContinuer = false;
@@ -224,7 +229,9 @@ public partial class MainMenu
             " (" + relationApres + "/100)." +
             (decouvertes > 0 ? "\nCaractéristiques découvertes : " + decouvertes + "." : "") +
             "\nTemps écoulé : " + minutes + " minutes.";
-        _connaissanceAContinuer = reussite && !amicale;
+        // La suite prévue dans Discussion.txt est le deuxième et dernier échange
+        // de ce dialogue. Une nouvelle conversation peut ensuite être entamée.
+        _connaissanceAContinuer = reussite && !amicale && !continuation;
         AfficherReponsesDiscussion(_connaissanceAContinuer);
         bool tempsComplet = AvancerTempsPourDiscussion(minutes);
         if (!reussite)
@@ -237,7 +244,7 @@ public partial class MainMenu
             ", relation " + relationDelta + ".");
         _discussionEnCours = false;
         if (!tempsComplet || EstAbsent(cible))
-            FermerDiscussionSansRetour();
+            FermerDiscussion();
     }
 
     private int RevelerCaracteristiquesDiscussion(MembreGuilde membre, int quantite)
@@ -267,10 +274,19 @@ public partial class MainMenu
     private void FermerDiscussion()
     {
         FermerDiscussionSansRetour();
-        _cibleDiscussion = null;
-        _connaissanceAContinuer = false;
-        _discussionEnCours = false;
-        if (!_sortieEnCours && _fenetreFiche != null && !_fenetreFiche.Visible)
+        if (_sortieEnCours) return;
+
+        // Les événements qui ont eu lieu pendant le temps de discussion
+        // reprennent la priorité dès que le joueur termine l'échange.
+        if (VerifierRendezVousAuberge())
+            return;
+        if (_etatMissions?.Proposition?.Etat == "Proposee")
+        {
+            AfficherPropositionMission();
+            return;
+        }
+
+        if (_fenetreFiche != null && !_fenetreFiche.Visible)
         {
             _fenetreFiche.PopupCentered();
             AfficherSocial();
