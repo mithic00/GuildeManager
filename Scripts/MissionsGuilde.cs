@@ -53,6 +53,13 @@ public sealed class MissionGuilde
     public bool SansIncident { get; set; }
     public bool SansGainSecondaire { get; set; }
     public string DetailResultat { get; set; } = "";
+    // Effet des traits figé au départ de mission ; un avantage maximum par
+    // mission, utilisable sur un D20 raté OU sur une table de résolution magique.
+    public bool AvantageTraitsDisponible { get; set; }
+    public bool AvantageTraitsConsomme { get; set; }
+    public int MalusVolonteTraits { get; set; }
+    public string MembreDefavorableId { get; set; } = "";
+    public string MembreDefavorableNom { get; set; } = "";
     // Coordonnées normalisées (0 à 1) du parchemin sur le tableau.
     // Null : mission jamais placée ; la position est créée au premier affichage.
     // Ces valeurs sont sauvegardées avec l'état des missions.
