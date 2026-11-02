@@ -22,6 +22,9 @@ public partial class MainMenu
     private Button _boutonAvancerTemps;
     private ProgressBar _progressionTemps;
     private bool _tempsEnCours;
+    // Les événements qui surviennent pendant un échange sont traités à la
+    // minute prévue, mais leurs fenêtres attendent la fin de la conversation.
+    private bool _traitementTempsDiscussion;
 
     private void InitialiserTempsEtJournal()
     {
@@ -163,31 +166,45 @@ public partial class MainMenu
     }
 
     /// <summary>
-    /// Les dialogues consomment du temps de jeu minute par minute.
-    /// Les événements programmés ne sont pas sautés : un événement
-    /// prioritaire peut écourter l'échange et ferme la conversation.
+    /// Une conversation constitue une action de durée fixe. Chaque minute
+    /// applique les mécanismes habituels (missions, moral, anniversaires),
+    /// mais les fenêtres d'événements sont présentées après la discussion.
+    /// Cela évite de perdre une partie des minutes lorsque des événements
+    /// interviennent au cours de l'échange.
     /// </summary>
     private bool AvancerTempsPourDiscussion(int minutes)
     {
-        if (_horloge == null) return false;
-        for (int i = 0; i < minutes; i++)
+        if (_horloge == null || _tempsEnCours || _traitementTempsDiscussion)
+            return false;
+
+        _traitementTempsDiscussion = true;
+        try
         {
-            if (!_horloge.AvancerUneMinute())
+            for (int i = 0; i < minutes; i++)
             {
-                GD.PushError("Échec du passage du temps en discussion : " + HorlogeJeu.DerniereErreur);
-                return false;
+                if (!_horloge.AvancerUneMinute())
+                {
+                    GD.PushError("Échec du passage du temps en discussion : " +
+                        HorlogeJeu.DerniereErreur);
+                    return false;
+                }
+
+                if (_horloge.Instant.Hour == 0 && _horloge.Instant.Minute == 0)
+                    ActualiserAnniversaires();
+                _date.Text = HorlogeJeu.Formater(_horloge.Instant);
+
+                // Ne pas court-circuiter le traitement des missions si
+                // un rendez-vous d'auberge se présente à la même minute.
+                VerifierRendezVousAuberge();
+                TraiterMinuteMissions();
             }
-            if (_horloge.Instant.Hour == 0 && _horloge.Instant.Minute == 0)
-                ActualiserAnniversaires();
-            _date.Text = HorlogeJeu.Formater(_horloge.Instant);
-            if (VerifierRendezVousAuberge() || TraiterMinuteMissions())
-            {
-                ActualiserProgressionTemps();
-                return false;
-            }
+            return true;
         }
-        ActualiserProgressionTemps();
-        return true;
+        finally
+        {
+            _traitementTempsDiscussion = false;
+            ActualiserProgressionTemps();
+        }
     }
 
     private void ActualiserBoutonTemps()
