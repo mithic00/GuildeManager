@@ -253,6 +253,11 @@ public partial class MainMenu
         Remplir(g2 + "LabelPV", "Points de vie", m.PointsDeVie?.ToString() ?? inconnu);
         Remplir(g2 + "LabelPM", "Points de magie", m.PointsDeMagie?.ToString() ?? inconnu);
         Remplir(g2 + "LabelConnaissanceMagique", "Connaissance magique", m.ConnaissanceMagique.ToString());
+        var traits = ReglesTraitsPersonnage.Evaluer(m);
+        Remplir(g1 + "LabelTraitsPositifs", "Traits positifs",
+            ReglesTraitsPersonnage.Afficher(traits, false));
+        Remplir(g2 + "LabelTraitsNegatifs", "Traits négatifs",
+            ReglesTraitsPersonnage.Afficher(traits, true));
         Remplir(sg + "Layout1/LabelBonheur", "Bonheur", m.Bonheur + "/100");
         Remplir(sg + "Layout1/LabelMoral", "Moral", m.Moral + "/100");
 
