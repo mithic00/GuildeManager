@@ -1,42 +1,42 @@
 Il existe plusieurs niveau de missions. Ce niveau correspond au rang nécessaire pour prendre en charge la mission. Pour progresser, un membre de la guilde doit réussir des missions. Pour pouvoir effectuer une mission de niveau supérieur à son rang, il faut respecter les conditions ci dessous.
 Niveau de mission par ordre du plus faible au plus haut : 
-* : Une mission réussie permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 0 et 20 minimum.
-** : 2 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 21 et 40 minimum.
-*** : 4 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 41 et 60 minimum.
-**** : 7 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 61 et 80 minimum.
-***** : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur + passage du concours Rang S. Niveau magique entre 81 et 150 minimum.
+★ : Une mission réussie permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 0 et 20 minimum.
+★★ : 2 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 21 et 40 minimum.
+★★★ : 4 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 41 et 60 minimum.
+★★★★ : 7 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 61 et 80 minimum.
+★★★★★ : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur + passage du concours Rang S. Niveau magique entre 81 et 150 minimum.
 S : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 151 et 200 minimum.
-S* : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 201 et 250 minimum.
-S** : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 251 et 300 minimum.
-S*** : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 301 et 350 minimum.
-S**** : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 351 et 400 minimum.
-S***** : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur + passage du concours Rang P. Niveau magique entre 401 et 600 minimum.
+S★ : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 201 et 250 minimum.
+S★★ : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 251 et 300 minimum.
+S★★★ : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 301 et 350 minimum.
+S★★★★ : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 351 et 400 minimum.
+S★★★★★ : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur + passage du concours Rang P. Niveau magique entre 401 et 600 minimum.
 P : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 601 et 700 minimum.
-P* : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 701 et 780 minimum.
-P** : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 781 et 850 minimum.
-P*** : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 851 et 910 minimum.
-P**** : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 911 et 960 minimum.
-P***** : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 961 et 999 minimum.
+P★ : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 701 et 780 minimum.
+P★★ : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 781 et 850 minimum.
+P★★★ : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 851 et 910 minimum.
+P★★★★ : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 911 et 960 minimum.
+P★★★★★ : 10 missions réussies permet de débloquer l'accès à la mission du rang supérieur. Niveau magique entre 961 et 999 minimum.
 U : L'accès à ce rang n'est conditionné que par le niveau magique : avoir 1000 ou plus.
 
 Voici les gains en écus par mission : 
-* : 50 à 100
-** : 100 à 225
-*** : 225 à 300
-**** : 350 à 500
-***** : 500 à 1000
+★ : 50 à 100
+★★ : 100 à 225
+★★★ : 225 à 300
+★★★★ : 350 à 500
+★★★★★ : 500 à 1000
 S : 1000 à 3000
-S* : 2000 à 4000
-S** : 3000 à 5000
-S*** : 4000 à 6000
-S**** : 5000 à 7000
-S***** : 6000 à 10000
+S★ : 2000 à 4000
+S★★ : 3000 à 5000
+S★★★ : 4000 à 6000
+S★★★★ : 5000 à 7000
+S★★★★★ : 6000 à 10000
 P : 10000 à 100000
-P* : 20000 à 100000
-P** : 30000 à 100000
-P*** : 40000 à 100000
-P**** : 50000 à 100000
-P***** : 60000 à 100000
+P★ : 20000 à 100000
+P★★ : 30000 à 100000
+P★★★ : 40000 à 100000
+P★★★★ : 50000 à 100000
+P★★★★★ : 60000 à 100000
 U : Au moins 100000
 20% des gains vont à la guilde, le reste est partagé parmi les membres de l'équipe.
 
@@ -60,7 +60,7 @@ La mission peut être demandé par plusieurs missionnaires :
 - Particulier : Tout niveau de mission.Uniquement Toute catégorie sauf Renfort pour Assaut.
 - Marchand : Tout niveau de mission. Uniquement Enquête, Escorte, Recherche d'objet, Service.
 - Commerçant de la ville : Tout niveau de mission.  Toute catégorie sauf Renfort pour Assaut, Rechercher mort ou vif et capture vif.
-- Guilde de Mercenaire : à partir du niveau ***. Toute type de catégorie sauf Renfort pour Assaut, Enquête et Service.
+- Guilde de Mercenaire : à partir du niveau ★★★. Toute type de catégorie sauf Renfort pour Assaut, Enquête et Service.
 
 
 Spawn d'une mission : 
@@ -90,23 +90,23 @@ Statistique (x)Taux de spawn
 Si la ville du joueur est Gori Nirog, le taux de spawn de mission est multiplié par deux.
 
 Quand une mission est terminé, la guilde gagne ou perd du prestige en cas de réussite ou de défaite. Le gain/la perte dépend du niveau :
-* : +/- 1
-** : +/- 2
-*** : +/- 3
-**** : +/- 4
-***** : +/- 5
+★ : +/- 1
+★★ : +/- 2
+★★★ : +/- 3
+★★★★ : +/- 4
+★★★★★ : +/- 5
 S : +/- 10
-S* : +/- 11
-S** : +/- 12
-S*** : +/- 13
-S**** : +/- 14
-S***** : +/- 15
+S★ : +/- 11
+S★★ : +/- 12
+S★★★ : +/- 13
+S★★★★ : +/- 14
+S★★★★★ : +/- 15
 P : +/- 30
-P* : +/- 32
-P** : +/- 34
-P*** : +/- 36
-P**** : +/- 38
-P***** : +/- 50
+P★ : +/- 32
+P★★ : +/- 34
+P★★★ : +/- 36
+P★★★★ : +/- 38
+P★★★★★ : +/- 50
 U : +/- 500
 
 Pour déterminer si une équipe ou un membre solo de la guilde prend une mission ou pas :
@@ -115,7 +115,7 @@ Pour déterminer si une équipe ou un membre solo de la guilde prend une mission
 - Si un membre de l'équipe ou le membre solo à moins de 20 de moral, il ne prend pas de mission.
 - Si un membre possède moins de 50 de fatigue, il peut prendre une mission. S'il possède entre 50 et 75 de fatigue, il fera un D20 de constitution avec 12 en cible. S'il réussi, il peut prendre une mission. Il ne prendra pas de mission dans le cas contraire. S'il possède plus de 75 de fatigue, il ne prendra pas de mission et son équipe non plus.
 - Certains profil de personnage ne feront pas certains type de mission :
--- Enquête Niveau * à ***** : Stat d'intelligence minimum de 12
+-- Enquête Niveau ★ à ★★★★★ : Stat d'intelligence minimum de 12
 -- Enquête Niveau S et + : Stat d'intelligence minimum de 15
 -- Service Niveau : Stat de gentillesse minimum de 10 ou Empathie minimum de 10.
 -- Recherche mort ou vif : Stat d'intelligence minimum de 10.
@@ -128,16 +128,16 @@ La résolution dépend du niveau de la mission, sa catégorie, de la chance et d
 Dans le cas où une mission échoue et entraine une mort et qu'il s'agit d'une équipe : on détermine le nombre de mort avec une probabilité égale (exemple : équipe de 3 : 33,33% de chance qu'il y ai un mort, 33,33% 2 morts, 33,33% 3 morts).
 24h après la prise de mission, un/des jet(s) est/son effectué(s) pour déterminer si la mission continue, est réussie ou échoue. Le(s) jet(s) dépend(ent) de la catégorie :
 
-- Enquête : Minimum 1 jour. Ces missions ne se base que sur l'intelligence et le charisme : D20 de chaque avec cible à 10 pour les niveaux * à *****. Cible à 13 pour les S à S*****. Cible à 15 pour les P à P*****. Cible à 20 pour U. Si les deux jets sont réussi, la mission est réussi. Si les deux jets sont inférieurs à 10 deux jours d'affilé, la mission est perdu. Sinon elle continue. Quand la mission est réussie : 5% de chance de gagner 1 en intelligence ou 1 en charisme, sans pouvoir dépasser 20.
-- Escorte : Minimum 1 jour. La durée est fixé à la prise de la mission entre 1 et 4 jours pour les niveaux inférieur à P. 5 à 60 jour pour P et plus. 35% de chance qu'il ne se passe rien pendant l'escorte. dans ce cas la mission est gagné sans récompense autre que les écus. Dans le cas où il se passe quelque chose, la chance de réussite de la mission se base sur le niveau magique du/des membre(s) en fonction du niveau magique requis. Dans le cas où il s'agit d'une équipe, on prend le niveau moyen de l'équipe. Si le niveau de l'équipe/du membre solo est dans la range associé au niveau magique de la mission (exemple Niveau magique entre 41 et 60 pour une mission ***), alors la chance de réussir la mission est de 80%, la chance d'échouer la mission est de 15%, la chance de mourir est de 5%. Si le niveau magique de l'équipe/du membre solo est supérieur à la range de la mission, alors la chance de réussir la mission est de 90%, la chance de rater la mission est de 9%, la chance de mourir est de 1%. Si il y a plus de 2 rang d'écart entre le niveau magique du membre/équipe et le niveau magique requis, 99% réussite, 1% chance échouer. Quand la mission est réussie : Gain de niveau magique standard.
+- Enquête : Minimum 1 jour. Ces missions ne se base que sur l'intelligence et le charisme : D20 de chaque avec cible à 10 pour les niveaux ★ à ★★★★★. Cible à 13 pour les S à S★★★★★. Cible à 15 pour les P à P★★★★★. Cible à 20 pour U. Si les deux jets sont réussi, la mission est réussi. Si les deux jets sont inférieurs à 10 deux jours d'affilé, la mission est perdu. Sinon elle continue. Quand la mission est réussie : 5% de chance de gagner 1 en intelligence ou 1 en charisme, sans pouvoir dépasser 20.
+- Escorte : Minimum 1 jour. La durée est fixé à la prise de la mission entre 1 et 4 jours pour les niveaux inférieur à P. 5 à 60 jour pour P et plus. 35% de chance qu'il ne se passe rien pendant l'escorte. dans ce cas la mission est gagné sans récompense autre que les écus. Dans le cas où il se passe quelque chose, la chance de réussite de la mission se base sur le niveau magique du/des membre(s) en fonction du niveau magique requis. Dans le cas où il s'agit d'une équipe, on prend le niveau moyen de l'équipe. Si le niveau de l'équipe/du membre solo est dans la range associé au niveau magique de la mission (exemple Niveau magique entre 41 et 60 pour une mission ★★★), alors la chance de réussir la mission est de 80%, la chance d'échouer la mission est de 15%, la chance de mourir est de 5%. Si le niveau magique de l'équipe/du membre solo est supérieur à la range de la mission, alors la chance de réussir la mission est de 90%, la chance de rater la mission est de 9%, la chance de mourir est de 1%. Si il y a plus de 2 rang d'écart entre le niveau magique du membre/équipe et le niveau magique requis, 99% réussite, 1% chance échouer. Quand la mission est réussie : Gain de niveau magique standard.
 - Élimination de danger : Minimum 1 jour. Chaque jour, calcule de réussite en fonction du niveau magique moyen de l'équipe ou le niveau magique du membre solo : Si aligné avec le niveau de la mission : 60% réussite, 30% neutre (on continue une journée de plus), 5% échec, 5% mort. S'il y a un rang d'écart en terme de niveau magique entre le membre/l'équipe et la mission : 80% réussite, 15% neutre, 4% échec, 1% mort. S'il y a au moins 2 rang d'écart en terme de niveau magique entre le membre/l'équipe et la mission : 90% réussite, 9% neutre, 1% échec. Quand la mission est réussie : Gain de niveau magique élevé.
-- Recherche mort ou vif : Minimum 2 jours. Premier jour, D20 intelligence avec une cible à : 7 pour * à ***** ; 10 pour S à S***** ; 13 pour P et +. En cas d'échec au D20, échec de la mission. A partir du deuxième jour, deux possibilité déterminé par un D20 d'agilité avec une cible à 10. Si réussi, la cible sera capturé vivante. On se base sur le niveau magique : Si aligné avec le niveau de la mission : 60% réussite, 30% neutre (on continue une journée de plus), 5% échec, 5% mort. S'il y a un rang d'écart en terme de niveau magique entre le membre/l'équipe et la mission : 80% réussite, 15% neutre, 4% échec, 1% mort. S'il y a au moins 2 rang d'écart en terme de niveau magique entre le membre/l'équipe et la mission : 90% réussite, 9% neutre, 1% échec. Si le D20 d'agilité échoue, la cible sera tué : On se base sur le niveau magique : Si aligné avec le niveau de la mission : 50% réussite, 30% neutre (on continue une journée de plus), 15% échec, 5% mort. S'il y a un rang d'écart en terme de niveau magique entre le membre/l'équipe et la mission : 70% réussite, 25% neutre, 4% échec, 1% mort. S'il y a au moins 2 rang d'écart en terme de niveau magique entre le membre/l'équipe et la mission : 90% réussite, 5% neutre, 5% échec. Quand la mission est réussie : Gain de niveau magique élevé.
-- Capture vif : Minimum 2 jours. Premier jour, D20 intelligence avec une cible à : 7 pour * à ***** ; 10 pour S à S***** ; 13 pour P et +. En cas d'échec au D20, échec de la mission. A partir du deuxième jour, deux possibilité déterminé par un D20 d'agilité avec une cible à 10. Si réussi, la cible sera capturé vivante. On se base sur le niveau magique : Si aligné avec le niveau de la mission : 60% réussite, 30% neutre (on continue une journée de plus), 5% échec, 5% mort. S'il y a un rang d'écart en terme de niveau magique entre le membre/l'équipe et la mission : 80% réussite, 15% neutre, 4% échec, 1% mort. S'il y a au moins 2 rang d'écart en terme de niveau magique entre le membre/l'équipe et la mission : 90% réussite, 9% neutre, 1% échec. Si le D20 d'agilité échoue, la mission échoue. Quand la mission est réussie : Gain de niveau magique standard + 5% gain de 1 en agilité ou intelligence sans pouvoir dépasser 20.
+- Recherche mort ou vif : Minimum 2 jours. Premier jour, D20 intelligence avec une cible à : 7 pour ★ à ★★★★★ ; 10 pour S à S★★★★★ ; 13 pour P et +. En cas d'échec au D20, échec de la mission. A partir du deuxième jour, deux possibilité déterminé par un D20 d'agilité avec une cible à 10. Si réussi, la cible sera capturé vivante. On se base sur le niveau magique : Si aligné avec le niveau de la mission : 60% réussite, 30% neutre (on continue une journée de plus), 5% échec, 5% mort. S'il y a un rang d'écart en terme de niveau magique entre le membre/l'équipe et la mission : 80% réussite, 15% neutre, 4% échec, 1% mort. S'il y a au moins 2 rang d'écart en terme de niveau magique entre le membre/l'équipe et la mission : 90% réussite, 9% neutre, 1% échec. Si le D20 d'agilité échoue, la cible sera tué : On se base sur le niveau magique : Si aligné avec le niveau de la mission : 50% réussite, 30% neutre (on continue une journée de plus), 15% échec, 5% mort. S'il y a un rang d'écart en terme de niveau magique entre le membre/l'équipe et la mission : 70% réussite, 25% neutre, 4% échec, 1% mort. S'il y a au moins 2 rang d'écart en terme de niveau magique entre le membre/l'équipe et la mission : 90% réussite, 5% neutre, 5% échec. Quand la mission est réussie : Gain de niveau magique élevé.
+- Capture vif : Minimum 2 jours. Premier jour, D20 intelligence avec une cible à : 7 pour ★ à ★★★★★ ; 10 pour S à S★★★★★ ; 13 pour P et +. En cas d'échec au D20, échec de la mission. A partir du deuxième jour, deux possibilité déterminé par un D20 d'agilité avec une cible à 10. Si réussi, la cible sera capturé vivante. On se base sur le niveau magique : Si aligné avec le niveau de la mission : 60% réussite, 30% neutre (on continue une journée de plus), 5% échec, 5% mort. S'il y a un rang d'écart en terme de niveau magique entre le membre/l'équipe et la mission : 80% réussite, 15% neutre, 4% échec, 1% mort. S'il y a au moins 2 rang d'écart en terme de niveau magique entre le membre/l'équipe et la mission : 90% réussite, 9% neutre, 1% échec. Si le D20 d'agilité échoue, la mission échoue. Quand la mission est réussie : Gain de niveau magique standard + 5% gain de 1 en agilité ou intelligence sans pouvoir dépasser 20.
 - Protection d'un lieu : Minimum 1 jour, Maximum 3 jours, avec autant de probabilité pour chaque nombre de jour. Deux cas de figure : 50% qu'il ne se passe rien. Si c'est le cas, la mission est réussie sans gain hors écus. Dans le cas contraire, le membre solo ou les membres de l'équipes doivent faire un D20 de calme et un D20 d'endurance chaque jour, avec une cible à 10. En cas d'échec (au moins un membre de l'équipe ou le membre solo) : Si Niveau magique aligné avec le niveau de la mission : 40% réussite, 40% échec, 15% neutre, 5% mort. S'il y a un rang d'écart en terme de niveau magique entre le membre/l'équipe et la mission : 70% réussite, 4% neutre, 25% échec, 1% mort. S'il y a au moins 2 rang d'écart en terme de niveau magique entre le membre/l'équipe et la mission : 90% réussite, 9% échec, 1% neutre. Si les D20 de calme et d'endurance sont réussi : : Si Niveau magique aligné avec le niveau de la mission : 90% réussite, 3% échec, 4% neutre, 3% mort. S'il y a un rang d'écart en terme de niveau magique entre le membre/l'équipe et la mission : 90% réussite, 7% neutre, 2% échec, 1% mort. S'il y a au moins 2 rang d'écart en terme de niveau magique entre le membre/l'équipe et la mission : 95% réussite, 1% échec, 4% neutre. Quand la mission est réussie : Gain de niveau magique standard + 5% gain de 1 en calme ou endurance sans pouvoir dépasser 20.
-- Recherche d'un objet : Minimum 1 jour. Chaque jour, D20 intelligence, D20 Frustration, D20 Charisme avec la cible : 10 pour niveau * à *****, 12 pour S à S***** et 15 pour P et +. En cas de réussite des jets : 80% réussite, 15% neutre, 5% échouer. Si au moins 2 des 3 D20 échoue, 80% neutre, 15% échouer, 5% réussite. Quand la mission est réussie : 5% de chance de gagner 1 en intelligence, Frustration ou 1 en charisme, sans pouvoir dépasser 20.
-- Recherche d'un ingrédient : Minimum 1 jour. Chaque jour, D20 Force, D20 Frustration, D20 Agilité avec la cible : 10 pour niveau * à *****, 12 pour S à S***** et 15 pour P et +. En cas de réussite des jets : 80% réussite, 15% neutre, 5% échouer. Si au moins 2 des 32 D20 échoue, 80% neutre, 15% échouer, 5% réussite. Quand la mission est réussie : 5% de chance de gagner 1 en Force, Frustration ou 1 en Agilité, sans pouvoir dépasser 20.
-- Recherche d'un animal : Minimum 1 jour. Chaque jour, D20 Vitesse, D20 Endurance, D20 Agilité avec la cible : 10 pour niveau * à *****, 12 pour S à S***** et 15 pour P et +. En cas de réussite des jets : 79% réussite, 15% neutre, 5% échouer, 1% mort. Si au moins 2 des 3 D20 échoue, 79% neutre, 15% échouer, 5% réussite, 1% mort. Quand la mission est réussie : 5% de chance de gagner 1 en Vitesse, Endurance ou 1 en Agilité, sans pouvoir dépasser 20.
-- Service : Minimum 1 jour. Chaque jour, D20 Empathie, D20 Gentillesse, D20 Communication avec la cible : 10 pour niveau * à *****, 12 pour S à S***** et 15 pour P et +. En cas de réussite des jets : 80% réussite, 15% neutre, 5% échouer. Si au moins 2 des 3 D20 échoue, 80% neutre, 15% échouer, 5% réussite. Quand la mission est réussie : 5% de chance de gagner 1 en Empathie, Communication ou 1 en Gentillesse, sans pouvoir dépasser 20.
+- Recherche d'un objet : Minimum 1 jour. Chaque jour, D20 intelligence, D20 Frustration, D20 Charisme avec la cible : 10 pour niveau ★ à ★★★★★, 12 pour S à S★★★★★ et 15 pour P et +. En cas de réussite des jets : 80% réussite, 15% neutre, 5% échouer. Si au moins 2 des 3 D20 échoue, 80% neutre, 15% échouer, 5% réussite. Quand la mission est réussie : 5% de chance de gagner 1 en intelligence, Frustration ou 1 en charisme, sans pouvoir dépasser 20.
+- Recherche d'un ingrédient : Minimum 1 jour. Chaque jour, D20 Force, D20 Frustration, D20 Agilité avec la cible : 10 pour niveau ★ à ★★★★★, 12 pour S à S★★★★★ et 15 pour P et +. En cas de réussite des jets : 80% réussite, 15% neutre, 5% échouer. Si au moins 2 des 32 D20 échoue, 80% neutre, 15% échouer, 5% réussite. Quand la mission est réussie : 5% de chance de gagner 1 en Force, Frustration ou 1 en Agilité, sans pouvoir dépasser 20.
+- Recherche d'un animal : Minimum 1 jour. Chaque jour, D20 Vitesse, D20 Endurance, D20 Agilité avec la cible : 10 pour niveau ★ à ★★★★★, 12 pour S à S★★★★★ et 15 pour P et +. En cas de réussite des jets : 79% réussite, 15% neutre, 5% échouer, 1% mort. Si au moins 2 des 3 D20 échoue, 79% neutre, 15% échouer, 5% réussite, 1% mort. Quand la mission est réussie : 5% de chance de gagner 1 en Vitesse, Endurance ou 1 en Agilité, sans pouvoir dépasser 20.
+- Service : Minimum 1 jour. Chaque jour, D20 Empathie, D20 Gentillesse, D20 Communication avec la cible : 10 pour niveau ★ à ★★★★★, 12 pour S à S★★★★★ et 15 pour P et +. En cas de réussite des jets : 80% réussite, 15% neutre, 5% échouer. Si au moins 2 des 3 D20 échoue, 80% neutre, 15% échouer, 5% réussite. Quand la mission est réussie : 5% de chance de gagner 1 en Empathie, Communication ou 1 en Gentillesse, sans pouvoir dépasser 20.
 - Renfort pour Assaut : Minimum 1 jour. Chaque jour, calcule de réussite en fonction du niveau magique moyen de l'équipe ou le niveau magique du membre solo : Si aligné avec le niveau de la mission : 60% réussite, 30% neutre (on continue une journée de plus), 5% échec, 5% mort. S'il y a un rang d'écart en terme de niveau magique entre le membre/l'équipe et la mission : 80% réussite, 15% neutre, 4% échec, 1% mort. S'il y a au moins 2 rang d'écart en terme de niveau magique entre le membre/l'équipe et la mission : 90% réussite, 9% neutre, 1% échec. Quand la mission est réussie : Gain de niveau magique élevé.
 
 Gain niveau magique :
@@ -151,7 +151,7 @@ FORMULE DE PROGRESSION MAGIQUE VALIDÉE (20 COURBES DE MOTIVATION)
 NouveauNiveau = Min(NiveauActuel + Gain, Potentiel)
 CheminRestant = (Potentiel - NiveauActuel) / Potentiel
 Exposant = ((20 - Motivation) ^ 2) / 38
-Gain = VitesseBase * (CheminRestant ^ Exposant)
+Gain = VitesseBase ★ (CheminRestant ^ Exposant)
 
 Variables :
 - NiveauActuel : niveau magique réel actuel, décimales conservées en interne.
@@ -197,22 +197,22 @@ Quand une mission est terminé (réussie ou perdu), les membres qui rentre gagne
 
 
 Rareté des spawn de mission :
-* : 10
-** : 18
-*** : 18.5
-**** : 16
-***** : 15
+★ : 10
+★★ : 18
+★★★ : 18.5
+★★★★ : 16
+★★★★★ : 15
 S : 3
-S* : 2.8
-S** : 2.6
-S*** : 2.4
-S**** : 2.2
-S***** : 2
+S★ : 2.8
+S★★ : 2.6
+S★★★ : 2.4
+S★★★★ : 2.2
+S★★★★★ : 2
 P : 1.5
-P* : 1.4
-P** : 1.3
-P*** : 1.2
-P**** : 1.1
-P***** : 1
+P★ : 1.4
+P★★ : 1.3
+P★★★ : 1.2
+P★★★★ : 1.1
+P★★★★★ : 1
 U : 0%
 Si la guilde ne possède pas de membre du rang nécessaire, la mission de ce niveau ne spawn pas et est rejoué.
