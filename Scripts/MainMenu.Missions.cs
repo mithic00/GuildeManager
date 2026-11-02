@@ -69,12 +69,20 @@ public partial class MainMenu
         TirerApparitionAuJalon(maintenant);
 
         TerminerMissionsArrivees(maintenant);
-        if (TraiterRetoursConcours(maintenant)) return true;
+        bool concoursTermine = TraiterRetoursConcours(maintenant);
         if (maintenant.Hour == 8 && maintenant.Minute == 0)
             ActualiserReposEtMoral();
         if (maintenant.Minute == 0 &&
             (maintenant.Hour == 8 || maintenant.Hour == 12 || maintenant.Hour == 16))
             ProposerMissionsAuxEquipes(maintenant);
+
+        // Les traitements de 08h ne doivent pas être sautés si un concours
+        // se termine exactement à ce jalon. Arrêter ensuite l'horloge.
+        if (concoursTermine)
+        {
+            InterrompreAvanceeTemps();
+            return true;
+        }
 
         if (string.IsNullOrWhiteSpace(_etatMissions.DateAnnoncePrevue) ||
             maintenant < ReglesMissions.LireDate(_etatMissions.DateAnnoncePrevue))
