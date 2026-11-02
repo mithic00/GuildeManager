@@ -63,6 +63,7 @@ public partial class MainMenu : Control
         InitialiserNavigationMagasins();
         InitialiserMissions();
         InitialiserGestionMembres();
+        InitialiserDiscussions();
         ActualiserAnniversaires();
         if (_horloge != null)
             TraiterRetoursConcours(_horloge.Instant);
