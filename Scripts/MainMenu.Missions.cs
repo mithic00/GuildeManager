@@ -578,7 +578,7 @@ public partial class MainMenu
                     ? "Equipe de " + survivants[0].NomComplet
                     : survivants[0].NomComplet;
                 AjouterEntreeJournal(sujetRetour + " rentre de mission (" +
-                    mission.Rang + " : " + mission.Categorie + ").", "mission");
+                    ReglesMissions.FormaterRang(mission.Rang) + " : " + mission.Categorie + ").", "mission");
             }
 
             foreach (MembreGuilde mort in morts) _registreMembres.Membres.Remove(mort);
