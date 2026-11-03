@@ -251,9 +251,7 @@ public partial class MainMenu
     private void MontrerTranscriptionFilRouge(string portrait, string interlocuteur,
         string transcription, params (string Texte, string Action)[] options)
     {
-        AfficherFilRouge(portrait, interlocuteur, transcription, options);
-        _resultatDiscussion.Text = transcription.Replace(
-            "{Nom de la guilde}", _nomGuilde?.Text ?? "");
+        AfficherTranscriptionFilRouge(portrait, interlocuteur, transcription, options);
     }
 
     private void AfficherActeI(string n)
