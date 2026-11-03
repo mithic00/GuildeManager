@@ -233,12 +233,11 @@ public partial class MainMenu
         foreach (string nom in new[]
         {
             "BoutonTableauMission", "BoutonMembreGuilde", "BoutonMagasins",
-            "BoutonRecrutement", "BoutonBudget", "BoutonEvenements", "BoutonQuitter"
+            "BoutonRecrutement", "BoutonBudgetInventaire", "BoutonCalendrier", "BoutonQuitter"
         })
         {
-            Button boutonMenu = GetNodeOrNull<Button>("MargeChoixMenu/BoutonsMenu/" + nom);
-            if (boutonMenu != null)
-                boutonMenu.Disabled = _tempsEnCours;
+            Button boutonMenu = GetNode<Button>("MargeChoixMenu/BoutonsMenu/" + nom);
+            boutonMenu.Disabled = _tempsEnCours;
         }
 
         if (_progressionTemps != null)
