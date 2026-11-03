@@ -101,6 +101,8 @@ public partial class MainMenu
             .Where(m => m.Id != _membreConsulte.Id).OrderBy(m => m.NomComplet))
         {
             int valeur = RelationsMembres.Lire(_membreConsulte, autre);
+            // Les liens neutres à 0 restent enregistrés mais ne sont pas affichés.
+            if (valeur == 0) continue;
             string lien = autre.NomComplet + " : " + RelationsMembres.Qualifier(valeur) +
                 " (" + (valeur > 0 ? "+" : "") + valeur + ")";
             // Neutre couvre bien toute la plage -9 à +9.
