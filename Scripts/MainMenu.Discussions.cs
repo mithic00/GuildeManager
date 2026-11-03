@@ -16,6 +16,8 @@ public partial class MainMenu
     private MembreGuilde _cibleDiscussion;
     private bool _connaissanceAContinuer;
     private bool _discussionEnCours;
+    // L'échange de soutien n'est résolu qu'après un choix explicite du joueur.
+    private bool _soutienMoralEnAttente;
 
     private void InitialiserDiscussions()
     {
@@ -37,7 +39,7 @@ public partial class MainMenu
         _boutonRemonterMoral = GetNodeOrNull<Button>(interfaceDialogue +
             "ListeSujetDiscussion/BoutonRemonterMoral");
         if (_boutonRemonterMoral != null)
-            _boutonRemonterMoral.Pressed += ResoudreSoutienMoral;
+            _boutonRemonterMoral.Pressed += ProposerSoutienMoral;
         else
             GD.PushWarning("MainMenu : BoutonRemonterMoral absent de la scène. " +
                 "Synchronisez MainMenu.tscn avec la version locale.");
@@ -50,6 +52,15 @@ public partial class MainMenu
             if (_filRougeDialogueActif) return; // Le moteur scénarisé gère ses choix.
             int choix = (int)index;
             _listeReponsesDiscussion.DeselectAll();
+            if (_soutienMoralEnAttente)
+            {
+                _soutienMoralEnAttente = false;
+                if (choix == 0)
+                    ResoudreSoutienMoral();
+                else
+                    FermerDiscussion();
+                return;
+            }
             if (choix == 0 && _connaissanceAContinuer)
                 ResoudreDiscussion(false, true);
             else
@@ -123,6 +134,7 @@ public partial class MainMenu
         }
         if (!DialogueAccessible(_membreConsulte, true)) return;
         _cibleDiscussion = _membreConsulte;
+        _soutienMoralEnAttente = false;
         _connaissanceAContinuer = false;
         _discussionEnCours = false;
         _resultatDiscussion.Text = "Choisissez un sujet pour discuter avec " +
@@ -166,6 +178,38 @@ public partial class MainMenu
             : moralSuffisant
                 ? "Ce membre n'a pas besoin de soutien moral (moral supérieur ou égal à 80)."
                 : "Encourager ce membre (D20 Empathie, 20 minutes, une fois par jour).";
+    }
+
+    private void ProposerSoutienMoral()
+    {
+        if (_discussionEnCours || _cibleDiscussion == null || _horloge == null)
+            return;
+        if (!DialogueAccessible(_cibleDiscussion, true, verifierHoraire: false))
+        {
+            FermerDiscussion();
+            return;
+        }
+        if (_cibleDiscussion.DerniereTentativeRemonterMoral ==
+                DateJourDiscussion(_horloge.Instant) || _cibleDiscussion.Moral >= 80)
+        {
+            ActualiserBoutonRemonterMoral();
+            return;
+        }
+
+        _connaissanceAContinuer = false;
+        _soutienMoralEnAttente = true;
+        _resultatDiscussion.Text =
+            "Vous : Tu n'as pas l'air dans ton assiette en ce moment. Quelque chose ne va pas ?" +
+            "\n" + _cibleDiscussion.Prenom +
+            " : C'est vrai que ces derniers temps, ce n'est pas facile...";
+
+        // Pas de jet ni de dépense de temps à ce stade : le joueur choisit.
+        _sujetsDiscussion.Hide();
+        _reponsesDiscussion.Show();
+        _listeReponsesDiscussion.Clear();
+        _listeReponsesDiscussion.AddItem(
+            "Si tu as besoin de parler, je suis là. On est une équipe après tout. (D20 Empathie)");
+        _listeReponsesDiscussion.AddItem("Mettre fin à la conversation");
     }
 
     private void ResoudreSoutienMoral()
@@ -219,9 +263,7 @@ public partial class MainMenu
             : "Merci... Mais j'ai surtout besoin d'un peu de temps pour moi.";
 
         _resultatDiscussion.Text =
-            "Vous : Tu n'as pas l'air dans ton assiette en ce moment. Quelque chose ne va pas ?" +
-            "\n" + cible.Prenom + " : C'est vrai que ces derniers temps, ce n'est pas facile..." +
-            "\nVous : Si tu as besoin de parler, je suis là. On est une équipe après tout." +
+            "Vous : Si tu as besoin de parler, je suis là. On est une équipe après tout." +
             "\n" + cible.Prenom + " : " + replique +
             "\n\nJet d'Empathie : " + jet +
             (critique ? "\nRéussite critique !" : "") +
@@ -460,6 +502,7 @@ public partial class MainMenu
         _fenetreDiscussion?.Hide();
         _cibleDiscussion = null;
         _connaissanceAContinuer = false;
+        _soutienMoralEnAttente = false;
         _discussionEnCours = false;
     }
 
