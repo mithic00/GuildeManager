@@ -398,7 +398,7 @@ public partial class MainMenu
                     "Charles Suriname : Une guilde ? Dans ce trou à rat ? Pff ! Ridicule !\n" +
                     "Joueur : Il faut bien partir de quelque part...\n" +
                     "Charles Suriname : Qu'on soit clair : ici c'est Facon qui commande. Vous avez pas intérêt à marcher sur nos plates bandes.",
-                    ("Continuer (D20 Calme, cible 15)", "i-calmepoli"));
+                    ("Continuer (D20 Calme)", "i-calmepoli"));
                 return;
 
             case "i-calme-conclusion-ok":
@@ -414,7 +414,7 @@ public partial class MainMenu
             case "i-aider":
                 MontrerFilRouge("Charles", charles,
                     "M'aider ? Moi ? Ha ha ! Il est mignon lui ! Qu'est ce que vous faites dans ce taudis ?",
-                    ("Sortez d'ici svp... (D20 Charisme, cible 13)", "i-sortez"),
+                    ("Sortez d'ici svp... (D20 Charisme)", "i-sortez"),
                     ("Nous avons créer une guilde à Rose-Vallée, pour venir en aide aux habitants", "i-nous"));
                 return;
             case "i-sortez-reussi":
@@ -430,7 +430,7 @@ public partial class MainMenu
                 else
                     MontrerFilRouge("Charles", charles,
                         "C'est à moi que tu parles ?",
-                        ("Ouais c'est à toi ! Et tu commences à me les briser alors il va falloir que tu redescendes (D20 Charisme, cible 15)",
+                        ("Ouais c'est à toi ! Et tu commences à me les briser alors il va falloir que tu redescendes (D20 Charisme)",
                         "i-intimider"));
                 return;
             case "i-calmez-reponse":
@@ -451,14 +451,14 @@ public partial class MainMenu
             case "i-nous":
                 MontrerFilRouge("Charles", charles,
                     "Trop mignon ! Vous avez pas intérêt a marcher sur les plates bandes de Facon. Sinon vous allez entendre parler de nous.",
-                    ("Continuer (D20 Calme, cible 15)", "i-calmepoli"));
+                    ("Continuer (D20 Calme)", "i-calmepoli"));
                 return;
 
             // CHOIX 3 : seul ce chemin peut afficher « Oui... Pardon... ».
             case "i-salut-replique":
                 MontrerFilRouge("Charles", charles,
                     "Tu fais le malin ? Tu sais à qui tu as affaire là ?",
-                    ("Continuer (D20 Calme, cible 15)", "i-salut-test"));
+                    ("Continuer (D20 Calme)", "i-salut-test"));
                 return;
             case "i-salut-reussi":
                 MontrerTranscriptionFilRouge("Charles", charles,
@@ -480,7 +480,7 @@ public partial class MainMenu
             case "i-partez-echec":
                 MontrerFilRouge("Charles", charles,
                     "C'est moi qui déciderait quand je partirais. Tout comme c'est Facon qui décide ici. Vous avez pas intérêt a marcher sur nos plates bandes.",
-                    ("Continuer (D20 Calme, cible 15)", "i-calmepoli"));
+                    ("Continuer (D20 Calme)", "i-calmepoli"));
                 return;
         }
         GD.PushWarning("Acte I Rose-Vallée : noeud non reconnu : " + n);
@@ -538,12 +538,12 @@ public partial class MainMenu
     {
         var choix = new System.Collections.Generic.List<(string,string)>
         {
-            ("Et sur quoi s'appuie-t-il pour affirmer ça ? (D20 Intelligence, 12)","ii-preuve"),
-            ("Facon peut bien raconter ce qu'elle veut. Vous êtes libres de choisir votre guilde. (D20 Charisme, 13)","ii-soutien"),
+            ("Et sur quoi s'appuie-t-il pour affirmer ça ? (D20 Intelligence)","ii-preuve"),
+            ("Facon peut bien raconter ce qu'elle veut. Vous êtes libres de choisir votre guilde. (D20 Charisme)","ii-soutien"),
             ("Qu'ils gardent leurs contrats. Je n'ai pas envie d'entrer en conflit avec Facon.","ii-abandon")
         };
         if (StatJoueurFilRouge("Calme") < 10)
-            choix.Add(("Je vais m'occuper personnellement de cet individu. (D20 Charisme, 16)","ii-agressif"));
+            choix.Add(("Je vais m'occuper personnellement de cet individu. (D20 Charisme)","ii-agressif"));
         return choix.ToArray();
     }
 
@@ -562,9 +562,9 @@ public partial class MainMenu
                     n=="iii-soupcon"?"Comment... Comment êtes-vous au courant ?":
                     "Non, non ! Rien de tout ça ! C'est plutôt embarrassant pour nous.")+
                     "\nPlusieurs habitants ont déposé des demandes à votre attention. Seulement, ces missions ont finalement été confiées à Facon. Et les documents portent une autorisation de votre guilde.\nVous : Une autorisation ? Nous n'avons rien signé !\nÉtienne : C'est bien ce qui m'inquiète.",
-                    ("Montrez-moi ces documents. (D20 Intelligence, 12)","iii-documents"),
+                    ("Montrez-moi ces documents. (D20 Intelligence)","iii-documents"),
                     ("Je veux savoir qui a fait ça.","iii-enquete"),
-                    ("Je vais aller régler ça à Liberta ! (D20 Calme, 14)","iii-liberta"));return;
+                    ("Je vais aller régler ça à Liberta ! (D20 Calme)","iii-liberta"));return;
             case "iii-documents-ok":
                 MontrerFilRouge("Étienne",nom,"Vous : Cette signature est fausse. Et regardez cette date... Notre guilde n'avait même pas encore ouvert !\nPar les Esprits... Vous avez raison ! Il va falloir que j'en informe le Seigneur.",
                     ("Terminer la conversation","iii-fin-preuve"));return;
@@ -608,7 +608,7 @@ public partial class MainMenu
                     ("Terminer la conversation","iv-fin-abandon"));return;
             case "iv-rue4":
                 MontrerFilRouge("Saboteur","Saboteur de Facon","Vous retrouvez les deux hommes près d'un chemin longeant la rivière.\nQuoi ? Qu'est-ce que vous nous voulez ?",
-                    ("Je sais ce que vous avez fait. Dites-moi qui vous a envoyés ! (D20 Charisme, 16)","iv-saboteur"));return;
+                    ("Je sais ce que vous avez fait. Dites-moi qui vous a envoyés ! (D20 Charisme)","iv-saboteur"));return;
             case "iv-saboteur-ok":
                 MontrerFilRouge("Saboteur","Saboteur de Facon","On nous a payés, d'accord ?! Un type de Facon ! Mais on ne devait blesser personne !",
                     ("Terminer la conversation","iv-fin-saboteur"));return;
@@ -667,12 +667,12 @@ public partial class MainMenu
     {
         var choix = new System.Collections.Generic.List<(string,string)>
         {
-            ("Les habitants ne vous appartiennent pas. (D20 Charisme, 15)","v-adversaire"),
-            ("Nous pourrions travailler ensemble, plutôt que de nous battre. (D20 Charisme, 13)","v-diplomatie")
+            ("Les habitants ne vous appartiennent pas. (D20 Charisme)","v-adversaire"),
+            ("Nous pourrions travailler ensemble, plutôt que de nous battre. (D20 Charisme)","v-diplomatie")
         };
         if (_filRouge.PreuveCommerciale || _filRouge.TemoignageFavorable ||
             _filRouge.PreuveFalsification || _filRouge.PreuveSabotage)
-            choix.Add(("J'ai des preuves de vos agissements. (D20 Calme, 2)","v-preuves"));
+            choix.Add(("J'ai des preuves de vos agissements. (D20 Calme)","v-preuves"));
         choix.Add(("Que voulez-vous exactement ?","v-accord"));
         return choix.ToArray();
     }
@@ -686,10 +686,10 @@ public partial class MainMenu
                 var choix = new System.Collections.Generic.List<(string,string)>
                 {
                     ("Je demande que notre indépendance soit officiellement reconnue. (D20 Charisme)","vi-independance"),
-                    ("Nous proposons une coopération entre nos deux guildes. (D20 Charisme, 11)","vi-cooperation")
+                    ("Nous proposons une coopération entre nos deux guildes. (D20 Charisme)","vi-cooperation")
                 };
                 if (_filRouge.PreuveFalsification)
-                    choix.Add(("Facon a falsifié des contrats ! (D20 Intelligence, 8)","vi-accusation"));
+                    choix.Add(("Facon a falsifié des contrats ! (D20 Intelligence)","vi-accusation"));
                 if (!_filRouge.AccordDependance)
                     choix.Add(("Je souhaite confirmer l'accord proposé par Facon.","vi-soumission"));
                 MontrerFilRouge("Seigneur",nom,
