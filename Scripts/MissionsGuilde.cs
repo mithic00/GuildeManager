@@ -175,6 +175,21 @@ public static class ReglesMissions
         DateTime.ParseExact(date, "yyyy-MM-dd'T'HH:mm:ss",
             CultureInfo.InvariantCulture, DateTimeStyles.None);
 
+    public static int GenererRecompense(string rang, string categorie, double multiplicateur = 1.0)
+    {
+        int index = IndexRang(rang);
+        int debut = MinEcus[index];
+        int fin = MaxEcus[index];
+        int position = Categories.FirstOrDefault(c => c.Nom == categorie).PositionPrix;
+        int amplitude = fin - debut;
+        int borneMin = debut + amplitude * position / 3;
+        int borneMax = position == 2 ? fin :
+            debut + amplitude * (position + 1) / 3;
+        return Math.Max(0, (int)Math.Round(
+            Random.Shared.Next(borneMin, borneMax + 1) * multiplicateur,
+            MidpointRounding.AwayFromZero));
+    }
+
     public static MissionGuilde Generer(IEnumerable<MembreGuilde> membres,
         double facteurCommercants = 1.0)
     {
