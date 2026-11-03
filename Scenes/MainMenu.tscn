@@ -2838,6 +2838,10 @@ horizontal_alignment = 1
 [node name="RésultatDiscussion" type="RichTextLabel" parent="FenetreDiscussion/LayoutConversation/Layout" unique_id=1638677153]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_font_sizes/normal_font_size = 35
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="InterfaceInteractive" type="HBoxContainer" parent="FenetreDiscussion/LayoutConversation/Layout" unique_id=1681547244]
 layout_mode = 2
@@ -2846,6 +2850,7 @@ alignment = 1
 
 [node name="PortraitCible" type="TextureRect" parent="FenetreDiscussion/LayoutConversation/Layout/InterfaceInteractive" unique_id=1777711225]
 custom_minimum_size = Vector2(160, 160)
+custom_maximum_size = Vector2(160, 160)
 layout_mode = 2
 texture = ExtResource("26_iqn0u")
 expand_mode = 1
@@ -2879,41 +2884,14 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Conversation Amicale"
 
-[node name="ListeReponsesConversation" type="GridContainer" parent="FenetreDiscussion/LayoutConversation/Layout/InterfaceInteractive" unique_id=757848097]
+[node name="ListeReponsesConversation" type="ItemList" parent="FenetreDiscussion/LayoutConversation/Layout/InterfaceInteractive" unique_id=700043200]
 visible = false
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_constants/h_separation = 30
-theme_override_constants/v_separation = 30
-columns = 2
-
-[node name="BoutonReponse1" type="Button" parent="FenetreDiscussion/LayoutConversation/Layout/InterfaceInteractive/ListeReponsesConversation" unique_id=780919891]
-custom_minimum_size = Vector2(260, 65)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="BoutonReponse2" type="Button" parent="FenetreDiscussion/LayoutConversation/Layout/InterfaceInteractive/ListeReponsesConversation" unique_id=1919008185]
-custom_minimum_size = Vector2(260, 65)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="BoutonReponse3" type="Button" parent="FenetreDiscussion/LayoutConversation/Layout/InterfaceInteractive/ListeReponsesConversation" unique_id=183542067]
-custom_minimum_size = Vector2(260, 65)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="BoutonReponse4" type="Button" parent="FenetreDiscussion/LayoutConversation/Layout/InterfaceInteractive/ListeReponsesConversation" unique_id=1641562276]
-custom_minimum_size = Vector2(260, 65)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_horizontal = 3
 
 [node name="PortraitJoueur" type="TextureRect" parent="FenetreDiscussion/LayoutConversation/Layout/InterfaceInteractive" unique_id=745771779]
 custom_minimum_size = Vector2(160, 160)
+custom_maximum_size = Vector2(160, 160)
 layout_mode = 2
 texture = ExtResource("27_3u44c")
 expand_mode = 1
