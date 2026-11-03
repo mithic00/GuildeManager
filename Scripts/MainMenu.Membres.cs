@@ -12,6 +12,9 @@ public partial class MainMenu
     private ItemList _listeDesMembres;
     private Window _fenetreFiche;
     private Control _contenuFiche, _contenuGestion;
+    private Control _layoutStatsFiche;
+    private RichTextLabel _autresInfosFiche;
+    private Button _boutonAutreInfoFiche;
     private RegistreMembresGuilde _registreMembres;
     private readonly List<MembreGuilde> _membresAffiches = new();
     private MembreGuilde _membreConsulte;
@@ -31,6 +34,13 @@ public partial class MainMenu
         _fenetreFiche = GetNode<Window>("FenetreFichePerso");
         _contenuFiche = GetNode<Control>("FenetreFichePerso/MargeFichePerso");
         _contenuGestion = GetNode<Control>("FenetreFichePerso/LayoutGestion");
+        const string layoutFiche = "FenetreFichePerso/MargeFichePerso/Layout/";
+        _layoutStatsFiche = GetNode<Control>(layoutFiche + "LayoutStats");
+        _autresInfosFiche = GetNode<RichTextLabel>(layoutFiche + "AutresInfos");
+        _autresInfosFiche.Hide();
+        _boutonAutreInfoFiche = GetNode<Button>(
+            layoutFiche + "Boutons/GridContainer/BoutonAutreInfo");
+        _boutonAutreInfoFiche.Pressed += BasculerAutresInfosFiche;
         // La fenêtre de discussion est indépendante de la fiche personnage.
 
         GetNode<Button>(racine + "BoutonMembreGuilde").Pressed += AfficherListeMembres;
@@ -49,7 +59,6 @@ public partial class MainMenu
         GetNode<Button>(actions + "BoutonFermer").Pressed += FermerFiche;
         GetNode<Button>(actions + "BoutonGestion").Pressed += AfficherGestion;
         // Le bouton Social et ses sous-pages sont reliés par MainMenu.GestionMembres.cs.
-        GetNode<Button>(actions + "BoutonVirer").Disabled = true; // Le maître ne peut pas s'exclure lui-même.
         const string gestion = "FenetreFichePerso/LayoutGestion/Boutons/";
         GetNode<Button>(gestion + "BoutonRetour").Pressed += RetourFiche;
         // Actions des trois boutons connectées par InitialiserGestionMembres().
@@ -221,6 +230,7 @@ public partial class MainMenu
     {
         if (index < 0 || index >= _membresAffiches.Count) return;
         _membreConsulte = _membresAffiches[index];
+        ReinitialiserVueFiche();
         RemplirFiche(_membreConsulte);
         RetourFiche();
         _fenetreFiche.PopupCentered();
@@ -319,6 +329,114 @@ public partial class MainMenu
         string cheminUtilise = m.EstMaitreDeGuilde && ResourceLoader.Exists(cheminPortrait)
             ? cheminPortrait : cheminDefaut;
         portrait.Texture = ResourceLoader.Load<Texture2D>(cheminUtilise);
+        RemplirAutresInfosFiche(m);
+    }
+
+    /// <summary>
+    /// Bascule entre les caractéristiques et les autres renseignements.
+    /// La partie supérieure (portrait, identité, niveau) reste affichée.
+    /// </summary>
+    private void BasculerAutresInfosFiche()
+    {
+        if (_membreConsulte == null) return;
+        bool afficherAutresInfos = !_autresInfosFiche.Visible;
+        _layoutStatsFiche.Visible = !afficherAutresInfos;
+        _autresInfosFiche.Visible = afficherAutresInfos;
+        _boutonAutreInfoFiche.Text = afficherAutresInfos
+            ? "Statistiques" : "Autre Info";
+        if (afficherAutresInfos)
+            RemplirAutresInfosFiche(_membreConsulte);
+    }
+
+    private void ReinitialiserVueFiche()
+    {
+        _layoutStatsFiche.Show();
+        _autresInfosFiche.Hide();
+        _boutonAutreInfoFiche.Text = "Autre Info";
+    }
+
+    private void RemplirAutresInfosFiche(MembreGuilde membre)
+    {
+        if (membre == null || _autresInfosFiche == null) return;
+        var texte = new StringBuilder();
+
+        texte.AppendLine("IDENTITÉ ET PARCOURS");
+        texte.AppendLine("Race : " + (string.IsNullOrWhiteSpace(membre.Race) ? "Inconnue" : membre.Race));
+        texte.AppendLine("Sexe : " + (membre.Sexe == "F" ? "Femme" :
+            membre.Sexe == "H" ? "Homme" : "Non renseigné"));
+        DateTime? naissance = membre.LireDateNaissance();
+        texte.AppendLine("Date de naissance : " +
+            (naissance.HasValue ? naissance.Value.ToString("d MMMM yyyy", Francais) :
+                "Inconnue"));
+        texte.AppendLine("Métier : " +
+            (string.IsNullOrWhiteSpace(membre.Metier) ? "Aucun renseigné" : membre.Metier));
+        texte.AppendLine("Rôle dans la guilde : " +
+            (membre.EstMaitreDeGuilde ? "Maître de guilde" :
+                membre.EstAdjoint ? "Adjoint" : "Membre"));
+        texte.AppendLine();
+
+        texte.AppendLine("COMPÉTENCES");
+        var competences = membre.Competences == null
+            ? new List<string>()
+            : membre.Competences.Where(nom => !string.IsNullOrWhiteSpace(nom))
+                .Distinct(StringComparer.CurrentCultureIgnoreCase)
+                .OrderBy(nom => nom, StringComparer.CurrentCultureIgnoreCase).ToList();
+        if (competences.Count == 0)
+            texte.AppendLine("Aucune compétence renseignée.");
+        else
+            foreach (string competence in competences)
+                texte.AppendLine("• " + competence);
+        texte.AppendLine();
+
+        texte.AppendLine("CARRIÈRE ET FINANCES");
+        texte.AppendLine("Écus personnels : " +
+            membre.EcusPersonnels.ToString("N0", Francais) + " écus");
+        var succes = membre.MissionsReussiesParRang;
+        if (succes == null || succes.Count == 0 || succes.All(x => x.Value <= 0))
+        {
+            texte.AppendLine("Missions réussies : aucune");
+        }
+        else
+        {
+            texte.AppendLine("Missions réussies : " +
+                succes.Values.Where(nombre => nombre > 0).Sum() + " au total");
+            foreach (var rang in succes.Where(x => x.Value > 0)
+                .OrderBy(x =>
+                {
+                    int index = Array.IndexOf(ReglesMissions.Rangs, x.Key);
+                    return index < 0 ? int.MaxValue : index;
+                }))
+                texte.AppendLine("• Rang " + ReglesMissions.FormaterRang(rang.Key) +
+                    " : " + rang.Value);
+        }
+        texte.AppendLine();
+
+        texte.AppendLine("SITUATION ACTUELLE");
+        var missions = _etatMissions?.Missions?.Where(mission =>
+            mission.Etat == "EnCours" &&
+            mission.ParticipantIds != null &&
+            mission.ParticipantIds.Contains(membre.Id)).ToList();
+        if (missions?.Count > 0)
+        {
+            foreach (MissionGuilde mission in missions)
+                texte.AppendLine("En mission : " +
+                    (string.IsNullOrWhiteSpace(mission.Titre) ?
+                        mission.Categorie : mission.Titre));
+        }
+        else if (!string.IsNullOrWhiteSpace(membre.ConcoursEnCours))
+        {
+            texte.AppendLine("Participe au concours " + membre.ConcoursEnCours);
+            if (!string.IsNullOrWhiteSpace(membre.DateRetourConcours) &&
+                DateTime.TryParseExact(membre.DateRetourConcours,
+                    "yyyy-MM-dd'T'HH:mm:ss", CultureInfo.InvariantCulture,
+                    DateTimeStyles.None, out DateTime retour))
+                texte.AppendLine("Retour prévu : " + HorlogeJeu.Formater(retour));
+        }
+        else
+            texte.AppendLine(membre.Absent ? "Absent de la guilde" :
+                "Présent à la guilde");
+
+        _autresInfosFiche.Text = texte.ToString().TrimEnd();
     }
 
     private void AfficherGestion()
