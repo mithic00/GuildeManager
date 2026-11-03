@@ -50,9 +50,8 @@ public partial class MainMenu
         {
             if (_filRougeDialogueActif)
             {
-                // Ne jamais supprimer une décision de quête en fermant la fenêtre.
-                // Le dialogue sera reproposé au prochain chargement ou clic.
-                FermerInterfaceFilRouge();
+                // Ne pas fermer ni perdre un dialogue scénarisé en cours.
+                CallDeferred(nameof(ReprendreDialogueFilRouge));
                 return;
             }
             FermerDiscussion();
