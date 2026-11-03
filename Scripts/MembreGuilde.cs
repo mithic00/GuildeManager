@@ -26,6 +26,11 @@ public sealed class MembreGuilde
     public bool EstAdjoint { get; set; }
     /// <summary>Fin du blocage des dialogues après échec, date du calendrier de jeu.</summary>
     public string DiscussionBloqueeJusqua { get; set; } = "";
+    /// <summary>
+    /// Date locale au calendrier du jeu (yyyy-MM-dd) du dernier jet
+    /// « Remonter le moral » : une tentative par membre et par jour.
+    /// </summary>
+    public string DerniereTentativeRemonterMoral { get; set; } = "";
     /// <summary>Prévu pour les absences autres que les missions et concours.</summary>
     public bool Absent { get; set; }
     /// <summary>Concours actif : "S" ou "P". Vide en dehors d'un concours.</summary>
