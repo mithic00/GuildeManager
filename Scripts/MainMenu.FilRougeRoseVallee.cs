@@ -173,7 +173,10 @@ public partial class MainMenu
         _sujetsDiscussion.Hide();
         _reponsesDiscussion.Hide();
         _fenetreDiscussion.PopupCentered();
-        AfficherNoeudFilRouge();
+        if (!string.IsNullOrEmpty(_filRouge.BilanTexte))
+            AfficherBilanFilRouge(_filRouge.BilanTexte);
+        else
+            AfficherNoeudFilRouge();
     }
 
     private void AfficherFilRouge(string portrait, string interlocuteur, string texte,
@@ -214,10 +217,12 @@ public partial class MainMenu
             _repliquesFilRouge.Add(interlocuteur + " : ...");
 
         string dossier = "res://Images/Portraits/FilRougeRoseVallee/";
-        string fichier = dossier + portrait + ".png";
-        if (!ResourceLoader.Exists(fichier))
+        string fichier = string.IsNullOrWhiteSpace(portrait) ? "" :
+            dossier + portrait + ".png";
+        if (string.IsNullOrEmpty(fichier) || !ResourceLoader.Exists(fichier))
         {
-            GD.PushWarning("Portrait du fil rouge absent : " + fichier);
+            if (!string.IsNullOrEmpty(fichier))
+                GD.PushWarning("Portrait du fil rouge absent : " + fichier);
             fichier = "res://Images/Portraits/GrandFormat/Portait_Defaut.png";
         }
         _portraitDiscussionCible.Texture = GD.Load<Texture2D>(fichier);
@@ -283,6 +288,20 @@ public partial class MainMenu
                 _listeChoixFilRouge.AddItem(option.Texte);
 
         _listeChoixFilRouge.Show();
+    }
+
+    /// <summary>
+    /// Affiche le résultat narratif et les effets dans la fenêtre de dialogue.
+    /// Le bouton de fermeture est immédiatement accessible et le bilan est
+    /// persisté avant le clic : les conséquences ne sont jamais rejouées.
+    /// </summary>
+    private void AfficherBilanFilRouge(string texte)
+    {
+        if (_filRouge == null || !_filRougeDialogueActif) return;
+        _filRouge.BilanTexte = texte;
+        AfficherTranscriptionFilRouge("",
+            "Conséquences de la rencontre", texte,
+            ("Fermer la conversation", "filrouge-fermer-bilan"));
     }
 
     private void AjouterChoixFilRouge(string texte)
@@ -413,11 +432,27 @@ public partial class MainMenu
             AjouterEntreeJournal("Rose-Vallée : la rancune de Charles annonce un conflit " +
                 "dans dix jours (combat à intégrer ultérieurement).", "fil_rouge");
         }
-        AjouterEntreeJournal("Rose-Vallée : fin du fil rouge « " +
-            (fin == "A" ? "L'Indépendance" : fin == "B" ? "Le Compromis" :
-            "Sous l'ombre de Facon") + " ». Taux de missions ×" +
-            (fin == "A" ? "1,5" : fin == "B" ? "1" : "0,5") + ".", "fil_rouge");
-        TerminerActeFilRouge(6);
+        string libelle = fin == "A" ? "L'indépendance" :
+            fin == "B" ? "Le compromis" : "Sous l'ombre de Facon";
+        AjouterEntreeJournal("Rose-Vallée : décision du Comté — " + libelle + ".", "fil_rouge");
+        string narration = fin == "A"
+            ? "Le Seigneur reconnaît votre guilde comme pleinement indépendante. " +
+              "Les pressions organisées de Facon cessent et votre position à Rose-Vallée se renforce."
+            : fin == "B"
+            ? "Un accord de non-ingérence est conclu. Les deux guildes devront " +
+              "désormais coexister sans empiéter sur leurs activités respectives."
+            : "Le Comté maintient la position dominante de Facon. Votre guilde " +
+              "reste ouverte, mais les contrats seront plus difficiles à obtenir.";
+        AfficherBilanFilRouge(narration +
+            (prestige != 0 ? "\nPrestige : +" + prestige + "." : "") +
+            (ecus != 0 ? "\nTrésorerie : +" + ecus + " écus." : "") +
+            (fin == "C" && prestige == 0 && ecus == 0 && _filRouge.Choix.Any(
+                c => c.Contains("Confirmer la dépendance à Facon"))
+                ? "\nAccord volontaire : +2 000 écus, prestige -20." : "") +
+            "\nApparition des missions : taux de base ×" +
+            (fin == "A" ? "1,5" : fin == "B" ? "1" : "0,5") + "." +
+            (fin == "A" && _filRouge.BatailleCharlesPrevue
+                ? "\nCharles garde rancune et pourrait provoquer une confrontation." : ""));
     }
 
     private void VerifierRueFilRouge(string nomRue)
