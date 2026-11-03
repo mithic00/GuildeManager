@@ -12,7 +12,7 @@ public partial class MainMenu
     private TextureRect _portraitDiscussionCible, _portraitDiscussionJoueur;
     private Control _sujetsDiscussion, _reponsesDiscussion;
     private Button _faireConnaissance, _conversationAmicale;
-    private Button[] _boutonsReponses;
+    private ItemList _listeReponsesDiscussion;
     private MembreGuilde _cibleDiscussion;
     private bool _connaissanceAContinuer;
     private bool _discussionEnCours;
@@ -26,7 +26,8 @@ public partial class MainMenu
         _portraitDiscussionCible = GetNode<TextureRect>(interfaceDialogue + "PortraitCible");
         _portraitDiscussionJoueur = GetNode<TextureRect>(interfaceDialogue + "PortraitJoueur");
         _sujetsDiscussion = GetNode<Control>(interfaceDialogue + "ListeSujetDiscussion");
-        _reponsesDiscussion = GetNode<Control>(interfaceDialogue + "ListeReponsesConversation");
+        _listeReponsesDiscussion = GetNode<ItemList>(interfaceDialogue + "ListeReponsesConversation");
+        _reponsesDiscussion = _listeReponsesDiscussion;
         _faireConnaissance = GetNode<Button>(interfaceDialogue +
             "ListeSujetDiscussion/BoutonFaireConnaissance");
         _conversationAmicale = GetNode<Button>(interfaceDialogue +
@@ -35,14 +36,27 @@ public partial class MainMenu
             .Pressed += FermerDiscussion;
         _faireConnaissance.Pressed += () => ResoudreDiscussion(false, false);
         _conversationAmicale.Pressed += () => ResoudreDiscussion(true, false);
-        _boutonsReponses = Enumerable.Range(1, 4)
-            .Select(i => GetNode<Button>(interfaceDialogue +
-                "ListeReponsesConversation/BoutonReponse" + i)).ToArray();
-        _boutonsReponses[0].Pressed += () => ResoudreDiscussion(false, true);
-        _boutonsReponses[1].Pressed += FermerDiscussion;
-        _boutonsReponses[2].Pressed += FermerDiscussion;
-        _boutonsReponses[3].Pressed += FermerDiscussion;
-        _fenetreDiscussion.CloseRequested += FermerDiscussion;
+        _listeReponsesDiscussion.ItemSelected += index =>
+        {
+            if (_filRougeDialogueActif) return; // Le moteur scénarisé gère ses choix.
+            int choix = (int)index;
+            _listeReponsesDiscussion.DeselectAll();
+            if (choix == 0 && _connaissanceAContinuer)
+                ResoudreDiscussion(false, true);
+            else
+                FermerDiscussion();
+        };
+        _fenetreDiscussion.CloseRequested += () =>
+        {
+            if (_filRougeDialogueActif)
+            {
+                // Ne jamais supprimer une décision de quête en fermant la fenêtre.
+                // Le dialogue sera reproposé au prochain chargement ou clic.
+                FermerInterfaceFilRouge();
+                return;
+            }
+            FermerDiscussion();
+        };
         _fenetreDiscussion.Hide();
         _reponsesDiscussion.Hide();
     }
@@ -136,15 +150,10 @@ public partial class MainMenu
     {
         _sujetsDiscussion.Hide();
         _reponsesDiscussion.Show();
-        for (int i = 0; i < _boutonsReponses.Length; i++)
-            _boutonsReponses[i].Hide();
+        _listeReponsesDiscussion.Clear();
         if (peutContinuer)
-        {
-            _boutonsReponses[0].Text = "Continuer la conversation";
-            _boutonsReponses[0].Show();
-        }
-        _boutonsReponses[1].Text = "Mettre fin à la conversation";
-        _boutonsReponses[1].Show();
+            _listeReponsesDiscussion.AddItem("Continuer la conversation");
+        _listeReponsesDiscussion.AddItem("Mettre fin à la conversation");
     }
 
     private void ResoudreDiscussion(bool amicale, bool continuation)
