@@ -376,7 +376,7 @@ L'issue dépend des preuves obtenues et des décisions du joueur.
 
 1 - Seigneur : "Nous sommes réunis aujourd'hui afin de mettre un terme aux différends opposant la guilde de Rose-Vallée à Facon, établie à Liberta."
 2 - Mireille : "Mon Seigneur, nous ne faisons que défendre nos intérêts légitimes."
-3 - Préfet : "Et vous, maître de guilde ? Que souhaitez-vous déclarer ?"
+3 - Seigneur : "Et vous, maître de guilde ? Que souhaitez-vous déclarer ?"
 
 4 - Joueur :
 
@@ -440,7 +440,7 @@ Choix 3 : "Facon a falsifié des contrats et tenté d'intimider nos commerçants
 Choix 4 : "Je souhaite confirmer l'accord proposé par Facon."
   -> Disponible si l'accord n'a pas déjà été signé.
   5 - Mireille : "Voilà qui simplifie grandement les choses."
-  6 - Préfet : "Si tel est votre choix, je n'ai aucune objection."
+  6 - Seigneur : "Si tel est votre choix, je n'ai aucune objection."
   -> FIN C VOLONTAIRE : SOUS L'OMBRE DE FACON.
      Gain de 2 000 écus.
      Prestige -20.
