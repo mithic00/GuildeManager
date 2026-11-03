@@ -10,6 +10,9 @@ public sealed class EtatFilRougeRoseVallee
     public int ActeTermine { get; set; }
     public int ActeEnCours { get; set; }
     public string Noeud { get; set; } = "";
+    // Bilan narratif affiché avant la fermeture d'un acte, évitant de réappliquer
+    // les effets si le joueur recharge alors que cette fenêtre est ouverte.
+    public string BilanTexte { get; set; } = "";
     public string DateEvenement { get; set; } = "";
     public string DateLimiteRue4 { get; set; } = "";
     public bool AttendRue4 { get; set; }
