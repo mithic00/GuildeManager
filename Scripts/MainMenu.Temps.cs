@@ -158,8 +158,14 @@ public partial class MainMenu
         ActualiserProgressionTemps();
 
         // Les événements programmés sont prioritaires sur les jalons fixes.
-        if (VerifierRendezVousAuberge()) return;
-        if (TraiterMinuteMissions()) return;
+        bool auberge = VerifierRendezVousAuberge();
+        bool mission = TraiterMinuteMissions();
+        if (auberge || mission)
+        {
+            VerifierMinuteFilRouge(conflitAutreEvenement: true);
+            return;
+        }
+        if (VerifierMinuteFilRouge()) return;
 
         // L'arrêt est effectué à la minute exacte du jalon, même à minuit.
         if (_horloge.EstJalon())
@@ -201,8 +207,9 @@ public partial class MainMenu
 
                 // Ne pas court-circuiter le traitement des missions si
                 // un rendez-vous d'auberge se présente à la même minute.
-                VerifierRendezVousAuberge();
-                TraiterMinuteMissions();
+                bool auberge = VerifierRendezVousAuberge();
+                bool mission = TraiterMinuteMissions();
+                VerifierMinuteFilRouge(conflitAutreEvenement: auberge || mission);
             }
             return true;
         }
