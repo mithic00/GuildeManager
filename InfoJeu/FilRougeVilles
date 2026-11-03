@@ -1,0 +1,44 @@
+Ce document relate les différents évennements de fil rouge en fonction de la ville de départ.
+
+Rose-Vallée :
+Pression régulière de Facon, la guilde de Liberta.
+
+à partir du 10ème jours : Un membre de Facone passe par Rose-Vallée et se moque de la guilde. Un dialogue se lance :
+1 - Charles Suriname, Membre de Facon : "Mais qu'est ce que c'est que cet endroit miteux ?"
+2 - Joueur :
+Choix 1 : "Bonjour ! Bienvenu dans notre guilde, {Nom de la guilde}. Je peux faire quelque chose pour vous ?"
+  3 - Charles Suriname, Membre de Facon : "Une guilde ? Dans ce trou à rat ? Pff ! Ridicule !"
+    4 - Joueur : "Il faut bien partir de quelque part..."
+      5 - Charles Suriname, Membre de Facon : "Qu'on soit clair : ici c'est Facon qui commande. Vous avez pas intérêt à marcher sur nos plates bandes." -> D20 calme cible 15
+        Réussi : -> Fin de conversation : Facon ne réussi pas son intimidation
+        Echec : -> Fin de conversation : Facon réussie son intimidation
+Choix 2 : "Bonjour, je peux vous aider ?"
+  3 - Charles Suriname, Membre de Facon : "M'aider ? Moi ? Ha ha ! Il est mignon lui ! Qu'est ce que vous faites dans ce taudis ?"
+    4 - Joueur :
+    Choix 1 : "Sortez d'ici svp..." -> D20 Charisme cible 13.
+      Réussie : Charles Suriname, Membre de Facon : "Pff, j'avais pas l'intention de rester ici de toute façon..." -> Fin de conversation : Facon ne réussi pas son intimidation
+      Echec : Charles Suriname, Membre de Facon : "C'est à moi que tu parles ?"
+        Joueur :
+        Choix 1 : Si stat calme > 9 : "Calmons-nous, je ne veux pas de problèmes ici."
+          5 - Charles Suriname, Membre de Facon : "En effet t'en veux pas ouais... en effet" -> Fin de conversation : Facon réussie son intimidation
+        Choix 2 : Si stat calme < 10 : "Ouais c'est à toi ! Et tu commences à me les briser alors il va falloir que tu redescendes" -> D20 charisme cible 15
+          5 - Charles Suriname, Membre de Facon : 
+          Réussi : "ha ha, c'est qu'il se débat en plus... De toute façon, j'avais pas envie de rester plus longtemps ici" -> Fin de conversation : Intimidation du joueur réussi
+          Echec : *Charles fait un trou dans le mur d'énervement et repart en ricanant* -> Fin de conversation : Facon réussie son intimidation
+    Choix 2 : "Nous avons créer une guilde à Rose-Vallée, pour venir en aide aux habitants"
+      5 - Charles Suriname, Membre de Facon : "Trop mignon ! Vous avez pas intérêt a marcher sur les plates bandes de Facon. Sinon vous allez entendre parler de nous." -> D20 calme cible 15
+        Réussi : -> Fin de conversation : Facon ne réussi pas son intimidation
+        Echec : -> Fin de conversation : Facon réussie son intimidation
+Choix 3 : "Alors déjà bonjour..."
+  3 - Charles Suriname, Membre de Facon : "Tu fais le malin ? Tu sais à qui tu as affaire là ?" -> D20 calme cible 15
+    Réussi : 
+    4 - Joueur : "Oui je le sais. Mais vous êtes chez nous ici. Alors si vous n'avez pas l'intention d'être poli, je vous invite à sortir." -> Fin de conversation : Facon ne réussie pas son intimidation
+    Echec : 
+    4 - Joueur : "Oui... Pardon..." -> Fin de conversation : Facon réussie son intimidation
+Choix 4 : "Si cet endroit ne vous plait pas, vous être libre de partir" -> D20 charisme cible 12
+  Réussi :
+  3 - Charles Suriname, Membre de Facon : "Ouh ! Sacré ambiance chez les pleutres... J'avais pas l'intention de rester de toute façon..."  -> Fin de conversation : Facon ne réussie pas son intimidation
+  Echec : 
+  3 - Charles Suriname, Membre de Facon : "C'est moi qui déciderait quand je partirais. Tout comme c'est Facon qui décide ici. Vous avez pas intérêt a marcher sur nos plates bandes." -> D20 calme cible 15
+      Réussi : -> Fin de conversation : Facon ne réussi pas son intimidation
+      Echec : -> Fin de conversation : Facon réussie son intimidation
