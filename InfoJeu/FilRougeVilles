@@ -42,3 +42,456 @@ Choix 4 : "Si cet endroit ne vous plait pas, vous être libre de partir" -> D20 
   3 - Charles Suriname, Membre de Facon : "C'est moi qui déciderait quand je partirais. Tout comme c'est Facon qui décide ici. Vous avez pas intérêt a marcher sur nos plates bandes." -> D20 calme cible 15
       Réussi : -> Fin de conversation : Facon ne réussi pas son intimidation
       Echec : -> Fin de conversation : Facon réussie son intimidation
+
+======================================================================
+ROSE-VALLÉE — FIL ROUGE : L'OMBRE DE FACON
+PROPOSITION NARRATIVE — À VALIDER AVANT INTÉGRATION AU CODE
+======================================================================
+
+PRINCIPES GÉNÉRAUX
+- Le dialogue du jour 10 ci-dessus reste l'acte I et n'est pas réécrit.
+- Les dates suivantes sont des dates minimales, pas des déclenchements forcés.
+- Un acte ne se déclenche qu'après la conclusion du précédent.
+- L'échec d'un jet de dé modifie les conséquences, mais ne bloque pas définitivement l'intrigue.
+- Jets de dialogue : D20 + bonus de la statistique (barème InfoJeu/Regle_Stats.txt), comparé à la cible.
+- Les effets narratifs et les montants ci-dessous sont des propositions à équilibrer avant codage.
+- Les missions spéciales utilisent les règles habituelles de missions si elles sont implémentées.
+- Les succès/échecs d'une mission donnent déjà leurs récompenses habituelles :
+  ne pas appliquer deux fois une récompense de mission.
+- Toutes les décisions et les conséquences sont conservées en sauvegarde lorsque
+  cette intrigue sera implémentée.
+
+----------------------------------------------------------------------
+ACTE I — UNE VISITE MALVENUE
+À partir du 10e jour — dialogue original avec Charles Suriname (ci-dessus).
+----------------------------------------------------------------------
+
+CORRECTION DES CONSÉQUENCES DE L'ACTE I (remplace les conséquences
+proposées antérieurement ; s'applique selon la fin atteinte) :
+
+- Fin « Facon réussit son intimidation » :
+  Bonheur -10 pour TOUS les membres de la guilde, pas uniquement le joueur.
+  Aucun prestige gagné.
+- Fin « Facon ne réussit pas son intimidation » :
+  Prestige +10.
+- Fin « Intimidation du joueur réussie » :
+  Prestige +20.
+  Charles conserve une rancune personnelle.
+- Si Charles fait un trou dans le mur :
+  350 écus de réparation en plus du résultat « Facon réussit son intimidation ».
+- Les conséquences correspondant à une fin ne doivent être appliquées qu'une fois.
+- Les trois résultats ci-dessus sont exclusifs, à l'exception du coût de réparation,
+  qui s'ajoute au résultat d'intimidation réussie de Facon.
+
+----------------------------------------------------------------------
+ACTE II — LE MARCHÉ DES FLEURS
+Déclenchement : à partir du jour 20, après l'acte I.
+----------------------------------------------------------------------
+
+Contexte : Une marchande de fleurs se présente à la guilde. Plusieurs
+commerçants ont reçu la visite de représentants de Facon. Ces derniers
+prétendent qu'un accord leur réserve l'ensemble des contrats de
+protection commerciale du Comté.
+
+Personnage : Léonie Marchal, marchande de fleurs de Rose-Vallée.
+
+1 - Léonie Marchal : "Bonjour... Excusez-moi de vous déranger. Vous êtes bien le maître de cette nouvelle guilde ?"
+
+2 - Joueur :
+Choix 1 : "Bonjour ! Oui, c'est bien moi. Que puis-je faire pour vous ?"
+Choix 2 : "Ça dépend. Vous venez demander de l'aide ou vous moquer de nos locaux ?"
+Choix 3 : "Oui. Il y a un problème ?"
+
+3 - Léonie Marchal :
+Si choix 1 : "Ah, tant mieux ! Vous avez l'air plus aimable que les autres..."
+Si choix 2 : "Oh non ! Pas du tout ! Pardonnez-moi... Je vois que je tombe mal."
+Si choix 3 : "Eh bien, oui... Enfin, je crois."
+
+4 - Léonie Marchal : "Un homme est passé au marché ce matin. Il nous a dit que nous n'avions pas le droit de faire appel à votre guilde. Que tous les contrats de protection devaient passer par Facon, à Liberta."
+
+5 - Joueur :
+
+Choix 1 : "Et sur quoi s'appuie-t-il pour affirmer ça ?" -> D20 Intelligence cible 12.
+  Réussi :
+    6 - Joueur : "Vous a-t-il présenté un document officiel ?"
+    7 - Léonie : "Oui ! Une lettre avec un sceau. Mais maintenant que vous le dites... Le sceau ne ressemblait pas à celui du Comté."
+    8 - Joueur : "Intéressant. Vous pourriez m'en apporter une copie ?"
+    9 - Léonie : "Bien sûr ! Je vous apporterai ça demain."
+    -> Fin : Preuve commerciale obtenue. Prestige +1.
+  Échec :
+    6 - Joueur : "Ils ont probablement le droit de faire ça..."
+    7 - Léonie : "Oh... Je comprends. C'est dommage, nous espérions tellement avoir une guilde ici."
+    -> Fin : Facon conserve son influence sur les commerçants. Prestige -1.
+
+Choix 2 : "Facon peut bien raconter ce qu'elle veut. Vous êtes libres de choisir votre guilde." -> D20 Charisme cible 13.
+  Réussi :
+    6 - Léonie : "Vous avez raison ! Et puis, depuis quand doit-on demander la permission à Liberta pour vivre à Rose-Vallée ?"
+    7 - Joueur : "Exactement."
+    8 - Léonie : "Je vais en parler aux autres commerçants. Vous avez mon soutien !"
+    -> Fin : Témoignage favorable obtenu. Prestige +2.
+  Échec :
+    6 - Léonie : "Vous dites ça, mais eux ont des dizaines de membres. Et vous... enfin..."
+    7 - Joueur :
+    Choix 1 : "Je comprends votre inquiétude."
+      8 - Léonie : "Merci... Peut-être qu'un jour les choses changeront."
+      -> Fin : Aucun changement.
+    Choix 2 : "Si vous ne nous faites pas confiance, pourquoi venir ici ?"
+      8 - Léonie : "Je... Pardonnez-moi de vous avoir dérangé."
+      -> Fin : Prestige -1.
+
+Choix 3 : "Qu'ils gardent leurs contrats. Je n'ai pas envie d'entrer en conflit avec Facon."
+  6 - Léonie : "Oh... Je pensais que vous étiez justement venus pour changer les choses."
+  7 - Léonie : "Très bien. Je ne vous dérange pas plus longtemps."
+  -> Fin : Prestige -2. Facon renforce son emprise commerciale.
+
+Choix 4 : "Je vais m'occuper personnellement de cet individu." -> Disponible si Calme < 10.
+  6 - Léonie : "Oh ! Je... Vous n'allez pas lui faire du mal, j'espère ?"
+  7 - Joueur : "Ça dépendra de son comportement."
+  -> D20 Charisme cible 16.
+  Réussi :
+    8 - Léonie : "Bon... Je vais vous indiquer où il se trouve. Mais soyez prudent."
+    -> Fin : Un représentant de Facon quitte précipitamment le marché.
+       Prestige +1. Charles est informé de l'incident.
+  Échec :
+    8 - Léonie : "Non ! Je ne veux pas être responsable d'une bagarre ! Oubliez ce que j'ai dit."
+    -> Fin : Aucun gain. Les commerçants deviennent méfiants.
+
+----------------------------------------------------------------------
+ACTE III — LES CONTRATS DÉTOURNÉS
+Déclenchement : à partir du jour 35, après l'acte II.
+----------------------------------------------------------------------
+
+Contexte : Un employé du Comté vient signaler une anomalie. Plusieurs
+demandes destinées à la guilde du joueur ont été récupérées par Facon
+avant leur transmission.
+
+Personnage : Étienne Morel, employé administratif du Comté.
+
+1 - Étienne Morel : "Bonjour, maître de guilde. Je viens de la préfecture. Nous avons... un petit problème."
+
+2 - Joueur :
+Choix 1 : "Je vous écoute."
+Choix 2 : "Encore Facon, je suppose ?"
+Choix 3 : "S'il s'agit d'une taxe supplémentaire, vous pouvez repartir."
+
+3 - Étienne Morel :
+Si choix 1 : "Il semblerait que certaines demandes ne soient jamais arrivées jusqu'à vous."
+Si choix 2 : "Comment... Comment êtes-vous au courant ?"
+Si choix 3 : "Non, non ! Rien de tout ça ! C'est plutôt embarrassant pour nous."
+
+4 - Étienne : "Plusieurs habitants ont déposé des demandes à votre attention. Seulement, ces missions ont finalement été confiées à Facon. Et les documents portent une autorisation de votre guilde."
+
+5 - Joueur : "Une autorisation ? Nous n'avons rien signé !"
+6 - Étienne : "C'est bien ce qui m'inquiète."
+
+7 - Joueur :
+
+Choix 1 : "Montrez-moi ces documents." -> D20 Intelligence cible 12.
+  Réussi :
+    8 - Joueur : "Cette signature est fausse. Et regardez cette date... Notre guilde n'avait même pas encore ouvert !"
+    9 - Étienne : "Par les Esprits... Vous avez raison !"
+    10 - Étienne : "Il va falloir que j'en informe le préfet."
+    -> Fin : Preuve de falsification obtenue. Prestige +2.
+  Échec :
+    8 - Joueur : "Je ne comprends pas comment ils ont fait..."
+    9 - Étienne : "Je vais conserver les documents. Nous finirons peut-être par comprendre."
+    -> Fin : Aucun gain immédiat. Possibilité de lancer une enquête.
+
+Choix 2 : "Je veux savoir qui a fait ça."
+  8 - Étienne : "Je peux vous confier une copie des dossiers. Mais notre administration manque de personnel pour mener une enquête."
+  9 - Joueur :
+  Choix 1 : "Nous allons mener l'enquête nous-mêmes."
+    -> Déblocage d'une mission spéciale « Les signatures de Facon ».
+       Catégorie : Enquête.
+       Rang : ★.
+       Réussite : identification d'un intermédiaire payé par Facon.
+                  Preuve de falsification obtenue.
+       Échec : l'intermédiaire disparaît. L'histoire continue sans cette preuve.
+  Choix 2 : "Vous devriez plutôt contacter les autorités."
+    10 - Étienne : "C'est bien ce que je compte faire. Mais sans preuve, ça risque de prendre du temps."
+    -> Fin : Aucun gain.
+
+Choix 3 : "Je vais aller régler ça à Liberta !" -> D20 Calme cible 14.
+  Réussi :
+    8 - Joueur : "Non... Ce serait leur donner ce qu'ils veulent. Nous allons d'abord réunir des preuves."
+    9 - Étienne : "Je crois que c'est la meilleure décision."
+    -> Fin : Déblocage de l'enquête spéciale.
+  Échec :
+    8 - Joueur : "J'en ai assez de ces gens !"
+    9 - Étienne : "Maître de guilde, je vous en prie ! Ne provoquez pas un conflit entre nos deux villes !"
+    -> Fin : Prestige -1. Facon apprend que le joueur envisage des représailles.
+
+----------------------------------------------------------------------
+ACTE IV — LA NUIT DES SERRES
+Déclenchement : à partir du jour 50, après l'acte III.
+----------------------------------------------------------------------
+
+Contexte : Au petit matin, plusieurs serres de fleurs sont retrouvées
+endommagées. Des habitants soupçonnent Facon, mais personne ne dispose
+de preuves formelles.
+
+Personnage : Perrine Arnaud, productrice de fleurs.
+
+1 - Perrine Arnaud : "À l'aide ! Il faut que vous veniez ! Ils ont tout détruit !"
+
+2 - Joueur :
+Choix 1 : "Calmez-vous. Que s'est-il passé ?"
+Choix 2 : "Qui a fait ça ?!"
+Choix 3 : "Encore une histoire de fleurs ?"
+
+3 - Perrine Arnaud :
+Si choix 1 : "Mes serres ! Quelqu'un est venu cette nuit ! Des vitres brisées, des plantations arrachées..."
+Si choix 2 : "Je ne sais pas ! Mais on a retrouvé des traces près de la rivière Tangue."
+Si choix 3 : "Vous ne comprenez pas ! C'est toute ma récolte ! Je risque de tout perdre !"
+
+4 - Perrine : "Le pire, c'est que deux hommes sont revenus ce matin. Ils m'ont proposé la protection de Facon. Vous trouvez ça normal, vous ?"
+
+5 - Joueur :
+
+Choix 1 : "Nous allons protéger vos serres. Cela ne se reproduira pas."
+  6 - Perrine : "Vraiment ? Oh, merci ! Je ne sais pas comment je pourrai vous rembourser..."
+  -> Déblocage d'une mission spéciale « Protéger les serres ».
+     Catégorie : Protection d'un lieu.
+     Rang : ★ ou ★★ selon la progression des membres.
+     Durée et résolution : règles habituelles de mission.
+     Un affrontement peut survenir contre les saboteurs.
+     Réussite : les saboteurs sont chassés. Preuve du sabotage obtenue
+                si un coupable est identifié.
+     Échec : nouvelle dégradation, 600 écus de dégâts supplémentaires
+             pour les habitants. La mission ne bloque pas la suite.
+     Le prestige de mission ne s'applique qu'une fois selon les règles normales.
+
+Choix 2 : "Ces hommes sont peut-être encore dans les environs. Nous pouvons essayer de leur parler." -> D20 Charisme cible 16.
+  Réussi :
+    6 - Narration : "Vous retrouvez les deux hommes près d'un chemin longeant la rivière."
+    7 - Saboteur : "Quoi ? Qu'est-ce que vous nous voulez ?"
+    8 - Joueur : "Je sais ce que vous avez fait. Vous avez intérêt à me dire qui vous a envoyés."
+    9 - Saboteur : "On nous a payés, d'accord ?! Un type de Facon ! Mais on ne devait blesser personne !"
+    -> Fin : Preuve de sabotage obtenue. Prestige +3.
+  Échec :
+    6 - Narration : "Les deux hommes comprennent rapidement pourquoi vous les recherchez."
+    7 - Saboteur : "Vous feriez mieux de retourner dans votre petite guilde."
+    8 - Narration : "Ils prennent la fuite avant que vous puissiez les interroger davantage."
+    -> Fin : Aucun gain. La piste n'est pas confirmée.
+
+Choix 3 : "Je ne peux pas mobiliser ma guilde pour une affaire sans preuve."
+  6 - Perrine : "Mais... Qui va nous aider alors ?"
+  7 - Joueur : "Je suis désolé."
+  8 - Perrine : "Oui... Moi aussi."
+  -> Fin : Prestige -3. Bonheur -1 pour tous les membres de la guilde.
+     Une partie des habitants commence à douter de leur nouvelle guilde.
+
+----------------------------------------------------------------------
+ACTE V — L'ULTIMATUM DE FACON
+Déclenchement : à partir du jour 70, après l'acte IV.
+----------------------------------------------------------------------
+
+Contexte : Facon comprend que la guilde de Rose-Vallée ne disparaîtra
+pas toute seule. Une représentante vient proposer un accord officiel.
+
+Personnage : Mireille Valence, responsable des relations extérieures de Facon.
+
+1 - Mireille Valence : "Bonjour. Je cherche le maître de cette guilde."
+2 - Joueur : "C'est moi. Et vous êtes ?"
+3 - Mireille : "Mireille Valence. Je représente Facon, à Liberta."
+
+4 - Joueur :
+Choix 1 : "Encore vous ? Votre guilde commence sérieusement à me fatiguer."
+Choix 2 : "Bienvenue. J'imagine que vous venez pour une raison particulière."
+Choix 3 : "Si c'est pour nous menacer, vous pouvez repartir."
+
+5 - Mireille :
+Si choix 1 : "Je vous rassure, le sentiment est réciproque."
+Si choix 2 : "Enfin quelqu'un qui sait recevoir un invité."
+Si choix 3 : "Je vous conseille de ne pas confondre menace et proposition commerciale."
+
+6 - Mireille : "Vous devez comprendre une chose. Facon protège cette région depuis des années. Nous avons investi des sommes considérables. Nous avons des familles à nourrir et des engagements à tenir."
+7 - Mireille : "Et vous arrivez, vous installez votre guilde, puis vous commencez à récupérer nos contrats."
+
+8 - Joueur :
+
+Choix 1 : "Les habitants ne vous appartiennent pas." -> D20 Charisme cible 15.
+  Réussi :
+    9 - Mireille : "Hum... Vous avez du répondant. Je comprends mieux pourquoi Charles se plaint autant de vous."
+    10 - Joueur : "Charles devrait apprendre à respecter les autres."
+    11 - Mireille : "C'est possible. Mais vous devriez également apprendre à respecter vos concurrents."
+    -> Fin : Prestige +2. Facon considère le joueur comme un adversaire sérieux.
+  Échec :
+    9 - Mireille : "Des paroles faciles lorsqu'on n'a presque personne à payer."
+    10 - Mireille : "Nous reparlerons de votre indépendance lorsque vous aurez une véritable guilde."
+    -> Fin : Aucun gain.
+
+Choix 2 : "Nous pourrions travailler ensemble, plutôt que de nous battre." -> D20 Charisme cible 13.
+  Réussi :
+    9 - Mireille : "Une coopération ? Voilà une idée nettement plus intéressante."
+    10 - Mireille : "Je ne peux rien promettre, mais je pourrais en parler à notre maître de guilde."
+    11 - Joueur : "Je pense que tout le monde aurait à y gagner."
+    12 - Mireille : "Peut-être. Nous verrons."
+    -> Fin : Ouverture d'une voie diplomatique.
+  Échec :
+    9 - Mireille : "Vous voulez notre aide alors que vous n'avez rien à nous apporter ?"
+    10 - Mireille : "Vous êtes ambitieux. Je vous accorde au moins cela."
+    -> Fin : Aucun gain.
+
+Choix 3 : "J'ai des preuves de vos agissements. Vous devriez faire attention."
+  -> Disponible si au moins une preuve a été obtenue.
+  -> D20 Intelligence cible 13.
+  Réussi :
+    9 - Mireille : "Des preuves ?"
+    10 - Joueur : "Des documents falsifiés. Et des témoignages concernant des sabotages."
+    11 - Mireille : "..."
+    12 - Mireille : "Je ne sais pas ce que Charles a bien pu faire sans notre autorisation."
+    13 - Joueur : "Alors vous devriez peut-être lui poser quelques questions."
+    14 - Mireille : "Je vais m'en charger. Personnellement."
+    -> Fin : Mireille accepte d'examiner la conduite de Charles. Prestige +2.
+  Échec :
+    9 - Mireille : "Vous avez surtout beaucoup d'accusations."
+    10 - Mireille : "Vous devriez éviter de salir publiquement le nom de Facon sans pouvoir les défendre devant le Comté."
+    -> Fin : Prestige -1.
+
+Choix 4 : "Que voulez-vous exactement ?"
+  9 - Mireille : "Un arrangement simple. Vous reconnaissez Facon comme guilde principale de la région. En échange, nous vous versons 2 000 écus pour soutenir vos activités."
+  10 - Mireille : "Vous conservez votre établissement. Mais vous acceptez que Facon supervise les contrats commerciaux importants."
+  11 - Joueur :
+  Choix 1 : "J'accepte votre proposition."
+    12 - Mireille : "Sage décision. Vous verrez, nous pouvons parfaitement nous entendre."
+    -> Fin : +2 000 écus. Prestige -2. Accord de dépendance signé,
+       susceptible d'être contesté lors de l'audience finale.
+  Choix 2 : "Jamais. Notre guilde restera indépendante."
+    12 - Mireille : "Vous avez jusqu'à l'audience du Comté pour reconsidérer votre position."
+    13 - Mireille : "J'espère que vous ne regretterez pas cette décision."
+    -> Fin : Aucun gain immédiat. Opposition ouverte à Facon.
+
+----------------------------------------------------------------------
+ACTE VI — LE JUGEMENT DU COMTÉ
+Déclenchement : à partir du jour 90, après l'acte V.
+----------------------------------------------------------------------
+
+Contexte : Les tensions devenant trop importantes, le préfet de
+Rose-Vallée convoque les représentants des deux guildes afin de
+déterminer les conditions de leur coexistence.
+
+L'issue dépend des preuves obtenues et des décisions du joueur.
+
+1 - Préfet : "Nous sommes réunis aujourd'hui afin de mettre un terme aux différends opposant la guilde de Rose-Vallée à Facon, établie à Liberta."
+2 - Mireille : "Monsieur le préfet, nous ne faisons que défendre nos intérêts légitimes."
+3 - Préfet : "Et vous, maître de guilde ? Que souhaitez-vous déclarer ?"
+
+4 - Joueur :
+
+Choix 1 : "Je demande que notre indépendance soit officiellement reconnue."
+  -> D20 Charisme cible 15.
+  -> Cible diminuée de 2 par preuve majeure obtenue durant le fil rouge,
+     avec un minimum de 11.
+  Réussi :
+    5 - Joueur : "Rose-Vallée a besoin de sa propre guilde. Nous ne sommes pas venus remplacer Facon à Liberta. Nous sommes venus servir les habitants d'ici."
+    6 - Préfet : "Je partage votre avis. Aucune guilde ne peut prétendre posséder l'exclusivité de notre Comté sans décision officielle."
+    7 - Mireille : "Je vois... Très bien."
+    8 - Préfet : "La guilde de Rose-Vallée est reconnue pleinement indépendante."
+    -> FIN A : L'INDÉPENDANCE.
+       Prestige +6.
+       1 500 écus de subvention du Comté.
+       Facon cesse ses pressions organisées.
+       Une rivalité sportive ou commerciale peut subsister.
+  Échec avec au moins une preuve :
+    5 - Préfet : "Vos arguments sont recevables, mais je ne peux ignorer les engagements déjà pris avec Facon."
+    6 - Mireille : "Nous sommes prêts à faire un effort."
+    7 - Préfet : "Un accord de non-ingérence me semble préférable."
+    -> FIN B : LE COMPROMIS.
+  Échec sans preuve :
+    5 - Préfet : "Je ne dispose pas d'éléments suffisants pour remettre en cause les accords existants."
+    6 - Mireille : "Une décision raisonnable."
+    -> FIN C : SOUS L'OMBRE DE FACON.
+
+Choix 2 : "Nous proposons une coopération entre nos deux guildes."
+  -> D20 Charisme cible 11.
+  Réussi :
+    5 - Mireille : "Je crois que nous pouvons trouver un terrain d'entente."
+    6 - Préfet : "Voilà une proposition constructive."
+    7 - Joueur : "Nous ne cherchons pas à devenir ennemis."
+    8 - Mireille : "Alors tâchons de ne pas le devenir."
+    -> FIN B : LE COMPROMIS.
+       Prestige +3.
+       500 écus d'aide administrative.
+       Accords de non-ingérence entre Facon et la guilde du joueur.
+       Possibilité de futures missions communes.
+  Échec :
+    5 - Mireille : "Une coopération exige de la confiance. Or, je ne pense pas que nous en soyons là."
+    6 - Préfet : "En l'absence d'accord, les dispositions existantes resteront provisoirement en vigueur."
+    -> FIN C : SOUS L'OMBRE DE FACON.
+
+Choix 3 : "Facon a falsifié des contrats et tenté d'intimider nos commerçants !"
+  -> Disponible si une preuve de falsification a été obtenue.
+  -> D20 Intelligence cible 12.
+  Réussi :
+    5 - Joueur : "Voici les documents. Vous constaterez que notre autorisation a été falsifiée."
+    6 - Préfet : "Qu'est-ce que cela signifie, madame Valence ?"
+    7 - Mireille : "Je... Je vais devoir m'entretenir avec Charles Suriname."
+    8 - Préfet : "Vous ferez cela plus tard. En attendant, ces accords sont suspendus."
+    -> FIN A : L'INDÉPENDANCE.
+       Appliquer les conséquences de la fin A une seule fois.
+       Déblocage possible d'un événement ultérieur concernant Charles.
+  Échec :
+    5 - Mireille : "Ces documents ne prouvent aucun ordre donné par notre guilde."
+    6 - Préfet : "Je ne peux pas condamner Facon sur de simples soupçons."
+    -> FIN C : SOUS L'OMBRE DE FACON.
+
+Choix 4 : "Je souhaite confirmer l'accord proposé par Facon."
+  -> Disponible si l'accord n'a pas déjà été signé.
+  5 - Mireille : "Voilà qui simplifie grandement les choses."
+  6 - Préfet : "Si tel est votre choix, je n'ai aucune objection."
+  -> FIN C VOLONTAIRE : SOUS L'OMBRE DE FACON.
+     Gain de 2 000 écus.
+     Prestige -2.
+     Facon conserve une position dominante dans les contrats régionaux.
+     La guilde reste ouverte et peut toujours progresser.
+
+----------------------------------------------------------------------
+CONSÉQUENCES DURABLES DES FINS
+----------------------------------------------------------------------
+
+FIN A — L'INDÉPENDANCE
+Rose-Vallée devient un territoire sur lequel les deux guildes peuvent
+intervenir librement. Facon ne tente plus de contrôler la nouvelle
+guilde. Charles peut conserver une rancune personnelle.
+
+FIN B — LE COMPROMIS
+Les guildes mettent fin à leurs hostilités. Facon demeure importante
+dans la région, mais reconnaît la légitimité de la guilde de
+Rose-Vallée. De futures missions de coopération deviennent possibles.
+
+FIN C — SOUS L'OMBRE DE FACON
+Facon conserve son influence et se considère comme la guilde dominante.
+Le joueur continue de développer sa guilde sans perdre l'accès au
+jeu normal. Une future intrigue peut permettre de contester cette
+situation lorsque la guilde sera devenue plus puissante.
+
+----------------------------------------------------------------------
+VARIABLES À PRÉVOIR POUR UNE FUTURE IMPLÉMENTATION
+----------------------------------------------------------------------
+
+- Acte courant / actes terminés / fin du fil rouge.
+- Issue de l'intimidation de l'acte I.
+- Rancune personnelle de Charles Suriname.
+- Preuve commerciale obtenue.
+- Témoignage favorable obtenu.
+- Preuve de falsification obtenue.
+- Preuve du sabotage obtenue.
+- Voie diplomatique ouverte.
+- Accord de dépendance signé.
+- Mission d'enquête débloquée / terminée / issue.
+- Mission de protection débloquée / terminée / issue.
+- Une seule application de chaque conséquence (prestige, bonheur, écus).
+- Fins A, B ou C exclusives.
+
+Pistes d'approfondissement :
+- Charles pourrait être désavoué par sa hiérarchie ou devenir un rival personnel.
+- Les actes ultérieurs pourraient changer certaines répliques selon l'issue du jour 10.
+- Les confrontations n'imposent pas toutes la violence : enquête, négociation,
+  défense d'un lieu et aveux sont des issues alternatives.
+- Une fin C pourrait ouvrir une suite lorsque le Pouvoir ou le Prestige
+  de la guilde atteint un seuil défini.
+
+======================================================================
+FIN DE LA PROPOSITION ROSE-VALLÉE
+======================================================================
