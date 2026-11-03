@@ -40,6 +40,7 @@ public sealed class MissionGuilde
 {
     public string Id { get; set; } = Guid.NewGuid().ToString("N");
     public string FilRougeId { get; set; } = "";
+    public string Titre { get; set; } = "";
     public string Rang { get; set; } = "*";
     public string Categorie { get; set; } = "";
     public string Demandeur { get; set; } = "";
