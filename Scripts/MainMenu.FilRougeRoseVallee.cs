@@ -105,6 +105,14 @@ public partial class MainMenu
     {
         if (!FilRougeEstRoseVallee || _filRouge == null || _horloge == null) return false;
         DateTime maintenant = _horloge.Instant;
+        if (_filRouge.BatailleCharlesPrevue && !_filRouge.BatailleCharlesSignalee &&
+            LireDateFilRouge(_filRouge.DateBatailleCharles) is DateTime duel &&
+            maintenant >= duel)
+        {
+            _filRouge.BatailleCharlesSignalee = true;
+            AjouterEntreeJournal("Rose-Vallée : Charles Suriname réclame une bataille ! " +
+                "Événement de confrontation à développer ultérieurement.", "fil_rouge");
+        }
         if (_filRouge.AttendRue4 &&
             LireDateFilRouge(_filRouge.DateLimiteRue4) is DateTime limite && maintenant >= limite)
         {
@@ -177,10 +185,12 @@ public partial class MainMenu
         _listeChoixFilRouge.Clear();
         foreach (var option in options)
         {
-            _optionsFilRouge.Add(option);
-            _listeChoixFilRouge.AddItem(option.Texte);
+            string reponse = option.Texte.Replace("{Nom de la guilde}", _nomGuilde?.Text ?? "");
+            _optionsFilRouge.Add((reponse, option.Action));
+            _listeChoixFilRouge.AddItem(reponse);
         }
-        _resultatDiscussion.Text = interlocuteur + " : " + texte;
+        _resultatDiscussion.Text = interlocuteur + " : " +
+            texte.Replace("{Nom de la guilde}", _nomGuilde?.Text ?? "");
         string dossier = "res://Images/Portraits/FilRougeRoseVallee/";
         string fichier = dossier + portrait + ".png";
         if (!ResourceLoader.Exists(fichier))
@@ -359,18 +369,14 @@ public partial class MainMenu
             _filRouge.MissionsCreees.Contains(id)) return;
         // Les missions de Facon sont confiées à la guilde entière ; leur prix
         // est divisé par deux. Elles restent sur le tableau sans expiration.
-        int index = ReglesMissions.IndexRang(rang);
-        int[] prixMin = { 50, 100, 225 };
-        int[] prixMax = { 100, 225, 300 };
-        int min = prixMin[Math.Clamp(index, 0, 2)];
-        int max = prixMax[Math.Clamp(index, 0, 2)];
+        int remuneration = ReglesMissions.GenererRecompense(rang, categorie, 0.5);
         var mission = new MissionGuilde
         {
             FilRougeId = id,
             Categorie = categorie,
             Rang = rang,
             Demandeur = "Facon",
-            Recompense = Random.Shared.Next(min, max + 1) / 2,
+            Recompense = remuneration,
             Etat = "Disponible"
         };
         _etatMissions.Missions.Add(mission);
