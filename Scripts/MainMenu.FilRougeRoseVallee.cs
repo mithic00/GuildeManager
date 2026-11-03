@@ -12,10 +12,10 @@ public partial class MainMenu
     private readonly List<(string Texte, string Action)> _optionsFilRouge = new();
     private readonly List<string> _repliquesFilRouge = new();
     private int _indexRepliqueFilRouge;
-    private Timer _timerLectureFilRouge;
-    // Les choix ne sont présentés qu'après un court temps de lecture.
-    // Le joueur décide lui-même quand passer à la réplique suivante.
-    private const double DelaiLectureFilRougeSecondes = 0.9;
+    // Animation brève du texte : aucune attente imposée sur les réponses.
+    private Tween _animationTexteFilRouge;
+    private const double DureeAnimationMinFilRouge = 0.2;
+    private const double DureeAnimationMaxFilRouge = 0.7;
 
     private bool FilRougeEstRoseVallee =>
         string.Equals(_villeDepart, "Rose-Vallée", StringComparison.OrdinalIgnoreCase);
@@ -27,15 +27,6 @@ public partial class MainMenu
 
         _listeChoixFilRouge = GetNode<ItemList>(
             "FenetreDiscussion/LayoutConversation/Layout/InterfaceInteractive/ListeReponsesConversation");
-        _timerLectureFilRouge = new Timer
-        {
-            Name = "TimerLectureFilRouge",
-            OneShot = true,
-            WaitTime = DelaiLectureFilRougeSecondes
-        };
-        AddChild(_timerLectureFilRouge);
-        _timerLectureFilRouge.Timeout += DebloquerSuiteFilRouge;
-
         _listeChoixFilRouge.ItemSelected += index =>
         {
             if (!_filRougeDialogueActif || !_listeChoixFilRouge.Visible) return;
@@ -198,7 +189,7 @@ public partial class MainMenu
         string texte, bool transcription, (string Texte, string Action)[] options)
     {
         if (!_filRougeDialogueActif || _listeChoixFilRouge == null) return;
-        _timerLectureFilRouge?.Stop();
+        _animationTexteFilRouge?.Kill();
         _optionsFilRouge.Clear();
         _repliquesFilRouge.Clear();
         _listeChoixFilRouge.Clear();
@@ -259,17 +250,26 @@ public partial class MainMenu
 
     private void PresenterRepliqueFilRouge()
     {
-        if (!_filRougeDialogueActif || _timerLectureFilRouge == null ||
+        if (!_filRougeDialogueActif ||
             _indexRepliqueFilRouge < 0 || _indexRepliqueFilRouge >= _repliquesFilRouge.Count)
             return;
 
-        _timerLectureFilRouge.Stop();
+        _animationTexteFilRouge?.Kill();
         _listeChoixFilRouge.Clear();
-        _listeChoixFilRouge.Hide();
+        _resultatDiscussion.VisibleRatio = 1f;
         _resultatDiscussion.Text = _repliquesFilRouge[_indexRepliqueFilRouge] +
             (_dernierJetFilRouge.Length > 0 ? "\n\n" + _dernierJetFilRouge : "");
         _dernierJetFilRouge = "";
-        _timerLectureFilRouge.Start();
+
+        // Les réponses sont visibles IMMÉDIATEMENT. Seule la phrase apparaît
+        // progressivement, et un clic peut passer à la suite sans délai.
+        DebloquerSuiteFilRouge();
+        _resultatDiscussion.VisibleRatio = 0f;
+        double duree = Math.Clamp(_resultatDiscussion.Text.Length / 240.0,
+            DureeAnimationMinFilRouge, DureeAnimationMaxFilRouge);
+        _animationTexteFilRouge = CreateTween();
+        _animationTexteFilRouge.TweenProperty(_resultatDiscussion,
+            "visible_ratio", 1.0f, duree);
     }
 
     private void DebloquerSuiteFilRouge()
@@ -304,7 +304,9 @@ public partial class MainMenu
     private void FermerInterfaceFilRouge()
     {
         _filRougeDialogueActif = false;
-        _timerLectureFilRouge?.Stop();
+        _animationTexteFilRouge?.Kill();
+        if (_resultatDiscussion != null)
+            _resultatDiscussion.VisibleRatio = 1f;
         _fenetreDiscussion?.Hide();
         _listeChoixFilRouge?.Hide();
         _optionsFilRouge.Clear();
@@ -322,7 +324,7 @@ public partial class MainMenu
         _filRouge.Noeud = "";
         _filRouge.DateEvenement = "";
         if (fermerFenetre) FermerInterfaceFilRouge();
-        AjouterEntreeJournal("Rose-Vallée : acte " + numero + " terminé.", "fil_rouge");
+        _filRouge.BilanTexte = "";
         PreparerProchainEvenementFilRouge();
     }
 
