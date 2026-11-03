@@ -404,6 +404,16 @@ public partial class MainMenu
             (demandeur == "" ? "" : ", demandeur " + demandeur) + ").", "fil_rouge");
     }
 
+    // Le seuil sert uniquement à décider de la réussite : il ne doit jamais
+    // apparaître dans FenetreDiscussion ni dans le journal du fil rouge.
+    private static string FormaterJetFilRouge(int de, int modificateur, int cible)
+    {
+        int total = de + modificateur;
+        string signe = modificateur >= 0 ? "+" : "-";
+        return "D20 " + de + " " + signe + " " + Math.Abs(modificateur) +
+            " = " + total + " (" + (total >= cible ? "réussite" : "échec") + ")";
+    }
+
     private bool JetFilRouge(string statistique, int cible)
     {
         MembreGuilde joueur = _registreMembres?.Membres.FirstOrDefault(m => m.EstJoueur);
@@ -411,7 +421,7 @@ public partial class MainMenu
         int de = Random.Shared.Next(1, 21);
         int modificateur = ReglesCaracteristiques.Modificateur(Math.Clamp(stat, 1, 20));
         bool reussi = de + modificateur >= cible;
-        string resultat = ReglesCaracteristiques.FormaterJet(de, modificateur, cible);
+        string resultat = FormaterJetFilRouge(de, modificateur, cible);
         AjouterEntreeJournal("Rose-Vallée : jet de " + statistique + " : " +
             resultat + ".", "fil_rouge");
         // Le jet est consultable immédiatement dans le dialogue, avant la
@@ -546,7 +556,7 @@ public partial class MainMenu
                 AjouterEntreeJournal("Rose-Vallée : serres protégées ; " +
                     (identifie ? "un saboteur a été identifié, preuve obtenue." :
                     "les saboteurs ont fui sans être identifiés.") +
-                    " (" + ReglesCaracteristiques.FormaterJet(de, bonus, 12) +
+                    " (" + FormaterJetFilRouge(de, bonus, 12) +
                     ").", "fil_rouge");
             }
             else AjouterEntreeJournal("Rose-Vallée : nouvelle dégradation des serres " +
