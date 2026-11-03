@@ -245,6 +245,7 @@ public partial class MainMenu
         // le jour initial, même si les 20 minutes dépassent minuit.
         cible.DerniereTentativeRemonterMoral = DateJourDiscussion(_horloge.Instant);
         int moralAvant = cible.Moral;
+        int relationAvant = RelationsMembres.Lire(joueur, cible);
         int empathie = joueur.Statistiques?.GetValueOrDefault("Empathie", 10) ?? 10;
         int bonus = ReglesCaracteristiques.Modificateur(Math.Clamp(empathie, 1, 20));
         int de = Random.Shared.Next(1, 21);
@@ -254,6 +255,12 @@ public partial class MainMenu
         int gain = critique ? 20 : reussite ? 10 : 0;
         cible.Moral = Math.Clamp(cible.Moral + gain, 0, 100);
         int gainReel = cible.Moral - moralAvant;
+        // La relation progresse uniquement si le moral était inférieur à 20
+        // AVANT l'échange et si le jet d'Empathie a réussi (20 naturel compris).
+        bool bonusRelation = reussite && moralAvant < 20;
+        int relationApres = bonusRelation
+            ? RelationsMembres.Ajuster(joueur, cible, 5) : relationAvant;
+        int gainRelationReel = relationApres - relationAvant;
 
         string signe = bonus >= 0 ? "+" : "-";
         string jet = "D20 " + de + " " + signe + " " + Math.Abs(bonus) +
@@ -269,11 +276,16 @@ public partial class MainMenu
             (critique ? "\nRéussite critique !" : "") +
             "\nMoral : " + moralAvant + " → " + cible.Moral +
             (gainReel > 0 ? " (+" + gainReel + ")" : " (inchangé)") +
+            (bonusRelation ? "\nRelation : " + relationAvant + " → " +
+                relationApres + (gainRelationReel > 0 ?
+                    " (+" + gainRelationReel + ")" : " (plafond atteint)") : "") +
             "\nTemps écoulé : 20 minutes.";
 
         AjouterEntreeJournal("Discussion de soutien moral avec " + cible.NomComplet +
             " : " + (reussite ? "réussite" : "échec") +
-            ", moral " + moralAvant + " → " + cible.Moral + ".", "discussion");
+            ", moral " + moralAvant + " → " + cible.Moral +
+            (bonusRelation ? ", relation " + relationAvant + " → " + relationApres : "") +
+            ".", "discussion");
         _historiqueMembres?.Ajouter(cible, _horloge.Instant,
             "SoutienMoral", "Soutien moral du maître de guilde : " +
             (reussite ? "réussite" : "échec") + " (" + jet + ").");
@@ -282,6 +294,19 @@ public partial class MainMenu
                 "Moral", "Moral : " + moralAvant + " → " + cible.Moral +
                 " (soutien du maître de guilde).",
                 avant: moralAvant, apres: cible.Moral);
+        if (gainRelationReel > 0)
+        {
+            _historiqueMembres?.Ajouter(cible, _horloge.Instant,
+                "Relation", "Relation avec " + joueur.NomComplet + " : " +
+                relationAvant + " → " + relationApres +
+                " (soutien moral réussi).",
+                avant: relationAvant, apres: relationApres);
+            _historiqueMembres?.Ajouter(joueur, _horloge.Instant,
+                "Relation", "Relation avec " + cible.NomComplet + " : " +
+                relationAvant + " → " + relationApres +
+                " (soutien moral réussi).",
+                avant: relationAvant, apres: relationApres);
+        }
 
         bool tempsComplet = AvancerTempsPourDiscussion(20);
         AfficherReponsesDiscussion(false);
