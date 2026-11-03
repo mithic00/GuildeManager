@@ -15,6 +15,7 @@ public partial class MainMenu
     private Control _layoutStatsFiche;
     private RichTextLabel _autresInfosFiche;
     private Button _boutonAutreInfoFiche;
+    private Label _titreSectionFiche;
     private RegistreMembresGuilde _registreMembres;
     private readonly List<MembreGuilde> _membresAffiches = new();
     private MembreGuilde _membreConsulte;
@@ -37,6 +38,7 @@ public partial class MainMenu
         const string layoutFiche = "FenetreFichePerso/MargeFichePerso/Layout/";
         _layoutStatsFiche = GetNode<Control>(layoutFiche + "LayoutStats");
         _autresInfosFiche = GetNode<RichTextLabel>(layoutFiche + "AutresInfos");
+        _titreSectionFiche = GetNode<Label>(layoutFiche + "LabelStatistiques");
         _autresInfosFiche.Hide();
         _boutonAutreInfoFiche = GetNode<Button>(
             layoutFiche + "Boutons/GridContainer/BoutonAutreInfo");
@@ -344,6 +346,8 @@ public partial class MainMenu
         _autresInfosFiche.Visible = afficherAutresInfos;
         _boutonAutreInfoFiche.Text = afficherAutresInfos
             ? "Statistiques" : "Autre Info";
+        _titreSectionFiche.Text = afficherAutresInfos
+            ? "Autres informations" : "Statistiques";
         if (afficherAutresInfos)
             RemplirAutresInfosFiche(_membreConsulte);
     }
@@ -353,6 +357,7 @@ public partial class MainMenu
         _layoutStatsFiche.Show();
         _autresInfosFiche.Hide();
         _boutonAutreInfoFiche.Text = "Autre Info";
+        _titreSectionFiche.Text = "Statistiques";
     }
 
     private void RemplirAutresInfosFiche(MembreGuilde membre)
