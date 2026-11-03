@@ -47,6 +47,6 @@ Si Moral < 20
     -> échoué : "C'est pas le moment."                                  -> -5 relation. +10 Minutes.
   Si relation < 10
     D20 Communication cible 18
-    -> réussi : "Ok, rapide s'il vous plait. J'ai pas le moral."        -> +1 relation, +5 moral. +15 Minutes.
+    -> réussi : "Bonjour. Oh bah c'est pas trop la forme en ce moment..." -> +1 relation, +5 moral. +15 Minutes.
     -> échoué : "C'est pas le moment."                                  -> -5 relation, -2 bonheur, -5 moral. +10 Minutes.
 3 - Réussite ou non - Joueur : *Mettre fin à la conversation*
