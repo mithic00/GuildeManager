@@ -120,6 +120,7 @@ public partial class MainMenu
             return;
 
         _rueActiveMagasins = nomRue;
+        VerifierRueFilRouge(nomRue);
         foreach (Control autreRue in _ruesMagasins.Values)
             autreRue.Visible = autreRue == rue;
 
