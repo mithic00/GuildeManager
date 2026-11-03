@@ -362,7 +362,7 @@ Choix 4 : "Que voulez-vous exactement ?"
     12 - Mireille : "Sage décision. Vous verrez, nous pouvons parfaitement nous entendre."
     -> Fin : +2 000 écus. Prestige -20. Accord de dépendance signé,
        susceptible d'être contesté lors de l'audience finale.
-       Taux de spawn des missions divisé par deux.
+
   Choix 2 : "Jamais. Notre guilde restera indépendante."
     12 - Mireille : "Vous avez jusqu'à l'audience du Comté pour reconsidérer votre position."
     13 - Mireille : "J'espère que vous ne regretterez pas cette décision."
