@@ -485,7 +485,7 @@ public partial class MainMenu
             _horloge.Instant >= limite) return;
         _filRouge.AttendRue4 = false;
         _filRouge.DateLimiteRue4 = "";
-        AjouterEntreeJournal("Rose-Vallée : les saboteurs ont été retrouvés dans la Rue4.", "fil_rouge");
+        AjouterEntreeJournal("Rose-Vallée : les saboteurs ont été retrouvés.", "fil_rouge");
         _filRouge.Noeud = "iv-rue4";
         ReprendreDialogueFilRouge();
     }
