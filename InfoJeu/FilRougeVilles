@@ -261,7 +261,12 @@ Choix 1 : "Nous allons protéger vos serres. Cela ne se reproduira pas."
              pour les habitants. La mission ne bloque pas la suite.
      Le prestige de mission ne s'applique qu'une fois selon les règles normales.
 
-Choix 2 : "Ces hommes sont peut-être encore dans les environs. Nous pouvons essayer de leur parler." -> D20 Charisme cible 16.
+Choix 2 : "Ces hommes sont peut-être encore dans les environs. Allons les chercher." 
+Le dialogue se ferme ici. Le joueur doit comprendre qu'il doit aller en ville. Une fois arrivé dans la Rue4, le dialogue reprend avec le D20 de Charisme. Si le joueur ne va pas dans la Rue4 dans les 4 heures,
+un dialogue s'affiche et indique que le joueur a abandonné Perrine. -> Fin : Prestige -30. Bonheur -10 pour tous les membres de la guilde.
+                                                                       Une partie des habitants commence à douter de leur nouvelle guilde.
+Les saboteurs sont retrouvés :
+-> D20 Charisme cible 16.
   Réussi :
     6 - Narration : "Vous retrouvez les deux hommes près d'un chemin longeant la rivière."
     7 - Saboteur : "Quoi ? Qu'est-ce que vous nous voulez ?"
