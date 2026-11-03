@@ -266,7 +266,9 @@ public partial class MainMenu
         _timerLectureFilRouge.Stop();
         _listeChoixFilRouge.Clear();
         _listeChoixFilRouge.Hide();
-        _resultatDiscussion.Text = _repliquesFilRouge[_indexRepliqueFilRouge];
+        _resultatDiscussion.Text = _repliquesFilRouge[_indexRepliqueFilRouge] +
+            (_dernierJetFilRouge.Length > 0 ? "\n\n" + _dernierJetFilRouge : "");
+        _dernierJetFilRouge = "";
         _timerLectureFilRouge.Start();
     }
 
@@ -378,11 +380,16 @@ public partial class MainMenu
         int de = Random.Shared.Next(1, 21);
         int modificateur = ReglesCaracteristiques.Modificateur(Math.Clamp(stat, 1, 20));
         bool reussi = de + modificateur >= cible;
-        AjouterEntreeJournal("Rose-Vallée : jet " + statistique + " D20=" + de +
-            (modificateur >= 0 ? "+" : "") + modificateur +
-            " / cible " + cible + " : " + (reussi ? "réussite" : "échec") + ".", "fil_rouge");
+        string resultat = ReglesCaracteristiques.FormaterJet(de, modificateur, cible);
+        AjouterEntreeJournal("Rose-Vallée : jet de " + statistique + " : " +
+            resultat + ".", "fil_rouge");
+        // Le jet est consultable immédiatement dans le dialogue, avant la
+        // prochaine réplique. Le résultat montré est celui utilisé par le jeu.
+        _dernierJetFilRouge = "Jet de " + statistique + " : " + resultat;
         return reussi;
     }
+
+    private string _dernierJetFilRouge = "";
 
     private int StatJoueurFilRouge(string nom) =>
         _registreMembres?.Membres.FirstOrDefault(m => m.EstJoueur)?
@@ -485,13 +492,15 @@ public partial class MainMenu
                 int intelligence = equipiers.Select(m => m.Statistiques.GetValueOrDefault(
                     "Intelligence", 10)).DefaultIfEmpty(10).Max();
                 int de = Random.Shared.Next(1, 21);
-                bool identifie = de + ReglesCaracteristiques.Modificateur(
-                    Math.Clamp(intelligence, 1, 20)) >= 12;
+                int bonus = ReglesCaracteristiques.Modificateur(
+                    Math.Clamp(intelligence, 1, 20));
+                bool identifie = de + bonus >= 12;
                 _filRouge.PreuveSabotage |= identifie;
                 AjouterEntreeJournal("Rose-Vallée : serres protégées ; " +
                     (identifie ? "un saboteur a été identifié, preuve obtenue." :
                     "les saboteurs ont fui sans être identifiés.") +
-                    " (jet d'identification " + de + "/20, cible 12).", "fil_rouge");
+                    " (" + ReglesCaracteristiques.FormaterJet(de, bonus, 12) +
+                    ").", "fil_rouge");
             }
             else AjouterEntreeJournal("Rose-Vallée : nouvelle dégradation des serres " +
                 "de Perrine, coût subi par les habitants : 600 écus.", "fil_rouge");
