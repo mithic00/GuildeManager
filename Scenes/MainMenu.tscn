@@ -2070,6 +2070,47 @@ bbcode_enabled = true
 text = "[1er janvier 600 - 08h32] Test d'info jeu du carnet du joeuur ★"
 vertical_alignment = 2
 
+[node name="FenetreOption" type="Window" parent="." unique_id=302294039]
+transparent_bg = true
+oversampling_override = 1.0
+initial_position = 3
+size = Vector2i(400, 300)
+current_screen = 0
+visible = false
+exclusive = true
+transparent = true
+
+[node name="Marge" type="MarginContainer" parent="FenetreOption" unique_id=1096649494]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="ConteneurOptions" type="VBoxContainer" parent="FenetreOption/Marge" unique_id=1087741068]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="LabelVolume" type="Label" parent="FenetreOption/Marge/ConteneurOptions" unique_id=42100184]
+layout_mode = 2
+text = "Volume du son :"
+horizontal_alignment = 1
+
+[node name="HSliderVolume" type="HSlider" parent="FenetreOption/Marge/ConteneurOptions" unique_id=2036851840]
+layout_mode = 2
+
+[node name="BoutonFermer" type="Button" parent="FenetreOption/Marge/ConteneurOptions" unique_id=806091321]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Fermer"
+
 [node name="FenetreMenuQuitter" type="Window" parent="." unique_id=1322838180]
 transparent_bg = true
 oversampling_override = 1.0
@@ -2249,6 +2290,7 @@ horizontal_alignment = 1
 
 [node name="LayoutStats" type="HBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout" unique_id=284378057]
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="Layout1" type="VBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats" unique_id=934207674]
 layout_mode = 2
@@ -2345,6 +2387,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
 theme_override_font_sizes/normal_font_size = 22
+bbcode_enabled = true
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -2354,6 +2397,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
 theme_override_font_sizes/normal_font_size = 22
+bbcode_enabled = true
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -2363,19 +2407,20 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
 theme_override_font_sizes/normal_font_size = 22
+bbcode_enabled = true
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Boutons" type="HBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout" unique_id=1603004868]
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_vertical = 8
 
 [node name="GridContainer" type="GridContainer" parent="FenetreFichePerso/MargeFichePerso/Layout/Boutons" unique_id=762485907]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
-theme_override_constants/h_separation = 150
-theme_override_constants/v_separation = 40
+theme_override_constants/h_separation = 40
+theme_override_constants/v_separation = 16
 columns = 2
 
 [node name="BoutonSocial" type="Button" parent="FenetreFichePerso/MargeFichePerso/Layout/Boutons/GridContainer" unique_id=1514484294]
