@@ -196,7 +196,8 @@ public partial class MainMenu
                 StretchMode = TextureButton.StretchModeEnum.Scale,
                 CustomMinimumSize = new Vector2(TailleParchemin, TailleParchemin),
                 Size = new Vector2(TailleParchemin, TailleParchemin),
-                TooltipText = mission.Categorie + " — Rang " + ReglesMissions.FormaterRang(mission.Rang) +
+                TooltipText = (string.IsNullOrEmpty(mission.Titre) ? mission.Categorie : mission.Titre) +
+                    " — Rang " + ReglesMissions.FormaterRang(mission.Rang) +
                     " — " + (mission.Etat == "EnCours" ? "En cours" : "Disponible")
             };
             bouton.Pressed += () => OuvrirInfoMission(selection);
@@ -299,7 +300,9 @@ public partial class MainMenu
             return;
 
         bool enCours = mission.Etat == "EnCours";
-        string texte = "Catégorie : " + mission.Categorie +
+        string texte = (string.IsNullOrEmpty(mission.Titre) ? "" :
+            "Mission spéciale : " + mission.Titre + "\n") +
+            "Catégorie : " + mission.Categorie +
             "\nRang requis : " + ReglesMissions.FormaterRang(mission.Rang) +
             "\nRécompense : " + mission.Recompense + " écus" +
             "\nDemandeur : " + mission.Demandeur +
