@@ -527,21 +527,23 @@ public partial class MainMenu
                             "Gain de " + xpPart + " XP pour " + mission.Categorie + ".",
                             mission, 0, xpPart);
                     ReglesMissions.AjouterExperience(m, xpPart);
-                    if (victoire)
+                    // Une mission avec progression magique en donne également
+                    // après un échec, mais avec le gain brut minimum de 1.
+                    // La courbe de Motivation et le coefficient des missions
+                    // à gain élevé restent identiques.
+                    bool magieElevee = mission.Categorie == "Élimination de danger" ||
+                        mission.Categorie == "Recherche mort ou vif" ||
+                        mission.Categorie == "Renfort pour Assaut";
+                    bool magieStandard = magieElevee || mission.Categorie == "Escorte" ||
+                        mission.Categorie == "Capture vif" || mission.Categorie == "Protection d'un lieu";
+                    if (magieStandard)
                     {
-                        bool magieElevee = mission.Categorie == "Élimination de danger" ||
-                            mission.Categorie == "Recherche mort ou vif" ||
-                            mission.Categorie == "Renfort pour Assaut";
-                        bool magieStandard = magieElevee || mission.Categorie == "Escorte" ||
-                            mission.Categorie == "Capture vif" || mission.Categorie == "Protection d'un lieu";
-                        if (magieStandard)
-                        {
-                            ResolutionMissions.ProgresserMagie(m, magieElevee);
-                            string rangAvantProgression = m.Rang;
-                            if (ReglesMissions.AppliquerPromotionsAcquises(m))
-                                AjouterEntreeJournal(m.NomComplet + " est promu au rang " +
-                                    ReglesMissions.FormaterRang(m.Rang) + " (ancien rang : " + ReglesMissions.FormaterRang(rangAvantProgression) + ").", "mission");
-                        }
+                        ResolutionMissions.ProgresserMagie(m, magieElevee, gainBrutMinimal: !victoire);
+                        string rangAvantProgression = m.Rang;
+                        if (ReglesMissions.AppliquerPromotionsAcquises(m))
+                            AjouterEntreeJournal(m.NomComplet + " est promu au rang " +
+                                ReglesMissions.FormaterRang(m.Rang) + " (ancien rang : " +
+                                ReglesMissions.FormaterRang(rangAvantProgression) + ").", "mission");
                     }
                 }
                 if (victoire && !resultat.SansIncident)
