@@ -251,13 +251,15 @@ public static class ResolutionMissions
         return new ResultatJourMission { Issue=issue, SansIncident=sansIncident };
     }
 
-    public static void ProgresserMagie(MembreGuilde membre, bool eleve)
+    public static void ProgresserMagie(MembreGuilde membre, bool eleve, bool gainBrutMinimal = false)
     {
         if(membre.EstMaitreDeGuilde || !membre.PotentielMagique.HasValue)return;
         double actuel = Math.Max(membre.NiveauMagique, membre.NiveauMagiquePrecis);
         double potentiel=membre.PotentielMagique.Value;
         if(actuel>=potentiel)return;
-        double vitesse=Random.Shared.Next(1,6)*(eleve?1.20:1.0);
+        // En cas d'échec, utiliser le minimum brut (1), sans modifier
+        // la courbe de Motivation ni le multiplicateur des gains élevés.
+        double vitesse=(gainBrutMinimal ? 1 : Random.Shared.Next(1,6))*(eleve?1.20:1.0);
         // Une même formule génère 20 courbes : linéaire à motivation 20,
         // ralentissement de plus en plus marqué lorsque la motivation diminue.
         int motivation = Math.Clamp(membre.Motivation ?? 10, 1, 20);
