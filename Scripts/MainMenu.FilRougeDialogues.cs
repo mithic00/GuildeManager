@@ -55,6 +55,61 @@ public partial class MainMenu
             "Aveux d'un saboteur de Facon obtenus." =>
                 "Les aveux établissent un lien entre le sabotage et Facon. " +
                 "Vous disposez d'une preuve importante pour l'audience à venir.",
+            "Lettre commerciale suspecte obtenue." =>
+                "Les révélations de Léonie vous permettent de récupérer un document " +
+                "commercial douteux. Cette preuve pourrait peser dans un futur arbitrage.",
+            "Facon conserve son influence sur les commerçants." =>
+                "Vos hésitations ne rassurent pas Léonie. Les commerçants continuent " +
+                "de subir les pressions de Facon sans véritable opposition.",
+            "Léonie repart sans changement." =>
+                "Léonie quitte la guilde sans avoir obtenu de réponse décisive. " +
+                "Elle garde ses inquiétudes, mais le rapport de force reste inchangé.",
+            "Léonie quitte la guilde vexée." =>
+                "Blessée par vos paroles, Léonie repart. Votre attitude ne donne pas " +
+                "une bonne image de votre guilde auprès des habitants.",
+            "Le représentant de Facon quitte le marché." =>
+                "Le représentant de Facon prend la fuite. Votre intervention " +
+                "est remarquée, même si elle risque de faire réagir Charles.",
+            "Les commerçants deviennent méfiants." =>
+                "Votre réaction a inquiété Léonie. Les commerçants restent prudents " +
+                "et hésitent toujours à s'opposer ouvertement à Facon.",
+            "Mission spéciale « Les signatures de Facon » disponible." =>
+                "Vous avez décidé d'enquêter sur les contrats détournés. " +
+                "La mission spéciale « Les signatures de Facon » est disponible " +
+                "sur le tableau et restera proposée jusqu'à sa prise en charge.",
+            "L'affaire est confiée aux autorités." =>
+                "Étienne conserve les dossiers et se chargera d'alerter les autorités. " +
+                "Sans preuve supplémentaire, la situation reste incertaine.",
+            "Preuve de falsification des contrats découverte." =>
+                "Vous avez identifié une fausse autorisation dans les dossiers. " +
+                "Le Comté pourra désormais examiner cette preuve de falsification.",
+            "Une enquête pourra être demandée aux membres de la guilde." =>
+                "Les documents ne suffisent pas encore à établir la fraude. " +
+                "Vous pourrez solliciter vos membres pour poursuivre les recherches " +
+                "lorsque cette possibilité sera disponible.",
+            "Mission de protection des serres confiée à la guilde." =>
+                "Vous avez promis de protéger les serres de Perrine. " +
+                "La mission spéciale est disponible sur le tableau des missions " +
+                "et n'expirera pas tant qu'elle n'aura pas été accomplie.",
+            "Les saboteurs ont pris la fuite." =>
+                "Les hommes disparaissent avant de pouvoir être interrogés. " +
+                "Les soupçons contre Facon persistent, mais vous n'avez pas obtenu " +
+                "de preuve formelle.",
+            "Facon considère la guilde comme un adversaire sérieux." =>
+                "Mireille reconnaît votre détermination. Facon doit désormais " +
+                "composer avec une guilde qu'elle ne peut plus ignorer.",
+            "L'entretien avec Mireille se termine." =>
+                "Mireille repart sans engagement concret. Les tensions entre " +
+                "les deux guildes demeurent.",
+            "Une voie diplomatique s'ouvre avec Facon." =>
+                "Mireille se montre ouverte à une coopération. Vos relations avec " +
+                "Facon s'améliorent et une issue diplomatique devient envisageable.",
+            "Mireille examine la conduite de Charles." =>
+                "Vos accusations poussent Mireille à s'intéresser aux agissements " +
+                "de Charles. Ce dernier pourrait mal prendre cette intervention.",
+            "Les accusations contre Facon ne convainquent pas Mireille." =>
+                "Mireille rejette vos accusations et vous met en garde. " +
+                "Votre position ressort affaiblie de cet échange.",
             _ => texte
         };
 
