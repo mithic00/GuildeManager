@@ -45,7 +45,8 @@ public partial class MainMenu
             if (i < 0 || i >= _optionsFilRouge.Count) return;
             string action = _optionsFilRouge[i].Action;
             string choix = _optionsFilRouge[i].Texte;
-            AjouterChoixFilRouge(choix);
+            if (action != "filrouge-fermer-bilan")
+                AjouterChoixFilRouge(choix);
             TraiterChoixFilRouge(action);
         };
         _listeChoixFilRouge.Hide();
@@ -204,14 +205,23 @@ public partial class MainMenu
             _optionsFilRouge.Add((option.Texte.Replace("{Nom de la guilde}", nomGuilde),
                 option.Action));
 
-        foreach (string fragment in texte.Replace("\r\n", "\n").Split('\n'))
+        // Les bilans sont présentés en une seule page pour voir ensemble
+        // le résultat narratif et toutes les conséquences.
+        if (transcription && interlocuteur == "Conséquences de la rencontre")
         {
-            string ligne = fragment.Trim();
-            if (ligne.Length == 0) continue;
-            ligne = ligne.Replace("{Nom de la guilde}", nomGuilde);
-            if (!transcription && !EstLigneAttribueeFilRouge(ligne))
-                ligne = interlocuteur + " : " + ligne;
-            _repliquesFilRouge.Add(ligne);
+            _repliquesFilRouge.Add(texte.Replace("{Nom de la guilde}", nomGuilde));
+        }
+        else
+        {
+            foreach (string fragment in texte.Replace("\r\n", "\n").Split('\n'))
+            {
+                string ligne = fragment.Trim();
+                if (ligne.Length == 0) continue;
+                ligne = ligne.Replace("{Nom de la guilde}", nomGuilde);
+                if (!transcription && !EstLigneAttribueeFilRouge(ligne))
+                    ligne = interlocuteur + " : " + ligne;
+                _repliquesFilRouge.Add(ligne);
+            }
         }
         if (_repliquesFilRouge.Count == 0)
             _repliquesFilRouge.Add(interlocuteur + " : ...");
