@@ -373,6 +373,7 @@ public partial class MainMenu
         var mission = new MissionGuilde
         {
             FilRougeId = id,
+            Titre = id == "enquete_facon" ? "Les signatures de Facon" : "Protéger les serres",
             Categorie = categorie,
             Rang = rang,
             Demandeur = "Facon",
