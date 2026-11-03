@@ -24,36 +24,56 @@ public partial class MainMenu
         if (!_filRougeDialogueActif || _filRouge == null) return;
         switch (action)
         {
-            // ACTE I
-            case "i-poli": VersNoeudFilRouge("i-poli"); return;
-            case "i-aider": VersNoeudFilRouge("i-aider"); return;
-            case "i-salut":
-                VersNoeudFilRouge(JetFilRouge("Calme", 15) ? "i-calme-gagne" : "i-calme-perdu"); return;
+            // ACTE I — chaque branche conserve ses propres répliques.
+            case "i-poli": case "i-aider": case "i-nous":
+            case "i-partez-echec": case "i-sortez-echec":
+                VersNoeudFilRouge(action); return;
+            case "i-salut": VersNoeudFilRouge("i-salut-replique"); return;
             case "i-partez":
-                VersNoeudFilRouge(JetFilRouge("Charisme", 12) ? "i-charles-part" : "i-partez-echec"); return;
+                VersNoeudFilRouge(JetFilRouge("Charisme", 12)
+                    ? "i-partez-reussi" : "i-partez-echec"); return;
             case "i-sortez":
-                VersNoeudFilRouge(JetFilRouge("Charisme", 13) ? "i-charles-part" : "i-sortez-echec"); return;
-            case "i-nous":
-                VersNoeudFilRouge(JetFilRouge("Calme", 15) ? "i-calme-gagne" : "i-calme-perdu"); return;
-            case "i-calmez": VersNoeudFilRouge("i-calme-perdu"); return;
+                VersNoeudFilRouge(JetFilRouge("Charisme", 13)
+                    ? "i-sortez-reussi" : "i-sortez-echec"); return;
+            case "i-calmez":
+                VersNoeudFilRouge("i-calmez-reponse"); return;
             case "i-intimider":
-                VersNoeudFilRouge(JetFilRouge("Charisme", 15) ? "i-intimide-gagne" : "i-mur"); return;
+                VersNoeudFilRouge(JetFilRouge("Charisme", 15)
+                    ? "i-intimide-gagne" : "i-mur"); return;
+            case "i-salut-test":
+                VersNoeudFilRouge(JetFilRouge("Calme", 15)
+                    ? "i-salut-reussi" : "i-salut-echec"); return;
             case "i-calmepoli":
-                VersNoeudFilRouge(JetFilRouge("Calme", 15) ? "i-calme-gagne" : "i-calme-perdu"); return;
+            {
+                // Le document ne prévoit AUCUNE réplique supplémentaire
+                // après ce jet, quel que soit son résultat.
+                bool reussi = JetFilRouge("Calme", 15);
+                if (reussi)
+                    TerminerRepliqueFilRouge("Facon ne réussit pas son intimidation.",
+                        prestige: 10);
+                else
+                    TerminerRepliqueFilRouge("Facon réussit son intimidation.",
+                        bonheur: -10);
+                return;
+            }
             case "i-fin-facon":
-                TerminerRepliqueFilRouge("Facon réussit son intimidation.", bonheur:-10); return;
+                TerminerRepliqueFilRouge("Facon réussit son intimidation.",
+                    bonheur: -10); return;
             case "i-fin-resiste":
-                TerminerRepliqueFilRouge("Facon ne réussit pas son intimidation.", prestige:10); return;
+                TerminerRepliqueFilRouge("Facon ne réussit pas son intimidation.",
+                    prestige: 10); return;
             case "i-fin-intimide":
                 _filRouge.RancuneCharles++;
-                AjouterEntreeJournal("Rose-Vallée : la rancune de Charles augmente à " +
+                AjouterEntreeJournal("Rose-Vallée : rancune de Charles augmentée à " +
                     _filRouge.RancuneCharles + ".", "fil_rouge");
-                TerminerRepliqueFilRouge("Le maître de guilde intimide Charles avec succès.", prestige:20);
+                TerminerRepliqueFilRouge("Le joueur réussit à intimider Charles.",
+                    prestige: 20);
                 return;
             case "i-fin-mur":
                 ModifierEcusFilRouge(-350, "Réparation du mur endommagé par Charles");
                 TerminerRepliqueFilRouge("Charles détruit un mur ; Facon réussit son intimidation.",
-                    bonheur:-10); return;
+                    bonheur: -10);
+                return;
             // ACTE II
             case "ii-accueil": case "ii-mefiant": case "ii-neutre":
                 VersNoeudFilRouge(action); return;
@@ -223,50 +243,117 @@ public partial class MainMenu
         }
     }
 
+    /// <summary>
+    /// Affiche une transcription de dialogue déjà attribuée aux interlocuteurs.
+    /// Contrairement à MontrerFilRouge, n'ajoute pas « Charles : » à une
+    /// première ligne qui peut être prononcée par le joueur.
+    /// </summary>
+    private void MontrerTranscriptionFilRouge(string portrait, string interlocuteur,
+        string transcription, params (string Texte, string Action)[] options)
+    {
+        AfficherFilRouge(portrait, interlocuteur, transcription, options);
+        _resultatDiscussion.Text = transcription.Replace(
+            "{Nom de la guilde}", _nomGuilde?.Text ?? "");
+    }
+
     private void AfficherActeI(string n)
     {
-        string ch = "Charles Suriname, membre de Facon";
+        const string charles = "Charles Suriname, membre de Facon";
         switch (n)
         {
             case "debut":
-                MontrerFilRouge("Charles",ch,"Mais qu'est-ce que c'est que cet endroit miteux ?",
-                    ("Bonjour ! Bienvenue dans notre guilde, {Nom de la guilde}. Je peux faire quelque chose pour vous ?","i-poli"),
-                    ("Bonjour, je peux vous aider ?","i-aider"),
-                    ("Alors déjà bonjour...","i-salut"),
-                    ("Si cet endroit ne vous plaît pas, vous êtes libre de partir.","i-partez"));return;
+                MontrerFilRouge("Charles", charles,
+                    "Mais qu'est ce que c'est que cet endroit miteux ?",
+                    ("Bonjour ! Bienvenu dans notre guilde, {Nom de la guilde}. Je peux faire quelque chose pour vous ?", "i-poli"),
+                    ("Bonjour, je peux vous aider ?", "i-aider"),
+                    ("Alors déjà bonjour...", "i-salut"),
+                    ("Si cet endroit ne vous plait pas, vous être libre de partir", "i-partez"));
+                return;
+
+            // CHOIX 1 : le jet de Calme conclut directement la conversation.
+            // La phrase « Oui... Pardon... » ne fait PAS partie de cette branche.
             case "i-poli":
-                MontrerFilRouge("Charles",ch,"Une guilde ? Dans ce trou à rat ? Pff ! Ridicule !\nVous : Il faut bien partir de quelque part...\nCharles : Qu'on soit clair : ici c'est Facon qui commande. Vous avez pas intérêt à marcher sur nos plates-bandes.",
-                    ("Tenir tête à son intimidation (D20 Calme, cible 15)","i-calmepoli"));return;
+                MontrerTranscriptionFilRouge("Charles", charles,
+                    "Charles Suriname : Une guilde ? Dans ce trou à rat ? Pff ! Ridicule !\n" +
+                    "Joueur : Il faut bien partir de quelque part...\n" +
+                    "Charles Suriname : Qu'on soit clair : ici c'est Facon qui commande. Vous avez pas intérêt à marcher sur nos plates bandes.",
+                    ("Continuer (D20 Calme, cible 15)", "i-calmepoli"));
+                return;
+
+            // CHOIX 2 : « Bonjour, je peux vous aider ? »
             case "i-aider":
-                MontrerFilRouge("Charles",ch,"M'aider ? Moi ? Ha ha ! Il est mignon lui ! Qu'est-ce que vous faites dans ce taudis ?",
-                    ("Sortez d'ici, s'il vous plaît... (D20 Charisme, cible 13)","i-sortez"),
-                    ("Nous avons créé une guilde à Rose-Vallée, pour venir en aide aux habitants.","i-nous"));return;
+                MontrerFilRouge("Charles", charles,
+                    "M'aider ? Moi ? Ha ha ! Il est mignon lui ! Qu'est ce que vous faites dans ce taudis ?",
+                    ("Sortez d'ici svp... (D20 Charisme, cible 13)", "i-sortez"),
+                    ("Nous avons créer une guilde à Rose-Vallée, pour venir en aide aux habitants", "i-nous"));
+                return;
+            case "i-sortez-reussi":
+                MontrerFilRouge("Charles", charles,
+                    "Pff, j'avais pas l'intention de rester ici de toute façon...",
+                    ("Terminer la conversation", "i-fin-resiste"));
+                return;
             case "i-sortez-echec":
                 if (StatJoueurFilRouge("Calme") > 9)
-                    MontrerFilRouge("Charles",ch,"C'est à moi que tu parles ?",
-                        ("Calmons-nous, je ne veux pas de problèmes ici.","i-calmez"));
+                    MontrerFilRouge("Charles", charles,
+                        "C'est à moi que tu parles ?",
+                        ("Calmons-nous, je ne veux pas de problèmes ici.", "i-calmez"));
                 else
-                    MontrerFilRouge("Charles",ch,"C'est à moi que tu parles ?",
-                        ("Ouais, c'est à toi ! Tu commences à me les briser ! (D20 Charisme, cible 15)","i-intimider"));return;
-            case "i-partez-echec":
-                MontrerFilRouge("Charles",ch,"C'est moi qui déciderai quand je partirai. Tout comme c'est Facon qui décide ici. Vous avez pas intérêt à marcher sur nos plates-bandes.",
-                    ("Résister à l'intimidation (D20 Calme, cible 15)","i-calmepoli"));return;
-            case "i-charles-part":
-                MontrerFilRouge("Charles",ch,"Pff, j'avais pas l'intention de rester ici de toute façon...",
-                    ("Terminer la conversation","i-fin-resiste"));return;
-            case "i-calme-gagne":
-                MontrerFilRouge("Charles",ch,"Vous : Oui, je le sais. Mais vous êtes chez nous ici. Alors, si vous n'avez pas l'intention d'être poli, je vous invite à sortir.",
-                    ("Terminer la conversation","i-fin-resiste"));return;
-            case "i-calme-perdu":
-                MontrerFilRouge("Charles",ch,"Vous : Oui... Pardon...\nCharles : En effet, t'en veux pas, ouais... en effet.",
-                    ("Terminer la conversation","i-fin-facon"));return;
+                    MontrerFilRouge("Charles", charles,
+                        "C'est à moi que tu parles ?",
+                        ("Ouais c'est à toi ! Et tu commences à me les briser alors il va falloir que tu redescendes (D20 Charisme, cible 15)",
+                        "i-intimider"));
+                return;
+            case "i-calmez-reponse":
+                MontrerFilRouge("Charles", charles,
+                    "En effet t'en veux pas ouais... en effet",
+                    ("Terminer la conversation", "i-fin-facon"));
+                return;
             case "i-intimide-gagne":
-                MontrerFilRouge("Charles",ch,"Ha ha, c'est qu'il se débat, en plus... De toute façon, j'avais pas envie de rester plus longtemps ici.",
-                    ("Terminer la conversation","i-fin-intimide"));return;
+                MontrerFilRouge("Charles", charles,
+                    "ha ha, c'est qu'il se débat en plus... De toute façon, j'avais pas envie de rester plus longtemps ici",
+                    ("Terminer la conversation", "i-fin-intimide"));
+                return;
             case "i-mur":
-                MontrerFilRouge("Charles",ch,"Charles fait un trou dans le mur d'énervement et repart en ricanant.",
-                    ("Terminer la conversation","i-fin-mur"));return;
+                MontrerTranscriptionFilRouge("Charles", charles,
+                    "Charles fait un trou dans le mur d'énervement et repart en ricanant.",
+                    ("Terminer la conversation", "i-fin-mur"));
+                return;
+            case "i-nous":
+                MontrerFilRouge("Charles", charles,
+                    "Trop mignon ! Vous avez pas intérêt a marcher sur les plates bandes de Facon. Sinon vous allez entendre parler de nous.",
+                    ("Continuer (D20 Calme, cible 15)", "i-calmepoli"));
+                return;
+
+            // CHOIX 3 : seul ce chemin peut afficher « Oui... Pardon... ».
+            case "i-salut-replique":
+                MontrerFilRouge("Charles", charles,
+                    "Tu fais le malin ? Tu sais à qui tu as affaire là ?",
+                    ("Continuer (D20 Calme, cible 15)", "i-salut-test"));
+                return;
+            case "i-salut-reussi":
+                MontrerTranscriptionFilRouge("Charles", charles,
+                    "Joueur : Oui je le sais. Mais vous êtes chez nous ici. Alors si vous n'avez pas l'intention d'être poli, je vous invite à sortir.",
+                    ("Terminer la conversation", "i-fin-resiste"));
+                return;
+            case "i-salut-echec":
+                MontrerTranscriptionFilRouge("Charles", charles,
+                    "Joueur : Oui... Pardon...",
+                    ("Terminer la conversation", "i-fin-facon"));
+                return;
+
+            // CHOIX 4 : succès de Charisme et échec suivi de Calme distincts.
+            case "i-partez-reussi":
+                MontrerFilRouge("Charles", charles,
+                    "Ouh ! Sacré ambiance chez les pleutres... J'avais pas l'intention de rester de toute façon...",
+                    ("Terminer la conversation", "i-fin-resiste"));
+                return;
+            case "i-partez-echec":
+                MontrerFilRouge("Charles", charles,
+                    "C'est moi qui déciderait quand je partirais. Tout comme c'est Facon qui décide ici. Vous avez pas intérêt a marcher sur nos plates bandes.",
+                    ("Continuer (D20 Calme, cible 15)", "i-calmepoli"));
+                return;
         }
+        GD.PushWarning("Acte I Rose-Vallée : noeud non reconnu : " + n);
     }
 
     private void AfficherActeII(string n)
