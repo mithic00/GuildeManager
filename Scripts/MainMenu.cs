@@ -22,6 +22,9 @@ public partial class MainMenu : Control
     private Label _prestige;
     private Label _date;
     private Window _fenetreQuitter;
+    private Window _fenetreOptions;
+    private HSlider _sliderVolumeOptions;
+    private Label _labelVolumeOptions;
     private Window _fenetreInfo;
     private RichTextLabel _messageFenetreInfo;
     private Window _fenetreAReouvrirApresInfo;
@@ -37,6 +40,7 @@ public partial class MainMenu : Control
         _prestige = GetNode<Label>("LabelNbPrestige");
         _date = GetNode<Label>("MargeChoixMenu/BoutonsMenu/LabelDateEtHeure");
         _fenetreQuitter = GetNode<Window>("FenetreMenuQuitter");
+        InitialiserOptions();
         InitialiserFenetreInfo();
 
         GetNode<Button>("MargeChoixMenu/BoutonsMenu/BoutonQuitter").Pressed += () => _fenetreQuitter.PopupCentered();
@@ -162,11 +166,52 @@ public partial class MainMenu : Control
         return negatif ? "-" + texte : texte;
     }
 
+    private void InitialiserOptions()
+    {
+        const string racine = "FenetreOption/Marge/ConteneurOptions/";
+        _fenetreOptions = GetNode<Window>("FenetreOption");
+        _sliderVolumeOptions = GetNode<HSlider>(racine + "HSliderVolume");
+        _labelVolumeOptions = GetNode<Label>(racine + "LabelVolume");
+
+        // Même échelle et mêmes paramètres que dans MenuDemarrer.
+        _sliderVolumeOptions.MinValue = 0.0;
+        _sliderVolumeOptions.MaxValue = 1.0;
+        _sliderVolumeOptions.Step = 0.01;
+        ActualiserVolumeOptions(MusicManager.GetSavedMasterVolume());
+
+        _sliderVolumeOptions.ValueChanged += valeur =>
+        {
+            MusicManager.SetMasterVolume((float)valeur);
+            _labelVolumeOptions.Text =
+                "Volume du son : " + Math.Round(valeur * 100.0) + " %";
+        };
+
+        GetNode<Button>(racine + "BoutonFermer").Pressed += FermerOptions;
+        _fenetreOptions.CloseRequested += FermerOptions;
+        _fenetreOptions.Hide();
+    }
+
+    private void ActualiserVolumeOptions(float volume)
+    {
+        _sliderVolumeOptions.SetValueNoSignal(volume);
+        _labelVolumeOptions.Text =
+            "Volume du son : " + Math.Round(volume * 100.0) + " %";
+    }
+
     private void OuvrirOptions()
     {
-        // Pas encore de fenêtre d'options dans MainMenu :
-        // conserve la valeur enregistrée depuis MenuDemarrer et informe le joueur.
-        AfficherInformation("Les options supplémentaires seront disponibles prochainement.\nLe volume reste enregistré depuis le menu de démarrage.");
+        // FenetreMenuQuitter et FenetreOption sont des fenêtres exclusives :
+        // ne pas les laisser ouvertes simultanément.
+        ActualiserVolumeOptions(MusicManager.GetSavedMasterVolume());
+        _fenetreQuitter.Hide();
+        _fenetreOptions.PopupCentered();
+    }
+
+    private void FermerOptions()
+    {
+        _fenetreOptions.Hide();
+        if (!_sortieEnCours)
+            _fenetreQuitter.PopupCentered();
     }
 
     private bool _sortieEnCours;
