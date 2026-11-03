@@ -44,18 +44,17 @@ public partial class MainMenu
                 VersNoeudFilRouge(JetFilRouge("Calme", 15)
                     ? "i-salut-reussi" : "i-salut-echec"); return;
             case "i-calmepoli":
-            {
-                // Le document ne prévoit AUCUNE réplique supplémentaire
-                // après ce jet, quel que soit son résultat.
-                bool reussi = JetFilRouge("Calme", 15);
-                if (reussi)
-                    TerminerRepliqueFilRouge("Facon ne réussit pas son intimidation.",
-                        prestige: 10);
-                else
-                    TerminerRepliqueFilRouge("Facon réussit son intimidation.",
-                        bonheur: -10);
+                // Aucun dialogue supplémentaire : seul le résultat du jet
+                // est montré avant de fermer la conversation.
+                VersNoeudFilRouge(JetFilRouge("Calme", 15)
+                    ? "i-calme-conclusion-ok" : "i-calme-conclusion-ko");
                 return;
-            }
+            case "i-conclusion-ok":
+                TerminerRepliqueFilRouge("Facon ne réussit pas son intimidation.",
+                    prestige: 10); return;
+            case "i-conclusion-ko":
+                TerminerRepliqueFilRouge("Facon réussit son intimidation.",
+                    bonheur: -10); return;
             case "i-fin-facon":
                 TerminerRepliqueFilRouge("Facon réussit son intimidation.",
                     bonheur: -10); return;
@@ -276,6 +275,15 @@ public partial class MainMenu
                     "Joueur : Il faut bien partir de quelque part...\n" +
                     "Charles Suriname : Qu'on soit clair : ici c'est Facon qui commande. Vous avez pas intérêt à marcher sur nos plates bandes.",
                     ("Continuer (D20 Calme, cible 15)", "i-calmepoli"));
+                return;
+
+            case "i-calme-conclusion-ok":
+            case "i-calme-conclusion-ko":
+                MontrerTranscriptionFilRouge("Charles", charles,
+                    "Résultat du jet de Calme.",
+                    ("Terminer la conversation",
+                        n == "i-calme-conclusion-ok" ?
+                        "i-conclusion-ok" : "i-conclusion-ko"));
                 return;
 
             // CHOIX 2 : « Bonjour, je peux vous aider ? »
