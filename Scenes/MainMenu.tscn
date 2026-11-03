@@ -1986,19 +1986,19 @@ theme = ExtResource("1_loo7a")
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="BoutonTableauMission" type="Button" parent="MargeChoixMenu/BoutonsMenu" unique_id=743008931]
-custom_minimum_size = Vector2(260, 65)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-text = "Tableau des missions"
-
 [node name="BoutonMembreGuilde" type="Button" parent="MargeChoixMenu/BoutonsMenu" unique_id=314585503]
 custom_minimum_size = Vector2(260, 65)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Membre de la Guilde"
+
+[node name="BoutonTableauMission" type="Button" parent="MargeChoixMenu/BoutonsMenu" unique_id=743008931]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Tableau des missions"
 
 [node name="BoutonMagasins" type="Button" parent="MargeChoixMenu/BoutonsMenu" unique_id=729151553]
 custom_minimum_size = Vector2(260, 65)
@@ -2014,19 +2014,19 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Recrutement"
 
-[node name="BoutonBudget" type="Button" parent="MargeChoixMenu/BoutonsMenu" unique_id=1067862303]
+[node name="BoutonBudgetInventaire" type="Button" parent="MargeChoixMenu/BoutonsMenu" unique_id=1067862303]
 custom_minimum_size = Vector2(260, 65)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-text = "Budget"
+text = "Budget & Inventaire"
 
-[node name="BoutonEvenements" type="Button" parent="MargeChoixMenu/BoutonsMenu" unique_id=655171572]
+[node name="BoutonCalendrier" type="Button" parent="MargeChoixMenu/BoutonsMenu" unique_id=655171572]
 custom_minimum_size = Vector2(260, 65)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-text = "Évènements"
+text = "Calendrier"
 
 [node name="BoutonQuitter" type="Button" parent="MargeChoixMenu/BoutonsMenu" unique_id=1512306973]
 custom_minimum_size = Vector2(260, 65)
@@ -2810,6 +2810,7 @@ oversampling_override = 1.0
 initial_position = 3
 size = Vector2i(1200, 800)
 current_screen = 0
+visible = false
 exclusive = true
 unresizable = true
 transparent = true
