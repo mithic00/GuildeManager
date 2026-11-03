@@ -64,6 +64,7 @@ public partial class MainMenu : Control
         InitialiserMissions();
         InitialiserGestionMembres();
         InitialiserDiscussions();
+        InitialiserFilRougeRoseVallee();
         ActualiserAnniversaires();
         if (_horloge != null)
             TraiterRetoursConcours(_horloge.Instant);
@@ -197,7 +198,8 @@ public partial class MainMenu : Control
                 [RegistreMembresGuilde.CleSauvegarde] = JsonSerializer.Serialize(_registreMembres),
                 [RecrutementAubergeEtat.CleSauvegarde] = _aubergeEtat.Serialiser(),
                 [EtatMissions.CleSauvegarde] = _etatMissions.Serialiser(),
-                [HistoriqueMembresGuilde.CleSauvegarde] = _historiqueMembres.Serialiser()
+                [HistoriqueMembresGuilde.CleSauvegarde] = _historiqueMembres.Serialiser(),
+                [EtatFilRougeRoseVallee.CleSauvegarde] = (_filRouge ?? new EtatFilRougeRoseVallee()).Serialiser()
             };
             SaveManager.TracerSauvegarde("Toutes les données sont sérialisées.");
 
