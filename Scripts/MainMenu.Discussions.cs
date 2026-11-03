@@ -60,11 +60,13 @@ public partial class MainMenu
         _reponsesDiscussion.Hide();
     }
 
-    private static bool JetCommunication(MembreGuilde membre, int cible, out int de)
+    private static bool JetCommunication(MembreGuilde membre, int cible,
+        out int de, out int modificateur)
     {
         de = Random.Shared.Next(1, 21);
         int stat = membre.Statistiques?.GetValueOrDefault("Communication", 10) ?? 10;
-        return de + ReglesCaracteristiques.Modificateur(Math.Clamp(stat, 1, 20)) >= cible;
+        modificateur = ReglesCaracteristiques.Modificateur(Math.Clamp(stat, 1, 20));
+        return de + modificateur >= cible;
     }
 
     // Seule l'heure de DÉBUT est limitée : de 08h00 à 23h59.
@@ -178,8 +180,10 @@ public partial class MainMenu
         int seuil = amicale
             ? (basMoral ? 18 : bonneRelation ? 4 : 10)
             : (basMoral ? (continuation ? 20 : 18) : 6);
-        bool succesJoueur = JetCommunication(joueur, seuil, out int deJoueur);
-        bool succesCible = JetCommunication(cible, seuil, out int deCible);
+        bool succesJoueur = JetCommunication(joueur, seuil, out int deJoueur,
+            out int bonusJoueur);
+        bool succesCible = JetCommunication(cible, seuil, out int deCible,
+            out int bonusCible);
         bool critique = deJoueur == 20 || deCible == 20;
         bool reussite = critique || (succesJoueur && succesCible);
         int relationDelta = 0, bonheurDelta = 0, moralDelta = 0, stats = 0, minutes = 10;
@@ -215,8 +219,9 @@ public partial class MainMenu
         {
             if (reussite)
             {
-                replique = basMoral ? "Ok, rapide s'il vous plait. J'ai pas le moral." :
-                    "Avec plaisir.";
+                replique = basMoral
+                    ? "Bonjour. Oh bah c'est pas trop la forme en ce moment..."
+                    : bonneRelation ? "Oh bah la routine et vous ?" : "Avec plaisir.";
                 minutes = basMoral ? 15 : 30;
                 if (bonneRelation)
                 {
@@ -241,6 +246,29 @@ public partial class MainMenu
             }
         }
 
+        // Bonus de Communication du maître de guilde, prévu pour les
+        // dialogues réussis de 30 minutes et les échanges amicaux réussis
+        // avec une relation >= 10 (même lorsque le moral est bas).
+        // Tirage indépendant à 5 %, plafonné à 20.
+        bool progressionCommunicationPossible = reussite &&
+            (!amicale && !basMoral ||
+             amicale && bonneRelation);
+        bool progressionCommunication = progressionCommunicationPossible &&
+            Random.Shared.Next(100) < 5 &&
+            joueur.Statistiques.GetValueOrDefault("Communication", 10) < 20;
+        if (progressionCommunication)
+        {
+            int avant = joueur.Statistiques.GetValueOrDefault("Communication", 10);
+            joueur.Statistiques["Communication"] = avant + 1;
+            _historiqueMembres?.Ajouter(joueur, _horloge.Instant,
+                "Statistique", "Communication : " + avant + " → " +
+                (avant + 1) + " (discussion réussie, bonus de 5 %).",
+                avant: avant, apres: avant + 1);
+            AjouterEntreeJournal(joueur.NomComplet +
+                " gagne +1 en Communication après une discussion réussie.",
+                "discussion");
+        }
+
         int relationApres = RelationsMembres.Ajuster(joueur, cible, relationDelta);
         cible.Bonheur = Math.Clamp(cible.Bonheur + bonheurDelta, 0, 100);
         cible.Moral = Math.Clamp(cible.Moral + moralDelta, 0, 100);
@@ -249,11 +277,15 @@ public partial class MainMenu
             amicale ? "Vous : Bonjour ! Quoi de neuf ?" :
                 "Vous : Bonjour ! Apprenons un peu à se connaitre.";
         _resultatDiscussion.Text = debut + "\n" + cible.Prenom + " : " + replique +
-            "\n\nJets de Communication : vous " + deJoueur + "/20, " + cible.Prenom +
-            " " + deCible + "/20" + (critique ? " — Succès critique !" : "") +
+            "\n\nJets de Communication :\nVous : " +
+            ReglesCaracteristiques.FormaterJet(deJoueur, bonusJoueur, seuil) +
+            "\n" + cible.Prenom + " : " +
+            ReglesCaracteristiques.FormaterJet(deCible, bonusCible, seuil) +
+            (critique ? "\nSuccès critique !" : "") +
             "\nRelation : " + (relationDelta >= 0 ? "+" : "") + relationDelta +
             " (" + relationApres + "/100)." +
             (decouvertes > 0 ? "\nCaractéristiques découvertes : " + decouvertes + "." : "") +
+            (progressionCommunication ? "\nCommunication du maître de guilde : +1." : "") +
             "\nTemps écoulé : " + minutes + " minutes.";
         // La suite prévue dans Discussion.txt est le deuxième et dernier échange
         // de ce dialogue. Une nouvelle conversation peut ensuite être entamée.
