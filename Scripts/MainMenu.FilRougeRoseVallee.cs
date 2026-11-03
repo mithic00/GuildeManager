@@ -190,6 +190,19 @@ public partial class MainMenu
         }
         _portraitDiscussionCible.Texture = GD.Load<Texture2D>(fichier);
         _portraitDiscussionCible.TooltipText = interlocuteur;
+        MembreGuilde joueur = _registreMembres?.Membres.FirstOrDefault(m => m.EstJoueur);
+        if (joueur != null)
+        {
+            string[] races = { "Humain", "ElfeGris", "Grumol", "HumainDesMonts",
+                "HautElfe", "Nain", "Tanneur", "Khajiit" };
+            string race = joueur.ApparenceId > 0 && joueur.ApparenceId <= races.Length ?
+                races[joueur.ApparenceId - 1] : "Humain";
+            string portraitJoueur = "res://Images/Portraits/GrandFormat/" + race +
+                (joueur.Sexe == "F" ? "_Femme.png" : "_Homme.png");
+            if (!ResourceLoader.Exists(portraitJoueur))
+                portraitJoueur = "res://Images/Portraits/GrandFormat/Portait_Defaut.png";
+            _portraitDiscussionJoueur.Texture = GD.Load<Texture2D>(portraitJoueur);
+        }
         _listeChoixFilRouge.Show();
     }
 
