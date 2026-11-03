@@ -256,8 +256,6 @@ public partial class MainMenu
                 _filRouge.AttendRue4 = true;
                 _filRouge.DateLimiteRue4 = ReglesMissions.DateIso(_horloge.Instant.AddHours(4));
                 _filRouge.Noeud = "iv-rue4";
-                AjouterEntreeJournal("Rose-Vallée : poursuivre les saboteurs en Rue4 avant " +
-                    HorlogeJeu.Formater(_horloge.Instant.AddHours(4)) + ".", "fil_rouge");
                 FermerInterfaceFilRouge();return;
             case "iv-refus":
                 VersNoeudFilRouge("iv-refus");return;
