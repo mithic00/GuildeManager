@@ -13,7 +13,8 @@ public partial class MainMenu
     private Window _fenetreFiche;
     private Control _contenuFiche, _contenuGestion;
     private Control _layoutStatsFiche;
-    private RichTextLabel _autresInfosFiche;
+    private Control _autresInfosFiche;
+    private RichTextLabel _autresInfosFiche1, _autresInfosFiche2, _autresInfosFiche3;
     private Button _boutonAutreInfoFiche;
     private Label _titreSectionFiche;
     private RegistreMembresGuilde _registreMembres;
@@ -37,8 +38,15 @@ public partial class MainMenu
         _contenuGestion = GetNode<Control>("FenetreFichePerso/LayoutGestion");
         const string layoutFiche = "FenetreFichePerso/MargeFichePerso/Layout/";
         _layoutStatsFiche = GetNode<Control>(layoutFiche + "LayoutStats");
-        _autresInfosFiche = GetNode<RichTextLabel>(layoutFiche + "AutresInfos");
+        _autresInfosFiche = GetNode<Control>(layoutFiche + "AutresInfos");
+        _autresInfosFiche1 = GetNode<RichTextLabel>(layoutFiche + "AutresInfos/AutresInfos1");
+        _autresInfosFiche2 = GetNode<RichTextLabel>(layoutFiche + "AutresInfos/AutresInfos2");
+        _autresInfosFiche3 = GetNode<RichTextLabel>(layoutFiche + "AutresInfos/AutresInfos3");
         _titreSectionFiche = GetNode<Label>(layoutFiche + "LabelStatistiques");
+        // Mise en forme locale, compatible avec la scène déjà enregistrée dans Git.
+        _autresInfosFiche1.BbcodeEnabled = true;
+        _autresInfosFiche2.BbcodeEnabled = true;
+        _autresInfosFiche3.BbcodeEnabled = true;
         _autresInfosFiche.Hide();
         _boutonAutreInfoFiche = GetNode<Button>(
             layoutFiche + "Boutons/GridContainer/BoutonAutreInfo");
@@ -360,50 +368,65 @@ public partial class MainMenu
         _titreSectionFiche.Text = "Statistiques";
     }
 
+    /// <summary>Empêche qu'un nom ou métier contenant des crochets soit interprété comme du BBCode.</summary>
+    private static string EchapperBbcodeFiche(string valeur) =>
+        (valeur ?? "").Replace("[", "[lb]");
+
+    private static string TitreAutresInfos(string titre) =>
+        "[b][font_size=25]" + titre + "[/font_size][/b]\n\n";
+
     private void RemplirAutresInfosFiche(MembreGuilde membre)
     {
-        if (membre == null || _autresInfosFiche == null) return;
-        var texte = new StringBuilder();
+        if (membre == null || _autresInfosFiche1 == null ||
+            _autresInfosFiche2 == null || _autresInfosFiche3 == null)
+            return;
 
-        texte.AppendLine("IDENTITÉ ET PARCOURS");
-        texte.AppendLine("Race : " + (string.IsNullOrWhiteSpace(membre.Race) ? "Inconnue" : membre.Race));
-        texte.AppendLine("Sexe : " + (membre.Sexe == "F" ? "Femme" :
+        // Colonne 1 : état civil et parcours du personnage.
+        var identite = new StringBuilder();
+        identite.Append(TitreAutresInfos("Identité et parcours"));
+        identite.AppendLine("Race : " + EchapperBbcodeFiche(
+            string.IsNullOrWhiteSpace(membre.Race) ? "Inconnue" : membre.Race));
+        identite.AppendLine("Sexe : " + (membre.Sexe == "F" ? "Femme" :
             membre.Sexe == "H" ? "Homme" : "Non renseigné"));
         DateTime? naissance = membre.LireDateNaissance();
-        texte.AppendLine("Date de naissance : " +
+        identite.AppendLine("Date de naissance : " +
             (naissance.HasValue ? naissance.Value.ToString("d MMMM yyyy", Francais) :
                 "Inconnue"));
-        texte.AppendLine("Métier : " +
-            (string.IsNullOrWhiteSpace(membre.Metier) ? "Aucun renseigné" : membre.Metier));
-        texte.AppendLine("Rôle dans la guilde : " +
+        identite.AppendLine("Métier : " + EchapperBbcodeFiche(
+            string.IsNullOrWhiteSpace(membre.Metier) ? "Aucun renseigné" : membre.Metier));
+        identite.AppendLine("Rôle dans la guilde : " +
             (membre.EstMaitreDeGuilde ? "Maître de guilde" :
                 membre.EstAdjoint ? "Adjoint" : "Membre"));
-        texte.AppendLine();
 
-        texte.AppendLine("COMPÉTENCES");
+        // Colonne 2 : liste des compétences, sans afficher de caractéristiques
+        // chiffrées inconnues au joueur.
+        var competencesTexte = new StringBuilder();
+        competencesTexte.Append(TitreAutresInfos("Compétences"));
         var competences = membre.Competences == null
             ? new List<string>()
             : membre.Competences.Where(nom => !string.IsNullOrWhiteSpace(nom))
                 .Distinct(StringComparer.CurrentCultureIgnoreCase)
                 .OrderBy(nom => nom, StringComparer.CurrentCultureIgnoreCase).ToList();
         if (competences.Count == 0)
-            texte.AppendLine("Aucune compétence renseignée.");
+            competencesTexte.AppendLine("Aucune compétence renseignée.");
         else
             foreach (string competence in competences)
-                texte.AppendLine("• " + competence);
-        texte.AppendLine();
+                competencesTexte.AppendLine("• " + EchapperBbcodeFiche(competence));
 
-        texte.AppendLine("CARRIÈRE ET FINANCES");
-        texte.AppendLine("Écus personnels : " +
+        // Colonne 3 : historique de missions, revenus et situation actuelle.
+        var carriere = new StringBuilder();
+        carriere.Append(TitreAutresInfos("Carrière et finances"));
+        carriere.AppendLine("Écus personnels : " +
             membre.EcusPersonnels.ToString("N0", Francais) + " écus");
+
         var succes = membre.MissionsReussiesParRang;
         if (succes == null || succes.Count == 0 || succes.All(x => x.Value <= 0))
         {
-            texte.AppendLine("Missions réussies : aucune");
+            carriere.AppendLine("Missions réussies : aucune");
         }
         else
         {
-            texte.AppendLine("Missions réussies : " +
+            carriere.AppendLine("Missions réussies : " +
                 succes.Values.Where(nombre => nombre > 0).Sum() + " au total");
             foreach (var rang in succes.Where(x => x.Value > 0)
                 .OrderBy(x =>
@@ -411,12 +434,13 @@ public partial class MainMenu
                     int index = Array.IndexOf(ReglesMissions.Rangs, x.Key);
                     return index < 0 ? int.MaxValue : index;
                 }))
-                texte.AppendLine("• Rang " + ReglesMissions.FormaterRang(rang.Key) +
+                carriere.AppendLine("• Rang " +
+                    EchapperBbcodeFiche(ReglesMissions.FormaterRang(rang.Key)) +
                     " : " + rang.Value);
         }
-        texte.AppendLine();
 
-        texte.AppendLine("SITUATION ACTUELLE");
+        carriere.AppendLine();
+        carriere.Append(TitreAutresInfos("Situation actuelle"));
         var missions = _etatMissions?.Missions?.Where(mission =>
             mission.Etat == "EnCours" &&
             mission.ParticipantIds != null &&
@@ -424,24 +448,27 @@ public partial class MainMenu
         if (missions?.Count > 0)
         {
             foreach (MissionGuilde mission in missions)
-                texte.AppendLine("En mission : " +
-                    (string.IsNullOrWhiteSpace(mission.Titre) ?
-                        mission.Categorie : mission.Titre));
+                carriere.AppendLine("En mission : " + EchapperBbcodeFiche(
+                    string.IsNullOrWhiteSpace(mission.Titre)
+                        ? mission.Categorie : mission.Titre));
         }
         else if (!string.IsNullOrWhiteSpace(membre.ConcoursEnCours))
         {
-            texte.AppendLine("Participe au concours " + membre.ConcoursEnCours);
+            carriere.AppendLine("Participe au concours " +
+                EchapperBbcodeFiche(membre.ConcoursEnCours));
             if (!string.IsNullOrWhiteSpace(membre.DateRetourConcours) &&
                 DateTime.TryParseExact(membre.DateRetourConcours,
                     "yyyy-MM-dd'T'HH:mm:ss", CultureInfo.InvariantCulture,
                     DateTimeStyles.None, out DateTime retour))
-                texte.AppendLine("Retour prévu : " + HorlogeJeu.Formater(retour));
+                carriere.AppendLine("Retour prévu : " + HorlogeJeu.Formater(retour));
         }
         else
-            texte.AppendLine(membre.Absent ? "Absent de la guilde" :
+            carriere.AppendLine(membre.Absent ? "Absent de la guilde" :
                 "Présent à la guilde");
 
-        _autresInfosFiche.Text = texte.ToString().TrimEnd();
+        _autresInfosFiche1.Text = identite.ToString().TrimEnd();
+        _autresInfosFiche2.Text = competencesTexte.ToString().TrimEnd();
+        _autresInfosFiche3.Text = carriere.ToString().TrimEnd();
     }
 
     private void AfficherGestion()
