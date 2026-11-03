@@ -7,7 +7,7 @@ Différent dialogue possible :
 2 - Cible : 
 Si Moral > 19
 D20 Communication cible 6 
--> réussi : "Avec plaisir."                                         -> +3 relation, +3 stats découvert hors potentiel magique. +30 Minutes.
+-> réussi : "Avec plaisir."                                         -> +3 relation, +3 stats découvert hors potentiel magique. +30 Minutes. Si D20 MJ : 5% chance de gagner +1 en Communication
 -> échoué : "Je suis occupé pour le moment désolé."                 -> -1 relation. +10 Minutes.
 Si Moral < 20
 D20 Communication cible 18
@@ -18,7 +18,7 @@ D20 Communication cible 18
 4 - Cible :
 Si Moral > 19
 D20 Communication cible 6 
--> réussi : "Avec plaisir."                                         -> +3 relation, +3 stats découvert hors potentiel magique. +30 Minutes.
+-> réussi : "Avec plaisir."                                         -> +3 relation, +3 stats découvert hors potentiel magique. +30 Minutes. Si D20 MJ : 5% chance de gagner +1 en Communication
 -> échoué : "Je vais devoir y aller désolé."                        -> -1 relation +10 Minutes.
 Si Moral < 20
 D20 Communication cible 20
@@ -34,7 +34,7 @@ D20 Communication cible 20
 Si Moral > 19
   Si relation > 9
     D20 Communication cible 4
-    -> réussi : "Avec plaisir."                                         -> +3 relation, +1 bonheur, +10 moral. +30 Minutes.
+    -> réussi : "Oh bah la routine et vous ?"                           -> +3 relation, +1 bonheur, +10 moral. +30 Minutes. Si D20 MJ : 5% chance de gagner +1 en Communication
     -> échoué : "Je suis occupé pour le moment désolé."                 -> -1 relation.  +10 Minutes.
   Si relation < 10
     D20 Communication cible 10
@@ -43,7 +43,7 @@ Si Moral > 19
 Si Moral < 20
   Si relation > 9
     D20 Communication cible 18
-    -> réussi : "Ok, rapide s'il vous plait. J'ai pas le moral."        -> +3 relation, +1 bonheur, +10 moral. +15 Minutes.
+    -> réussi : "Bonjour. Oh bah c'est pas trop la forme en ce moment..." -> +3 relation, +1 bonheur, +10 moral. +15 Minutes. Si D20 MJ : 5% chance de gagner +1 en Communication
     -> échoué : "C'est pas le moment."                                  -> -5 relation. +10 Minutes.
   Si relation < 10
     D20 Communication cible 18
