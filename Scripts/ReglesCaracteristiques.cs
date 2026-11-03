@@ -6,6 +6,19 @@ using System;
 /// </summary>
 public static class ReglesCaracteristiques
 {
+    /// <summary>
+    /// Affiche le résultat effectif d'un jet (dé, bonus/malus, total et seuil).
+    /// Le même format sert aux conversations et aux événements scénarisés.
+    /// </summary>
+    public static string FormaterJet(int de, int modificateur, int cible)
+    {
+        int total = de + modificateur;
+        string signe = modificateur >= 0 ? "+" : "-";
+        return "D20 " + de + " " + signe + " " + Math.Abs(modificateur) +
+            " = " + total + " / cible " + cible +
+            " (" + (total >= cible ? "réussite" : "échec") + ")";
+    }
+
     /// <summary>Retourne le bonus ou malus correspondant à une caractéristique sur 20.</summary>
     public static int Modificateur(int valeur)
     {
