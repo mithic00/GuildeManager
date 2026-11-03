@@ -37,20 +37,10 @@ public partial class MainMenu
         GetNode<Button>(racine + "BoutonTableauMission").Pressed += () => BasculerPanneau("missions");
         GetNode<Button>(racine + "BoutonMagasins").Pressed += OuvrirMagasins;
         GetNode<Button>(racine + "BoutonRecrutement").Pressed += OuvrirChoixRecrutement;
-        // Ces sections sont encore en développement. Certaines copies locales
-        // de la scène ne possèdent pas leurs boutons : leur absence ne doit
-        // jamais bloquer le chargement du jeu.
-        Button boutonBudget = GetNodeOrNull<Button>(racine + "BoutonBudget");
-        if (boutonBudget != null)
-            boutonBudget.Pressed += () => BasculerPanneau("budget");
-        else
-            GD.PushWarning("MainMenu : BoutonBudget absent de la scène chargée (section facultative).");
-
-        Button boutonEvenements = GetNodeOrNull<Button>(racine + "BoutonEvenements");
-        if (boutonEvenements != null)
-            boutonEvenements.Pressed += () => BasculerPanneau("evenements");
-        else
-            GD.PushWarning("MainMenu : BoutonEvenements absent de la scène chargée (section facultative).");
+        GetNode<Button>(racine + "BoutonBudgetInventaire").Pressed +=
+            () => BasculerPanneau("budget_inventaire");
+        GetNode<Button>(racine + "BoutonCalendrier").Pressed +=
+            () => BasculerPanneau("calendrier");
 
         _listeDesMembres.ItemSelected += i => OuvrirFicheMembre((int)i);
         _listeDesMembres.ItemActivated += i => OuvrirFicheMembre((int)i);
@@ -84,7 +74,8 @@ public partial class MainMenu
     private void AfficherPanneau(string nom)
     {
         _panneauActif = nom;
-        _fondBureau.Visible = nom == "bureau" || nom == "budget" || nom == "recrutement" || nom == "evenements";
+        _fondBureau.Visible = nom == "bureau" || nom == "budget_inventaire" ||
+            nom == "recrutement" || nom == "calendrier";
         _fondMissions.Visible = nom == "missions";
         _fondMembres.Visible = nom == "membres";
         _fondMagasin.Visible = nom == "magasin";
@@ -95,7 +86,8 @@ public partial class MainMenu
         GetNode<Control>("JournalJoueur").Visible = nom == "bureau";
         if (_contenuAuberge != null) _contenuAuberge.Visible = nom == "auberge";
         if (_fondAuberge != null) _fondAuberge.Visible = nom == "auberge";
-        if (nom == "magasin" || nom == "budget" || nom == "recrutement" || nom == "evenements")
+        if (nom == "magasin" || nom == "budget_inventaire" ||
+            nom == "recrutement" || nom == "calendrier")
             GD.Print("MainMenu : section " + nom + " à développer.");
     }
 
