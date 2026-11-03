@@ -2202,6 +2202,7 @@ text = "Niveau : 15"
 [node name="LabelTraitsPositifs" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout1" unique_id=174359676]
 layout_mode = 2
 text = "Traits Positifs : "
+autowrap_mode = 3
 
 [node name="Layout2" type="VBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral" unique_id=137312420]
 layout_mode = 2
@@ -2238,6 +2239,7 @@ text = "Equipe : Hector, Jaque, Noa"
 [node name="LabelTraitsNegatifs" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout/StatsGeneral/Layout2" unique_id=1974053573]
 layout_mode = 2
 text = "Traits Négatifs  : "
+autowrap_mode = 3
 
 [node name="LabelStatistiques" type="Label" parent="FenetreFichePerso/MargeFichePerso/Layout" unique_id=1569490453]
 layout_mode = 2
@@ -2246,7 +2248,6 @@ text = "Statistiques"
 horizontal_alignment = 1
 
 [node name="LayoutStats" type="HBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout" unique_id=284378057]
-custom_minimum_size = Vector2(0, 180)
 layout_mode = 2
 
 [node name="Layout1" type="VBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout/LayoutStats" unique_id=934207674]
@@ -2333,6 +2334,11 @@ text = "Vitesse : "
 layout_mode = 2
 text = "Endurance : "
 
+[node name="AutresInfos" type="RichTextLabel" parent="FenetreFichePerso/MargeFichePerso/Layout" unique_id=1520730840]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
 [node name="Boutons" type="HBoxContainer" parent="FenetreFichePerso/MargeFichePerso/Layout" unique_id=1603004868]
 layout_mode = 2
 size_flags_vertical = 3
@@ -2359,12 +2365,12 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Gestion"
 
-[node name="BoutonVirer" type="Button" parent="FenetreFichePerso/MargeFichePerso/Layout/Boutons/GridContainer" unique_id=2058247553]
+[node name="BoutonAutreInfo" type="Button" parent="FenetreFichePerso/MargeFichePerso/Layout/Boutons/GridContainer" unique_id=2058247553]
 custom_minimum_size = Vector2(260, 65)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-text = "Exclure de la Guilde"
+text = "Autre Info"
 
 [node name="BoutonFermer" type="Button" parent="FenetreFichePerso/MargeFichePerso/Layout/Boutons/GridContainer" unique_id=765623624]
 custom_minimum_size = Vector2(260, 65)
@@ -2409,6 +2415,13 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Relation"
+
+[node name="BoutonVirer" type="Button" parent="FenetreFichePerso/LayoutSocial/VBoxContainer" unique_id=432424697]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Exclure de la Guilde"
 
 [node name="BoutonRetour" type="Button" parent="FenetreFichePerso/LayoutSocial/VBoxContainer" unique_id=2082253919]
 custom_minimum_size = Vector2(260, 65)
