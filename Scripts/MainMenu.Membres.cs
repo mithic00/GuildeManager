@@ -37,8 +37,20 @@ public partial class MainMenu
         GetNode<Button>(racine + "BoutonTableauMission").Pressed += () => BasculerPanneau("missions");
         GetNode<Button>(racine + "BoutonMagasins").Pressed += OuvrirMagasins;
         GetNode<Button>(racine + "BoutonRecrutement").Pressed += OuvrirChoixRecrutement;
-        GetNode<Button>(racine + "BoutonBudget").Pressed += () => BasculerPanneau("budget");
-        GetNode<Button>(racine + "BoutonEvenements").Pressed += () => BasculerPanneau("evenements");
+        // Ces sections sont encore en développement. Certaines copies locales
+        // de la scène ne possèdent pas leurs boutons : leur absence ne doit
+        // jamais bloquer le chargement du jeu.
+        Button boutonBudget = GetNodeOrNull<Button>(racine + "BoutonBudget");
+        if (boutonBudget != null)
+            boutonBudget.Pressed += () => BasculerPanneau("budget");
+        else
+            GD.PushWarning("MainMenu : BoutonBudget absent de la scène chargée (section facultative).");
+
+        Button boutonEvenements = GetNodeOrNull<Button>(racine + "BoutonEvenements");
+        if (boutonEvenements != null)
+            boutonEvenements.Pressed += () => BasculerPanneau("evenements");
+        else
+            GD.PushWarning("MainMenu : BoutonEvenements absent de la scène chargée (section facultative).");
 
         _listeDesMembres.ItemSelected += i => OuvrirFicheMembre((int)i);
         _listeDesMembres.ItemActivated += i => OuvrirFicheMembre((int)i);
