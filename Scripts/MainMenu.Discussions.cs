@@ -11,7 +11,7 @@ public partial class MainMenu
     private RichTextLabel _resultatDiscussion;
     private TextureRect _portraitDiscussionCible, _portraitDiscussionJoueur;
     private Control _sujetsDiscussion, _reponsesDiscussion;
-    private Button _faireConnaissance, _conversationAmicale;
+    private Button _faireConnaissance, _conversationAmicale, _boutonRemonterMoral;
     private ItemList _listeReponsesDiscussion;
     private MembreGuilde _cibleDiscussion;
     private bool _connaissanceAContinuer;
@@ -32,6 +32,15 @@ public partial class MainMenu
             "ListeSujetDiscussion/BoutonFaireConnaissance");
         _conversationAmicale = GetNode<Button>(interfaceDialogue +
             "ListeSujetDiscussion/BoutonConversationAmicale");
+        // Ce nœud a été ajouté localement par le créateur ; il n'est pas
+        // encore visible dans la scène GitHub lors de cette intégration.
+        _boutonRemonterMoral = GetNodeOrNull<Button>(interfaceDialogue +
+            "ListeSujetDiscussion/BoutonRemonterMoral");
+        if (_boutonRemonterMoral != null)
+            _boutonRemonterMoral.Pressed += ResoudreSoutienMoral;
+        else
+            GD.PushWarning("MainMenu : BoutonRemonterMoral absent de la scène. " +
+                "Synchronisez MainMenu.tscn avec la version locale.");
         GetNode<Button>(interfaceDialogue + "ListeSujetDiscussion/BoutonFermer")
             .Pressed += FermerDiscussion;
         _faireConnaissance.Pressed += () => ResoudreDiscussion(false, false);
@@ -131,10 +140,113 @@ public partial class MainMenu
             ResourceLoader.Exists(chemin) ? chemin : portraitDefaut);
         _portraitDiscussionCible.MouseFilter = Control.MouseFilterEnum.Stop;
         ActualiserInfobulleTraitsDiscussion();
+        ActualiserBoutonRemonterMoral();
         _sujetsDiscussion.Show();
         _reponsesDiscussion.Hide();
         _fenetreFiche.Hide();
         _fenetreDiscussion.PopupCentered();
+    }
+
+    private static string DateJourDiscussion(DateTime instant) =>
+        instant.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+    private void ActualiserBoutonRemonterMoral()
+    {
+        if (_boutonRemonterMoral == null) return;
+        MembreGuilde cible = _cibleDiscussion;
+        bool dejaTente = cible != null && _horloge != null &&
+            cible.DerniereTentativeRemonterMoral ==
+                DateJourDiscussion(_horloge.Instant);
+        bool moralSuffisant = cible != null && cible.Moral >= 80;
+
+        _boutonRemonterMoral.Disabled = cible == null || _horloge == null ||
+            dejaTente || moralSuffisant;
+        _boutonRemonterMoral.TooltipText = dejaTente
+            ? "Vous avez déjà tenté de remonter le moral de ce membre aujourd'hui."
+            : moralSuffisant
+                ? "Ce membre n'a pas besoin de soutien moral (moral supérieur ou égal à 80)."
+                : "Encourager ce membre (D20 Empathie, 20 minutes, une fois par jour).";
+    }
+
+    private void ResoudreSoutienMoral()
+    {
+        if (_discussionEnCours || _cibleDiscussion == null ||
+            _registreMembres == null || _horloge == null)
+            return;
+        if (!DialogueAccessible(_cibleDiscussion, true, verifierHoraire: false))
+        {
+            FermerDiscussion();
+            return;
+        }
+
+        MembreGuilde cible = _cibleDiscussion;
+        if (cible.DerniereTentativeRemonterMoral ==
+            DateJourDiscussion(_horloge.Instant))
+        {
+            ActualiserBoutonRemonterMoral();
+            return;
+        }
+        if (cible.Moral >= 80)
+        {
+            ActualiserBoutonRemonterMoral();
+            return;
+        }
+        MembreGuilde joueur = _registreMembres.Membres.FirstOrDefault(m => m.EstJoueur);
+        if (joueur == null) return;
+
+        _discussionEnCours = true;
+        _connaissanceAContinuer = false;
+
+        // Consommer la tentative dès le lancement du jet et enregistrer
+        // le jour initial, même si les 20 minutes dépassent minuit.
+        cible.DerniereTentativeRemonterMoral = DateJourDiscussion(_horloge.Instant);
+        int moralAvant = cible.Moral;
+        int empathie = joueur.Statistiques?.GetValueOrDefault("Empathie", 10) ?? 10;
+        int bonus = ReglesCaracteristiques.Modificateur(Math.Clamp(empathie, 1, 20));
+        int de = Random.Shared.Next(1, 21);
+        int total = de + bonus;
+        bool critique = de == 20;
+        bool reussite = critique || total >= 12;
+        int gain = critique ? 20 : reussite ? 10 : 0;
+        cible.Moral = Math.Clamp(cible.Moral + gain, 0, 100);
+        int gainReel = cible.Moral - moralAvant;
+
+        string signe = bonus >= 0 ? "+" : "-";
+        string jet = "D20 " + de + " " + signe + " " + Math.Abs(bonus) +
+            " = " + total + " (" + (reussite ? "réussite" : "échec") + ")";
+        string replique = reussite
+            ? "Merci, ça fait du bien d'entendre ça. Je vais essayer de reprendre du poil de la bête !"
+            : "Merci... Mais j'ai surtout besoin d'un peu de temps pour moi.";
+
+        _resultatDiscussion.Text =
+            "Vous : Tu n'as pas l'air dans ton assiette en ce moment. Quelque chose ne va pas ?" +
+            "\n" + cible.Prenom + " : C'est vrai que ces derniers temps, ce n'est pas facile..." +
+            "\nVous : Si tu as besoin de parler, je suis là. On est une équipe après tout." +
+            "\n" + cible.Prenom + " : " + replique +
+            "\n\nJet d'Empathie : " + jet +
+            (critique ? "\nRéussite critique !" : "") +
+            "\nMoral : " + moralAvant + " → " + cible.Moral +
+            (gainReel > 0 ? " (+" + gainReel + ")" : " (inchangé)") +
+            "\nTemps écoulé : 20 minutes.";
+
+        AjouterEntreeJournal("Discussion de soutien moral avec " + cible.NomComplet +
+            " : " + (reussite ? "réussite" : "échec") +
+            ", moral " + moralAvant + " → " + cible.Moral + ".", "discussion");
+        _historiqueMembres?.Ajouter(cible, _horloge.Instant,
+            "SoutienMoral", "Soutien moral du maître de guilde : " +
+            (reussite ? "réussite" : "échec") + " (" + jet + ").");
+        if (gainReel > 0)
+            _historiqueMembres?.Ajouter(cible, _horloge.Instant,
+                "Moral", "Moral : " + moralAvant + " → " + cible.Moral +
+                " (soutien du maître de guilde).",
+                avant: moralAvant, apres: cible.Moral);
+
+        bool tempsComplet = AvancerTempsPourDiscussion(20);
+        AfficherReponsesDiscussion(false);
+        ActualiserBoutonRemonterMoral();
+        _discussionEnCours = false;
+        if (!tempsComplet || EstAbsent(cible))
+            FermerDiscussion();
     }
 
     private void ActualiserInfobulleTraitsDiscussion()
