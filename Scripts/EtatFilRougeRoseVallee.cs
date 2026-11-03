@@ -35,8 +35,7 @@ public sealed class EtatFilRougeRoseVallee
     {
         double facteur = 1;
         foreach (var modificateur in Modificateurs ?? new())
-            if (string.IsNullOrEmpty(modificateur.Demandeur) ||
-                string.Equals(demandeur, modificateur.Demandeur, StringComparison.Ordinal))
+            if (string.Equals(demandeur, modificateur.Demandeur, StringComparison.Ordinal))
                 facteur *= modificateur.Facteur;
         return Math.Clamp(facteur, 0, 100);
     }
