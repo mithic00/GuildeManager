@@ -6,16 +6,145 @@ Chaque objets est référencé dans une catégorie :
 -- Dlo : Céréale semblable à du blé (qui n'existe pas dans cet univers). Présent partout sur le globe.
 -- Carotte : Présent partout sur le globe.
 -- Pain : Présent partout sur le globe.
+
 - Boisson non alcoolisé
+-- Jus de pomme : 
+-- Eau : 
+
 - Boisson alcoolisé
+-- Artrik : Sorte de cervoise. Présent partout sur le globe
+-- Rhum : Originaire du Royaume Grumol et Haut Elfe.
+
 - Monture
+-- Ufaur : Présent partout sur le globe.
+-- Obriche : Présent partout sur le globe pour la consommation. Utilisé comme monture au royaume des sables.
+
 - Vehicule
+-- Petite Charette individuelle : Présent partout sur le globe.
+-- Grande Charette de transport : Présent partout sur le globe.
+
 - Arme
+-- Dague : Présent partout sur le globe.
+-- Epée : Présent partout sur le globe.
+-- Massue : Présent partout sur le globe.
+
 - Armure
-- Objet Magique Divers
-- Arme Magique
-- Armure Magique
+-- Armure en Fer : Présent partout sur le globe.
+-- Armure en Acier blanc : Présent partout sur le globe.
+
+- Objet Magique Divers : tous trouvable par défaut partout sur le globe.
+-- Parapluie de lecture magique : permet de déterminer le potentiel magique d'un EM.
+-- Balais indépendant : nettoie une pièce tout seul
+-- Cartes du fou flamboyant : Carte de jeu censé se mélanger tout seul. Peut faire des blagues aux joueurs, voir carrément gâcher une partie.
+
+- Arme Magique : tous trouvable par défaut partout sur le globe.
+-- Epée enflammée : épée simple qui produit des flammes sur demande de son propriétaire
+
+- Armure Magique : tous trouvable par défaut partout sur le globe.
+-- Casque de vision nocture : permet de voir dans le noir une fois porté.
+
 - Meuble
+-- Lit à baldaquin en chêne massif
+-- Table de banquet pour 12 personnes
+-- Chaise de salle à manger sculptée
+-- Armoire en bois de rose double porte
+-- Coffre en fer forgé sécurisé
+-- Banc de bois rustique
+-- Trône de bois de cyprès
+-- Tabouret de bar rudimentaire
+-- Bureau d'écrivain avec tiroirs
+-- Étagère à livres en pin
+-- Lit de sangle pour serviteur
+-- Table basse de salon
+-- Fauteuil en cuir rembourré
+-- Buffets de cuisine à vaisselle
+-- Malle de voyage renforcée
+-- Banc d'église en chêne
+-- Trône de pierre gravé
+-- Tabouret d'alchimiste réglable
+-- Table de carte de stratégie
+-- Bibliothèque murale imposante
+-- Lit simple en bois de bouleau
+-- Table d'appoint ronde
+-- Chaise pliante en bois et cuir
+-- Comode 4 tiroirs à poignées d'argent
+-- Coffre à trésor avec serrure
+-- Banc de parc sculpté
+-- Trône d'ivoire royal
+-- Tabouret de traite en bois
+-- Pupitre de lecture inclinable
+-- Meuble à épices de cuisine
+-- Lit de camp démontable
+-- Table de travail d'artisan
+-- Fauteuil de lecture à oreilles
+-- Vaisselier en chêne massif
+-- Coffre d'archiviste à roulettes
+-- Banc de cour de château
+-- Trône de fer noir
+-- Tabouret de forge massif
+-- Bureau d'alchimiste à alambic intégré
+-- Étagère à fioles suspendue
+-- Lit d'enfant sculpté
+-- Table de jeu de cartes et dés
+-- Chaise de travail à dossier droit
+-- Armoire à vêtements dorée
+-- Coffre de rangement pour couvertures
+-- Banc de musculation d'entraînement
+-- Trône d'or et de velours rouge
+-- Tabouret de piano à manivelle
+-- Pupitre de magicien gravé de runes
+-- Meuble à rouleaux de parchemins
+-- Lit de repos à coussins
+-- Table de massage d'apothicaire
+-- Fauteuil à bascule en osier
+-- Buffet de chasse en noyer
+-- Coffre à jouets pour enfants
+-- Banc de tailleur de pierre
+-- Trône d'os et de stèle
+-- Tabouret de cordonnier
+-- Bureau de scribe d'abbaye
+-- Étagère à armures de présentation
+-- Lit d'auberge à paillasse
+-- Table de dissection d'apothicaire
+-- Chaise de barbier inclinable
+-- Armoire forte blindée
+-- Malle de rangement en osier
+-- Banc de tir à l'arc
+-- Trône de jade impérial
+-- Tabouret de peintre tripode
+-- Pupitre de chant de chorale
+-- Meuble de rangement pour armes
+-- Lit double en acajou
+-- Table à langer pour bébé
+-- Fauteuil de noble brodé d'or
+-- Vaisselier d'argent de la noblesse
+-- Coffre d'outils de charpentier
+-- Banc de touche de vestiaire
+-- Trône de cristal de glace
+-- Tabouret de potier tournant
+-- Bureau de cartographe dépliable
+-- Étagère à potions vitrée
+-- Lit suspension d'équipage de navire
+-- Table d'autopsie en marbre
+-- Chaise de juré de tribunal
+-- Armoire d'apothicaire à 50 tiroirs
+-- Coffre à sel de cuisine
+-- Banc de menuisier encastré
+-- Trône de bois pétrifié
+-- Tabouret de barbier haut
+-- Pupitre de prière (Prie-Dieu)
+-- Meuble à tiroirs pour graines
+-- Lit d'hôpital à ridelles
+-- Table de boucher en bois massif
+-- Fauteuil roulant en bois et fer
+-- Buffet bas de verrière
+-- Coffre à herbes séchées
+-- Banc de terrasse extérieure
+-- Trône de corail des profonds
+-- Tabouret de pêcheur bas
+-- Bureau d'architecte incliné
+-- Étagère d'exposition d'artefacts
+
 - Potion
 - Composant Potion
 - Vêtement
