@@ -10,6 +10,12 @@ public partial class MainMenu
     private bool _filRougeDialogueActif;
     private ItemList _listeChoixFilRouge;
     private readonly List<(string Texte, string Action)> _optionsFilRouge = new();
+    private readonly List<string> _repliquesFilRouge = new();
+    private int _indexRepliqueFilRouge;
+    private Timer _timerLectureFilRouge;
+    // Les choix ne sont présentés qu'après un court temps de lecture.
+    // Le joueur décide lui-même quand passer à la réplique suivante.
+    private const double DelaiLectureFilRougeSecondes = 0.9;
 
     private bool FilRougeEstRoseVallee =>
         string.Equals(_villeDepart, "Rose-Vallée", StringComparison.OrdinalIgnoreCase);
@@ -19,32 +25,35 @@ public partial class MainMenu
         _filRouge = EtatFilRougeRoseVallee.Charger();
         if (!FilRougeEstRoseVallee) return;
 
-        // Compatible avec le GridContainer encore présent dans la scène et avec
-        // l'ItemList que le créateur ajoutera à sa place. Ne touche pas au .tscn.
-        Control reponses = GetNode<Control>(
+        _listeChoixFilRouge = GetNode<ItemList>(
             "FenetreDiscussion/LayoutConversation/Layout/InterfaceInteractive/ListeReponsesConversation");
-        if (reponses is ItemList existante)
-            _listeChoixFilRouge = existante;
-        else
+        _timerLectureFilRouge = new Timer
         {
-            _listeChoixFilRouge = new ItemList
-            {
-                Name = "ChoixFilRougeDynamique",
-                SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
-                SizeFlagsVertical = Control.SizeFlags.ExpandFill,
-                CustomMinimumSize = new Vector2(360, 180),
-                SelectMode = ItemList.SelectModeEnum.Single
-            };
-            reponses.GetParent().AddChild(_listeChoixFilRouge);
-        }
+            Name = "TimerLectureFilRouge",
+            OneShot = true,
+            WaitTime = DelaiLectureFilRougeSecondes
+        };
+        AddChild(_timerLectureFilRouge);
+        _timerLectureFilRouge.Timeout += DebloquerSuiteFilRouge;
+
         _listeChoixFilRouge.ItemSelected += index =>
         {
-            if (!_filRougeDialogueActif) return;
+            if (!_filRougeDialogueActif || !_listeChoixFilRouge.Visible) return;
+            _listeChoixFilRouge.DeselectAll();
+            if (_indexRepliqueFilRouge < _repliquesFilRouge.Count - 1)
+            {
+                // « Continuer » est une action d'affichage, pas un choix narratif.
+                if ((int)index == 0)
+                {
+                    _indexRepliqueFilRouge++;
+                    PresenterRepliqueFilRouge();
+                }
+                return;
+            }
             int i = (int)index;
             if (i < 0 || i >= _optionsFilRouge.Count) return;
             string action = _optionsFilRouge[i].Action;
             string choix = _optionsFilRouge[i].Texte;
-            _listeChoixFilRouge.DeselectAll();
             AjouterChoixFilRouge(choix);
             TraiterChoixFilRouge(action);
         };
@@ -172,25 +181,47 @@ public partial class MainMenu
         _filRougeDialogueActif = true;
         _sujetsDiscussion.Hide();
         _reponsesDiscussion.Hide();
-        _listeChoixFilRouge.Show();
         _fenetreDiscussion.PopupCentered();
         AfficherNoeudFilRouge();
     }
 
     private void AfficherFilRouge(string portrait, string interlocuteur, string texte,
-        params (string Texte, string Action)[] options)
+        params (string Texte, string Action)[] options) =>
+        AfficherFilRougeProgressif(portrait, interlocuteur, texte, false, options);
+
+    // Les transcriptions contiennent déjà les noms de leurs interlocuteurs.
+    private void AfficherTranscriptionFilRouge(string portrait, string interlocuteur,
+        string transcription, params (string Texte, string Action)[] options) =>
+        AfficherFilRougeProgressif(portrait, interlocuteur, transcription, true, options);
+
+    private void AfficherFilRougeProgressif(string portrait, string interlocuteur,
+        string texte, bool transcription, (string Texte, string Action)[] options)
     {
         if (!_filRougeDialogueActif || _listeChoixFilRouge == null) return;
+        _timerLectureFilRouge?.Stop();
         _optionsFilRouge.Clear();
+        _repliquesFilRouge.Clear();
         _listeChoixFilRouge.Clear();
+        _listeChoixFilRouge.Hide();
+        _indexRepliqueFilRouge = 0;
+
+        string nomGuilde = _nomGuilde?.Text ?? "";
         foreach (var option in options)
+            _optionsFilRouge.Add((option.Texte.Replace("{Nom de la guilde}", nomGuilde),
+                option.Action));
+
+        foreach (string fragment in texte.Replace("\r\n", "\n").Split('\n'))
         {
-            string reponse = option.Texte.Replace("{Nom de la guilde}", _nomGuilde?.Text ?? "");
-            _optionsFilRouge.Add((reponse, option.Action));
-            _listeChoixFilRouge.AddItem(reponse);
+            string ligne = fragment.Trim();
+            if (ligne.Length == 0) continue;
+            ligne = ligne.Replace("{Nom de la guilde}", nomGuilde);
+            if (!transcription && !EstLigneAttribueeFilRouge(ligne))
+                ligne = interlocuteur + " : " + ligne;
+            _repliquesFilRouge.Add(ligne);
         }
-        _resultatDiscussion.Text = interlocuteur + " : " +
-            texte.Replace("{Nom de la guilde}", _nomGuilde?.Text ?? "");
+        if (_repliquesFilRouge.Count == 0)
+            _repliquesFilRouge.Add(interlocuteur + " : ...");
+
         string dossier = "res://Images/Portraits/FilRougeRoseVallee/";
         string fichier = dossier + portrait + ".png";
         if (!ResourceLoader.Exists(fichier))
@@ -213,6 +244,42 @@ public partial class MainMenu
                 portraitJoueur = "res://Images/Portraits/GrandFormat/Portait_Defaut.png";
             _portraitDiscussionJoueur.Texture = GD.Load<Texture2D>(portraitJoueur);
         }
+        PresenterRepliqueFilRouge();
+    }
+
+    /// <summary>Une ligne déjà attribuée (joueur/PNJ) garde son auteur.</summary>
+    private static bool EstLigneAttribueeFilRouge(string ligne)
+    {
+        string[] auteurs = {
+            "Vous", "Joueur", "Charles", "Charles Suriname", "Léonie", "Étienne",
+            "Perrine", "Mireille", "Saboteur", "Seigneur", "Préfet", "Narration"
+        };
+        return auteurs.Any(auteur => ligne.StartsWith(auteur + " :", StringComparison.OrdinalIgnoreCase));
+    }
+
+    private void PresenterRepliqueFilRouge()
+    {
+        if (!_filRougeDialogueActif || _timerLectureFilRouge == null ||
+            _indexRepliqueFilRouge < 0 || _indexRepliqueFilRouge >= _repliquesFilRouge.Count)
+            return;
+
+        _timerLectureFilRouge.Stop();
+        _listeChoixFilRouge.Clear();
+        _listeChoixFilRouge.Hide();
+        _resultatDiscussion.Text = _repliquesFilRouge[_indexRepliqueFilRouge];
+        _timerLectureFilRouge.Start();
+    }
+
+    private void DebloquerSuiteFilRouge()
+    {
+        if (!_filRougeDialogueActif || _listeChoixFilRouge == null) return;
+        _listeChoixFilRouge.Clear();
+        if (_indexRepliqueFilRouge < _repliquesFilRouge.Count - 1)
+            _listeChoixFilRouge.AddItem("Continuer");
+        else
+            foreach (var option in _optionsFilRouge)
+                _listeChoixFilRouge.AddItem(option.Texte);
+
         _listeChoixFilRouge.Show();
     }
 
@@ -235,9 +302,12 @@ public partial class MainMenu
     private void FermerInterfaceFilRouge()
     {
         _filRougeDialogueActif = false;
+        _timerLectureFilRouge?.Stop();
         _fenetreDiscussion?.Hide();
         _listeChoixFilRouge?.Hide();
         _optionsFilRouge.Clear();
+        _repliquesFilRouge.Clear();
+        _indexRepliqueFilRouge = 0;
         _reponsesDiscussion?.Hide();
         _sujetsDiscussion?.Show();
     }
