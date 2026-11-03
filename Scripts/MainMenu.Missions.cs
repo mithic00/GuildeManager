@@ -91,7 +91,9 @@ public partial class MainMenu
 
         _etatMissions.DateAnnoncePrevue = "";
         if (_etatMissions.Proposition != null) return false;
-        _etatMissions.Proposition = ReglesMissions.Generer(_registreMembres.Membres);
+        _etatMissions.Proposition = ReglesMissions.Generer(_registreMembres.Membres,
+            _filRouge != null && FilRougeEstRoseVallee ?
+                _filRouge.MultiplicateurMissions("Commerçant de la ville") : 1.0);
         if (_etatMissions.Proposition == null) return false;
         if (!_traitementTempsDiscussion)
         {
@@ -124,7 +126,10 @@ public partial class MainMenu
 
         double probabilite = ReglesMissions.ProbabiliteApparition(_etat.Prestige);
         if (_villeDepart == "Gori Nirog")
-            probabilite = Math.Min(1.0, probabilite * 2.0);
+            probabilite *= 2.0;
+        probabilite = Math.Clamp(probabilite *
+            (_filRouge != null && FilRougeEstRoseVallee ?
+                _filRouge.MultiplicateurMissions("") : 1.0), 0.0, 1.0);
 
         if (Random.Shared.NextDouble() >= probabilite)
             return;
@@ -465,6 +470,7 @@ public partial class MainMenu
             mission.Etat = "Terminee";
             bool victoire = resultat.Issue == IssueMission.Reussite;
             mission.Reussie = victoire;
+            TraiterFinMissionFilRouge(mission, victoire, instant);
             mission.SansGainSecondaire = resultat.SansIncident;
             int nombreMorts = resultat.Issue == IssueMission.Mort
                 ? Random.Shared.Next(1, participants.Count + 1) : 0;
