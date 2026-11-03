@@ -39,6 +39,7 @@ public sealed class EtatMissions
 public sealed class MissionGuilde
 {
     public string Id { get; set; } = Guid.NewGuid().ToString("N");
+    public string FilRougeId { get; set; } = "";
     public string Rang { get; set; } = "*";
     public string Categorie { get; set; } = "";
     public string Demandeur { get; set; } = "";
@@ -174,7 +175,8 @@ public static class ReglesMissions
         DateTime.ParseExact(date, "yyyy-MM-dd'T'HH:mm:ss",
             CultureInfo.InvariantCulture, DateTimeStyles.None);
 
-    public static MissionGuilde Generer(IEnumerable<MembreGuilde> membres)
+    public static MissionGuilde Generer(IEnumerable<MembreGuilde> membres,
+        double facteurCommercants = 1.0)
     {
         // Les missions U ne peuvent jamais apparaître naturellement.
         // Une mission n'apparaît que si un membre de la guilde possède le rang demandé.
@@ -197,7 +199,15 @@ public static class ReglesMissions
         var categorie = Categories[Random.Shared.Next(Categories.Length)];
         string[] demandeursValides = Demandeurs
             .Where(d => DemandeurAccepte(d, categorie.Nom, indexRang)).ToArray();
-        string demandeur = demandeursValides[Random.Shared.Next(demandeursValides.Length)];
+        double[] poidsDemandeurs = demandeursValides.Select(d =>
+            d == "Commerçant de la ville" ? Math.Max(0, facteurCommercants) : 1.0).ToArray();
+        double tirageDemandeur = Random.Shared.NextDouble() * poidsDemandeurs.Sum();
+        string demandeur = demandeursValides[^1];
+        for (int i = 0; i < demandeursValides.Length; i++)
+        {
+            tirageDemandeur -= poidsDemandeurs[i];
+            if (tirageDemandeur < 0) { demandeur = demandeursValides[i]; break; }
+        }
 
         int debut = MinEcus[indexRang];
         int fin = MaxEcus[indexRang];
