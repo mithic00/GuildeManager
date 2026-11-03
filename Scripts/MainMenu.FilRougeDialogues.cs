@@ -108,6 +108,8 @@ public partial class MainMenu
                 TerminerRepliqueFilRouge("Facon apprend que des représailles sont envisagées.",
                     prestige:-10,effet:"facon_represailles",facteur:0.8);return;
             // ACTE IV
+            case "iv-intro1":case "iv-intro2":case "iv-intro3":
+                VersNoeudFilRouge(action);return;
             case "iv-protection":
                 ProposerMissionSpecialeFilRouge("serres_facon","Protection d'un lieu","***");
                 TerminerRepliqueFilRouge("Mission de protection des serres confiée à la guilde.");return;
