@@ -12,16 +12,80 @@ public partial class MainMenu
     private void TerminerRepliqueFilRouge(string texte, int prestige = 0, int bonheur = 0,
         string effet = "", double facteur = 1, string demandeur = "")
     {
+        // Les conséquences ne sont appliquées qu'une fois, avant le bilan.
+        // Le bilan reste dans la sauvegarde tant qu'il n'a pas été fermé.
+        if (!string.IsNullOrEmpty(_filRouge.BilanTexte)) return;
+
         if (prestige != 0) ModifierPrestigeFilRouge(prestige, texte);
         if (bonheur != 0) ModifierBonheurTousFilRouge(bonheur, texte);
         if (effet != "") AjouterEffetSpawnFilRouge(effet, facteur, demandeur);
         AjouterEntreeJournal("Rose-Vallée : " + texte, "fil_rouge");
-        TerminerActeFilRouge(_filRouge.ActeEnCours);
+
+        string narration = texte switch
+        {
+            "Facon réussit son intimidation." =>
+                "Charles quitte la guilde en ayant imposé ses menaces. " +
+                "Un malaise s'est installé dans la guilde : les membres sont inquiets " +
+                "de l'influence de Facon et de la capacité de leur chef à leur tenir tête.",
+            "Facon ne réussit pas son intimidation." =>
+                "Malgré les provocations de Charles, vous avez gardé votre position. " +
+                "Il repart sans avoir réussi à vous intimider. " +
+                "Votre attitude renforce la confiance accordée à votre guilde.",
+            "Le joueur réussit à intimider Charles." =>
+                "Charles finit par céder et quitte les lieux. Votre fermeté impressionne " +
+                "les témoins, mais il n'oubliera pas cet affront.",
+            "Charles détruit un mur ; Facon réussit son intimidation." =>
+                "Furieux, Charles endommage un mur avant de repartir. " +
+                "Son passage laisse un malaise dans la guilde et des réparations à financer.",
+            "Léonie soutient la guilde : témoignage favorable obtenu." =>
+                "Léonie promet de parler en votre faveur aux commerçants. " +
+                "Sa confiance renforce la position de votre guilde à Rose-Vallée.",
+            "Facon renforce son emprise commerciale." =>
+                "Votre retrait laisse le champ libre à Facon. Les commerçants auront " +
+                "désormais davantage de difficultés à confier leurs missions à votre guilde.",
+            "Facon apprend que des représailles sont envisagées." =>
+                "Votre réaction inquiète l'administration. Facon a été informée de " +
+                "vos intentions et sa pression sur la guilde augmente.",
+            "Opposition ouverte à Facon." =>
+                "Vous refusez toute soumission à Facon. Le conflit est désormais ouvert " +
+                "et les demandes de mission se raréfient.",
+            "Accord de dépendance avec Facon signé." =>
+                "Vous acceptez la supervision commerciale de Facon en échange de son aide. " +
+                "La pression immédiate diminue, mais votre indépendance est remise en question.",
+            "Aveux d'un saboteur de Facon obtenus." =>
+                "Les aveux établissent un lien entre le sabotage et Facon. " +
+                "Vous disposez d'une preuve importante pour l'audience à venir.",
+            _ => texte
+        };
+
+        string bilan = narration;
+        if (prestige != 0)
+            bilan += "\nPrestige : " + (prestige > 0 ? "+" : "") + prestige + ".";
+        if (bonheur != 0)
+            bilan += "\nBonheur de tous les membres : " +
+                (bonheur > 0 ? "+" : "") + bonheur + ".";
+        if (texte == "Charles détruit un mur ; Facon réussit son intimidation.")
+            bilan += "\nRéparations : -350 écus.";
+        if (texte == "Accord de dépendance avec Facon signé.")
+            bilan += "\nTrésorerie : +2 000 écus. Taux d'apparition des missions réinitialisé.";
+        if (effet != "")
+            bilan += "\n" + (demandeur == "" ? "Apparition des missions" :
+                "Missions des commerçants") + " : multiplicateur ×" +
+                facteur.ToString("0.##", System.Globalization.CultureInfo.GetCultureInfo("fr-FR")) + ".";
+
+        AfficherBilanFilRouge(bilan);
     }
 
     private void TraiterChoixFilRouge(string action)
     {
         if (!_filRougeDialogueActif || _filRouge == null) return;
+        if (action == "filrouge-fermer-bilan")
+        {
+            if (!string.IsNullOrEmpty(_filRouge.BilanTexte))
+                TerminerActeFilRouge(_filRouge.ActeEnCours);
+            return;
+        }
+        if (!string.IsNullOrEmpty(_filRouge.BilanTexte)) return;
         switch (action)
         {
             // ACTE I — chaque branche conserve ses propres répliques.
@@ -151,7 +215,12 @@ public partial class MainMenu
             case "iv-fin-saboteur-ko":
                 TerminerRepliqueFilRouge("Les saboteurs ont pris la fuite.");return;
             case "iv-fin-abandon":
-                AppliquerAbandonSerres();TerminerActeFilRouge(4);return;
+                AppliquerAbandonSerres();
+                AfficherBilanFilRouge("Vous refusez d'aider Perrine. Les habitants se sentent " +
+                    "abandonnés et commencent à douter de leur nouvelle guilde." +
+                    "\nPrestige : -30.\nBonheur de tous les membres : -10." +
+                    "\nApparition des missions : multiplicateur ×0,5.");
+                return;
             case "iv-fin-notification":
                 // L'événement de notification était programmé après l'acte IV.
                 _filRouge.ActeEnCours = 0;
