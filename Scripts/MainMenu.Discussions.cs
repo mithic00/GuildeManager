@@ -152,7 +152,7 @@ public partial class MainMenu
             ResourceLoader.Exists(chemin) ? chemin : portraitDefaut);
         _portraitDiscussionCible.MouseFilter = Control.MouseFilterEnum.Stop;
         ActualiserInfobulleTraitsDiscussion();
-        ActualiserBoutonRemonterMoral();
+        ActualiserBoutonsSujetsDiscussion();
         _sujetsDiscussion.Show();
         _reponsesDiscussion.Hide();
         _fenetreFiche.Hide();
@@ -162,22 +162,42 @@ public partial class MainMenu
     private static string DateJourDiscussion(DateTime instant) =>
         instant.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
 
+    /// <summary>
+    /// Les mêmes caractéristiques servent à décider si « Faire connaissance »
+    /// doit apparaître et à sélectionner celles que le dialogue peut révéler.
+    /// </summary>
+    private static IEnumerable<string> CaracteristiquesInconnuesDiscussion(MembreGuilde membre)
+    {
+        if (membre == null) return Enumerable.Empty<string>();
+        return GenerateurCandidats.Stats
+            .Concat(new[] { "Motivation" })
+            .Distinct(StringComparer.Ordinal)
+            .Where(s => !membre.ConnaitStatistique(s) &&
+                (s == "Motivation" ? membre.Motivation.HasValue :
+                    membre.Statistiques?.ContainsKey(s) == true));
+    }
+
+    private void ActualiserBoutonsSujetsDiscussion()
+    {
+        _faireConnaissance.Visible =
+            CaracteristiquesInconnuesDiscussion(_cibleDiscussion).Any();
+        ActualiserBoutonRemonterMoral();
+    }
+
     private void ActualiserBoutonRemonterMoral()
     {
         if (_boutonRemonterMoral == null) return;
         MembreGuilde cible = _cibleDiscussion;
+
+        // Le soutien moral n'apparaît que si le moral est de 30 ou moins.
+        _boutonRemonterMoral.Visible = cible != null && cible.Moral <= 30;
         bool dejaTente = cible != null && _horloge != null &&
             cible.DerniereTentativeRemonterMoral ==
                 DateJourDiscussion(_horloge.Instant);
-        bool moralSuffisant = cible != null && cible.Moral >= 80;
-
-        _boutonRemonterMoral.Disabled = cible == null || _horloge == null ||
-            dejaTente || moralSuffisant;
+        _boutonRemonterMoral.Disabled = _horloge == null || dejaTente;
         _boutonRemonterMoral.TooltipText = dejaTente
             ? "Vous avez déjà tenté de remonter le moral de ce membre aujourd'hui."
-            : moralSuffisant
-                ? "Ce membre n'a pas besoin de soutien moral (moral supérieur ou égal à 80)."
-                : "Encourager ce membre (D20 Empathie, 20 minutes, une fois par jour).";
+            : "Encourager ce membre (D20 Empathie, 20 minutes, une fois par jour).";
     }
 
     private void ProposerSoutienMoral()
@@ -190,7 +210,7 @@ public partial class MainMenu
             return;
         }
         if (_cibleDiscussion.DerniereTentativeRemonterMoral ==
-                DateJourDiscussion(_horloge.Instant) || _cibleDiscussion.Moral >= 80)
+                DateJourDiscussion(_horloge.Instant) || _cibleDiscussion.Moral > 30)
         {
             ActualiserBoutonRemonterMoral();
             return;
@@ -230,7 +250,7 @@ public partial class MainMenu
             ActualiserBoutonRemonterMoral();
             return;
         }
-        if (cible.Moral >= 80)
+        if (cible.Moral > 30)
         {
             ActualiserBoutonRemonterMoral();
             return;
@@ -339,7 +359,9 @@ public partial class MainMenu
     private void ResoudreDiscussion(bool amicale, bool continuation)
     {
         if (_discussionEnCours || _cibleDiscussion == null ||
-            (continuation && !_connaissanceAContinuer)) return;
+            (continuation && !_connaissanceAContinuer) ||
+            (!amicale && !CaracteristiquesInconnuesDiscussion(_cibleDiscussion).Any()))
+            return;
         // Le dialogue a déjà été ouvert pendant les heures autorisées :
         // ses échanges et sa continuation sont permis au-delà de minuit.
         if (!DialogueAccessible(_cibleDiscussion, true, verifierHoraire: false))
@@ -468,13 +490,15 @@ public partial class MainMenu
             "\nTemps écoulé : " + minutes + " minutes.";
         // La suite prévue dans Discussion.txt est le deuxième et dernier échange
         // de ce dialogue. Une nouvelle conversation peut ensuite être entamée.
-        _connaissanceAContinuer = reussite && !amicale && !continuation;
+        _connaissanceAContinuer = reussite && !amicale && !continuation &&
+            CaracteristiquesInconnuesDiscussion(cible).Any();
         bool tempsComplet = AvancerTempsPourDiscussion(minutes);
         // Une conversation entamée avant minuit peut continuer après minuit.
         AfficherReponsesDiscussion(_connaissanceAContinuer);
         if (!reussite)
             cible.DiscussionBloqueeJusqua = ReglesMissions.DateIso(_horloge.Instant.AddHours(24));
         ActualiserInfobulleTraitsDiscussion();
+        ActualiserBoutonsSujetsDiscussion();
         _historiqueMembres?.Ajouter(cible, _horloge.Instant,
             reussite ? "DiscussionReussie" : "DiscussionEchouee",
             (amicale ? "Discussion amicale" : "Faire connaissance") +
@@ -510,12 +534,7 @@ public partial class MainMenu
     {
         if (quantite <= 0) return 0;
         membre.StatistiquesConnues ??= new List<string>();
-        var possibles = GenerateurCandidats.Stats
-            .Concat(new[] { "Motivation" })
-            .Distinct(StringComparer.Ordinal)
-            .Where(s => !membre.ConnaitStatistique(s) &&
-                (s == "Motivation" ? membre.Motivation.HasValue :
-                    membre.Statistiques.ContainsKey(s)))
+        var possibles = CaracteristiquesInconnuesDiscussion(membre)
             .OrderBy(_ => Random.Shared.Next()).Take(quantite).ToList();
         foreach (string cle in possibles)
             membre.StatistiquesConnues.Add(cle);
