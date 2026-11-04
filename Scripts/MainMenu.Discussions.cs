@@ -47,11 +47,17 @@ public partial class MainMenu
             .Pressed += FermerDiscussion;
         _faireConnaissance.Pressed += () => ResoudreDiscussion(false, false);
         _conversationAmicale.Pressed += () => ResoudreDiscussion(true, false);
+        InitialiserDialogueDemandeMission(interfaceDialogue);
         _listeReponsesDiscussion.ItemSelected += index =>
         {
             if (_filRougeDialogueActif) return; // Le moteur scénarisé gère ses choix.
             int choix = (int)index;
             _listeReponsesDiscussion.DeselectAll();
+            if (_choixMissionEnAttente || _confirmationMissionEnAttente)
+            {
+                TraiterChoixDialogueDemandeMission(choix);
+                return;
+            }
             if (_soutienMoralEnAttente)
             {
                 _soutienMoralEnAttente = false;
@@ -134,6 +140,7 @@ public partial class MainMenu
         }
         if (!DialogueAccessible(_membreConsulte, true)) return;
         _cibleDiscussion = _membreConsulte;
+        ReinitialiserDialogueDemandeMission();
         _soutienMoralEnAttente = false;
         _connaissanceAContinuer = false;
         _discussionEnCours = false;
@@ -182,6 +189,7 @@ public partial class MainMenu
         _faireConnaissance.Visible =
             CaracteristiquesInconnuesDiscussion(_cibleDiscussion).Any();
         ActualiserBoutonRemonterMoral();
+        ActualiserBoutonDemanderMission();
     }
 
     private void ActualiserBoutonRemonterMoral()
@@ -545,6 +553,7 @@ public partial class MainMenu
     {
         _fenetreDiscussion?.Hide();
         _cibleDiscussion = null;
+        ReinitialiserDialogueDemandeMission();
         _connaissanceAContinuer = false;
         _soutienMoralEnAttente = false;
         _discussionEnCours = false;
