@@ -10,9 +10,10 @@ public partial class MainMenu
     private Window _fenetreDiscussion;
     private RichTextLabel _resultatDiscussion;
     private TextureRect _portraitDiscussionCible, _portraitDiscussionJoueur;
-    private Control _sujetsDiscussion, _reponsesDiscussion;
-    private Button _faireConnaissance, _conversationAmicale, _boutonRemonterMoral;
-    private ItemList _listeReponsesDiscussion;
+    private ItemList _sujetsDiscussion, _listeReponsesDiscussion;
+    private Control _reponsesDiscussion;
+    private enum SujetDiscussion { FaireConnaissance, ConversationAmicale, RemonterMoral, DemanderMission, Fermer }
+    private readonly List<SujetDiscussion> _sujetsDisponibles = new();
     private MembreGuilde _cibleDiscussion;
     private bool _connaissanceAContinuer;
     private bool _discussionEnCours;
@@ -27,27 +28,35 @@ public partial class MainMenu
         _resultatDiscussion = GetNode<RichTextLabel>(baseDialogue + "RésultatDiscussion");
         _portraitDiscussionCible = GetNode<TextureRect>(interfaceDialogue + "PortraitCible");
         _portraitDiscussionJoueur = GetNode<TextureRect>(interfaceDialogue + "PortraitJoueur");
-        _sujetsDiscussion = GetNode<Control>(interfaceDialogue + "ListeSujetDiscussion");
+        _sujetsDiscussion = GetNode<ItemList>(interfaceDialogue + "ListeSujetDiscussion");
         _listeReponsesDiscussion = GetNode<ItemList>(interfaceDialogue + "ListeReponsesConversation");
         _reponsesDiscussion = _listeReponsesDiscussion;
-        _faireConnaissance = GetNode<Button>(interfaceDialogue +
-            "ListeSujetDiscussion/BoutonFaireConnaissance");
-        _conversationAmicale = GetNode<Button>(interfaceDialogue +
-            "ListeSujetDiscussion/BoutonConversationAmicale");
-        // Ce nœud a été ajouté localement par le créateur ; il n'est pas
-        // encore visible dans la scène GitHub lors de cette intégration.
-        _boutonRemonterMoral = GetNodeOrNull<Button>(interfaceDialogue +
-            "ListeSujetDiscussion/BoutonRemonterMoral");
-        if (_boutonRemonterMoral != null)
-            _boutonRemonterMoral.Pressed += ProposerSoutienMoral;
-        else
-            GD.PushWarning("MainMenu : BoutonRemonterMoral absent de la scène. " +
-                "Synchronisez MainMenu.tscn avec la version locale.");
-        GetNode<Button>(interfaceDialogue + "ListeSujetDiscussion/BoutonFermer")
-            .Pressed += FermerDiscussion;
-        _faireConnaissance.Pressed += () => ResoudreDiscussion(false, false);
-        _conversationAmicale.Pressed += () => ResoudreDiscussion(true, false);
-        InitialiserDialogueDemandeMission(interfaceDialogue);
+        _sujetsDiscussion.ItemSelected += index =>
+        {
+            if (_filRougeDialogueActif || _discussionEnCours) return;
+            int choix = (int)index;
+            _sujetsDiscussion.DeselectAll();
+            if (choix < 0 || choix >= _sujetsDisponibles.Count) return;
+
+            switch (_sujetsDisponibles[choix])
+            {
+                case SujetDiscussion.FaireConnaissance:
+                    ResoudreDiscussion(false, false);
+                    break;
+                case SujetDiscussion.ConversationAmicale:
+                    ResoudreDiscussion(true, false);
+                    break;
+                case SujetDiscussion.RemonterMoral:
+                    ProposerSoutienMoral();
+                    break;
+                case SujetDiscussion.DemanderMission:
+                    ProposerDialogueDemandeMission();
+                    break;
+                case SujetDiscussion.Fermer:
+                    FermerDiscussion();
+                    break;
+            }
+        };
         _listeReponsesDiscussion.ItemSelected += index =>
         {
             if (_filRougeDialogueActif) return; // Le moteur scénarisé gère ses choix.
@@ -184,28 +193,46 @@ public partial class MainMenu
                     membre.Statistiques?.ContainsKey(s) == true));
     }
 
-    private void ActualiserBoutonsSujetsDiscussion()
+    private void AjouterSujetDiscussion(string texte, SujetDiscussion sujet,
+        bool desactive = false, string infobulle = "")
     {
-        _faireConnaissance.Visible =
-            CaracteristiquesInconnuesDiscussion(_cibleDiscussion).Any();
-        ActualiserBoutonRemonterMoral();
-        ActualiserBoutonDemanderMission();
+        int index = _sujetsDiscussion.AddItem(texte);
+        _sujetsDisponibles.Add(sujet);
+        _sujetsDiscussion.SetItemDisabled(index, desactive);
+        if (!string.IsNullOrEmpty(infobulle))
+            _sujetsDiscussion.SetItemTooltip(index, infobulle);
     }
 
-    private void ActualiserBoutonRemonterMoral()
+    /// <summary>
+    /// Reconstruit l'ItemList à chaque ouverture et après les échanges :
+    /// seuls les sujets autorisés sont proposés, avec leur état actualisé.
+    /// </summary>
+    private void ActualiserBoutonsSujetsDiscussion()
     {
-        if (_boutonRemonterMoral == null) return;
-        MembreGuilde cible = _cibleDiscussion;
+        _sujetsDiscussion.Clear();
+        _sujetsDisponibles.Clear();
 
-        // Le soutien moral n'apparaît que si le moral est de 30 ou moins.
-        _boutonRemonterMoral.Visible = cible != null && cible.Moral <= 30;
-        bool dejaTente = cible != null && _horloge != null &&
-            cible.DerniereTentativeRemonterMoral ==
-                DateJourDiscussion(_horloge.Instant);
-        _boutonRemonterMoral.Disabled = _horloge == null || dejaTente;
-        _boutonRemonterMoral.TooltipText = dejaTente
-            ? "Vous avez déjà tenté de remonter le moral de ce membre aujourd'hui."
-            : "Encourager ce membre (D20 Empathie, 20 minutes, une fois par jour).";
+        if (CaracteristiquesInconnuesDiscussion(_cibleDiscussion).Any())
+            AjouterSujetDiscussion("Faire connaissance", SujetDiscussion.FaireConnaissance);
+
+        AjouterSujetDiscussion("Conversation amicale", SujetDiscussion.ConversationAmicale);
+
+        if (_cibleDiscussion != null && _cibleDiscussion.Moral <= 30)
+        {
+            bool dejaTente = _horloge == null ||
+                _cibleDiscussion.DerniereTentativeRemonterMoral ==
+                    DateJourDiscussion(_horloge.Instant);
+            AjouterSujetDiscussion("Remonter le moral", SujetDiscussion.RemonterMoral,
+                dejaTente,
+                dejaTente
+                    ? "Vous avez déjà tenté de remonter le moral de ce membre aujourd'hui."
+                    : "D20 Empathie, 20 minutes, une fois par jour.");
+        }
+
+        if (PeutDemanderMission())
+            AjouterSujetDiscussion("Demander une mission", SujetDiscussion.DemanderMission);
+
+        AjouterSujetDiscussion("Fermer", SujetDiscussion.Fermer);
     }
 
     private void ProposerSoutienMoral()
@@ -220,7 +247,7 @@ public partial class MainMenu
         if (_cibleDiscussion.DerniereTentativeRemonterMoral ==
                 DateJourDiscussion(_horloge.Instant) || _cibleDiscussion.Moral > 30)
         {
-            ActualiserBoutonRemonterMoral();
+            ActualiserBoutonsSujetsDiscussion();
             return;
         }
 
@@ -255,12 +282,12 @@ public partial class MainMenu
         if (cible.DerniereTentativeRemonterMoral ==
             DateJourDiscussion(_horloge.Instant))
         {
-            ActualiserBoutonRemonterMoral();
+            ActualiserBoutonsSujetsDiscussion();
             return;
         }
         if (cible.Moral > 30)
         {
-            ActualiserBoutonRemonterMoral();
+            ActualiserBoutonsSujetsDiscussion();
             return;
         }
         MembreGuilde joueur = _registreMembres.Membres.FirstOrDefault(m => m.EstJoueur);
@@ -338,7 +365,7 @@ public partial class MainMenu
 
         bool tempsComplet = AvancerTempsPourDiscussion(20);
         AfficherReponsesDiscussion(false);
-        ActualiserBoutonRemonterMoral();
+        ActualiserBoutonsSujetsDiscussion();
         _discussionEnCours = false;
         if (!tempsComplet || EstAbsent(cible))
             FermerDiscussion();
