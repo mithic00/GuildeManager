@@ -368,6 +368,73 @@ public partial class MainMenu
         return true;
     }
 
+    /// <summary>
+    /// Renvoie le groupe de recrutement entier : une demande du maître de
+    /// guilde ne peut pas séparer une équipe recrutée ensemble.
+    /// </summary>
+    private List<MembreGuilde> EquipeDuMembrePourMission(MembreGuilde membre)
+    {
+        if (membre == null || membre.EstMaitreDeGuilde ||
+            _registreMembres?.Membres.Contains(membre) != true)
+            return new List<MembreGuilde>();
+        if (string.IsNullOrWhiteSpace(membre.EquipeId))
+            return new List<MembreGuilde> { membre };
+        return _registreMembres.Membres.Where(m =>
+            !m.EstMaitreDeGuilde && m.EquipeId == membre.EquipeId).ToList();
+    }
+
+    /// <summary>
+    /// Vérification sans tirage aléatoire pour l'affichage de la liste.
+    /// Les jets de Constitution restent effectués au moment du départ.
+    /// </summary>
+    private bool MissionDemandableParEquipe(List<MembreGuilde> equipe, MissionGuilde mission)
+    {
+        if (mission == null || mission.Etat != "Disponible" || equipe.Count == 0 ||
+            _etatMissions?.Missions.Contains(mission) != true)
+            return false;
+        if (!equipe.All(m => ReglesMissions.RangSuffisant(m, mission.Rang)) ||
+            !AdmissibleCategorie(equipe, mission) ||
+            equipe.Any(m => m.Absent || m.Moral < MoralMinPourPartir ||
+                (m.Fatigue ?? 0) > 75 || !string.IsNullOrWhiteSpace(m.ConcoursEnCours)))
+            return false;
+        return !_etatMissions.Missions.Any(enCours =>
+            enCours.Etat == "EnCours" &&
+            enCours.ParticipantIds != null &&
+            enCours.ParticipantIds.Any(id => equipe.Any(m => m.Id == id)));
+    }
+
+    /// <summary>
+    /// Départ partagé entre les missions spontanées et les demandes du
+    /// maître de guilde : mêmes participants, traits et résolution.
+    /// </summary>
+    private void DemarrerMissionEquipe(List<MembreGuilde> equipe, MissionGuilde mission,
+        DateTime instant, BonusTraitsMissions.Bilan bilan)
+    {
+        mission.AvantageTraitsDisponible = bilan.Avantage;
+        mission.AvantageTraitsConsomme = false;
+        mission.MalusVolonteTraits = bilan.MalusVolonte;
+        mission.MembreDefavorableId = bilan.MembreLePlusDefavorable?.Id ?? "";
+        mission.MembreDefavorableNom = bilan.MembreLePlusDefavorable?.NomComplet ?? "";
+        mission.Etat = "EnCours";
+        mission.DateDepart = ReglesMissions.DateIso(instant);
+        mission.DateRetour = ReglesMissions.DateIso(instant.AddDays(1));
+        mission.ParticipantIds = equipe.Select(m => m.Id).ToList();
+        foreach (MembreGuilde membre in equipe)
+            _historiqueMembres?.Ajouter(membre, instant, "DepartMission",
+                "Départ en mission : " + mission.Categorie + " (" +
+                ReglesMissions.FormaterRang(mission.Rang) + ").", mission);
+        mission.JoursEcoules = 0;
+        mission.DureeFixee = ResolutionMissions.DureeFixee(mission);
+        mission.SansIncident = mission.Categorie == "Protection d'un lieu" &&
+            Random.Shared.Next(2) == 0;
+        string sujetDepart = equipe.Count == 1
+            ? equipe[0].NomComplet
+            : "Equipe de " + equipe[0].NomComplet;
+        AjouterEntreeJournal(sujetDepart + " part en mission (" +
+            ReglesMissions.FormaterRang(mission.Rang) + " : " + mission.Categorie + ").",
+            "mission");
+    }
+
     private void ProposerMissionsAuxEquipes(DateTime instant)
     {
         if (_etatMissions == null || _registreMembres == null) return;
@@ -393,29 +460,7 @@ public partial class MainMenu
                 if (Random.Shared.Next(1, 21) + meilleurBonusVolonte + bilan.MalusVolonte < 5)
                     continue;
 
-                mission.AvantageTraitsDisponible = bilan.Avantage;
-                mission.AvantageTraitsConsomme = false;
-                mission.MalusVolonteTraits = bilan.MalusVolonte;
-                mission.MembreDefavorableId = bilan.MembreLePlusDefavorable?.Id ?? "";
-                mission.MembreDefavorableNom = bilan.MembreLePlusDefavorable?.NomComplet ?? "";
-                mission.Etat = "EnCours";
-                mission.DateDepart = ReglesMissions.DateIso(instant);
-                mission.DateRetour = ReglesMissions.DateIso(instant.AddDays(1));
-                mission.ParticipantIds = equipe.Select(m => m.Id).ToList();
-                foreach (MembreGuilde membre in equipe)
-                    _historiqueMembres?.Ajouter(membre, instant, "DepartMission",
-                        "Départ en mission : " + mission.Categorie + " (" + ReglesMissions.FormaterRang(mission.Rang) + ").",
-                        mission);
-                mission.JoursEcoules = 0;
-                mission.DureeFixee = ResolutionMissions.DureeFixee(mission);
-                mission.SansIncident = mission.Categorie == "Protection d'un lieu" &&
-                    Random.Shared.Next(2) == 0;
-                string sujetDepart = equipe.Count == 1
-                    ? equipe[0].NomComplet
-                    : "Equipe de " + equipe[0].NomComplet;
-                AjouterEntreeJournal(sujetDepart +
-                    " part en mission (" + ReglesMissions.FormaterRang(mission.Rang) + " : " + mission.Categorie + ").",
-                    "mission");
+                DemarrerMissionEquipe(equipe, mission, instant, bilan);
                 break;
             }
         }
