@@ -178,3 +178,13 @@ Point de Magie : Dépend du niveau ainsi que du pouvoir. Chaque dé est lancé i
 - Télépathe : 1d4 par niveau.
 
 Connaissance magique : Utilisé pour déterminé le savoir de la guilde. Cette caractéristique augmente de manière aléatoire (entre 0 et 2) à la fin de chaque mission réussi ou non.
+
+Relation :
+Valeur	Relation
+−100 à −90	Ennemi
+−89 à −50	Hostile
+−49 à −10	Inamical
+−9 à +9	Neutre
++10 à +49	Connaissance
++50 à +89	Ami
++90 à +100	Proche
