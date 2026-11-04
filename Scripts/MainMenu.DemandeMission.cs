@@ -9,33 +9,10 @@ using System.Linq;
 /// </summary>
 public partial class MainMenu
 {
-    private Button _boutonDemanderMission;
     private bool _choixMissionEnAttente;
     private bool _confirmationMissionEnAttente;
     private readonly List<MissionGuilde> _missionsDialogueDisponibles = new();
     private MissionGuilde _missionDialogueSelectionnee;
-
-    private void InitialiserDialogueDemandeMission(string interfaceDialogue)
-    {
-        const string nomBouton = "BoutonDemanderMission";
-        _boutonDemanderMission = GetNodeOrNull<Button>(
-            interfaceDialogue + "ListeSujetDiscussion/" + nomBouton);
-        if (_boutonDemanderMission == null)
-        {
-            // La scène n'est jamais modifiée : le bouton est ajouté à l'exécution
-            // tant que le créateur ne l'a pas placé dans l'éditeur Godot.
-            _boutonDemanderMission = new Button
-            {
-                Name = nomBouton,
-                Text = "Demander une mission",
-                CustomMinimumSize = new Vector2(260, 65),
-                SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter,
-                SizeFlagsVertical = Control.SizeFlags.ShrinkCenter
-            };
-            _sujetsDiscussion.AddChild(_boutonDemanderMission);
-        }
-        _boutonDemanderMission.Pressed += ProposerDialogueDemandeMission;
-    }
 
     private void ReinitialiserDialogueDemandeMission()
     {
@@ -89,14 +66,13 @@ public partial class MainMenu
             .ToList() ?? new List<MissionGuilde>();
     }
 
-    private void ActualiserBoutonDemanderMission()
+    /// <summary>Éligibilité du sujet avant de l'afficher dans la liste.</summary>
+    private bool PeutDemanderMission()
     {
-        if (_boutonDemanderMission == null) return;
         MembreGuilde joueur = _registreMembres?.Membres.FirstOrDefault(m => m.EstJoueur);
-        bool relationCompatible = joueur != null && _cibleDiscussion != null &&
+        return joueur != null && _cibleDiscussion != null &&
             CibleLeadershipMission(RelationsMembres.Qualifier(
-                RelationsMembres.Lire(joueur, _cibleDiscussion))) != int.MaxValue;
-        _boutonDemanderMission.Visible = relationCompatible &&
+                RelationsMembres.Lire(joueur, _cibleDiscussion))) != int.MaxValue &&
             MissionsDemandablesParCible(_cibleDiscussion).Count > 0;
     }
 
@@ -117,7 +93,7 @@ public partial class MainMenu
         _missionsDialogueDisponibles.AddRange(MissionsDemandablesParCible(_cibleDiscussion));
         if (_missionsDialogueDisponibles.Count == 0)
         {
-            ActualiserBoutonDemanderMission();
+            ActualiserBoutonsSujetsDiscussion();
             return;
         }
 
