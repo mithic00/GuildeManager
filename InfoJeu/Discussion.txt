@@ -50,3 +50,75 @@ Si Moral < 20
     -> réussi : "Bonjour. Oh bah c'est pas trop la forme en ce moment..." -> +1 relation, +5 moral. +15 Minutes.
     -> échoué : "C'est pas le moment."                                  -> -5 relation, -2 bonheur, -5 moral. +10 Minutes.
 3 - Réussite ou non - Joueur : *Mettre fin à la conversation*
+
+"Remonter le moral"
+Disponible dans Social -> Conversation uniquement si le moral du membre est inférieur ou égal à 30.
+Une seule tentative par membre et par jour du calendrier de jeu (même après sauvegarde/rechargement).
+Si une tentative a déjà eu lieu aujourd'hui, le bouton reste visible mais désactivé.
+Conversation possible de 08h00 à 23h59, selon les règles de disponibilité habituelles du membre.
+
+1 - Joueur : "Tu n'as pas l'air dans ton assiette en ce moment. Quelque chose ne va pas ?"
+2 - Cible : "C'est vrai que ces derniers temps, ce n'est pas facile..."
+3 - Réponse du joueur dans l'ItemList :
+    "Si tu as besoin de parler, je suis là. On est une équipe après tout. (D20 Empathie)"
+    ou "Mettre fin à la conversation" (aucun jet, aucune durée, tentative non consommée).
+4 - Si le joueur choisit la première réponse :
+    Un D20 + modificateur d'Empathie du maître de guilde, cible 12.
+    La difficulté n'est pas affichée dans la fenêtre ; le résultat montre le D20, le modificateur et le total.
+    -> réussite : "Merci, ça fait du bien d'entendre ça. Je vais essayer de reprendre du poil de la bête !"
+                   Moral de la cible +10, plafonné à 100.
+    -> 20 naturel : même réplique, réussite critique, moral de la cible +20 (à la place de +10).
+    -> échec : "Merci... Mais j'ai surtout besoin d'un peu de temps pour moi."
+                Aucun gain ou perte de moral.
+    -> En cas de réussite (y compris critique), si le moral de la cible était strictement inférieur à 20 AVANT le jet :
+       relation entre le maître et le membre +5, plafonnée à 100.
+    -> Durée : 20 minutes dans tous les cas où le D20 est lancé.
+5 - Joueur : "Mettre fin à la conversation".
+Les gains et la date du dernier essai sont conservés dans la sauvegarde du membre.
+
+
+"Demander une mission"
+Disponible dans Social -> Conversation si le membre et son équipe entière peuvent prendre
+au moins une mission disponible au tableau, et si sa relation avec le maître de guilde
+n'est ni Hostile ni Ennemi.
+Le maître de guilde ne part pas en mission ; une équipe recrutée ensemble reste indivisible.
+La disponibilité habituelle des discussions (08h00-23h59) s'applique.
+
+1 - Joueur :
+    Ami / Proche : "J'ai une mission en tête et je pensais à toi."
+    Connaissance : "J'aimerais te proposer une mission de la guilde."
+    Neutre / Inamical : "J'aimerais vous confier une mission de la guilde."
+2 - Le joueur sélectionne dans l'ItemList une mission admissible pour l'ensemble de l'équipe
+    (rang, catégorie, moral >= 20, absence, concours, fatigue <= 75 et absence de mission en cours).
+    Il peut aussi fermer la conversation sans lancer de jet.
+3 - Le joueur formule la demande adaptée à la relation :
+    Proche : "J'aurais besoin d'un coup de main sur cette mission. Ça te dit de t'en occuper ?"
+    Ami : "Dis, tu pourrais prendre cette mission pour la guilde ? Ça me rendrait service."
+    Connaissance : "J'aimerais te confier cette mission. Tu peux t'en charger pour la guilde ?"
+    Neutre : "Pouvez-vous prendre en charge cette mission pour la guilde ?"
+    Inamical : "Je vous demande de prendre en charge cette mission au nom de la guilde."
+4 - Le joueur confirme dans l'ItemList : "Faire la demande (D20 Leadership)"
+    ou met fin à la conversation, sans jet ni durée.
+5 - D20 + modificateur de Leadership du maître de guilde.
+    Cible selon la relation avant le jet (cible cachée dans l'interface) :
+      Proche (relation >= 90) : 5
+      Ami (relation entre 50 et 89) : 8
+      Connaissance (relation entre 10 et 49) : 10
+      Neutre (relation entre -9 et 9) : 12
+      Inamical (relation entre -49 et -10) : 14
+      Hostile (-89 à -50) et Ennemi (-100 à -90) : dialogue impossible.
+    Réussite si D20 + modificateur >= cible ; le total, le dé et le résultat sont affichés sans la cible.
+6 - Réponse :
+    Proche : réussite "Pour toi, bien sûr ! On s'en occupe." / échec "Désolé, je ne le sens pas cette fois."
+    Ami : réussite "Pas de souci, compte sur moi !" / échec "Je préfère passer mon tour, désolé."
+    Connaissance : réussite "D'accord, je vais m'en charger." / échec "Je préfère ne pas prendre cette mission."
+    Neutre : réussite "Entendu, je vais m'en charger." / échec "Je préfère décliner cette mission."
+    Inamical : réussite "Très bien. Je remplirai cette mission." / échec "Je ne compte pas accepter cette demande."
+    -> Réussite : l'équipe entière part immédiatement, avec les règles normales de missions
+       (et dernière vérification de Constitution si fatigue >= 50).
+       Si l'équipe n'est finalement pas disponible, aucun départ n'est enregistré.
+    -> Échec : la mission reste au tableau ; aucun membre ne part.
+    -> Aucun bonus/malus de relation ou de moral sur ce dialogue.
+    -> Durée : 10 minutes après un jet, en réussite comme en échec.
+    -> Les départs et tentatives sont journalisés ; pas de limite quotidienne supplémentaire.
+7 - Joueur : "Mettre fin à la conversation".
