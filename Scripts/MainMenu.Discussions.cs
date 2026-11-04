@@ -196,7 +196,8 @@ public partial class MainMenu
     private void AjouterSujetDiscussion(string texte, SujetDiscussion sujet,
         bool desactive = false, string infobulle = "")
     {
-        int index = _sujetsDiscussion.AddItem(texte);
+        int index = _sujetsDiscussion.ItemCount;
+        _sujetsDiscussion.AddItem(texte);
         _sujetsDisponibles.Add(sujet);
         _sujetsDiscussion.SetItemDisabled(index, desactive);
         if (!string.IsNullOrEmpty(infobulle))
