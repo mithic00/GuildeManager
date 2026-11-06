@@ -33,11 +33,14 @@ public sealed class RegistreBudget
     public const string Concours = "Concours";
     public const string Autres = "Autres dépenses";
     public const string Ajustements = "Ajustements non ventilés";
+    public const string AchatsMagasin = "Achats en magasin";
+    public const string VentesMagasin = "Ventes en magasin";
 
     public static readonly string[] CategoriesRecettes =
-        { Missions, Dons, Recompenses, Ajustements };
+        { Missions, Dons, Recompenses, VentesMagasin, Ajustements };
     public static readonly string[] CategoriesDepenses =
-        { Loyer, Fonctionnement, Taxes, Amenagements, Recrutement, Concours, Autres, Ajustements };
+        { Loyer, Fonctionnement, Taxes, Amenagements, Recrutement, Concours,
+          AchatsMagasin, Autres, Ajustements };
 
     public int Version { get; set; } = 1;
     public string DateDebutSuivi { get; set; } = "";
