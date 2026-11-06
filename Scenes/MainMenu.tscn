@@ -3229,6 +3229,7 @@ transparent_bg = true
 oversampling_override = 1.0
 initial_position = 1
 size = Vector2i(1200, 800)
+visible = false
 exclusive = true
 transparent = true
 
@@ -3251,69 +3252,121 @@ layout_mode = 2
 size_flags_vertical = 3
 current_tab = 0
 
-[node name="Nourriture & Boisson" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=439677466]
+[node name="Nourriture & Boisson" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=897546235]
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="Monture" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1695155509]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Nourriture & Boisson" unique_id=580496061]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Monture" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1774198412]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="Vehicule" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=284144552]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Monture" unique_id=1096641513]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Véhicule" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=2070597392]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
-[node name="Arme" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=117515204]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Véhicule" unique_id=1520256764]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Arme" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=930344424]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 3
 
-[node name="Armure" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1660665471]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Arme" unique_id=1539192953]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Armure" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=608893516]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 4
 
-[node name="Objet Magique" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=119118404]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Armure" unique_id=582331914]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Objets Magiques" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1573902686]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 5
 
-[node name="Meuble" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1586306576]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Objets Magiques" unique_id=1818275181]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Meuble" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=928965303]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 6
 
-[node name="Potion" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=762153090]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Meuble" unique_id=1621103418]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Potion" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1531122428]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 7
 
-[node name="Composant Potion" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1771681536]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Potion" unique_id=1330181107]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Composant Potion" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=541429111]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 8
 
-[node name="Vêtement" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=69860222]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Composant Potion" unique_id=2095744010]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Vêtements" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1499436261]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 9
 
-[node name="Matière Première" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1763545564]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Vêtements" unique_id=1522442681]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Matière Première" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1472880079]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 10
 
-[node name="Objet de Décoration" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1686966592]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Matière Première" unique_id=1527124602]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Objet de Décoration" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=2001799194]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 11
 
-[node name="Objet Divers" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=401753324]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Objet de Décoration" unique_id=1299354243]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Objet Divers" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1404040027]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 12
+
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Objet Divers" unique_id=318326291]
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="ButtonFermer" type="Button" parent="FenetreInventaire/Marge/Layout" unique_id=2054338732]
 custom_minimum_size = Vector2(260, 65)
