@@ -574,12 +574,12 @@ public partial class MainMenu
         ReprendreDialogueFilRouge();
     }
 
-    private void AppliquerAbandonSerres(int reputationCommercants)
+    private int AppliquerAbandonSerres(int reputationCommercants)
     {
         ModifierPrestigeFilRouge(-30, "Abandon des serres de Perrine");
         ModifierBonheurTousFilRouge(-10, "Abandon des serres");
         AjouterEffetSpawnFilRouge("habitants_doutent", 0.5);
-        ModifierReputationFilRouge("Commercants", reputationCommercants,
+        return ModifierReputationFilRouge("Commercants", reputationCommercants,
             "Abandon des serres de Perrine");
     }
 
