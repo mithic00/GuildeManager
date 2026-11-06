@@ -75,6 +75,53 @@ public partial class MainMenu
         return jauge;
     }
 
+    /// <summary>
+    /// Applique la variation prévue pour une mission ordinaire terminée.
+    /// Le résultat Mort est distinct de l'échec et ne change pas la réputation.
+    /// Aucune variation n'est appliquée aux autres demandeurs (notamment
+    /// « Autre Cité » et « Facon »).
+    /// </summary>
+    private void AppliquerReputationMission(MissionGuilde mission, IssueMission issue)
+    {
+        if (mission == null || _relationsGuilde == null)
+            return;
+
+        int variation = issue switch
+        {
+            IssueMission.Reussite => 1,
+            IssueMission.Echec => -1,
+            _ => 0
+        };
+        if (variation == 0)
+            return;
+
+        string cle;
+        string nomRelation;
+        if (string.Equals(mission.Demandeur, "Cité", StringComparison.OrdinalIgnoreCase))
+        {
+            cle = EtatRelationsGuilde.CleVille(_villeDepart);
+            nomRelation = _villeDepart ?? "Ville";
+        }
+        else if (string.Equals(mission.Demandeur, "Commerçant de la ville",
+                     StringComparison.OrdinalIgnoreCase))
+        {
+            cle = EtatRelationsGuilde.Commercants;
+            nomRelation = "Commerçants";
+        }
+        else
+            return;
+
+        int avant = _relationsGuilde.Lire(cle);
+        int apres = _relationsGuilde.Ajuster(cle, variation);
+        int effetReel = apres - avant;
+        RafraichirRelationsBureau();
+        if (effetReel != 0)
+            AjouterEntreeJournal("Réputation auprès de " + nomRelation + " : " +
+                (effetReel > 0 ? "+" : "") + effetReel +
+                " (mission " + (issue == IssueMission.Reussite ? "réussie" : "échouée") +
+                ", demandeur : " + mission.Demandeur + ").", "reputation");
+    }
+
     private static string TexteReputation(int valeur)
     {
         valeur = Math.Clamp(valeur, -100, 100);
