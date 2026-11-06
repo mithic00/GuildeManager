@@ -10,7 +10,9 @@ public partial class MainMenu
         AfficherFilRouge(personnage, nom, texte, options);
 
     private void TerminerRepliqueFilRouge(string texte, int prestige = 0, int bonheur = 0,
-        string effet = "", double facteur = 1, string demandeur = "")
+        string effet = "", double facteur = 1, string demandeur = "",
+        int relationFacon = 0, int relationCommercants = 0, int relationVille = 0,
+        int? fixerRelationFacon = null)
     {
         // Les conséquences ne sont appliquées qu'une fois, avant le bilan.
         // Le bilan reste dans la sauvegarde tant qu'il n'a pas été fermé.
@@ -19,6 +21,13 @@ public partial class MainMenu
         if (prestige != 0) ModifierPrestigeFilRouge(prestige, texte);
         if (bonheur != 0) ModifierBonheurTousFilRouge(bonheur, texte);
         if (effet != "") AjouterEffetSpawnFilRouge(effet, facteur, demandeur);
+        int effetFacon = fixerRelationFacon.HasValue
+            ? ModifierReputationFilRouge("Facon", fixerRelationFacon.Value, texte, fixerValeur: true)
+            : relationFacon != 0 ? ModifierReputationFilRouge("Facon", relationFacon, texte) : 0;
+        int effetCommercants = relationCommercants != 0
+            ? ModifierReputationFilRouge("Commercants", relationCommercants, texte) : 0;
+        int effetVille = relationVille != 0
+            ? ModifierReputationFilRouge("Ville", relationVille, texte) : 0;
         AjouterEntreeJournal("Rose-Vallée : " + texte, "fil_rouge");
 
         string narration = texte switch
@@ -119,6 +128,16 @@ public partial class MainMenu
         if (bonheur != 0)
             bilan += "\nBonheur de tous les membres : " +
                 (bonheur > 0 ? "+" : "") + bonheur + ".";
+        if (relationFacon != 0 || fixerRelationFacon.HasValue)
+            bilan += "\nRéputation Facon : " + (fixerRelationFacon.HasValue
+                ? "fixée à " + Math.Clamp(fixerRelationFacon.Value, -100, 100)
+                : (effetFacon > 0 ? "+" : "") + effetFacon) + ".";
+        if (relationCommercants != 0)
+            bilan += "\nRéputation Commerçants : " +
+                (effetCommercants > 0 ? "+" : "") + effetCommercants + ".";
+        if (relationVille != 0)
+            bilan += "\nRéputation Rose-Vallée : " +
+                (effetVille > 0 ? "+" : "") + effetVille + ".";
         if (texte == "Charles détruit un mur ; Facon réussit son intimidation.")
             bilan += "\nRéparations : -350 écus.";
         if (texte == "Accord de dépendance avec Facon signé.")
@@ -170,7 +189,7 @@ public partial class MainMenu
                 return;
             case "i-conclusion-ok":
                 TerminerRepliqueFilRouge("Facon ne réussit pas son intimidation.",
-                    prestige: 10); return;
+                    prestige: 10, relationFacon: -10); return;
             case "i-conclusion-ko":
                 TerminerRepliqueFilRouge("Facon réussit son intimidation.",
                     bonheur: -10); return;
@@ -179,13 +198,14 @@ public partial class MainMenu
                     bonheur: -10); return;
             case "i-fin-resiste":
                 TerminerRepliqueFilRouge("Facon ne réussit pas son intimidation.",
-                    prestige: 10); return;
+                    prestige: 10,
+                    relationFacon: _filRouge.Noeud == "i-sortez-reussi" ? -5 : -10); return;
             case "i-fin-intimide":
                 _filRouge.RancuneCharles++;
                 AjouterEntreeJournal("Rose-Vallée : rancune de Charles augmentée à " +
                     _filRouge.RancuneCharles + ".", "fil_rouge");
                 TerminerRepliqueFilRouge("Le joueur réussit à intimider Charles.",
-                    prestige: 20);
+                    prestige: 20, relationFacon: -20);
                 return;
             case "i-fin-mur":
                 ModifierEcusFilRouge(-350, "Réparation du mur endommagé par Charles");
@@ -206,23 +226,23 @@ public partial class MainMenu
             case "ii-insulte": VersNoeudFilRouge("ii-insulte-fin"); return;
             case "ii-fin-preuve":
                 _filRouge.PreuveCommerciale = true;
-                TerminerRepliqueFilRouge("Lettre commerciale suspecte obtenue.",prestige:10);return;
+                TerminerRepliqueFilRouge("Lettre commerciale suspecte obtenue.",prestige:10, relationCommercants:5);return;
             case "ii-fin-preuve-ko":
                 TerminerRepliqueFilRouge("Facon conserve son influence sur les commerçants.",
-                    prestige:-10);return;
+                    prestige:-10, relationCommercants:-5);return;
             case "ii-fin-soutien":
                 _filRouge.TemoignageFavorable = true;
                 TerminerRepliqueFilRouge("Léonie soutient la guilde : témoignage favorable obtenu.",
                     prestige:20,effet:"temoignage_commercants",facteur:1.5,
-                    demandeur:"Commerçant de la ville");return;
+                    demandeur:"Commerçant de la ville",relationCommercants:5);return;
             case "ii-fin-neutre":TerminerRepliqueFilRouge("Léonie repart sans changement.");return;
-            case "ii-fin-insulte":TerminerRepliqueFilRouge("Léonie quitte la guilde vexée.",prestige:-10);return;
+            case "ii-fin-insulte":TerminerRepliqueFilRouge("Léonie quitte la guilde vexée.",prestige:-10,relationCommercants:-10);return;
             case "ii-fin-abandon":
                 TerminerRepliqueFilRouge("Facon renforce son emprise commerciale.",prestige:-20,
-                    effet:"emprise_commerciale",facteur:0.5,demandeur:"Commerçant de la ville");return;
+                    effet:"emprise_commerciale",facteur:0.5,demandeur:"Commerçant de la ville",relationCommercants:-25);return;
             case "ii-fin-agressif":
                 TerminerRepliqueFilRouge("Le représentant de Facon quitte le marché.",prestige:10);return;
-            case "ii-fin-mefiance":TerminerRepliqueFilRouge("Les commerçants deviennent méfiants.");return;
+            case "ii-fin-mefiance":TerminerRepliqueFilRouge("Les commerçants deviennent méfiants.",relationCommercants:-10);return;
             // ACTE III
             case "iii-accueil":case "iii-soupcon":case "iii-taxe":
                 VersNoeudFilRouge(action);return;
@@ -236,16 +256,16 @@ public partial class MainMenu
             case "iii-mission":
                 ProposerMissionSpecialeFilRouge("enquete_facon","Enquête","*");
                 TerminerRepliqueFilRouge("Mission spéciale « Les signatures de Facon » disponible.");return;
-            case "iii-autorites":TerminerRepliqueFilRouge("L'affaire est confiée aux autorités.");return;
+            case "iii-autorites":TerminerRepliqueFilRouge("L'affaire est confiée aux autorités.",relationVille:-10);return;
             case "iii-fin-preuve":
                 _filRouge.PreuveFalsification = true;
-                TerminerRepliqueFilRouge("Preuve de falsification des contrats découverte.",prestige:20);return;
+                TerminerRepliqueFilRouge("Preuve de falsification des contrats découverte.",prestige:20,relationVille:10);return;
             case "iii-fin-recherche":
                 _filRouge.EnquetePossibleDiscussion = true;
                 TerminerRepliqueFilRouge("Une enquête pourra être demandée aux membres de la guilde.");return;
             case "iii-fin-peur":
                 TerminerRepliqueFilRouge("Facon apprend que des représailles sont envisagées.",
-                    prestige:-10,effet:"facon_represailles",facteur:0.8);return;
+                    prestige:-10,effet:"facon_represailles",facteur:0.8,relationVille:-10);return;
             // ACTE IV
             case "iv-intro1":case "iv-intro2":case "iv-intro3":
                 VersNoeudFilRouge(action);return;
@@ -264,14 +284,15 @@ public partial class MainMenu
                     "iv-saboteur-ok":"iv-saboteur-ko");return;
             case "iv-fin-saboteur":
                 _filRouge.PreuveSabotage = true;
-                TerminerRepliqueFilRouge("Aveux d'un saboteur de Facon obtenus.",prestige:30);return;
+                TerminerRepliqueFilRouge("Aveux d'un saboteur de Facon obtenus.",prestige:30,relationCommercants:5);return;
             case "iv-fin-saboteur-ko":
                 TerminerRepliqueFilRouge("Les saboteurs ont pris la fuite.");return;
             case "iv-fin-abandon":
-                AppliquerAbandonSerres();
+                AppliquerAbandonSerres(-20);
                 AfficherBilanFilRouge("Vous refusez d'aider Perrine. Les habitants se sentent " +
                     "abandonnés et commencent à douter de leur nouvelle guilde." +
                     "\nPrestige : -30.\nBonheur de tous les membres : -10." +
+                    "\nRéputation Commerçants : -20." +
                     "\nApparition des missions : multiplicateur ×0,5.");
                 return;
             case "iv-fin-notification":
@@ -296,30 +317,27 @@ public partial class MainMenu
                 _filRouge.AccordDependance = true;
                 _filRouge.ReinitialiserMultiplicateurs(1,"dependance_signee");
                 ModifierEcusFilRouge(2000,"Accord avec Facon");
-                TerminerRepliqueFilRouge("Accord de dépendance avec Facon signé.",prestige:-20);return;
+                TerminerRepliqueFilRouge("Accord de dépendance avec Facon signé.",prestige:-20,fixerRelationFacon:50);return;
             case "v-refuser":
                 TerminerRepliqueFilRouge("Opposition ouverte à Facon.",
-                    effet:"opposition_facon",facteur:0.5);return;
+                    effet:"opposition_facon",facteur:0.5,relationFacon:-5);return;
             case "v-fin-adversaire":
                 TerminerRepliqueFilRouge("Facon considère la guilde comme un adversaire sérieux.",
-                    prestige:20,effet:"adversaire_serieux",facteur:1.2);return;
-            case "v-fin-aucun":TerminerRepliqueFilRouge("L'entretien avec Mireille se termine.");return;
+                    prestige:20,effet:"adversaire_serieux",facteur:1.2,relationFacon:-20);return;
+            case "v-fin-aucun":TerminerRepliqueFilRouge("L'entretien avec Mireille se termine.",
+                    relationFacon: _filRouge.Noeud == "v-diplomatie-ko" ? 1 : 0);return;
             case "v-fin-diplomatie":
                 _filRouge.VoieDiplomatique = true;
-                int ancienneReputation = _filRouge.ReputationFacon;
-                _filRouge.ReputationFacon = Math.Clamp(ancienneReputation + 1, -100, 100);
-                RafraichirRelationsBureau();
-                AjouterEntreeJournal("Rose-Vallée : réputation auprès de Facon +" +
-                    (_filRouge.ReputationFacon - ancienneReputation) + ".", "fil_rouge");
-                TerminerRepliqueFilRouge("Une voie diplomatique s'ouvre avec Facon.");return;
+                TerminerRepliqueFilRouge("Une voie diplomatique s'ouvre avec Facon.",
+                    relationFacon:10);return;
             case "v-fin-preuves":
                 _filRouge.RancuneCharles++;
                 AjouterEntreeJournal("Rose-Vallée : rancune de Charles " +
                     _filRouge.RancuneCharles + ".", "fil_rouge");
-                TerminerRepliqueFilRouge("Mireille examine la conduite de Charles.",prestige:20);return;
+                TerminerRepliqueFilRouge("Mireille examine la conduite de Charles.",prestige:20,relationFacon:10);return;
             case "v-fin-preuves-ko":
                 TerminerRepliqueFilRouge("Les accusations contre Facon ne convainquent pas Mireille.",
-                    prestige:-5);return;
+                    prestige:-5,relationFacon:-10);return;
             // ACTE VI
             case "vi-independance":
             {
