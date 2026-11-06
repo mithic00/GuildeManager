@@ -4,42 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 
 /// <summary>
-/// Interface d'achat et de vente. Le catalogue est lu depuis InfoJeu/Objets.txt
-/// sans modifier ce document. Les prix sont PROVISOIRES : le fichier ne contient
-/// aucun tarif. Une unité est échangée par clic (pas de sélecteur de quantité).
+/// Interface d'achat et de vente. Le catalogue et les tarifs sont définis
+/// dans CatalogueObjets.cs, indépendamment des fichiers de documentation.
+/// Une unité est échangée par clic (pas de sélecteur de quantité).
 /// </summary>
 public partial class MainMenu
 {
-    private sealed class ObjetCommerce
-    {
-        public string Nom { get; set; } = "";
-        public string Categorie { get; set; } = "";
-        public string Description { get; set; } = "";
-        public long Prix { get; set; }
-    }
-
-    // Barème temporaire centralisé, à remplacer par les tarifs du jeu.
-    private static readonly Dictionary<string, long> PrixCategoriesMagasin =
-        new(StringComparer.OrdinalIgnoreCase)
-        {
-            ["Nourriture"] = 10,
-            ["Boisson non alcoolisé"] = 6,
-            ["Boisson alcoolisé"] = 18,
-            ["Monture"] = 3000,
-            ["Vehicule"] = 1500,
-            ["Arme"] = 300,
-            ["Armure"] = 800,
-            ["Objet Magique Divers"] = 3500,
-            ["Arme Magique"] = 5000,
-            ["Armure Magique"] = 4200,
-            ["Meuble"] = 240,
-            ["Potion"] = 120,
-            ["Composant Potion"] = 25,
-            ["Vêtement"] = 80,
-            ["Matière Première"] = 20,
-            ["Objet de Décoration"] = 180
-        };
-
     private readonly Dictionary<string, ObjetCommerce> _catalogueMagasin = new(StringComparer.Ordinal);
     private readonly List<ObjetCommerce> _objetsBoutiqueAffiches = new();
     private readonly List<string> _objetsGuildeAffiches = new();
@@ -98,37 +68,12 @@ public partial class MainMenu
 
     private void ChargerCatalogueMagasin()
     {
-        const string chemin = "res://InfoJeu/Objets.txt";
         _catalogueMagasin.Clear();
-        if (!Godot.FileAccess.FileExists(chemin))
+        foreach (ObjetCommerce objet in CatalogueObjets.Tous)
         {
-            GD.PushError("Magasins : catalogue absent : " + chemin);
-            return;
+            if (!_catalogueMagasin.TryAdd(objet.Nom, objet))
+                GD.PushError("Magasins : doublon dans CatalogueObjets.cs : " + objet.Nom);
         }
-
-        string categorie = "";
-        foreach (string ligne in Godot.FileAccess.GetFileAsString(chemin).Split('\n'))
-        {
-            string texte = ligne.Trim();
-            if (texte.StartsWith("-- ", StringComparison.Ordinal))
-            {
-                string donnees = texte.Substring(3).Trim();
-                int separateur = donnees.IndexOf(':');
-                string nom = (separateur >= 0 ? donnees.Substring(0, separateur) : donnees).Trim();
-                string description = separateur >= 0 ? donnees.Substring(separateur + 1).Trim() : "";
-                if (nom.Length == 0 || !PrixCategoriesMagasin.TryGetValue(categorie, out long prix))
-                    continue;
-                _catalogueMagasin.TryAdd(nom, new ObjetCommerce
-                {
-                    Nom = nom, Categorie = categorie, Description = description, Prix = prix
-                });
-            }
-            else if (texte.StartsWith("- ", StringComparison.Ordinal))
-                categorie = texte.Substring(2).Trim();
-        }
-
-        if (_catalogueMagasin.Count == 0)
-            GD.PushError("Magasins : aucun objet chargé depuis " + chemin);
     }
 
     /// <summary>Rattache les catégories documentées aux commerces existants.</summary>
@@ -244,6 +189,7 @@ public partial class MainMenu
             int index = _listeItemsBoutique.AddItem(objet.Nom + " — " +
                 FormaterEcusBudget(objet.Prix));
             _listeItemsBoutique.SetItemTooltip(index, objet.Categorie +
+                "\nUnité de vente : " + objet.Unite +
                 (string.IsNullOrEmpty(objet.Description) ? "" : "\n" + objet.Description) +
                 "\nPrix d'achat : " + FormaterEcusBudget(objet.Prix));
         }
