@@ -121,7 +121,7 @@ public partial class MainMenu
             _filRouge.DateLimiteRue4 = "";
             _filRouge.NotificationAbandon = true;
             AjouterEntreeJournal("Rose-Vallée : délai de quatre heures dépassé pour retrouver les saboteurs.", "fil_rouge");
-            AppliquerAbandonSerres();
+            AppliquerAbandonSerres(-40);
             TerminerActeFilRouge(4, fermerFenetre: false);
             _filRouge.DateEvenement = ReglesMissions.DateIso(AjusterPlageFilRouge(maintenant));
         }
@@ -357,6 +357,57 @@ public partial class MainMenu
         PreparerProchainEvenementFilRouge();
     }
 
+    /// <summary>
+    /// Les réputations du fil rouge ont pour origine soit l'état narratif Facon,
+    /// soit l'état des relations générales. Les effets sont bornés à [-100, 100]
+    /// et enregistrés uniquement en mémoire jusqu'à la sauvegarde manuelle.
+    /// Retourne la variation réelle (après plafonnement) pour le bilan.
+    /// </summary>
+    private int ModifierReputationFilRouge(string cible, int valeur,
+        string raison, bool fixerValeur = false)
+    {
+        if (!FilRougeEstRoseVallee || _filRouge == null) return 0;
+
+        int avant;
+        int apres;
+        string nom;
+        switch (cible)
+        {
+            case "Facon":
+                avant = Math.Clamp(_filRouge.ReputationFacon, -100, 100);
+                apres = fixerValeur
+                    ? Math.Clamp(valeur, -100, 100)
+                    : (int)Math.Clamp((long)avant + valeur, -100L, 100L);
+                _filRouge.ReputationFacon = apres;
+                nom = "Facon";
+                break;
+            case "Commercants":
+            case "Ville":
+                if (_relationsGuilde == null) return 0;
+                string cle = cible == "Commercants"
+                    ? EtatRelationsGuilde.Commercants
+                    : EtatRelationsGuilde.CleVille(_villeDepart);
+                avant = _relationsGuilde.Lire(cle);
+                apres = fixerValeur
+                    ? _relationsGuilde.Ajuster(cle, Math.Clamp(valeur, -100, 100) - avant)
+                    : _relationsGuilde.Ajuster(cle, valeur);
+                nom = cible == "Commercants" ? "Commerçants" : (_villeDepart ?? "Ville");
+                break;
+            default:
+                GD.PushWarning("Réputation du fil rouge non reconnue : " + cible);
+                return 0;
+        }
+
+        RafraichirRelationsBureau();
+        int variation = apres - avant;
+        if (variation != 0 || fixerValeur)
+            AjouterEntreeJournal("Rose-Vallée : réputation auprès de " + nom +
+                (fixerValeur ? " fixée à " + apres :
+                    " " + (variation > 0 ? "+" : "") + variation) +
+                " (" + raison + ").", "fil_rouge");
+        return variation;
+    }
+
     private void ModifierPrestigeFilRouge(int valeur, string raison)
     {
         if (_etat == null) return;
@@ -445,7 +496,29 @@ public partial class MainMenu
     private void CloreFinFilRouge(string fin, int prestige, int ecus = 0)
     {
         if (!string.IsNullOrEmpty(_filRouge.Fin)) return;
+        // Les fins A/B/C n'impliquent pas toujours les mêmes réputations :
+        // on utilise le noeud exact d'audience, sauvegardé avant ce résultat.
+        // Les effets sont appliqués une seule fois, grâce au garde sur Fin.
+        (int facon, int ville, int commercants) = _filRouge.Noeud switch
+        {
+            "vi-a" => (-10, 0, 0),
+            "vi-a-accusation" => (-40, 10, 10),
+            "vi-b-defaut" => (-10, 0, 0),
+            "vi-b-cooperation" => (30, -10, -10),
+            "vi-c-defaut" => (-50, 0, 0),
+            "vi-c-cooperation" => (-10, 0, 0),
+            "vi-c-accusation" => (-40, 0, 0),
+            "vi-c-soumission" => (30, -20, -20),
+            _ => (0, 0, 0)
+        };
         _filRouge.Fin = fin;
+        int effetFacon = facon != 0
+            ? ModifierReputationFilRouge("Facon", facon, "Jugement du Comté, fin " + fin) : 0;
+        int effetVille = ville != 0
+            ? ModifierReputationFilRouge("Ville", ville, "Jugement du Comté, fin " + fin) : 0;
+        int effetCommercants = commercants != 0
+            ? ModifierReputationFilRouge("Commercants", commercants,
+                "Jugement du Comté, fin " + fin) : 0;
         _filRouge.ReinitialiserMultiplicateurs(
             fin == "A" ? 1.5 : fin == "C" ? 0.5 : 1.0, "conclusion_" + fin);
         if (prestige != 0) ModifierPrestigeFilRouge(prestige, "Jugement du Comté, fin " + fin);
@@ -469,7 +542,12 @@ public partial class MainMenu
               "désormais coexister sans empiéter sur leurs activités respectives."
             : "Le Comté maintient la position dominante de Facon. Votre guilde " +
               "reste ouverte, mais les contrats seront plus difficiles à obtenir.";
-        AfficherBilanFilRouge(narration +
+        string bilanRelations =
+            (facon != 0 ? "\nRéputation Facon : " + (effetFacon > 0 ? "+" : "") + effetFacon + "." : "") +
+            (ville != 0 ? "\nRéputation Rose-Vallée : " + (effetVille > 0 ? "+" : "") + effetVille + "." : "") +
+            (commercants != 0 ? "\nRéputation Commerçants : " +
+                (effetCommercants > 0 ? "+" : "") + effetCommercants + "." : "");
+        AfficherBilanFilRouge(narration + bilanRelations +
             (prestige != 0 ? "\nPrestige : +" + prestige + "." : "") +
             (ecus != 0 ? "\nTrésorerie : +" + ecus + " écus." : "") +
             (fin == "C" && prestige == 0 && ecus == 0 && _filRouge.Choix.Any(
@@ -496,11 +574,13 @@ public partial class MainMenu
         ReprendreDialogueFilRouge();
     }
 
-    private void AppliquerAbandonSerres()
+    private void AppliquerAbandonSerres(int reputationCommercants)
     {
         ModifierPrestigeFilRouge(-30, "Abandon des serres de Perrine");
         ModifierBonheurTousFilRouge(-10, "Abandon des serres");
         AjouterEffetSpawnFilRouge("habitants_doutent", 0.5);
+        ModifierReputationFilRouge("Commercants", reputationCommercants,
+            "Abandon des serres de Perrine");
     }
 
     private void ProposerMissionSpecialeFilRouge(string id, string categorie, string rang)
@@ -529,11 +609,13 @@ public partial class MainMenu
         RaffraichirTableauMissions();
     }
 
-    private void TraiterFinMissionFilRouge(MissionGuilde mission, bool victoire,
+    private void TraiterFinMissionFilRouge(MissionGuilde mission, IssueMission issue,
         DateTime instant)
     {
         if (_filRouge == null || !FilRougeEstRoseVallee ||
             string.IsNullOrEmpty(mission.FilRougeId)) return;
+        bool victoire = issue == IssueMission.Reussite;
+        bool echec = issue == IssueMission.Echec;
         if (mission.FilRougeId == "enquete_facon")
         {
             if (victoire)
@@ -541,9 +623,16 @@ public partial class MainMenu
                 _filRouge.PreuveFalsification = true;
                 AjouterEntreeJournal("Rose-Vallée : preuve de falsification découverte " +
                     "grâce à la mission de Facon.", "fil_rouge");
+                ModifierReputationFilRouge("Ville", 5,
+                    "Enquête des signatures de Facon réussie");
             }
-            else AjouterEntreeJournal("Rose-Vallée : l'intermédiaire de Facon a disparu. " +
-                "L'enquête a échoué.", "fil_rouge");
+            else if (echec)
+            {
+                AjouterEntreeJournal("Rose-Vallée : l'intermédiaire de Facon a disparu. " +
+                    "L'enquête a échoué.", "fil_rouge");
+                ModifierReputationFilRouge("Ville", -5,
+                    "Enquête des signatures de Facon échouée");
+            }
         }
         else if (mission.FilRougeId == "serres_facon")
         {
@@ -559,14 +648,17 @@ public partial class MainMenu
                     Math.Clamp(intelligence, 1, 20));
                 bool identifie = de + bonus >= 12;
                 _filRouge.PreuveSabotage |= identifie;
+                ModifierReputationFilRouge("Commercants", 5,
+                    "Mission de protection des serres réussie");
                 AjouterEntreeJournal("Rose-Vallée : serres protégées ; " +
                     (identifie ? "un saboteur a été identifié, preuve obtenue." :
                     "les saboteurs ont fui sans être identifiés.") +
                     " (" + FormaterJetFilRouge(de, bonus, 12) +
                     ").", "fil_rouge");
             }
-            else AjouterEntreeJournal("Rose-Vallée : nouvelle dégradation des serres " +
-                "de Perrine, coût subi par les habitants : 600 écus.", "fil_rouge");
+            else if (echec)
+                AjouterEntreeJournal("Rose-Vallée : nouvelle dégradation des serres " +
+                    "de Perrine, coût subi par les habitants : 600 écus.", "fil_rouge");
         }
     }
 }
