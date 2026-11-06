@@ -116,6 +116,8 @@ public partial class MainMenu
         }
 
         _etat.Ecus -= 300;
+        EnregistrerMouvementBudget(RegistreBudget.Recrutement, -300,
+            "Organisation d'un rendez-vous de recrutement à l'auberge.");
         AfficherValeur(_ecus, _etat.Ecus);
         _aubergeEtat.RendezVous = new RendezVousAuberge
         {
