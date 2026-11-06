@@ -56,6 +56,7 @@ public partial class MainMenu
         _fenetreRelationBureau.Hide();
         _fenetreInventaireBureau.Hide();
         _fenetreCalendrierBureau.Hide();
+        InitialiserFenetreInventaire();
 
         if (_etat != null && _horloge != null)
             _budget = RegistreBudget.ChargerOuInitialiser(_etat.Ecus, _horloge.Instant);
@@ -87,7 +88,9 @@ public partial class MainMenu
 
     private void OuvrirInventaireBureau()
     {
-        if (!_tempsEnCours) _fenetreInventaireBureau?.PopupCentered();
+        if (_tempsEnCours || _fenetreInventaireBureau == null) return;
+        RafraichirInventaireBureau();
+        _fenetreInventaireBureau.PopupCentered();
     }
 
     private void OuvrirCalendrier()
