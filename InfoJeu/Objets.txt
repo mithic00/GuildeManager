@@ -1,121 +1,135 @@
+Prix proposés pour GuildeManager (novembre 2026)
+--------------------------------------------------
+Taux de référence : 1 € en France = 1 écu dans le jeu.
+Tarifs d'achat à l'unité, arrondis à l'écu ; les quantités de vente sont
+indiquées sur les lignes lorsque ce n'est pas une pièce.
+Objets ordinaires : ordres de grandeur du commerce français (INSEE, enseignes
+de mobilier et de vêtements, équitation et reconstitution historique).
+Objets magiques et potions aux effets surnaturels : ESTIMATIONS de gameplay,
+sans équivalent réel. À ajuster en fonction de l'équilibrage de GuildeManager.
+
+IMPORTANT : ce document est exclusivement une base de connaissance.
+Le jeu utilise les objets et prix définis dans Scripts/CatalogueObjets.cs.
+Modifier les prix ci-dessous ne change pas le jeu sans mise à jour du C#.
+
 Chaque objets est référencé dans une catégorie :
 - Nourriture
--- Falaquant : Grosse pomme de terre (qui n'existe pas dans cet univers) orange. Présent partout sur le globe.
--- Choux : Présent partout sur le globe.
--- Tomate : Présent partout sur le globe.
--- Dlo : Céréale semblable à du blé (qui n'existe pas dans cet univers). Présent partout sur le globe.
--- Carotte : Présent partout sur le globe.
--- Pain : Présent partout sur le globe.
+-- Falaquant : Grosse pomme de terre (qui n'existe pas dans cet univers) orange. Présent partout sur le globe. — Prix proposé : 2 écus / kg.
+-- Choux : Présent partout sur le globe. — Prix proposé : 3 écus / chou.
+-- Tomate : Présent partout sur le globe. — Prix proposé : 5 écus / kg.
+-- Dlo : Céréale semblable à du blé (qui n'existe pas dans cet univers). Présent partout sur le globe. — Prix proposé : 3 écus / kg.
+-- Carotte : Présent partout sur le globe. — Prix proposé : 2 écus / kg.
+-- Pain : Présent partout sur le globe. — Prix proposé : 2 écus / pain de 500 g.
 
 - Boisson non alcoolisé
--- Jus de pomme : 
--- Eau : 
+-- Jus de pomme : — Prix proposé : 3 écus / bouteille de 1 L.
+-- Eau : — Prix proposé : 1 écus / bouteille de 1 L.
 
 - Boisson alcoolisé
--- Artrik : Sorte de cervoise. Présent partout sur le globe
--- Rhum : Originaire du Royaume Grumol et Haut Elfe.
+-- Artrik : Sorte de cervoise. Présent partout sur le globe — Prix proposé : 5 écus / chope de 50 cl.
+-- Rhum : Originaire du Royaume Grumol et Haut Elfe. — Prix proposé : 25 écus / bouteille de 70 cl.
 
 - Monture
--- Ufaur : Présent partout sur le globe.
--- Obriche : Présent partout sur le globe pour la consommation. Utilisé comme monture au royaume des sables.
+-- Ufaur : Présent partout sur le globe. — Prix proposé : 3 000 écus / monture.
+-- Obriche : Présent partout sur le globe pour la consommation. Utilisé comme monture au royaume des sables. — Prix proposé : 800 écus / animal.
 
 - Vehicule
--- Petite Charette individuelle : Présent partout sur le globe.
--- Grande Charette de transport : Présent partout sur le globe.
+-- Petite Charette individuelle : Présent partout sur le globe. — Prix proposé : 1 200 écus / charrette.
+-- Grande Charette de transport : Présent partout sur le globe. — Prix proposé : 4 000 écus / charrette.
 
 - Arme
--- Dague : Présent partout sur le globe.
--- Epée : Présent partout sur le globe.
--- Massue : Présent partout sur le globe.
+-- Dague : Présent partout sur le globe. — Prix proposé : 110 écus.
+-- Epée : Présent partout sur le globe. — Prix proposé : 220 écus.
+-- Massue : Présent partout sur le globe. — Prix proposé : 60 écus.
 
 - Armure
--- Armure en Fer : Présent partout sur le globe.
--- Armure en Acier blanc : Présent partout sur le globe.
+-- Armure en Fer : Présent partout sur le globe. — Prix proposé : 3 200 écus.
+-- Armure en Acier blanc : Présent partout sur le globe. — Prix proposé : 6 000 écus.
 
 - Objet Magique Divers : tous trouvable par défaut partout sur le globe.
--- Parapluie de lecture magique : permet de déterminer le potentiel magique d'un EM.
--- Balais indépendant : nettoie une pièce tout seul
--- Cartes du fou flamboyant : Carte de jeu censé se mélanger tout seul. Peut faire des blagues aux joueurs, voir carrément gâcher une partie.
+-- Parapluie de lecture magique : permet de déterminer le potentiel magique d'un EM. — Prix proposé : 12 000 écus.
+-- Balais indépendant : nettoie une pièce tout seul — Prix proposé : 1 000 écus.
+-- Cartes du fou flamboyant : Carte de jeu censé se mélanger tout seul. Peut faire des blagues aux joueurs, voir carrément gâcher une partie. — Prix proposé : 200 écus / jeu de cartes.
 
 - Arme Magique : tous trouvable par défaut partout sur le globe.
--- Epée enflammée : épée simple qui produit des flammes sur demande de son propriétaire
+-- Epée enflammée : épée simple qui produit des flammes sur demande de son propriétaire — Prix proposé : 6 500 écus.
 
 - Armure Magique : tous trouvable par défaut partout sur le globe.
--- Casque de vision nocture : permet de voir dans le noir une fois porté.
+-- Casque de vision nocture : permet de voir dans le noir une fois porté. — Prix proposé : 2 900 écus.
 
 - Meuble
--- Lit Simple
--- Lit Double
--- Petite table ronde
--- Moyenne table ronde
--- Grande table ronde
--- Bar
--- Coffre
--- Canapé deux places
--- Canapé trois places
--- Fauteuil
--- Etagère
+-- Lit Simple — Prix proposé : 150 écus.
+-- Lit Double — Prix proposé : 300 écus.
+-- Petite table ronde — Prix proposé : 80 écus.
+-- Moyenne table ronde — Prix proposé : 170 écus.
+-- Grande table ronde — Prix proposé : 340 écus.
+-- Bar — Prix proposé : 1 000 écus.
+-- Coffre — Prix proposé : 160 écus.
+-- Canapé deux places — Prix proposé : 350 écus.
+-- Canapé trois places — Prix proposé : 520 écus.
+-- Fauteuil — Prix proposé : 220 écus.
+-- Etagère — Prix proposé : 90 écus.
 
 - Potion
--- Potion de guérison : +25 PV / Cicatrise
--- Remède basique : Guérie les maladies classiques 
--- Remède d’Algolite (pierre assez rare) : Guérie presque tout. 
--- Remède solaire (retire les coups de soleils)
--- Potion revigorante : +10 PV +10 PM 
--- Potion de restauration : +50 PM 
--- Potion de guérison amélioré : +100 PV / Cicatrise 
--- Potion de restauration amélioré : +200 PM / +10 PM/min pendant 1h 
--- Potion de l’être magique : +50 PV +50 PM 
--- Potion suprême : +25% PV +35% PM / 1 par heure maximum. 
--- Potion d’amélioration : +5% d’une stat pendant 1h 
--- Potion d’amélioration supérieur : +10 % d’une stat pendant 1h 
--- Potion d’amélioration légendaire : +25 % d’une stat pendant 30 minutes 
--- Potion d'explosion magique : Potion sous pression. Une fois au contact de l'air, explose dans une déflagration magique (28 à 39). 
--- Potion de brouillard toxique : Au contact de l’air, provoque un brouillard toxique opaque, qui agresse les yeux. 
--- Potion électrisante : rend le buveur électrique pendant 5 minutes
--- Potion de changement de voix 
--- Potion de paralysie 
--- Potion d’intelligence 
--- Potion de fausse mort 
--- Potion aquatique
--- Potion de nyctalopie 
--- Potion de perception 
--- Potion de sommeil 
--- Potion trompe-voix (empêche de dire les voyelles)
--- Potion de colorisation
--- Potion de gout
--- Remède de pilosité
--- Potion de vérité
+-- Potion de guérison : +25 PV / Cicatrise — Prix proposé : 75 écus / flacon.
+-- Remède basique : Guérie les maladies classiques — Prix proposé : 35 écus / flacon.
+-- Remède d’Algolite (pierre assez rare) : Guérie presque tout. — Prix proposé : 5 000 écus / flacon.
+-- Remède solaire (retire les coups de soleils) — Prix proposé : 12 écus / flacon.
+-- Potion revigorante : +10 PV +10 PM — Prix proposé : 100 écus / flacon.
+-- Potion de restauration : +50 PM — Prix proposé : 160 écus / flacon.
+-- Potion de guérison amélioré : +100 PV / Cicatrise — Prix proposé : 250 écus / flacon.
+-- Potion de restauration amélioré : +200 PM / +10 PM/min pendant 1h — Prix proposé : 900 écus / flacon.
+-- Potion de l’être magique : +50 PV +50 PM — Prix proposé : 350 écus / flacon.
+-- Potion suprême : +25% PV +35% PM / 1 par heure maximum. — Prix proposé : 1 600 écus / flacon.
+-- Potion d’amélioration : +5% d’une stat pendant 1h — Prix proposé : 240 écus / flacon.
+-- Potion d’amélioration supérieur : +10 % d’une stat pendant 1h — Prix proposé : 600 écus / flacon.
+-- Potion d’amélioration légendaire : +25 % d’une stat pendant 30 minutes — Prix proposé : 2 500 écus / flacon.
+-- Potion d'explosion magique : Potion sous pression. Une fois au contact de l'air, explose dans une déflagration magique (28 à 39). — Prix proposé : 350 écus / flacon.
+-- Potion de brouillard toxique : Au contact de l’air, provoque un brouillard toxique opaque, qui agresse les yeux. — Prix proposé : 190 écus / flacon.
+-- Potion électrisante : rend le buveur électrique pendant 5 minutes — Prix proposé : 160 écus / flacon.
+-- Potion de changement de voix — Prix proposé : 60 écus / flacon.
+-- Potion de paralysie — Prix proposé : 550 écus / flacon.
+-- Potion d’intelligence — Prix proposé : 450 écus / flacon.
+-- Potion de fausse mort — Prix proposé : 650 écus / flacon.
+-- Potion aquatique — Prix proposé : 250 écus / flacon.
+-- Potion de nyctalopie — Prix proposé : 260 écus / flacon.
+-- Potion de perception — Prix proposé : 300 écus / flacon.
+-- Potion de sommeil — Prix proposé : 90 écus / flacon.
+-- Potion trompe-voix (empêche de dire les voyelles) — Prix proposé : 85 écus / flacon.
+-- Potion de colorisation — Prix proposé : 40 écus / flacon.
+-- Potion de gout — Prix proposé : 30 écus / flacon.
+-- Remède de pilosité — Prix proposé : 75 écus / flacon.
+-- Potion de vérité — Prix proposé : 850 écus / flacon.
 
 - Composant Potion
--- Camomille Dorée 
--- Menthe des Hautes Falaises 
--- Feuille de Solan 
--- Racine Rouge
--- Lavande Lunaire
--- Fleur de Verre
--- Mousse d'Ékiaba
--- Sauge Argentée 
--- Champignon Bleuvent : Connu pour régénéré la magie 
--- Graine d'Orme 
+-- Camomille Dorée — Prix proposé : 12 écus / lot.
+-- Menthe des Hautes Falaises — Prix proposé : 10 écus / lot.
+-- Feuille de Solan — Prix proposé : 7 écus / lot.
+-- Racine Rouge — Prix proposé : 8 écus / lot.
+-- Lavande Lunaire — Prix proposé : 15 écus / lot.
+-- Fleur de Verre — Prix proposé : 45 écus / lot.
+-- Mousse d'Ékiaba — Prix proposé : 18 écus / lot.
+-- Sauge Argentée — Prix proposé : 12 écus / lot.
+-- Champignon Bleuvent : Connu pour régénéré la magie — Prix proposé : 65 écus / lot.
+-- Graine d'Orme — Prix proposé : 9 écus / lot.
 
 - Vêtement
--- Chemise Femme
--- Chemise Homme
--- Pantalon Femme
--- Pantalon Homme
--- Chapeau
--- Bonnet
--- Chaussure en cuir
+-- Chemise Femme — Prix proposé : 30 écus.
+-- Chemise Homme — Prix proposé : 30 écus.
+-- Pantalon Femme — Prix proposé : 45 écus.
+-- Pantalon Homme — Prix proposé : 45 écus.
+-- Chapeau — Prix proposé : 25 écus.
+-- Bonnet — Prix proposé : 15 écus.
+-- Chaussure en cuir — Prix proposé : 85 écus / paire.
 
 - Matière Première
--- Pierre simple
--- Bois de chêne
--- Sable
+-- Pierre simple — Prix proposé : 8 écus / kg.
+-- Bois de chêne — Prix proposé : 35 écus / planche.
+-- Sable — Prix proposé : 5 écus / sac de 25 kg.
 
 - Objet de Décoration
--- Tableau
--- Plante décorative
--- Tapis
+-- Tableau — Prix proposé : 95 écus.
+-- Plante décorative — Prix proposé : 25 écus.
+-- Tapis — Prix proposé : 70 écus.
 
 - Objet Divers
