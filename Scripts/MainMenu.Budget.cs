@@ -18,7 +18,7 @@ public partial class MainMenu
     private Window _fenetreCalendrierBureau;
     private HSlider _sliderPeriodeBudget;
     private Label _labelPeriodeBudget;
-    private RichTextLabel _entreesBudget, _sortiesBudget;
+    private RichTextLabel _entreesBudget, _sortiesBudget, _sortiesBudget2, _sortiesBudget3;
 
     private void InitialiserBudgetEtBureau()
     {
@@ -27,7 +27,9 @@ public partial class MainMenu
         _labelPeriodeBudget = GetNode<Label>(baseBudget + "HBoxContainer/Label");
         _sliderPeriodeBudget = GetNode<HSlider>(baseBudget + "HBoxContainer/HSliderPeriode");
         _entreesBudget = GetNode<RichTextLabel>(baseBudget + "InfoRentreArgent");
-        _sortiesBudget = GetNode<RichTextLabel>(baseBudget + "InfoSortieArgent");
+        _sortiesBudget = GetNode<RichTextLabel>(baseBudget + "Depenses/InfoSortieArgent");
+        _sortiesBudget2 = GetNode<RichTextLabel>(baseBudget + "Depenses/InfoSortieArgent2");
+        _sortiesBudget3 = GetNode<RichTextLabel>(baseBudget + "Depenses/InfoSortieArgent3");
         _sliderPeriodeBudget.MinValue = 1;
         _sliderPeriodeBudget.MaxValue = 13;
         _sliderPeriodeBudget.Step = 1;
@@ -112,13 +114,16 @@ public partial class MainMenu
 
     private void RafraichirBudget()
     {
-        if (_labelPeriodeBudget == null || _entreesBudget == null || _sortiesBudget == null)
+        if (_labelPeriodeBudget == null || _entreesBudget == null ||
+            _sortiesBudget == null || _sortiesBudget2 == null || _sortiesBudget3 == null)
             return;
         if (_budget == null || _horloge == null)
         {
             _labelPeriodeBudget.Text = "Budget indisponible";
             _entreesBudget.Text = "Registre indisponible.";
             _sortiesBudget.Text = "Registre indisponible.";
+            _sortiesBudget2.Text = "";
+            _sortiesBudget3.Text = "";
             return;
         }
 
@@ -151,7 +156,7 @@ public partial class MainMenu
         long recettes = mouvements.Where(m => m.Montant > 0).Sum(m => m.Montant);
         long depenses = -mouvements.Where(m => m.Montant < 0).Sum(m => m.Montant);
 
-        var revenus = new List<string> { "RECETTES" };
+        var revenus = new List<string> { "Recettes" };
         foreach (string categorie in RegistreBudget.CategoriesRecettes)
         {
             long somme = mouvements.Where(m => m.Montant > 0 && m.Categorie == categorie)
@@ -160,33 +165,49 @@ public partial class MainMenu
             revenus.Add(categorie + " : +" + FormaterEcusBudget(somme));
         }
         revenus.Add("");
-        revenus.Add("TOTAL DES RECETTES : +" + FormaterEcusBudget(recettes));
+        revenus.Add("Total des recettes : +" + FormaterEcusBudget(recettes));
         _entreesBudget.Text = string.Join("\n", revenus);
 
-        var charges = new List<string> { "DÉPENSES" };
+        // La scène répartit les dépenses sur trois colonnes.
+        // Les catégories restent issues du même registre et des mêmes mouvements.
+        var chargesCourantes = new List<string> { "Charges courantes" };
+        var chargesGestion = new List<string> { "Développement et activités" };
+        var chargesBilan = new List<string> { "Autres dépenses et bilan" };
         foreach (string categorie in RegistreBudget.CategoriesDepenses)
         {
             long somme = -mouvements.Where(m => m.Montant < 0 && m.Categorie == categorie)
                 .Sum(m => m.Montant);
             if (categorie == RegistreBudget.Ajustements && somme == 0) continue;
-            charges.Add(categorie + " : -" + FormaterEcusBudget(somme));
+
+            List<string> colonne = categorie switch
+            {
+                RegistreBudget.Loyer or RegistreBudget.Fonctionnement or RegistreBudget.Taxes
+                    => chargesCourantes,
+                RegistreBudget.Amenagements or RegistreBudget.Recrutement or RegistreBudget.Concours
+                    => chargesGestion,
+                _ => chargesBilan
+            };
+            colonne.Add(categorie + " : -" + FormaterEcusBudget(somme));
         }
-        charges.Add("");
-        charges.Add("TOTAL DES DÉPENSES : -" + FormaterEcusBudget(depenses));
+
+        chargesBilan.Add("");
+        chargesBilan.Add("Total des dépenses : -" + FormaterEcusBudget(depenses));
         long bilan = recettes - depenses;
-        charges.Add("BILAN SUR LA PÉRIODE : " + (bilan >= 0 ? "+" : "") +
+        chargesBilan.Add("Bilan sur la période : " + (bilan >= 0 ? "+" : "") +
             FormaterEcusBudget(bilan));
-        charges.Add("TRÉSORERIE ACTUELLE : " + FormaterEcusBudget(_etat?.Ecus ?? 0));
+        chargesBilan.Add("Trésorerie actuelle : " + FormaterEcusBudget(_etat?.Ecus ?? 0));
         if (periode == 13)
         {
-            charges.Add("Solde au début du suivi : " +
+            chargesBilan.Add("Solde au début du suivi : " +
                 FormaterEcusBudget(_budget.SoldeOuverture));
             if (RegistreBudget.LireDate(_budget.DateDebutSuivi, out DateTime dateDebut) &&
                 dateDebut > HorlogeJeu.DateInitiale)
-                charges.Add("Ancienne partie : seules les opérations depuis " +
+                chargesBilan.Add("Ancienne partie : seules les opérations depuis " +
                     dateDebut.ToString(format, Francais) + " sont disponibles.");
         }
-        _sortiesBudget.Text = string.Join("\n", charges);
+        _sortiesBudget.Text = string.Join("\n", chargesCourantes);
+        _sortiesBudget2.Text = string.Join("\n", chargesGestion);
+        _sortiesBudget3.Text = string.Join("\n", chargesBilan);
     }
 
     private static string FormaterEcusBudget(long montant) =>
