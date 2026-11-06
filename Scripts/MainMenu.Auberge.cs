@@ -318,7 +318,7 @@ public partial class MainMenu
         _aubergeEtat.RendezVous = null;
         _contenuAuberge.Hide();
         _fondAuberge.Hide();
-        AfficherPanneau("bureau");
+        AfficherPanneau("accueil");
         ActualiserBoutonTemps();
         AjouterEntreeJournal("Fin des entretiens à l'auberge.", "recrutement");
         // Une annonce peut avoir été différée pendant une discussion qui
