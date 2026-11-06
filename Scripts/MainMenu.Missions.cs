@@ -522,7 +522,7 @@ public partial class MainMenu
             // Une mission terminée modifie au plus une fois la réputation
             // du demandeur local. Le décès n'entraîne aucune variation.
             AppliquerReputationMission(mission, resultat.Issue);
-            TraiterFinMissionFilRouge(mission, victoire, instant);
+            TraiterFinMissionFilRouge(mission, resultat.Issue, instant);
             mission.SansGainSecondaire = resultat.SansIncident;
             int nombreMorts = resultat.Issue == IssueMission.Mort
                 ? Random.Shared.Next(1, participants.Count + 1) : 0;
