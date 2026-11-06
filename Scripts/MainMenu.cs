@@ -70,6 +70,7 @@ public partial class MainMenu : Control
         InitialiserGestionMembres();
         InitialiserDiscussions();
         InitialiserFilRougeRoseVallee();
+        InitialiserRelationsBureau();
         ActualiserAnniversaires();
         if (_horloge != null)
             TraiterRetoursConcours(_horloge.Instant);
@@ -229,7 +230,7 @@ public partial class MainMenu : Control
             _journalPartie == null || _registreMembres == null ||
             _aubergeEtat == null || _etatMissions == null ||
             _historiqueMembres == null || _budget == null ||
-            _inventaireGuilde == null)
+            _inventaireGuilde == null || _relationsGuilde == null)
         {
             AfficherInformation("Impossible de sauvegarder : certaines données de la partie sont indisponibles.");
             return false;
@@ -260,7 +261,8 @@ public partial class MainMenu : Control
                 [HistoriqueMembresGuilde.CleSauvegarde] = _historiqueMembres.Serialiser(),
                 [RegistreBudget.CleSauvegarde] = _budget.Serialiser(),
                 [InventaireGuilde.CleSauvegarde] = _inventaireGuilde.Serialiser(),
-                [EtatFilRougeRoseVallee.CleSauvegarde] = (_filRouge ?? new EtatFilRougeRoseVallee()).Serialiser()
+                [EtatFilRougeRoseVallee.CleSauvegarde] = (_filRouge ?? new EtatFilRougeRoseVallee()).Serialiser(),
+                [EtatRelationsGuilde.CleSauvegarde] = _relationsGuilde.Serialiser()
             };
             SaveManager.TracerSauvegarde("Toutes les données sont sérialisées.");
 
