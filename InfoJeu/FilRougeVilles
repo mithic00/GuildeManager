@@ -10,37 +10,37 @@ Choix 1 : "Bonjour ! Bienvenu dans notre guilde, {Nom de la guilde}. Je peux fai
   3 - Charles Suriname, Membre de Facon : "Une guilde ? Dans ce trou à rat ? Pff ! Ridicule !"
     4 - Joueur : "Il faut bien partir de quelque part..."
       5 - Charles Suriname, Membre de Facon : "Qu'on soit clair : ici c'est Facon qui commande. Vous avez pas intérêt à marcher sur nos plates bandes." -> D20 calme cible 15
-        Réussi : -> Fin de conversation : Facon ne réussi pas son intimidation
+        Réussi : -> Fin de conversation : Facon ne réussi pas son intimidation. -10 relation Facon
         Echec : -> Fin de conversation : Facon réussie son intimidation
 Choix 2 : "Bonjour, je peux vous aider ?"
   3 - Charles Suriname, Membre de Facon : "M'aider ? Moi ? Ha ha ! Il est mignon lui ! Qu'est ce que vous faites dans ce taudis ?"
     4 - Joueur :
     Choix 1 : "Sortez d'ici svp..." -> D20 Charisme cible 13.
-      Réussie : Charles Suriname, Membre de Facon : "Pff, j'avais pas l'intention de rester ici de toute façon..." -> Fin de conversation : Facon ne réussi pas son intimidation
+      Réussie : Charles Suriname, Membre de Facon : "Pff, j'avais pas l'intention de rester ici de toute façon..." -> Fin de conversation : Facon ne réussi pas son intimidation. -5 relation Facon
       Echec : Charles Suriname, Membre de Facon : "C'est à moi que tu parles ?"
         Joueur :
         Choix 1 : Si stat calme > 9 : "Calmons-nous, je ne veux pas de problèmes ici."
           5 - Charles Suriname, Membre de Facon : "En effet t'en veux pas ouais... en effet" -> Fin de conversation : Facon réussie son intimidation
         Choix 2 : Si stat calme < 10 : "Ouais c'est à toi ! Et tu commences à me les briser alors il va falloir que tu redescendes" -> D20 charisme cible 15
           5 - Charles Suriname, Membre de Facon : 
-          Réussi : "ha ha, c'est qu'il se débat en plus... De toute façon, j'avais pas envie de rester plus longtemps ici" -> Fin de conversation : Intimidation du joueur réussi
+          Réussi : "ha ha, c'est qu'il se débat en plus... De toute façon, j'avais pas envie de rester plus longtemps ici" -> Fin de conversation : Intimidation du joueur réussi. -20 relation Facon
           Echec : *Charles fait un trou dans le mur d'énervement et repart en ricanant* -> Fin de conversation : Facon réussie son intimidation
     Choix 2 : "Nous avons créer une guilde à Rose-Vallée, pour venir en aide aux habitants"
       5 - Charles Suriname, Membre de Facon : "Trop mignon ! Vous avez pas intérêt a marcher sur les plates bandes de Facon. Sinon vous allez entendre parler de nous." -> D20 calme cible 15
-        Réussi : -> Fin de conversation : Facon ne réussi pas son intimidation
+        Réussi : -> Fin de conversation : Facon ne réussi pas son intimidation. -10 relation Facon
         Echec : -> Fin de conversation : Facon réussie son intimidation
 Choix 3 : "Alors déjà bonjour..."
   3 - Charles Suriname, Membre de Facon : "Tu fais le malin ? Tu sais à qui tu as affaire là ?" -> D20 calme cible 15
     Réussi : 
-    4 - Joueur : "Oui je le sais. Mais vous êtes chez nous ici. Alors si vous n'avez pas l'intention d'être poli, je vous invite à sortir." -> Fin de conversation : Facon ne réussie pas son intimidation
+    4 - Joueur : "Oui je le sais. Mais vous êtes chez nous ici. Alors si vous n'avez pas l'intention d'être poli, je vous invite à sortir." -> Fin de conversation : Facon ne réussie pas son intimidation. -10 relation Facon
     Echec : 
     4 - Joueur : "Oui... Pardon..." -> Fin de conversation : Facon réussie son intimidation
 Choix 4 : "Si cet endroit ne vous plait pas, vous être libre de partir" -> D20 charisme cible 12
   Réussi :
-  3 - Charles Suriname, Membre de Facon : "Ouh ! Sacré ambiance chez les pleutres... J'avais pas l'intention de rester de toute façon..."  -> Fin de conversation : Facon ne réussie pas son intimidation
+  3 - Charles Suriname, Membre de Facon : "Ouh ! Sacré ambiance chez les pleutres... J'avais pas l'intention de rester de toute façon..."  -> Fin de conversation : Facon ne réussie pas son intimidation. -10 relation Facon
   Echec : 
   3 - Charles Suriname, Membre de Facon : "C'est moi qui déciderait quand je partirais. Tout comme c'est Facon qui décide ici. Vous avez pas intérêt a marcher sur nos plates bandes." -> D20 calme cible 15
-      Réussi : -> Fin de conversation : Facon ne réussi pas son intimidation
+      Réussi : -> Fin de conversation : Facon ne réussi pas son intimidation. -10 relation Facon
       Echec : -> Fin de conversation : Facon réussie son intimidation
 
 ======================================================================
@@ -117,18 +117,18 @@ Choix 1 : "Et sur quoi s'appuie-t-il pour affirmer ça ?" -> D20 Intelligence ci
     7 - Léonie : "Oui ! Une lettre avec un sceau. Mais maintenant que vous le dites... Le sceau ne ressemblait pas à celui du Comté."
     8 - Joueur : "Intéressant. Vous pourriez m'en apporter une copie ?"
     9 - Léonie : "Bien sûr ! Je vous apporterai ça demain."
-    -> Fin : Preuve commerciale obtenue. Prestige +10.
+    -> Fin : Preuve commerciale obtenue. Prestige +10. +5 relation commerçants.
   Échec :
     6 - Joueur : "Ils ont probablement le droit de faire ça..."
     7 - Léonie : "Oh... Je comprends. C'est dommage, nous espérions tellement avoir une guilde ici."
-    -> Fin : Facon conserve son influence sur les commerçants. Prestige -10.
+    -> Fin : Facon conserve son influence sur les commerçants. Prestige -10. -5 relation commerçants.
 
 Choix 2 : "Facon peut bien raconter ce qu'elle veut. Vous êtes libres de choisir votre guilde." -> D20 Charisme cible 13.
   Réussi :
     6 - Léonie : "Vous avez raison ! Et puis, depuis quand doit-on demander la permission à Liberta pour vivre à Rose-Vallée ?"
     7 - Joueur : "Exactement."
     8 - Léonie : "Je vais en parler aux autres commerçants. Vous avez mon soutien !"
-    -> Fin : Témoignage favorable obtenu. Prestige +20.
+    -> Fin : Témoignage favorable obtenu. Prestige +20. +5 relation commerçants.
   Échec :
     6 - Léonie : "Vous dites ça, mais eux ont des dizaines de membres. Et vous... enfin..."
     7 - Joueur :
@@ -137,12 +137,12 @@ Choix 2 : "Facon peut bien raconter ce qu'elle veut. Vous êtes libres de choisi
       -> Fin : Aucun changement.
     Choix 2 : "Si vous ne nous faites pas confiance, pourquoi venir ici ?"
       8 - Léonie : "Je... Pardonnez-moi de vous avoir dérangé."
-      -> Fin : Prestige -10.
+      -> Fin : Prestige -10. -10 relation commerçants.
 
 Choix 3 : "Qu'ils gardent leurs contrats. Je n'ai pas envie d'entrer en conflit avec Facon."
   6 - Léonie : "Oh... Je pensais que vous étiez justement venus pour changer les choses."
   7 - Léonie : "Très bien. Je ne vous dérange pas plus longtemps."
-  -> Fin : Prestige -20. Facon renforce son emprise commerciale.
+  -> Fin : Prestige -20. Facon renforce son emprise commerciale. -25 relation commerçants.
 
 Choix 4 : "Je vais m'occuper personnellement de cet individu." -> Disponible si Calme < 10.
   6 - Léonie : "Oh ! Je... Vous n'allez pas lui faire du mal, j'espère ?"
@@ -154,7 +154,7 @@ Choix 4 : "Je vais m'occuper personnellement de cet individu." -> Disponible si 
        Prestige +10. Charles est informé de l'incident.
   Échec :
     8 - Léonie : "Non ! Je ne veux pas être responsable d'une bagarre ! Oubliez ce que j'ai dit."
-    -> Fin : Aucun gain. Les commerçants deviennent méfiants.
+    -> Fin : Aucun gain. Les commerçants deviennent méfiants. -10 relation commerçants.
 
 ----------------------------------------------------------------------
 ACTE III — LES CONTRATS DÉTOURNÉS
@@ -191,7 +191,7 @@ Choix 1 : "Montrez-moi ces documents." -> D20 Intelligence cible 12.
     8 - Joueur : "Cette signature est fausse. Et regardez cette date... Notre guilde n'avait même pas encore ouvert !"
     9 - Étienne : "Par les Esprits... Vous avez raison !"
     10 - Étienne : "Il va falloir que j'en informe le Seigneur."
-    -> Fin : Preuve de falsification obtenue. Prestige +20.
+    -> Fin : Preuve de falsification obtenue. Prestige +20. +10 relation Rose-Vallée.
   Échec :
     8 - Joueur : "Je ne comprends pas comment ils ont fait..."
     9 - Étienne : "Je vais conserver les documents. Nous finirons peut-être par comprendre."
@@ -205,11 +205,11 @@ Choix 2 : "Je veux savoir qui a fait ça."
        Catégorie : Enquête.
        Rang : ★.
        Réussite : identification d'un intermédiaire payé par Facon.
-                  Preuve de falsification obtenue.
-       Échec : l'intermédiaire disparaît. L'histoire continue sans cette preuve.
+                  Preuve de falsification obtenue. +5 relation Rose-Vallée.
+       Échec : l'intermédiaire disparaît. L'histoire continue sans cette preuve. -5 relation Rose-Vallée.
   Choix 2 : "Vous devriez plutôt contacter les autorités."
     10 - Étienne : "C'est bien ce que je compte faire. Mais sans preuve, ça risque de prendre du temps."
-    -> Fin : Aucun gain.
+    -> Fin : Aucun gain. -10 relation Rose-Vallée.
 
 Choix 3 : "Je vais aller régler ça à Liberta !" -> D20 Calme cible 14.
   Réussi :
@@ -219,7 +219,7 @@ Choix 3 : "Je vais aller régler ça à Liberta !" -> D20 Calme cible 14.
   Échec :
     8 - Joueur : "J'en ai assez de ces gens !"
     9 - Étienne : "Maître de guilde, je vous en prie ! Ne provoquez pas un conflit entre nos deux villes !"
-    -> Fin : Prestige -10. Facon apprend que le joueur envisage des représailles.
+    -> Fin : Prestige -10. Facon apprend que le joueur envisage des représailles. -10 relation Rose-Vallée.
 
 ----------------------------------------------------------------------
 ACTE IV — LA NUIT DES SERRES
@@ -256,7 +256,7 @@ Choix 1 : "Nous allons protéger vos serres. Cela ne se reproduira pas."
      Durée et résolution : règles habituelles de mission.
      Un affrontement peut survenir contre les saboteurs.
      Réussite : les saboteurs sont chassés. Preuve du sabotage obtenue
-                si un coupable est identifié.
+                si un coupable est identifié. +5 relation commerçants
      Échec : nouvelle dégradation, 600 écus de dégâts supplémentaires
              pour les habitants. La mission ne bloque pas la suite.
      Le prestige de mission ne s'applique qu'une fois selon les règles normales.
@@ -264,7 +264,7 @@ Choix 1 : "Nous allons protéger vos serres. Cela ne se reproduira pas."
 Choix 2 : "Ces hommes sont peut-être encore dans les environs. Allons les chercher." 
 Le dialogue se ferme ici. Le joueur doit comprendre qu'il doit aller en ville. Une fois arrivé dans la Rue4, le dialogue reprend avec le D20 de Charisme. Si le joueur ne va pas dans la Rue4 dans les 4 heures,
 un dialogue s'affiche et indique que le joueur a abandonné Perrine. -> Fin : Prestige -30. Bonheur -10 pour tous les membres de la guilde.
-                                                                       Une partie des habitants commence à douter de leur nouvelle guilde.
+                                                                       Une partie des habitants commence à douter de leur nouvelle guilde. -40 relation commerçants
 Les saboteurs sont retrouvés :
 -> D20 Charisme cible 16.
   Réussi :
@@ -272,7 +272,7 @@ Les saboteurs sont retrouvés :
     7 - Saboteur : "Quoi ? Qu'est-ce que vous nous voulez ?"
     8 - Joueur : "Je sais ce que vous avez fait. Vous avez intérêt à me dire qui vous a envoyés."
     9 - Saboteur : "On nous a payés, d'accord ?! Un type de Facon ! Mais on ne devait blesser personne !"
-    -> Fin : Preuve de sabotage obtenue. Prestige +30.
+    -> Fin : Preuve de sabotage obtenue. Prestige +30. +5 relation commerçants
   Échec :
     6 - Narration : "Les deux hommes comprennent rapidement pourquoi vous les recherchez."
     7 - Saboteur : "Vous feriez mieux de retourner dans votre petite guilde."
@@ -284,7 +284,7 @@ Choix 3 : "Je ne peux pas mobiliser ma guilde pour une affaire sans preuve."
   7 - Joueur : "Je suis désolé."
   8 - Perrine : "Oui... Moi aussi."
   -> Fin : Prestige -30. Bonheur -10 pour tous les membres de la guilde.
-     Une partie des habitants commence à douter de leur nouvelle guilde.
+     Une partie des habitants commence à douter de leur nouvelle guilde. -20 relation commerçants
 
 ----------------------------------------------------------------------
 ACTE V — L'ULTIMATUM DE FACON
@@ -320,7 +320,7 @@ Choix 1 : "Les habitants ne vous appartiennent pas." -> D20 Charisme cible 15.
     9 - Mireille : "Hum... Vous avez du répondant. Je comprends mieux pourquoi Charles se plaint autant de vous."
     10 - Joueur : "Charles devrait apprendre à respecter les autres."
     11 - Mireille : "C'est possible. Mais vous devriez également apprendre à respecter vos concurrents."
-    -> Fin : Prestige +20. Facon considère le joueur comme un adversaire sérieux.
+    -> Fin : Prestige +20. Facon considère le joueur comme un adversaire sérieux. -20 relation facon
   Échec :
     9 - Mireille : "Des paroles faciles lorsqu'on n'a presque personne à payer."
     10 - Mireille : "Nous reparlerons de votre indépendance lorsque vous aurez une véritable guilde."
@@ -332,11 +332,11 @@ Choix 2 : "Nous pourrions travailler ensemble, plutôt que de nous battre." -> D
     10 - Mireille : "Je ne peux rien promettre, mais je pourrais en parler à notre maître de guilde."
     11 - Joueur : "Je pense que tout le monde aurait à y gagner."
     12 - Mireille : "Peut-être. Nous verrons."
-    -> Fin : Ouverture d'une voie diplomatique.
+    -> Fin : Ouverture d'une voie diplomatique. +10 relation facon
   Échec :
     9 - Mireille : "Vous voulez notre aide alors que vous n'avez rien à nous apporter ?"
     10 - Mireille : "Vous êtes ambitieux. Je vous accorde au moins cela."
-    -> Fin : Aucun gain.
+    -> Fin : Aucun gain. +1 relation facon
 
 Choix 3 : "J'ai des preuves de vos agissements. Vous devriez faire attention."
   -> Disponible si au moins une preuve a été obtenue.
@@ -348,11 +348,11 @@ Choix 3 : "J'ai des preuves de vos agissements. Vous devriez faire attention."
     12 - Mireille : "Je ne sais pas ce que Charles a bien pu faire sans notre autorisation."
     13 - Joueur : "Alors vous devriez peut-être lui poser quelques questions."
     14 - Mireille : "Je vais m'en charger. Personnellement."
-    -> Fin : Mireille accepte d'examiner la conduite de Charles. Prestige +20.
+    -> Fin : Mireille accepte d'examiner la conduite de Charles. Prestige +20. +10 relation facon
   Échec :
     9 - Mireille : "Vous avez surtout beaucoup d'accusations."
     10 - Mireille : "Vous devriez éviter de salir publiquement le nom de Facon sans pouvoir les défendre devant le Comté."
-    -> Fin : Prestige -5.
+    -> Fin : Prestige -5. -10 relation facon
 
 Choix 4 : "Que voulez-vous exactement ?"
   9 - Mireille : "Un arrangement simple. Vous reconnaissez Facon comme guilde principale de la région. En échange, nous vous versons 2 000 écus pour soutenir vos activités."
@@ -361,12 +361,12 @@ Choix 4 : "Que voulez-vous exactement ?"
   Choix 1 : "J'accepte votre proposition."
     12 - Mireille : "Sage décision. Vous verrez, nous pouvons parfaitement nous entendre."
     -> Fin : +2 000 écus. Prestige -20. Accord de dépendance signé,
-       susceptible d'être contesté lors de l'audience finale.
+       susceptible d'être contesté lors de l'audience finale. relation Facon fixé à +50.
 
   Choix 2 : "Jamais. Notre guilde restera indépendante."
     12 - Mireille : "Vous avez jusqu'à l'audience du Comté pour reconsidérer votre position."
     13 - Mireille : "J'espère que vous ne regretterez pas cette décision."
-    -> Fin : Aucun gain immédiat. Opposition ouverte à Facon.
+    -> Fin : Aucun gain immédiat. Opposition ouverte à Facon. -5 relation facon
 
 ----------------------------------------------------------------------
 ACTE VI — LE JUGEMENT DU COMTÉ
@@ -399,15 +399,18 @@ Choix 1 : "Je demande que notre indépendance soit officiellement reconnue."
        1 500 écus de subvention du Comté.
        Facon cesse ses pressions organisées.
        Une rivalité sportive ou commerciale subsistera lors des tournois de guilde.
+       -10 relation facon
   Échec avec au moins une preuve :
     5 - Seigneur : "Vos arguments sont recevables, mais je ne peux ignorer les engagements déjà pris avec Facon."
     6 - Mireille : "Nous sommes prêts à faire un effort."
     7 - Seigneur : "Un accord de non-ingérence me semble préférable."
     -> FIN B : LE COMPROMIS.
+    -10 relation facon
   Échec sans preuve :
     5 - Seigneur : "Je ne dispose pas d'éléments suffisants pour remettre en cause les accords existants."
     6 - Mireille : "Une décision raisonnable."
     -> FIN C : SOUS L'OMBRE DE FACON.
+    -50 relation facon
 
 Choix 2 : "Nous proposons une coopération entre nos deux guildes."
   -> D20 Charisme cible 11.
@@ -421,10 +424,13 @@ Choix 2 : "Nous proposons une coopération entre nos deux guildes."
        500 écus d'aide administrative.
        Accords de non-ingérence entre Facon et la guilde du joueur.
        Possibilité de futures missions communes.
+       +30 relation facon
+       -10 relation Rose-Vallée et Commerçants
   Échec :
     5 - Mireille : "Une coopération exige de la confiance. Or, je ne pense pas que nous en soyons là."
     6 - Seigneur : "En l'absence d'accord, les dispositions existantes resteront provisoirement en vigueur."
     -> FIN C : SOUS L'OMBRE DE FACON.
+    -10 relation facon
 
 Choix 3 : "Facon a falsifié des contrats et tenté d'intimider nos commerçants !"
   -> Disponible si une preuve de falsification a été obtenue.
@@ -437,10 +443,13 @@ Choix 3 : "Facon a falsifié des contrats et tenté d'intimider nos commerçants
     -> FIN A : L'INDÉPENDANCE.
        Appliquer les conséquences de la fin A une seule fois.
        Déblocage possible d'un événement ultérieur concernant Charles.
+       -40 relation facon
+       +10 relation commerçant et Rose-Vallée
   Échec :
     5 - Mireille : "Ces documents ne prouvent aucun ordre donné par notre guilde."
     6 - Seigneur : "Je ne peux pas condamner Facon sur de simples soupçons."
     -> FIN C : SOUS L'OMBRE DE FACON.
+    -40 relation facon
 
 Choix 4 : "Je souhaite confirmer l'accord proposé par Facon."
   -> Disponible si l'accord n'a pas déjà été signé.
@@ -452,6 +461,8 @@ Choix 4 : "Je souhaite confirmer l'accord proposé par Facon."
      Facon conserve une position dominante dans les contrats régionaux.
      La guilde reste ouverte et peut toujours progresser.
      Spawn de mission / 2 maintenu.
+     +30 relation Facon
+     -20 relation Rose-Vallée et Commerçants
 
 ----------------------------------------------------------------------
 CONSÉQUENCES DURABLES DES FINS
