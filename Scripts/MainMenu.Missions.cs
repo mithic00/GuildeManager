@@ -518,6 +518,10 @@ public partial class MainMenu
             mission.Etat = "Terminee";
             bool victoire = resultat.Issue == IssueMission.Reussite;
             mission.Reussie = victoire;
+
+            // Une mission terminée modifie au plus une fois la réputation
+            // du demandeur local. Le décès n'entraîne aucune variation.
+            AppliquerReputationMission(mission, resultat.Issue);
             TraiterFinMissionFilRouge(mission, victoire, instant);
             mission.SansGainSecondaire = resultat.SansIncident;
             int nombreMorts = resultat.Issue == IssueMission.Mort
