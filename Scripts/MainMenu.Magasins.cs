@@ -14,6 +14,13 @@ public partial class MainMenu
     private string _prefixeVilleMagasins = "";
     private string _rueActiveMagasins = "";
 
+    // Fondu au noir lors d'un déplacement entre deux rues.
+    // La scène Godot n'est pas modifiée : le voile est créé en C#.
+    private const float DureeDemiFonduRue = 0.22f;
+    private ColorRect _voileTransitionRue;
+    private Tween _animationTransitionRue;
+    private bool _transitionRueEnCours;
+
     private static readonly Dictionary<string, (string Prefixe, string Dossier)> VillesMagasins =
         new(StringComparer.OrdinalIgnoreCase)
         {
@@ -80,7 +87,7 @@ public partial class MainMenu
                     string suffixe = nomBouton.Substring("BoutonExitRue".Length);
                     string villeRue = nomRue.Substring(0, nomRue.IndexOf("Rue", StringComparison.Ordinal));
                     string destination = villeRue + "Rue" + suffixe;
-                    bouton.Pressed += () => AfficherRueMagasins(destination);
+                    bouton.Pressed += () => ChangerRueAvecFondu(destination);
                 }
                 else if (NomsMagasins.TryGetValue(nomBouton, out string magasin))
                 {
@@ -99,6 +106,69 @@ public partial class MainMenu
         AfficherRueMagasins(_rueActiveMagasins);
         _zoneMagasins.Hide();
         InitialiserAchatsMagasins();
+        InitialiserFonduDeplacementRues();
+    }
+
+    private void InitialiserFonduDeplacementRues()
+    {
+        // En dernier enfant pour recouvrir les boutons de rue ainsi que l'image
+        // affichée en arrière-plan, et bloquer les clics pendant la transition.
+        _voileTransitionRue = new ColorRect
+        {
+            Name = "VoileTransitionRue",
+            Color = Colors.Black,
+            Modulate = new Color(1f, 1f, 1f, 0f),
+            MouseFilter = Control.MouseFilterEnum.Stop,
+            ZIndex = 100
+        };
+        _zoneMagasins.AddChild(_voileTransitionRue);
+        _voileTransitionRue.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+        _voileTransitionRue.Hide();
+    }
+
+    private void ChangerRueAvecFondu(string destination)
+    {
+        if (_tempsEnCours || _transitionRueEnCours || _panneauActif != "magasin" ||
+            !string.IsNullOrEmpty(_magasinActuel) || destination == _rueActiveMagasins ||
+            !_ruesMagasins.ContainsKey(destination) ||
+            !destination.StartsWith(_prefixeVilleMagasins + "Rue", StringComparison.Ordinal))
+            return;
+
+        if (_voileTransitionRue == null)
+        {
+            AfficherRueMagasins(destination);
+            return;
+        }
+
+        _transitionRueEnCours = true;
+        _voileTransitionRue.Modulate = new Color(1f, 1f, 1f, 0f);
+        _voileTransitionRue.Show();
+
+        _animationTransitionRue?.Kill();
+        _animationTransitionRue = CreateTween();
+        _animationTransitionRue.TweenProperty(
+                _voileTransitionRue, "modulate:a", 1f, DureeDemiFonduRue)
+            .SetTrans(Tween.TransitionType.Sine)
+            .SetEase(Tween.EaseType.InOut);
+
+        // La rue et son décor changent uniquement lorsque l'écran est noir.
+        _animationTransitionRue.TweenCallback(Callable.From(() =>
+        {
+            if (_panneauActif == "magasin")
+                AfficherRueMagasins(destination);
+        }));
+
+        _animationTransitionRue.TweenProperty(
+                _voileTransitionRue, "modulate:a", 0f, DureeDemiFonduRue)
+            .SetTrans(Tween.TransitionType.Sine)
+            .SetEase(Tween.EaseType.InOut);
+
+        _animationTransitionRue.TweenCallback(Callable.From(() =>
+        {
+            _voileTransitionRue.Hide();
+            _transitionRueEnCours = false;
+            _animationTransitionRue = null;
+        }));
     }
 
     private void OuvrirMagasins()
