@@ -2095,7 +2095,7 @@ custom_minimum_size = Vector2(260, 65)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-text = "Quitter"
+text = "Menu Principal"
 
 [node name="LabelDateEtHeure" type="Label" parent="MargeChoixMenu/BoutonsMenu" unique_id=1769365647]
 layout_mode = 2
@@ -2177,7 +2177,7 @@ text = "Fermer"
 transparent_bg = true
 oversampling_override = 1.0
 initial_position = 3
-size = Vector2i(700, 500)
+size = Vector2i(800, 600)
 current_screen = 0
 visible = false
 exclusive = true
@@ -2228,6 +2228,13 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Option"
+
+[node name="BoutonFermer" type="Button" parent="FenetreMenuQuitter/Marge/Layout" unique_id=145116534]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Fermer"
 
 [node name="FenetreFichePerso" type="Window" parent="." unique_id=595735590]
 transparent_bg = true
@@ -3222,7 +3229,6 @@ transparent_bg = true
 oversampling_override = 1.0
 initial_position = 1
 size = Vector2i(1200, 800)
-visible = false
 exclusive = true
 transparent = true
 
@@ -3239,6 +3245,82 @@ theme_override_constants/margin_bottom = 60
 
 [node name="Layout" type="VBoxContainer" parent="FenetreInventaire/Marge" unique_id=294549289]
 layout_mode = 2
+
+[node name="Inventaire" type="TabContainer" parent="FenetreInventaire/Marge/Layout" unique_id=2070774273]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="Nourriture & Boisson" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=439677466]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Monture" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1695155509]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Vehicule" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=284144552]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="Arme" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=117515204]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 3
+
+[node name="Armure" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1660665471]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 4
+
+[node name="Objet Magique" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=119118404]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 5
+
+[node name="Meuble" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1586306576]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 6
+
+[node name="Potion" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=762153090]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 7
+
+[node name="Composant Potion" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1771681536]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 8
+
+[node name="Vêtement" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=69860222]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 9
+
+[node name="Matière Première" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1763545564]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 10
+
+[node name="Objet de Décoration" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1686966592]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 11
+
+[node name="Objet Divers" type="TabBar" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=401753324]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 12
+
+[node name="ButtonFermer" type="Button" parent="FenetreInventaire/Marge/Layout" unique_id=2054338732]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Fermer"
 
 [node name="FenetreCalendrier" type="Window" parent="." unique_id=1723819320]
 transparent_bg = true
