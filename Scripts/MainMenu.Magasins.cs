@@ -20,6 +20,7 @@ public partial class MainMenu
     private ColorRect _voileTransitionRue;
     private Tween _animationTransitionRue;
     private bool _transitionRueEnCours;
+    private readonly Dictionary<BaseButton, bool> _boutonsAvantFondu = new();
 
     private static readonly Dictionary<string, (string Prefixe, string Dossier)> VillesMagasins =
         new(StringComparer.OrdinalIgnoreCase)
@@ -143,6 +144,7 @@ public partial class MainMenu
         }
 
         _transitionRueEnCours = true;
+        VerrouillerCommandesPendantFondu();
         _voileTransitionRue.Modulate = new Color(1f, 1f, 1f, 0f);
         _voileTransitionRue.Show();
 
@@ -165,7 +167,38 @@ public partial class MainMenu
             _voileTransitionRue.Hide();
             _transitionRueEnCours = false;
             _animationTransitionRue = null;
+            RestaurerCommandesApresFondu();
         }));
+    }
+
+    private void VerrouillerCommandesPendantFondu()
+    {
+        // Le voile ne couvre que le panneau de jeu : éviter qu'un clic dans
+        // les menus latéraux interrompe le changement de décor.
+        _boutonsAvantFondu.Clear();
+        foreach (Node enfant in GetNode<Control>("MargeChoixMenu/BoutonsMenu").GetChildren())
+        {
+            if (enfant is not BaseButton bouton) continue;
+            _boutonsAvantFondu[bouton] = bouton.Disabled;
+            bouton.Disabled = true;
+        }
+
+        if (_boutonAvancerTemps != null &&
+            !_boutonsAvantFondu.ContainsKey(_boutonAvancerTemps))
+        {
+            _boutonsAvantFondu[_boutonAvancerTemps] = _boutonAvancerTemps.Disabled;
+            _boutonAvancerTemps.Disabled = true;
+        }
+    }
+
+    private void RestaurerCommandesApresFondu()
+    {
+        foreach (var entree in _boutonsAvantFondu)
+        {
+            if (GodotObject.IsInstanceValid(entree.Key))
+                entree.Key.Disabled = entree.Value;
+        }
+        _boutonsAvantFondu.Clear();
     }
 
     private void ChangerRueAvecFondu(string destination)
