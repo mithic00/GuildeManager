@@ -45,7 +45,13 @@ texture = ExtResource("3_8saeu")
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ykkax"]
-bg_color = Color(0.7570178, 0.588384, 0, 1)
+bg_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+border_blend = true
 
 [node name="MainMenu" type="Control" unique_id=1472431213]
 layout_mode = 3
@@ -1980,6 +1986,14 @@ offset_right = 1351.0
 offset_bottom = 601.0
 flat = true
 
+[node name="BoutonPolitique" type="Button" parent="LayoutsPanneauPrincipal/Bureau" unique_id=1302842554]
+layout_mode = 0
+offset_left = 1199.0
+offset_top = 622.0
+offset_right = 1480.0
+offset_bottom = 879.0
+flat = true
+
 [node name="MainBouton" type="Button" parent="." unique_id=569733904]
 custom_minimum_size = Vector2(260, 65)
 layout_mode = 0
@@ -3040,6 +3054,12 @@ horizontal_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_font_sizes/normal_font_size = 24
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="FenetreBudget/Marge/Layout" unique_id=811666407]
+layout_mode = 2
 
 [node name="Depenses" type="HBoxContainer" parent="FenetreBudget/Marge/Layout" unique_id=547329991]
 layout_mode = 2
@@ -3050,18 +3070,21 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_font_sizes/normal_font_size = 24
 
 [node name="InfoSortieArgent2" type="RichTextLabel" parent="FenetreBudget/Marge/Layout/Depenses" unique_id=338521155]
+custom_minimum_size = Vector2(420, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_font_sizes/normal_font_size = 24
 
 [node name="InfoSortieArgent3" type="RichTextLabel" parent="FenetreBudget/Marge/Layout/Depenses" unique_id=128431357]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_font_sizes/normal_font_size = 24
 
 [node name="HBoxContainer" type="HBoxContainer" parent="FenetreBudget/Marge/Layout" unique_id=1556210372]
 layout_mode = 2
@@ -3108,6 +3131,91 @@ theme_override_constants/margin_bottom = 60
 
 [node name="Layout" type="VBoxContainer" parent="FenetreRelation/Marge" unique_id=289486508]
 layout_mode = 2
+
+[node name="LabelAcademie" type="Label" parent="FenetreRelation/Marge/Layout" unique_id=665133638]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "Académie Magique :"
+horizontal_alignment = 1
+
+[node name="BarreReputationAcademie" type="Control" parent="FenetreRelation/Marge/Layout" unique_id=319550895]
+custom_minimum_size = Vector2(600, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="LabelCommercant" type="Label" parent="FenetreRelation/Marge/Layout" unique_id=1902878244]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "Commerçants :"
+horizontal_alignment = 1
+
+[node name="BarreReputationComercant" type="Control" parent="FenetreRelation/Marge/Layout" unique_id=1833945219]
+custom_minimum_size = Vector2(600, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="LabelVille" type="Label" parent="FenetreRelation/Marge/Layout" unique_id=1913692955]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "{Nom de la ville où se trouve la Guilde : Exemple Rose-Vallée) :"
+horizontal_alignment = 1
+
+[node name="BarreReputationVille" type="Control" parent="FenetreRelation/Marge/Layout" unique_id=585188065]
+custom_minimum_size = Vector2(600, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="LabelAnnexe" type="Label" parent="FenetreRelation/Marge/Layout" unique_id=90782248]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "Slot Dispo Pour quête"
+horizontal_alignment = 1
+
+[node name="BarreReputationAnnexe" type="Control" parent="FenetreRelation/Marge/Layout" unique_id=1049414913]
+visible = false
+custom_minimum_size = Vector2(600, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="LabelAnnexe2" type="Label" parent="FenetreRelation/Marge/Layout" unique_id=1564185620]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "Slot Dispo Pour quête"
+horizontal_alignment = 1
+
+[node name="BarreReputationAnnexe2" type="Control" parent="FenetreRelation/Marge/Layout" unique_id=1858046630]
+visible = false
+custom_minimum_size = Vector2(600, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="LabelAnnexe3" type="Label" parent="FenetreRelation/Marge/Layout" unique_id=2020496011]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "Slot Dispo Pour quête"
+horizontal_alignment = 1
+
+[node name="BarreReputationAnnexe3" type="Control" parent="FenetreRelation/Marge/Layout" unique_id=1898402026]
+visible = false
+custom_minimum_size = Vector2(600, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="ButtonFermer" type="Button" parent="FenetreRelation/Marge/Layout" unique_id=806592832]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+text = "Fermer"
 
 [node name="FenetreInventaire" type="Window" parent="." unique_id=1361402612]
 transparent_bg = true
@@ -3238,3 +3346,26 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Fermer"
+
+[node name="FenetrePolitique" type="Window" parent="." unique_id=1370132733]
+transparent_bg = true
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(1200, 800)
+visible = false
+exclusive = true
+transparent = true
+
+[node name="Marge" type="MarginContainer" parent="FenetrePolitique" unique_id=2147103860]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 60
+
+[node name="Layout" type="VBoxContainer" parent="FenetrePolitique/Marge" unique_id=1351174724]
+layout_mode = 2
