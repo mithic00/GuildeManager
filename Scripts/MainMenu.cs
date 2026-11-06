@@ -228,7 +228,8 @@ public partial class MainMenu : Control
         if (!SaveManager.HasCurrentSave || _etat == null || _horloge == null ||
             _journalPartie == null || _registreMembres == null ||
             _aubergeEtat == null || _etatMissions == null ||
-            _historiqueMembres == null || _budget == null)
+            _historiqueMembres == null || _budget == null ||
+            _inventaireGuilde == null)
         {
             AfficherInformation("Impossible de sauvegarder : certaines données de la partie sont indisponibles.");
             return false;
@@ -258,6 +259,7 @@ public partial class MainMenu : Control
                 [EtatMissions.CleSauvegarde] = _etatMissions.Serialiser(),
                 [HistoriqueMembresGuilde.CleSauvegarde] = _historiqueMembres.Serialiser(),
                 [RegistreBudget.CleSauvegarde] = _budget.Serialiser(),
+                [InventaireGuilde.CleSauvegarde] = _inventaireGuilde.Serialiser(),
                 [EtatFilRougeRoseVallee.CleSauvegarde] = (_filRouge ?? new EtatFilRougeRoseVallee()).Serialiser()
             };
             SaveManager.TracerSauvegarde("Toutes les données sont sérialisées.");
