@@ -73,7 +73,7 @@ public partial class MainMenu
 
                 if (nomBouton == "BoutonGuilde")
                 {
-                    bouton.Pressed += () => AfficherPanneau("bureau");
+                    bouton.Pressed += () => AfficherPanneau("accueil");
                 }
                 else if (nomBouton.StartsWith("BoutonExitRue", StringComparison.Ordinal))
                 {

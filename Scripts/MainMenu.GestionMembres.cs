@@ -320,6 +320,8 @@ public partial class MainMenu
         int prix = ReglesConcours.Prix(concours);
         DateTime retour = ReglesConcours.DateRetour(concours, _horloge.Instant);
         _etat.Ecus -= prix;
+        EnregistrerMouvementBudget(RegistreBudget.Concours, -prix,
+            "Inscription de " + cible.NomComplet + " au concours de rang " + concours + ".");
         cible.ConcoursEnCours = concours;
         cible.DateRetourConcours = ReglesMissions.DateIso(retour);
         cible.ResultatConcoursEnAttente = false;

@@ -7,8 +7,8 @@ using System.Globalization;
 
 public partial class MainMenu
 {
-    private TextureRect _fondBureau, _fondMissions, _fondMembres, _fondMagasin;
-    private Control _panneauMissions, _panneauMembres;
+    private TextureRect _fondDefaut, _fondBureau, _fondMissions, _fondMembres, _fondMagasin;
+    private Control _panneauMissions, _panneauMembres, _panneauBureau;
     private ItemList _listeDesMembres;
     private Window _fenetreFiche;
     private Control _contenuFiche, _contenuGestion;
@@ -21,15 +21,17 @@ public partial class MainMenu
     private readonly List<MembreGuilde> _membresAffiches = new();
     private MembreGuilde _membreConsulte;
     // Panneau actuellement sélectionné dans la navigation principale.
-    private string _panneauActif = "bureau";
+    private string _panneauActif = "accueil";
 
     private void InitialiserNavigationEtMembres()
     {
         const string racine = "MargeChoixMenu/BoutonsMenu/";
+        _fondDefaut = GetNode<TextureRect>("AffichagePanneauPrincipal/FondDefaut");
         _fondBureau = GetNode<TextureRect>("AffichagePanneauPrincipal/FondBureau");
         _fondMissions = GetNode<TextureRect>("AffichagePanneauPrincipal/TableauMission");
         _fondMembres = GetNode<TextureRect>("AffichagePanneauPrincipal/ListeMembre");
         _fondMagasin = GetNode<TextureRect>("AffichagePanneauPrincipal/Magasin");
+        _panneauBureau = GetNode<Control>("LayoutsPanneauPrincipal/Bureau");
         _panneauMissions = GetNode<Control>("LayoutsPanneauPrincipal/TableauDesMissions");
         _panneauMembres = GetNode<Control>("LayoutsPanneauPrincipal/ListeDesMembres");
         _listeDesMembres = GetNode<ItemList>("LayoutsPanneauPrincipal/ListeDesMembres/ItemListMembres");
@@ -57,10 +59,9 @@ public partial class MainMenu
         GetNode<Button>(racine + "BoutonTableauMission").Pressed += () => BasculerPanneau("missions");
         GetNode<Button>(racine + "BoutonMagasins").Pressed += OuvrirMagasins;
         GetNode<Button>(racine + "BoutonRecrutement").Pressed += OuvrirChoixRecrutement;
-        GetNode<Button>(racine + "BoutonBudgetInventaire").Pressed +=
-            () => BasculerPanneau("budget_inventaire");
-        GetNode<Button>(racine + "BoutonCalendrier").Pressed +=
-            () => BasculerPanneau("calendrier");
+        GetNode<Button>(racine + "BoutonBureau").Pressed +=
+            () => BasculerPanneau("bureau");
+        GetNode<Button>(racine + "BoutonCalendrier").Pressed += OuvrirCalendrier;
 
         _listeDesMembres.ItemSelected += i => OuvrirFicheMembre((int)i);
         _listeDesMembres.ItemActivated += i => OuvrirFicheMembre((int)i);
@@ -78,7 +79,7 @@ public partial class MainMenu
             GD.PushWarning("MainMenu : " + RegistreMembresGuilde.DerniereErreur);
         if (_registreMembres != null)
             AfficherValeur(_membres, _registreMembres.Membres.Count);
-        AfficherPanneau("bureau");
+        AfficherPanneau("accueil");
     }
 
     // À utiliser pour tous les boutons de menu, y compris ceux ajoutés plus tard :
@@ -86,28 +87,30 @@ public partial class MainMenu
     private bool BasculerPanneau(string nom)
     {
         bool ouverture = _panneauActif != nom;
-        AfficherPanneau(ouverture ? nom : "bureau");
+        AfficherPanneau(ouverture ? nom : "accueil");
         return ouverture;
     }
 
     private void AfficherPanneau(string nom)
     {
         _panneauActif = nom;
-        _fondBureau.Visible = nom == "bureau" || nom == "budget_inventaire" ||
-            nom == "recrutement" || nom == "calendrier";
+        // FondDefaut : bureau d'accueil et journal.
+        // FondBureau : nouvelle image du bureau avec accès aux sous-fenêtres.
+        _fondDefaut.Visible = nom == "accueil" || nom == "recrutement";
+        _fondBureau.Visible = nom == "bureau";
         _fondMissions.Visible = nom == "missions";
         _fondMembres.Visible = nom == "membres";
         _fondMagasin.Visible = nom == "magasin";
+        _panneauBureau.Visible = nom == "bureau";
         _panneauMissions.Visible = nom == "missions";
         _panneauMembres.Visible = nom == "membres";
         if (_zoneMagasins != null)
             _zoneMagasins.Visible = nom == "magasin";
-        GetNode<Control>("JournalJoueur").Visible = nom == "bureau";
+        GetNode<Control>("JournalJoueur").Visible = nom == "accueil";
         if (_contenuAuberge != null) _contenuAuberge.Visible = nom == "auberge";
         if (_fondAuberge != null) _fondAuberge.Visible = nom == "auberge";
-        if (nom == "magasin" || nom == "budget_inventaire" ||
-            nom == "recrutement" || nom == "calendrier")
-            GD.Print("MainMenu : section " + nom + " à développer.");
+        if (nom == "recrutement")
+            GD.Print("MainMenu : section recrutement.");
     }
 
     private void AfficherListeMembres()

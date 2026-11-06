@@ -66,6 +66,7 @@ public partial class MainMenu : Control
         InitialiserRecrutementAuberge();
         InitialiserNavigationMagasins();
         InitialiserMissions();
+        InitialiserBudgetEtBureau();
         InitialiserGestionMembres();
         InitialiserDiscussions();
         InitialiserFilRougeRoseVallee();
@@ -226,7 +227,8 @@ public partial class MainMenu : Control
     {
         if (!SaveManager.HasCurrentSave || _etat == null || _horloge == null ||
             _journalPartie == null || _registreMembres == null ||
-            _aubergeEtat == null || _etatMissions == null || _historiqueMembres == null)
+            _aubergeEtat == null || _etatMissions == null ||
+            _historiqueMembres == null || _budget == null)
         {
             AfficherInformation("Impossible de sauvegarder : certaines données de la partie sont indisponibles.");
             return false;
@@ -235,6 +237,17 @@ public partial class MainMenu : Control
         try
         {
             SaveManager.TracerSauvegarde("Début : préparation des données en mémoire.");
+            // Toute écriture historique antérieure qui aurait échappé au
+            // registre est visible comme ajustement, jamais inventée comme
+            // don, loyer ou recette de mission.
+            long ecartBudget = _etat.Ecus - _budget.SoldeReconstitue;
+            if (ecartBudget != 0)
+            {
+                GD.PushWarning("MainMenu : écart comptable non ventilé : " +
+                    ecartBudget + " écus.");
+                EnregistrerMouvementBudget(RegistreBudget.Ajustements, ecartBudget,
+                    "Régularisation d'une variation de trésorerie sans catégorie connue.");
+            }
             var donnees = new System.Collections.Generic.Dictionary<string, string>
             {
                 [EtatGuilde.CleSauvegarde] = JsonSerializer.Serialize(_etat),
@@ -244,6 +257,7 @@ public partial class MainMenu : Control
                 [RecrutementAubergeEtat.CleSauvegarde] = _aubergeEtat.Serialiser(),
                 [EtatMissions.CleSauvegarde] = _etatMissions.Serialiser(),
                 [HistoriqueMembresGuilde.CleSauvegarde] = _historiqueMembres.Serialiser(),
+                [RegistreBudget.CleSauvegarde] = _budget.Serialiser(),
                 [EtatFilRougeRoseVallee.CleSauvegarde] = (_filRouge ?? new EtatFilRougeRoseVallee()).Serialiser()
             };
             SaveManager.TracerSauvegarde("Toutes les données sont sérialisées.");

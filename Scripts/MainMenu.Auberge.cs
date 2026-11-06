@@ -116,6 +116,8 @@ public partial class MainMenu
         }
 
         _etat.Ecus -= 300;
+        EnregistrerMouvementBudget(RegistreBudget.Recrutement, -300,
+            "Organisation d'un rendez-vous de recrutement à l'auberge.");
         AfficherValeur(_ecus, _etat.Ecus);
         _aubergeEtat.RendezVous = new RendezVousAuberge
         {
@@ -316,7 +318,7 @@ public partial class MainMenu
         _aubergeEtat.RendezVous = null;
         _contenuAuberge.Hide();
         _fondAuberge.Hide();
-        AfficherPanneau("bureau");
+        AfficherPanneau("accueil");
         ActualiserBoutonTemps();
         AjouterEntreeJournal("Fin des entretiens à l'auberge.", "recrutement");
         // Une annonce peut avoir été différée pendant une discussion qui

@@ -371,7 +371,13 @@ public partial class MainMenu
     private void ModifierEcusFilRouge(int valeur, string raison)
     {
         if (_etat == null) return;
+        long soldeAvant = _etat.Ecus;
         _etat.Ecus = Math.Max(0, _etat.Ecus + valeur);
+        // Enregistrer la variation réellement versée ou payée, après le
+        // plafonnement à zéro de la trésorerie.
+        EnregistrerMouvementBudget(valeur >= 0 ? RegistreBudget.Recompenses :
+            RegistreBudget.Autres, _etat.Ecus - soldeAvant,
+            "Fil rouge Rose-Vallée : " + raison);
         AfficherValeur(_ecus, _etat.Ecus);
         AjouterEntreeJournal("Rose-Vallée : " + raison + " ; " +
             (valeur >= 0 ? "+" : "") + valeur + " écus.", "fil_rouge");

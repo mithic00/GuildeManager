@@ -233,7 +233,7 @@ public partial class MainMenu
         foreach (string nom in new[]
         {
             "BoutonTableauMission", "BoutonMembreGuilde", "BoutonMagasins",
-            "BoutonRecrutement", "BoutonBudgetInventaire", "BoutonCalendrier", "BoutonQuitter"
+            "BoutonRecrutement", "BoutonBureau", "BoutonCalendrier", "BoutonQuitter"
         })
         {
             Button boutonMenu = GetNode<Button>("MargeChoixMenu/BoutonsMenu/" + nom);
