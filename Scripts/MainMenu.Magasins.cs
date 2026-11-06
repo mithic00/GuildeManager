@@ -85,8 +85,7 @@ public partial class MainMenu
                 else if (NomsMagasins.TryGetValue(nomBouton, out string magasin))
                 {
                     string nomMagasin = magasin;
-                    bouton.Pressed += () => AfficherInformation(
-                        nomMagasin + " — boutique en cours de développement (WIP).");
+                    bouton.Pressed += () => EntrerDansMagasin(nomMagasin);
                 }
                 else
                 {
@@ -99,6 +98,7 @@ public partial class MainMenu
         _rueActiveMagasins = _prefixeVilleMagasins + "Rue1";
         AfficherRueMagasins(_rueActiveMagasins);
         _zoneMagasins.Hide();
+        InitialiserAchatsMagasins();
     }
 
     private void OuvrirMagasins()
