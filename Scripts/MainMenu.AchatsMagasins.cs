@@ -60,7 +60,7 @@ public partial class MainMenu
         {
             if (evenement is InputEventMouseButton clic && clic.Pressed &&
                 clic.ButtonIndex == MouseButton.Left && !_tempsEnCours &&
-                !string.IsNullOrEmpty(_magasinActuel))
+                !_transitionRueEnCours && !string.IsNullOrEmpty(_magasinActuel))
                 OuvrirAchatMagasin();
         };
         _clicInterieurMagasin.Hide();
@@ -105,7 +105,8 @@ public partial class MainMenu
 
     private void EntrerDansMagasin(string magasin)
     {
-        if (_tempsEnCours || _panneauActif != "magasin" || _fenetreAchatMagasin == null)
+        if (_tempsEnCours || _transitionRueEnCours || _panneauActif != "magasin" ||
+            !string.IsNullOrEmpty(_magasinActuel) || _fenetreAchatMagasin == null)
             return;
 
         string image = TrouverImageInterieurMagasin(magasin);
@@ -116,11 +117,23 @@ public partial class MainMenu
             return;
         }
 
-        // L'image de rue et la rue active sont conservées pour le retour.
-        _magasinActuel = magasin;
-        foreach (Control rue in _ruesMagasins.Values) rue.Hide();
-        _fondMagasin.Texture = ResourceLoader.Load<Texture2D>(image);
-        _clicInterieurMagasin.Show();
+        Texture2D texture = ResourceLoader.Load<Texture2D>(image);
+        if (texture == null)
+        {
+            AfficherInformation("Impossible de charger l'intérieur de la boutique « " +
+                magasin + " ».");
+            return;
+        }
+
+        // Le décor de la rue reste affiché jusqu'au noir complet.
+        // La rue active reste mémorisée pour revenir au même endroit.
+        ExecuterFonduMagasins(() =>
+        {
+            _magasinActuel = magasin;
+            foreach (Control rue in _ruesMagasins.Values) rue.Hide();
+            _fondMagasin.Texture = texture;
+            _clicInterieurMagasin.Show();
+        });
     }
 
     private string TrouverImageInterieurMagasin(string magasin)
@@ -156,8 +169,8 @@ public partial class MainMenu
 
     private void OuvrirAchatMagasin()
     {
-        if (_tempsEnCours || string.IsNullOrEmpty(_magasinActuel) ||
-            _fenetreAchatMagasin.Visible)
+        if (_tempsEnCours || _transitionRueEnCours ||
+            string.IsNullOrEmpty(_magasinActuel) || _fenetreAchatMagasin.Visible)
             return;
         RafraichirListesCommerce();
         _fenetreAchatMagasin.PopupCentered();
@@ -165,11 +178,17 @@ public partial class MainMenu
 
     private void FermerAchatMagasin()
     {
+        if (_transitionRueEnCours) return;
         _fenetreAchatMagasin.Hide();
-        _magasinActuel = "";
-        _clicInterieurMagasin.Hide();
-        // Restaurer la rue exacte d'origine (y compris les rues bifurquées).
-        AfficherRueMagasins(_rueActiveMagasins);
+
+        // La fenêtre se ferme sur l'intérieur de boutique. Le décor extérieur
+        // n'est restauré qu'au milieu du fondu, dans la rue exacte d'origine.
+        ExecuterFonduMagasins(() =>
+        {
+            _magasinActuel = "";
+            _clicInterieurMagasin.Hide();
+            AfficherRueMagasins(_rueActiveMagasins);
+        });
     }
 
     private void RafraichirListesCommerce()
