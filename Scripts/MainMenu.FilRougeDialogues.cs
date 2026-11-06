@@ -306,8 +306,11 @@ public partial class MainMenu
             case "v-fin-aucun":TerminerRepliqueFilRouge("L'entretien avec Mireille se termine.");return;
             case "v-fin-diplomatie":
                 _filRouge.VoieDiplomatique = true;
-                _filRouge.ReputationFacon++;
-                AjouterEntreeJournal("Rose-Vallée : réputation auprès de Facon +1.", "fil_rouge");
+                int ancienneReputation = _filRouge.ReputationFacon;
+                _filRouge.ReputationFacon = Math.Clamp(ancienneReputation + 1, -100, 100);
+                RafraichirRelationsBureau();
+                AjouterEntreeJournal("Rose-Vallée : réputation auprès de Facon +" +
+                    (_filRouge.ReputationFacon - ancienneReputation) + ".", "fil_rouge");
                 TerminerRepliqueFilRouge("Une voie diplomatique s'ouvre avec Facon.");return;
             case "v-fin-preuves":
                 _filRouge.RancuneCharles++;
