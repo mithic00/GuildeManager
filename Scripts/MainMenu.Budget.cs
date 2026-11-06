@@ -80,7 +80,9 @@ public partial class MainMenu
 
     private void OuvrirRelationBureau()
     {
-        if (!_tempsEnCours) _fenetreRelationBureau?.PopupCentered();
+        if (_tempsEnCours) return;
+        RafraichirRelationsBureau();
+        _fenetreRelationBureau?.PopupCentered();
     }
 
     private void OuvrirInventaireBureau()
