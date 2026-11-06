@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 /// <summary>Une opération réelle de la trésorerie de la guilde, datée dans le jeu.</summary>
 public sealed class MouvementBudget
@@ -102,6 +103,7 @@ public sealed class RegistreBudget
         });
     }
 
+    [JsonIgnore]
     public long SoldeReconstitue => SoldeOuverture + Mouvements.Sum(m => m.Montant);
 
     public string Serialiser() => JsonSerializer.Serialize(this);
