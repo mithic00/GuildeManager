@@ -81,7 +81,7 @@ public partial class MainMenu
 
                 if (nomBouton == "BoutonGuilde")
                 {
-                    bouton.Pressed += () => AfficherPanneau("accueil");
+                    bouton.Pressed += RetourGuildeAvecFondu;
                 }
                 else if (nomBouton.StartsWith("BoutonExitRue", StringComparison.Ordinal))
                 {
@@ -214,6 +214,20 @@ public partial class MainMenu
             if (_panneauActif == "magasin")
                 AfficherRueMagasins(destination);
         });
+    }
+
+    /// <summary>
+    /// Retour de la première rue au bureau d'accueil avec le même fondu
+    /// que pour les déplacements entre rues et les intérieurs de magasins.
+    /// </summary>
+    private void RetourGuildeAvecFondu()
+    {
+        if (_tempsEnCours || _transitionRueEnCours || _panneauActif != "magasin" ||
+            !string.IsNullOrEmpty(_magasinActuel) ||
+            _rueActiveMagasins != _prefixeVilleMagasins + "Rue1")
+            return;
+
+        ExecuterFonduMagasins(() => AfficherPanneau("accueil"));
     }
 
     private void OuvrirMagasins()
