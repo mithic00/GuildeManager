@@ -138,8 +138,14 @@ public partial class MainMenu
         string format = "dd MMM yyyy";
         string debutLisible = debut.ToString(format, Francais);
         string finLisible = maintenant.ToString(format, Francais);
-        string titre = periode == 13 ? "Tout l'historique disponible" :
-            periode == 1 ? "1 mois (mois en cours)" : periode + " mois (mois en cours inclus)";
+        bool suiviDepuisOuverture = RegistreBudget.LireDate(
+            _budget.DateDebutSuivi, out DateTime debutRegistre) &&
+            debutRegistre <= HorlogeJeu.DateInitiale;
+        string titre = periode == 13
+            ? (suiviDepuisOuverture ? "Depuis l'ouverture de la guilde" :
+                "Tout l'historique comptable disponible")
+            : periode == 1 ? "1 mois (mois en cours)" :
+                periode + " mois (mois en cours inclus)";
         _labelPeriodeBudget.Text = titre + "\nDu " + debutLisible + " au " + finLisible;
 
         long recettes = mouvements.Where(m => m.Montant > 0).Sum(m => m.Montant);
@@ -150,6 +156,7 @@ public partial class MainMenu
         {
             long somme = mouvements.Where(m => m.Montant > 0 && m.Categorie == categorie)
                 .Sum(m => m.Montant);
+            if (categorie == RegistreBudget.Ajustements && somme == 0) continue;
             revenus.Add(categorie + " : +" + FormaterEcusBudget(somme));
         }
         revenus.Add("");
@@ -161,6 +168,7 @@ public partial class MainMenu
         {
             long somme = -mouvements.Where(m => m.Montant < 0 && m.Categorie == categorie)
                 .Sum(m => m.Montant);
+            if (categorie == RegistreBudget.Ajustements && somme == 0) continue;
             charges.Add(categorie + " : -" + FormaterEcusBudget(somme));
         }
         charges.Add("");
