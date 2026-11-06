@@ -14,7 +14,7 @@ public partial class MainMenu
     private string _prefixeVilleMagasins = "";
     private string _rueActiveMagasins = "";
 
-    // Fondu au noir lors d'un déplacement entre deux rues.
+    // Fondu au noir lors des déplacements de rue et des entrées/sorties de boutique.
     // La scène Godot n'est pas modifiée : le voile est créé en C#.
     private const float DureeDemiFonduRue = 0.22f;
     private ColorRect _voileTransitionRue;
@@ -111,8 +111,9 @@ public partial class MainMenu
 
     private void InitialiserFonduDeplacementRues()
     {
-        // En dernier enfant pour recouvrir les boutons de rue ainsi que l'image
-        // affichée en arrière-plan, et bloquer les clics pendant la transition.
+        // Enfant du panneau principal plutôt que de Magasins :
+        // le voile reste visible quand la première rue n'est pas encore ouverte,
+        // et recouvre aussi l'image de fond pendant l'entrée/sortie d'une boutique.
         _voileTransitionRue = new ColorRect
         {
             Name = "VoileTransitionRue",
@@ -121,22 +122,23 @@ public partial class MainMenu
             MouseFilter = Control.MouseFilterEnum.Stop,
             ZIndex = 100
         };
-        _zoneMagasins.AddChild(_voileTransitionRue);
+        GetNode<Control>("LayoutsPanneauPrincipal").AddChild(_voileTransitionRue);
         _voileTransitionRue.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
         _voileTransitionRue.Hide();
     }
 
-    private void ChangerRueAvecFondu(string destination)
+    /// <summary>
+    /// Fondu partagé : le changement de décor ne se produit qu'une fois
+    /// l'écran devenu noir, puis le nouveau décor réapparaît.
+    /// </summary>
+    private void ExecuterFonduMagasins(Action changementDecor)
     {
-        if (_tempsEnCours || _transitionRueEnCours || _panneauActif != "magasin" ||
-            !string.IsNullOrEmpty(_magasinActuel) || destination == _rueActiveMagasins ||
-            !_ruesMagasins.ContainsKey(destination) ||
-            !destination.StartsWith(_prefixeVilleMagasins + "Rue", StringComparison.Ordinal))
+        if (_transitionRueEnCours || changementDecor == null)
             return;
 
         if (_voileTransitionRue == null)
         {
-            AfficherRueMagasins(destination);
+            changementDecor();
             return;
         }
 
@@ -151,12 +153,7 @@ public partial class MainMenu
             .SetTrans(Tween.TransitionType.Sine)
             .SetEase(Tween.EaseType.InOut);
 
-        // La rue et son décor changent uniquement lorsque l'écran est noir.
-        _animationTransitionRue.TweenCallback(Callable.From(() =>
-        {
-            if (_panneauActif == "magasin")
-                AfficherRueMagasins(destination);
-        }));
+        _animationTransitionRue.TweenCallback(Callable.From(changementDecor));
 
         _animationTransitionRue.TweenProperty(
                 _voileTransitionRue, "modulate:a", 0f, DureeDemiFonduRue)
@@ -171,10 +168,40 @@ public partial class MainMenu
         }));
     }
 
+    private void ChangerRueAvecFondu(string destination)
+    {
+        if (_tempsEnCours || _transitionRueEnCours || _panneauActif != "magasin" ||
+            !string.IsNullOrEmpty(_magasinActuel) || destination == _rueActiveMagasins ||
+            !_ruesMagasins.ContainsKey(destination) ||
+            !destination.StartsWith(_prefixeVilleMagasins + "Rue", StringComparison.Ordinal))
+            return;
+
+        ExecuterFonduMagasins(() =>
+        {
+            if (_panneauActif == "magasin")
+                AfficherRueMagasins(destination);
+        });
+    }
+
     private void OuvrirMagasins()
     {
-        if (BasculerPanneau("magasin"))
+        if (_tempsEnCours || _transitionRueEnCours)
+            return;
+
+        // Conserver le retour à l'accueil au deuxième clic sur « Magasins ».
+        if (_panneauActif == "magasin")
+        {
+            BasculerPanneau("magasin");
+            return;
+        }
+
+        // Arrivée dans la première rue depuis le menu principal :
+        // on conserve l'ancien panneau jusqu'au milieu du fondu.
+        ExecuterFonduMagasins(() =>
+        {
+            AfficherPanneau("magasin");
             AfficherRueMagasins(_prefixeVilleMagasins + "Rue1");
+        });
     }
 
     private void AfficherRueMagasins(string nomRue)
