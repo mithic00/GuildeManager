@@ -288,13 +288,16 @@ public partial class MainMenu
             case "iv-fin-saboteur-ko":
                 TerminerRepliqueFilRouge("Les saboteurs ont pris la fuite.");return;
             case "iv-fin-abandon":
-                AppliquerAbandonSerres(-20);
+            {
+                int effetCommercantsAbandon = AppliquerAbandonSerres(-20);
                 AfficherBilanFilRouge("Vous refusez d'aider Perrine. Les habitants se sentent " +
                     "abandonnés et commencent à douter de leur nouvelle guilde." +
                     "\nPrestige : -30.\nBonheur de tous les membres : -10." +
-                    "\nRéputation Commerçants : -20." +
+                    "\nRéputation Commerçants : " +
+                    (effetCommercantsAbandon > 0 ? "+" : "") + effetCommercantsAbandon + "." +
                     "\nApparition des missions : multiplicateur ×0,5.");
                 return;
+            }
             case "iv-fin-notification":
                 // L'événement de notification était programmé après l'acte IV.
                 _filRouge.ActeEnCours = 0;
