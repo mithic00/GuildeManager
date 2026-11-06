@@ -552,6 +552,9 @@ public partial class MainMenu
             int partGuilde = victoire ? mission.Recompense * 20 / 100 : 0;
             int ecusPart = victoire ? (mission.Recompense - partGuilde) / participants.Count : 0;
             _etat.Ecus += partGuilde;
+            EnregistrerMouvementBudget(RegistreBudget.Missions, partGuilde,
+                "Part de la guilde (20 %) : " + mission.Categorie +
+                ", rang " + ReglesMissions.FormaterRang(mission.Rang) + ".");
 
             foreach (MembreGuilde m in survivants)
             {
