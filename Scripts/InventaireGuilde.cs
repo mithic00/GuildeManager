@@ -36,12 +36,39 @@ public sealed class InventaireGuilde
             InventaireGuilde inventaire = JsonSerializer.Deserialize<InventaireGuilde>(json);
             if (inventaire == null || inventaire.Version != 1 || inventaire.Quantites == null)
                 throw new InvalidOperationException("Inventaire de guilde illisible.");
+            // Les anciens inventaires utilisent encore les noms génériques
+            // des trois armes, renommées dans le catalogue documentaire.
+            // Migrer en mémoire : la sauvegarde normale persistera ces noms.
+            inventaire.MigrerNomsAnciens();
             return inventaire;
         }
         catch (Exception exception)
         {
             GD.PushError("InventaireGuilde : chargement impossible : " + exception);
             return null;
+        }
+    }
+
+    private void MigrerNomsAnciens()
+    {
+        foreach ((string ancien, string nouveau) in new[]
+        {
+            ("Dague", "Dague en fer"),
+            ("Epée", "Epée en fer"),
+            ("Massue", "Massue en fer")
+        })
+        {
+            if (!Quantites.TryGetValue(ancien, out int nombre) || nombre <= 0)
+                continue;
+            int dejaPresent = Quantite(nouveau);
+            if (dejaPresent > int.MaxValue - nombre)
+            {
+                GD.PushError("InventaireGuilde : impossible de fusionner " + ancien +
+                    " avec " + nouveau + " (quantité excessive).");
+                continue;
+            }
+            Quantites[nouveau] = dejaPresent + nombre;
+            Quantites.Remove(ancien);
         }
     }
 

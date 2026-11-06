@@ -206,12 +206,25 @@ public partial class MainMenu
                 .OrderBy(p => p.Key, StringComparer.CurrentCultureIgnoreCase))
             {
                 _objetsGuildeAffiches.Add(possession.Key);
-                int index = _listeItemsGuilde.AddItem(possession.Key + " × " + possession.Value);
                 if (_catalogueMagasin.TryGetValue(possession.Key, out ObjetCommerce objet))
+                {
+                    long prixVente = PrixRevente(objet);
+                    bool reprisIci = EstVenduDansMagasin(_magasinActuel, objet);
+                    int index = _listeItemsGuilde.AddItem(
+                        possession.Key + " × " + possession.Value +
+                        " — Vente : " + FormaterEcusBudget(prixVente) + " / unité" +
+                        (reprisIci ? "" : " (non repris ici)"));
                     _listeItemsGuilde.SetItemTooltip(index, objet.Categorie +
-                        "\nValeur de revente : " + FormaterEcusBudget(PrixRevente(objet)) +
-                        (EstVenduDansMagasin(_magasinActuel, objet)
-                            ? "" : "\nCette boutique ne reprend pas cet objet."));
+                        "\nPrix de vente par unité : " + FormaterEcusBudget(prixVente) +
+                        (reprisIci ? "" : "\nCette boutique ne reprend pas cet objet."));
+                }
+                else
+                {
+                    int index = _listeItemsGuilde.AddItem(
+                        possession.Key + " × " + possession.Value + " — Prix inconnu");
+                    _listeItemsGuilde.SetItemTooltip(index,
+                        "Cet objet n'est plus référencé dans le catalogue.");
+                }
             }
         }
         ActualiserBoutonsCommerce();
