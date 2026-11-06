@@ -331,7 +331,7 @@ public partial class MainMenu : Control
         if (!_fenetreInfo.Visible)
         {
             _fenetreAReouvrirApresInfo = null;
-            foreach (Window fenetre in new[] { _fenetreQuitter, _fenetreFiche, _choixRecrutement })
+            foreach (Window fenetre in new[] { _fenetreQuitter, _fenetreFiche, _choixRecrutement, _fenetreAchatMagasin })
             {
                 if (fenetre == null || !fenetre.Visible)
                     continue;
