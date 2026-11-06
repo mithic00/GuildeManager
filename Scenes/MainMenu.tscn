@@ -3041,8 +3041,25 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
 
-[node name="InfoSortieArgent" type="RichTextLabel" parent="FenetreBudget/Marge/Layout" unique_id=1216940008]
+[node name="Depenses" type="HBoxContainer" parent="FenetreBudget/Marge/Layout" unique_id=547329991]
 layout_mode = 2
+size_flags_vertical = 3
+
+[node name="InfoSortieArgent" type="RichTextLabel" parent="FenetreBudget/Marge/Layout/Depenses" unique_id=1216940008]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+
+[node name="InfoSortieArgent2" type="RichTextLabel" parent="FenetreBudget/Marge/Layout/Depenses" unique_id=338521155]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+
+[node name="InfoSortieArgent3" type="RichTextLabel" parent="FenetreBudget/Marge/Layout/Depenses" unique_id=128431357]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
 
@@ -3137,3 +3154,87 @@ theme_override_constants/margin_bottom = 60
 
 [node name="Layout" type="VBoxContainer" parent="FenetreCalendrier/Marge" unique_id=4056894]
 layout_mode = 2
+
+[node name="FenetreAchatMagasin" type="Window" parent="." unique_id=630803759]
+transparent_bg = true
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(1200, 800)
+visible = false
+exclusive = true
+transparent = true
+
+[node name="Marge" type="MarginContainer" parent="FenetreAchatMagasin" unique_id=1919318290]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 60
+
+[node name="Layout" type="VBoxContainer" parent="FenetreAchatMagasin/Marge" unique_id=650614147]
+layout_mode = 2
+theme_override_constants/separation = 35
+
+[node name="Labels" type="HBoxContainer" parent="FenetreAchatMagasin/Marge/Layout" unique_id=1662379929]
+layout_mode = 2
+theme_override_constants/separation = 95
+
+[node name="LabelMagasin" type="Label" parent="FenetreAchatMagasin/Marge/Layout/Labels" unique_id=1031502907]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 45
+text = "Objets du magasin :"
+horizontal_alignment = 1
+
+[node name="LabelJoueur" type="Label" parent="FenetreAchatMagasin/Marge/Layout/Labels" unique_id=905972851]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 45
+text = "Objets de la Guilde :"
+horizontal_alignment = 1
+
+[node name="Items" type="HBoxContainer" parent="FenetreAchatMagasin/Marge/Layout" unique_id=1009713746]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 95
+
+[node name="ListeItemMagasin" type="ItemList" parent="FenetreAchatMagasin/Marge/Layout/Items" unique_id=964655933]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ListeItemJoueur" type="ItemList" parent="FenetreAchatMagasin/Marge/Layout/Items" unique_id=2018809352]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Boutons" type="HBoxContainer" parent="FenetreAchatMagasin/Marge/Layout" unique_id=1648297872]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/separation = 67
+alignment = 1
+
+[node name="ButtonAcheter" type="Button" parent="FenetreAchatMagasin/Marge/Layout/Boutons" unique_id=1820905620]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Acheter"
+
+[node name="ButtonVendre" type="Button" parent="FenetreAchatMagasin/Marge/Layout/Boutons" unique_id=1554242585]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Vendre"
+
+[node name="ButtonFermer" type="Button" parent="FenetreAchatMagasin/Marge/Layout/Boutons" unique_id=1293924435]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Fermer"
