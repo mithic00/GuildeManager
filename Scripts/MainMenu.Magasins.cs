@@ -17,6 +17,7 @@ public partial class MainMenu
     // Fondu au noir lors des déplacements de rue et des entrées/sorties de boutique.
     // La scène Godot n'est pas modifiée : le voile est créé en C#.
     private const float DureeDemiFonduRue = 0.22f;
+    private const int MinutesParDeplacementVille = 15;
     private ColorRect _voileTransitionRue;
     private Tween _animationTransitionRue;
     private bool _transitionRueEnCours;
@@ -132,7 +133,7 @@ public partial class MainMenu
     /// Fondu partagé : le changement de décor ne se produit qu'une fois
     /// l'écran devenu noir, puis le nouveau décor réapparaît.
     /// </summary>
-    private void ExecuterFonduMagasins(Action changementDecor)
+    private void ExecuterFonduMagasins(Action changementDecor, Action apresFondu = null)
     {
         if (_transitionRueEnCours || changementDecor == null)
             return;
@@ -140,6 +141,7 @@ public partial class MainMenu
         if (_voileTransitionRue == null)
         {
             changementDecor();
+            apresFondu?.Invoke();
             return;
         }
 
@@ -168,6 +170,7 @@ public partial class MainMenu
             _transitionRueEnCours = false;
             _animationTransitionRue = null;
             RestaurerCommandesApresFondu();
+            apresFondu?.Invoke();
         }));
     }
 
@@ -204,16 +207,18 @@ public partial class MainMenu
     private void ChangerRueAvecFondu(string destination)
     {
         if (_tempsEnCours || _transitionRueEnCours || _panneauActif != "magasin" ||
-            !string.IsNullOrEmpty(_magasinActuel) || destination == _rueActiveMagasins ||
+            _horloge == null || !string.IsNullOrEmpty(_magasinActuel) ||
+            destination == _rueActiveMagasins ||
             !_ruesMagasins.ContainsKey(destination) ||
             !destination.StartsWith(_prefixeVilleMagasins + "Rue", StringComparison.Ordinal))
             return;
 
         ExecuterFonduMagasins(() =>
         {
-            if (_panneauActif == "magasin")
+            if (_panneauActif == "magasin" &&
+                AvancerTempsPourDeplacement(MinutesParDeplacementVille))
                 AfficherRueMagasins(destination);
-        });
+        }, PresenterEvenementsApresDeplacement);
     }
 
     /// <summary>
