@@ -499,6 +499,7 @@ public partial class MainMenu
     private void TerminerMissionsArrivees(DateTime instant)
     {
         if (_etatMissions == null || _registreMembres == null || _etat == null) return;
+        List<MembreGuilde> reclamantsDeRetour = new();
         foreach (MissionGuilde mission in _etatMissions.Missions.Where(m =>
             m.Etat == "EnCours" && !string.IsNullOrEmpty(m.DateRetour) &&
             ReglesMissions.LireDate(m.DateRetour) <= instant).ToList())
@@ -528,6 +529,8 @@ public partial class MainMenu
                 ? Random.Shared.Next(1, participants.Count + 1) : 0;
             var morts = participants.OrderBy(_ => Random.Shared.Next()).Take(nombreMorts).ToList();
             var survivants = participants.Where(m => !morts.Contains(m)).ToList();
+            reclamantsDeRetour.AddRange(survivants.Where(m =>
+                ReclamationPolitiquePourMembre(m.Id)));
 
             // Historiser le résultat pour TOUS les participants, y compris les
             // victimes : leur fiche pourra être consultée dans l'historique futur.
@@ -741,6 +744,8 @@ public partial class MainMenu
             }
         }
         RaffraichirTableauMissions();
+        ReclamationPolitiqueAuRetourMission(reclamantsDeRetour.Where(m =>
+            _registreMembres.Membres.Contains(m)));
     }
 
     private void HistoriserVariation(MembreGuilde membre, DateTime date,
