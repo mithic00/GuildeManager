@@ -26,11 +26,15 @@ public partial class MainMenu
             if (!_dialogueReclamationPolitiqueActif) return;
             int choix = (int)index;
             _listeReponsesDiscussion.DeselectAll();
-            if (choix != 0) return;
-            if (!_reclamationPolitiqueResultatAffiche)
+            if (_reclamationPolitiqueResultatAffiche)
+            {
+                if (choix == 0) TerminerReclamationPolitique();
+                return;
+            }
+            if (choix == 0)
                 ResoudreReclamationPolitique();
-            else
-                TerminerReclamationPolitique();
+            else if (choix == 1 && PeutRetablirPolitiqueConteste(_reclamationCourante))
+                RetablirPolitiqueContestee();
         };
 
         // Les protestations encore en attente dans une sauvegarde reprennent
@@ -39,11 +43,12 @@ public partial class MainMenu
     }
 
     /// <summary>
-    /// Point d'entrée réservé aux futures règles de mécontentement.
-    /// Aucun appel automatique depuis ConfirmerPolitiqueGuilde.
+    /// Place les protestations décidées par les règles de politique.
+    /// Mémorise pour chacune la valeur à rétablir si le joueur se ravise.
     /// </summary>
     private void SignalerMecontentementsPolitique(
-        IEnumerable<(MembreGuilde Membre, string Politique)> mecontentements)
+        IEnumerable<(MembreGuilde Membre, string Politique)> mecontentements,
+        string clePolitique, int valeurAvantChangement)
     {
         if (_reclamationsPolitique == null || _registreMembres == null ||
             _horloge == null || mecontentements == null)
@@ -66,7 +71,9 @@ public partial class MainMenu
             {
                 MembreId = membre.Id,
                 Motif = motif,
-                DateSignalement = ReglesMissions.DateIso(_horloge.Instant)
+                DateSignalement = ReglesMissions.DateIso(_horloge.Instant),
+                ClePolitique = clePolitique,
+                ValeurAvantChangement = valeurAvantChangement
             });
             ajoutes++;
             if (EstAbsent(membre)) absents++;
@@ -159,7 +166,8 @@ public partial class MainMenu
                 protestataires.Add((membre, motifActuel));
         }
 
-        SignalerMecontentementsPolitique(protestataires);
+        SignalerMecontentementsPolitique(protestataires,
+            ReclamationPolitique.PrelevementMissions, ancienPourcentage);
         if (ReclamationPolitiqueDisponible())
             CallDeferred(nameof(VerifierReclamationsPolitique));
     }
@@ -226,7 +234,8 @@ public partial class MainMenu
                 protestataires.Add((membre, motifActuel));
         }
 
-        SignalerMecontentementsPolitique(protestataires);
+        SignalerMecontentementsPolitique(protestataires,
+            ReclamationPolitique.EcartRangMissions, ancienEcart);
         if (ReclamationPolitiqueDisponible())
             CallDeferred(nameof(VerifierReclamationsPolitique));
     }
