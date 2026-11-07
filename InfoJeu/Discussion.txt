@@ -122,3 +122,65 @@ La disponibilité habituelle des discussions (08h00-23h59) s'applique.
     -> Durée : 10 minutes après un jet, en réussite comme en échec.
     -> Les départs et tentatives sont journalisés ; pas de limite quotidienne supplémentaire.
 7 - Joueur : "Mettre fin à la conversation".
+
+
+"Contestation de la politique de la guilde" (dialogue imposé)
+Ce dialogue se déclenche lorsqu'une règle de politique confirmée désigne un membre mécontent.
+Il réutilise FenetreDiscussion : le joueur revient automatiquement à l'accueil de la guilde
+pour voir le JournalJoueur. Le dialogue ne peut pas être ignoré ou fermé sans réponse.
+Un membre en mission ou absent proteste seulement à son retour. Si plusieurs membres
+sont mécontents, ils interviennent l'un après l'autre. Une notification est inscrite
+dans le journal, ainsi que le résultat de chaque échange. Les protestations en attente
+sont conservées dans la sauvegarde.
+
+1 - Cible : "Je ne suis pas satisfait du changement de politique de la guilde
+    ({politique contestée}). Je voudrais comprendre pourquoi vous avez pris cette décision.
+    Je crains qu'elle ne nuise à nos membres."
+2 - Joueur : "Expliquer votre décision (D20 Charisme + Leadership)"
+3 - Joueur : "Cette décision a été prise dans l'intérêt de la guilde.
+    Laissez-moi vous expliquer notre choix."
+4 - Test : un D20 + modificateur de Charisme + modificateur de Leadership du maître de guilde.
+    Cible = valeur bornée entre 5 et 20 de : 12 - modificateur de Calme du membre.
+    Les trois modificateurs utilisent les règles habituelles des caractéristiques.
+    Plus le membre est calme, plus la cible est basse.
+    Réussite si le total du jet atteint ou dépasse la cible.
+5 - Cible :
+    -> Réussite : "Je ne suis pas forcément d'accord, mais je comprends mieux vos raisons.
+                  Je vais vous laisser une chance."
+    -> Échec : "Je vous ai entendu, mais vos explications ne me convainquent pas.
+                Je reste opposé à ce changement."
+    Le résultat est affiché et historisé. Pour le moment, il n'applique pas encore
+    de bonus/malus chiffré de relation, de moral ou de bonheur.
+6 - Joueur : "Terminer cet échange", puis éventuelle contestation suivante.
+
+
+Règle de mécontentement n°1 : Pourcentage récupéré par la guilde sur les missions
+Caractéristique cachée de chaque personnage : SeuilPourcentageGuildeMissions.
+Ce seuil est tiré une seule fois à la création du personnage, puis sauvegardé.
+Répartition des seuils acceptés :
+  10 % : 5 % des personnages
+  20 % : 70 % des personnages
+  30 % : 10 % des personnages
+  40 % : 10 % des personnages
+  50 % : 5 % des personnages
+Le membre accepte toujours un pourcentage inférieur ou égal à son seuil personnel.
+Le seuil ne doit jamais apparaître dans les fiches ou dans le motif visible du dialogue.
+
+Après confirmation de la politique (pas pendant la manipulation du curseur) :
+  - Si le pourcentage n'a pas augmenté, aucune nouvelle protestation liée à cette règle.
+  - Si le nouveau pourcentage reste inférieur ou égal au seuil du membre : aucune protestation.
+  - Si le nouveau pourcentage dépasse son seuil : vérifier sa relation avec le joueur.
+    Ennemi / Hostile / Inamical / Neutre : protestation directe.
+    Connaissance : 10 % de chances de passer outre.
+    Ami : 30 % de chances de passer outre.
+    Proche : 75 % de chances de passer outre.
+  - Si le membre passe outre, son seuil personnel caché devient le nouveau pourcentage :
+    il acceptera désormais cette valeur et toutes les valeurs inférieures, même à l'avenir.
+    Il ne proteste pas et une ancienne réclamation de prélèvement en attente devient sans objet.
+  - Sinon, créer sa protestation (ou mettre à jour la protestation déjà en attente)
+    avec le motif : "Pourcentage récupéré par la guilde sur les missions : X %".
+  - Un membre absent ou en mission est notifié dans le journal et proteste à son retour.
+
+La politique confirmée et les seuils personnels ne sont conservés en base de données
+qu'à la sauvegarde normale. Annuler/Fermer la fenêtre Politique n'applique rien.
+Les autres paramètres de politique ne déclenchent pas encore ce type de mécontentement.
