@@ -10,9 +10,19 @@ using System.Text.Json;
 /// </summary>
 public sealed class ReclamationPolitique
 {
+    public const string PrelevementMissions = "PourcentageGuildeMissions";
+    public const string EcartRangMissions = "EcartNiveauMission";
+
     public string MembreId { get; set; } = "";
     public string Motif { get; set; } = "";
     public string DateSignalement { get; set; } = "";
+    /// <summary>Identifie le paramètre de politique contesté.</summary>
+    public string ClePolitique { get; set; } = "";
+    /// <summary>
+    /// Valeur confirmée immédiatement avant le changement à l'origine
+    /// de cette réclamation. Null pour les réclamations antérieures.
+    /// </summary>
+    public int? ValeurAvantChangement { get; set; }
 }
 
 /// <summary>
