@@ -173,6 +173,32 @@ public partial class MainMenu
     }
 
     /// <summary>
+    /// Si le joueur réduit le prélèvement avant qu'un membre absent ait pu
+    /// protester, retirer les plaintes devenues sans objet et mettre à jour
+    /// les motifs des plaintes qui restent justifiées.
+    /// </summary>
+    private void ActualiserReclamationsPrelevementApresBaisse(int nouveauPourcentage)
+    {
+        if (_reclamationsPolitique?.EnAttente == null ||
+            _registreMembres?.Membres == null)
+            return;
+
+        const string prefixe = "Pourcentage récupéré par la guilde sur les missions : ";
+        foreach (ReclamationPolitique demande in _reclamationsPolitique.EnAttente
+            .Where(r => r.ClePolitique == ReclamationPolitique.PrelevementMissions ||
+                r.Motif.StartsWith(prefixe, StringComparison.Ordinal)).ToList())
+        {
+            MembreGuilde membre = _registreMembres.Membres.FirstOrDefault(
+                m => m.Id == demande.MembreId);
+            if (membre == null ||
+                nouveauPourcentage <= membre.SeuilPourcentageGuildeMissions)
+                _reclamationsPolitique.EnAttente.Remove(demande);
+            else
+                demande.Motif = prefixe + nouveauPourcentage + " %";
+        }
+    }
+
+    /// <summary>
     /// Deuxième politique : écart MAXIMAL autorisé entre le rang des membres
     /// et celui des missions INFÉRIEURES. Les catégories de tolérance sont :
     /// 11 (libre), 1..10 (limité), 0 (strictement le même rang).
