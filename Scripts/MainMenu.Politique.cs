@@ -172,6 +172,9 @@ public partial class MainMenu
         if (nouvellePolitique.PourcentageGuildeMissions > ancienPrelevement)
             EvaluerProtestationsPourcentageMissions(ancienPrelevement,
                 nouvellePolitique.PourcentageGuildeMissions);
+        else if (nouvellePolitique.PourcentageGuildeMissions < ancienPrelevement)
+            ActualiserReclamationsPrelevementApresBaisse(
+                nouvellePolitique.PourcentageGuildeMissions);
         if (nouvellePolitique.EcartNiveauMission != ancienEcart)
             EvaluerProtestationsEcartMissions(ancienEcart,
                 nouvellePolitique.EcartNiveauMission);
