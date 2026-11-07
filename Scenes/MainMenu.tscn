@@ -256,6 +256,9 @@ cache/0/55/0/underline_position = 0.0
 cache/0/55/0/underline_thickness = 0.0
 cache/0/55/0/scale = 1.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rvh5q"]
+bg_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+
 [node name="MainMenu" type="Control" unique_id=1472431213]
 layout_mode = 3
 anchors_preset = 15
@@ -3837,5 +3840,267 @@ theme_override_constants/margin_top = 60
 theme_override_constants/margin_right = 60
 theme_override_constants/margin_bottom = 60
 
-[node name="Layout" type="VBoxContainer" parent="FenetrePolitique/Marge" unique_id=1351174724]
+[node name="LayoutPrincipal" type="VBoxContainer" parent="FenetrePolitique/Marge" unique_id=929543310]
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 18
+
+[node name="LabelTitre" type="Label" parent="FenetrePolitique/Marge/LayoutPrincipal" unique_id=1200980034]
+layout_mode = 2
+theme_override_font_sizes/font_size = 52
+text = "Politique de la guilde"
+horizontal_alignment = 1
+
+[node name="ListeDesFonctions" type="HBoxContainer" parent="FenetrePolitique/Marge/LayoutPrincipal" unique_id=1055582909]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Gauche" type="VBoxContainer" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions" unique_id=1351174724]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 25
+
+[node name="FonctionDefaut" type="HBoxContainer" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche" unique_id=563203907]
+layout_mode = 2
+
+[node name="CheckButtonPolitiqueDefaut" type="CheckButton" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche/FonctionDefaut" unique_id=343750826]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_colors/font_pressed_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_colors/button_checked_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+button_pressed = true
+text = "Politique par défaut"
+flat = true
+alignment = 1
+
+[node name="FonctionGainEcuMission" type="HBoxContainer" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche" unique_id=1955184410]
+layout_mode = 2
+
+[node name="LabelGainEcu" type="Label" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche/FonctionGainEcuMission" unique_id=158299244]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 25
+text = "Pourcentage récupéré par la guilde sur les missions :"
+autowrap_mode = 3
+
+[node name="Layout" type="VBoxContainer" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche/FonctionGainEcuMission" unique_id=929431515]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelPourcentage" type="Label" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche/FonctionGainEcuMission/Layout" unique_id=1238217576]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_font_sizes/font_size = 25
+text = "20 %"
+horizontal_alignment = 1
+
+[node name="HSliderModifPourcentageGainEcuMission" type="HSlider" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche/FonctionGainEcuMission/Layout" unique_id=1683581284]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_rvh5q")
+max_value = 50.0
+value = 20.0
+
+[node name="FonctionAutoriserMission" type="HBoxContainer" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche" unique_id=633648958]
+layout_mode = 2
+
+[node name="LabelAutoriserMission" type="Label" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche/FonctionAutoriserMission" unique_id=36979410]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 25
+text = "Écart de niveau des membres pour les missions :"
+autowrap_mode = 3
+
+[node name="Layout" type="VBoxContainer" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche/FonctionAutoriserMission" unique_id=1912636832]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelNiveauEcart" type="Label" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche/FonctionAutoriserMission/Layout" unique_id=1466691013]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_font_sizes/font_size = 25
+text = "Aucune contrainte"
+horizontal_alignment = 1
+
+[node name="HSliderNiveauEcart" type="HSlider" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche/FonctionAutoriserMission/Layout" unique_id=1085067210]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_rvh5q")
+max_value = 11.0
+value = 11.0
+
+[node name="FonctionImposerMission" type="HBoxContainer" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche" unique_id=210482362]
+layout_mode = 2
+
+[node name="LabelImposerMission" type="Label" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche/FonctionImposerMission" unique_id=1060297971]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 25
+text = "Obligation des membres à effectuer des missions :"
+autowrap_mode = 3
+
+[node name="Layout" type="VBoxContainer" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche/FonctionImposerMission" unique_id=2108082293]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelNiveauContrainteMission" type="Label" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche/FonctionImposerMission/Layout" unique_id=774692555]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_font_sizes/font_size = 25
+text = "Libre"
+horizontal_alignment = 1
+
+[node name="HSliderNiveauContrainteMission" type="HSlider" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche/FonctionImposerMission/Layout" unique_id=1380906954]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_rvh5q")
+max_value = 5.0
+
+[node name="FonctionNiveauRequisGuilde" type="HBoxContainer" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche" unique_id=660826635]
+layout_mode = 2
+
+[node name="LabelNiveauRequisGuilde" type="Label" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche/FonctionNiveauRequisGuilde" unique_id=1529693571]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 25
+text = "Niveau Magique requis pour rejoindre la guilde :"
+autowrap_mode = 3
+
+[node name="Layout" type="VBoxContainer" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche/FonctionNiveauRequisGuilde" unique_id=1585776783]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelNiveauRequis" type="Label" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche/FonctionNiveauRequisGuilde/Layout" unique_id=1043629185]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_font_sizes/font_size = 25
+text = "Aucun"
+horizontal_alignment = 1
+
+[node name="TextEdit" type="TextEdit" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche/FonctionNiveauRequisGuilde/Layout" unique_id=1290499994]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+text = "0"
+emoji_menu_enabled = false
+
+[node name="FonctionMissionInterdites" type="HBoxContainer" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche" unique_id=2096016424]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LabelMissionInterdites" type="Label" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche/FonctionMissionInterdites" unique_id=1529251455]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 25
+text = "Mission que la guilde ne traitera pas :"
+autowrap_mode = 3
+
+[node name="ListeTypeMission" type="ItemList" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche/FonctionMissionInterdites" unique_id=730631093]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+select_mode = 2
+item_count = 11
+item_0/text = "Enquête"
+item_1/text = "Escorte"
+item_2/text = "Élimination de danger"
+item_3/text = "Recherche mort ou vif"
+item_4/text = "Capture vif"
+item_5/text = "Protection d'un lieu"
+item_6/text = "Recherche d'un objet"
+item_7/text = "Recherche d'un ingrédient"
+item_8/text = "Recherche d'un animal"
+item_9/text = "Service"
+item_10/text = "Renfort pour Assaut"
+
+[node name="Droite" type="VBoxContainer" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions" unique_id=1361140467]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FonctionMissionPrefere" type="HBoxContainer" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Droite" unique_id=386138008]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LabelMissionPrefere" type="Label" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Droite/FonctionMissionPrefere" unique_id=448118385]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 25
+text = "Mission dont la guilde souhaite se spécialiser :"
+autowrap_mode = 3
+
+[node name="ListeTypeMission" type="ItemList" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Droite/FonctionMissionPrefere" unique_id=2046688771]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+select_mode = 2
+item_count = 11
+item_0/text = "Enquête"
+item_1/text = "Escorte"
+item_2/text = "Élimination de danger"
+item_3/text = "Recherche mort ou vif"
+item_4/text = "Capture vif"
+item_5/text = "Protection d'un lieu"
+item_6/text = "Recherche d'un objet"
+item_7/text = "Recherche d'un ingrédient"
+item_8/text = "Recherche d'un animal"
+item_9/text = "Service"
+item_10/text = "Renfort pour Assaut"
+
+[node name="FonctionClientPrefere" type="HBoxContainer" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Droite" unique_id=2119354412]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LabelClientPrefere" type="Label" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Droite/FonctionClientPrefere" unique_id=1079795238]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 25
+text = "Client que la guilde souhaite privilégier :"
+autowrap_mode = 3
+
+[node name="ListeClients" type="ItemList" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Droite/FonctionClientPrefere" unique_id=842800625]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+item_count = 6
+item_0/text = "Cité"
+item_1/text = "Autre Cité"
+item_2/text = "Particulier de danger"
+item_3/text = "Marchand"
+item_4/text = "Commerçant de la ville"
+item_5/text = "Guilde de Mercenaire"
+
+[node name="FonctionMissionInterdites3" type="HBoxContainer" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Droite" unique_id=1423838923]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LabelMissionInterdites" type="Label" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Droite/FonctionMissionInterdites3" unique_id=715905983]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 25
+text = "Clients que la guilde ne souhaite pas aider :"
+autowrap_mode = 3
+
+[node name="ListeClients" type="ItemList" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Droite/FonctionMissionInterdites3" unique_id=1376827441]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+select_mode = 2
+item_count = 6
+item_0/text = "Cité"
+item_1/text = "Autre Cité"
+item_2/text = "Particulier de danger"
+item_3/text = "Marchand"
+item_4/text = "Commerçant de la ville"
+item_5/text = "Guilde de Mercenaire"
+
+[node name="ButtonFermer" type="Button" parent="FenetrePolitique/Marge/LayoutPrincipal" unique_id=480710428]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Fermer"
