@@ -85,6 +85,38 @@ public partial class MainMenu
         _aubergeEtat?.RendezVous != null && _horloge != null &&
         _horloge.Instant >= LireInstantRendezVous(_aubergeEtat.RendezVous.Date);
 
+    /// <summary>
+    /// Écarte discrètement les candidats incompatibles avec la politique
+    /// CONFIRMÉE de la guilde. Aucun candidat supplémentaire n'est généré.
+    /// La méthode centralise les critères pour les politiques futures ;
+    /// seule la part des récompenses de mission possède aujourd'hui un
+    /// seuil caché chez les personnages.
+    /// </summary>
+    private static bool CandidatCompatiblePolitiqueGuilde(
+        MembreGuilde personnage, EtatPolitiqueGuilde politique)
+    {
+        if (personnage == null || politique == null)
+            return false;
+
+        return politique.PourcentageGuildeMissions <=
+            personnage.SeuilPourcentageGuildeMissions;
+    }
+
+    private void FiltrerCandidatsAubergeSelonPolitique(List<CandidatAuberge> candidats)
+    {
+        if (candidats == null) return;
+
+        // Au chargement d'un rendez-vous déjà entamé, l'initialisation de
+        // l'auberge précède celle de la fenêtre Politique. Dans ce seul cas,
+        // lire l'état confirmé depuis la sauvegarde.
+        EtatPolitiqueGuilde politique =
+            _politiqueGuilde ?? EtatPolitiqueGuilde.Charger();
+
+        candidats.RemoveAll(c =>
+            c == null || c.Personnage == null ||
+            (!c.Recrute && !CandidatCompatiblePolitiqueGuilde(c.Personnage, politique)));
+    }
+
     private void ReserverAuberge()
     {
         _choixRecrutement.Hide();
@@ -114,6 +146,10 @@ public partial class MainMenu
             AfficherInformationAuberge("Impossible de préparer les candidats : " + e.Message);
             return;
         }
+
+        // On conserve le nombre initial de tirages : les candidats éliminés
+        // restent invisibles et ne sont pas remplacés, même si aucun ne reste.
+        FiltrerCandidatsAubergeSelonPolitique(candidats);
 
         _etat.Ecus -= 300;
         EnregistrerMouvementBudget(RegistreBudget.Recrutement, -300,
@@ -147,7 +183,14 @@ public partial class MainMenu
     {
         if (_aubergeEtat?.RendezVous == null) return;
         _choixRecrutement?.Hide();
-        _aubergeEtat.RendezVous.EnCours = true;
+
+        // Une politique peut avoir été durcie entre la réservation et le
+        // rendez-vous : recontrôler les candidats non recrutés, sans reroll.
+        var rdv = _aubergeEtat.RendezVous;
+        FiltrerCandidatsAubergeSelonPolitique(rdv.Candidats);
+        rdv.Index = rdv.Candidats.Count == 0
+            ? 0 : Math.Clamp(rdv.Index, 0, rdv.Candidats.Count - 1);
+        rdv.EnCours = true;
         AfficherPanneau("auberge");
         _contenuAuberge.Show();
         _fondAuberge.Show();
@@ -173,8 +216,11 @@ public partial class MainMenu
             "Rencontres restantes : " + Math.Max(0, rdv.Candidats.Count - rdv.Index - 1);
         if (candidat == null)
         {
-            _infoAuberge.Text = "Les entretiens sont terminés.";
+            _infoAuberge.Text = rdv?.Candidats.Count == 0
+                ? "Aucun candidat ne s'est présenté au rendez-vous."
+                : "Les entretiens sont terminés.";
             _statAuberge.Text = "";
+            _portraitAuberge.Texture = null;
             _discuterAuberge.Disabled = _precedentAuberge.Disabled =
                 _suivantAuberge.Disabled = _recruterAuberge.Disabled = true;
             return;
