@@ -109,6 +109,25 @@ public partial class MainMenu
             !string.IsNullOrEmpty(_magasinActuel) || _fenetreAchatMagasin == null)
             return;
 
+        if (_horloge == null)
+        {
+            AfficherInformation("L'horloge du jeu est indisponible : impossible d'entrer dans ce magasin.");
+            return;
+        }
+
+        // Les boutiques ouvrent à 08 h et ferment à 20 h.
+        // Vérifier aussi l'heure d'arrivée pour éviter d'entrer dans une
+        // boutique qui aura fermé au cours des 15 minutes de trajet.
+        DateTime maintenant = _horloge.Instant;
+        DateTime arrivee = maintenant.AddMinutes(MinutesParDeplacementVille);
+        if (maintenant.Hour < 8 || maintenant.Hour >= 20 ||
+            arrivee.Hour < 8 || arrivee.Hour >= 20)
+        {
+            AfficherInformation("Le magasin est fermé. Les boutiques ouvrent à 8 h " +
+                "et ferment à 20 h.");
+            return;
+        }
+
         string image = TrouverImageInterieurMagasin(magasin);
         if (string.IsNullOrEmpty(image))
         {
@@ -129,11 +148,14 @@ public partial class MainMenu
         // La rue active reste mémorisée pour revenir au même endroit.
         ExecuterFonduMagasins(() =>
         {
+            if (!AvancerTempsPourDeplacement(MinutesParDeplacementVille))
+                return;
+
             _magasinActuel = magasin;
             foreach (Control rue in _ruesMagasins.Values) rue.Hide();
             _fondMagasin.Texture = texture;
             _clicInterieurMagasin.Show();
-        });
+        }, PresenterEvenementsApresDeplacement);
     }
 
     private string TrouverImageInterieurMagasin(string magasin)
