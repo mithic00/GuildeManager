@@ -556,12 +556,21 @@ public partial class MainMenu
 
             int xpPart = participants.Count == 0 ? 0 :
                 ReglesMissions.ExperiencePourMission(mission.Rang) / participants.Count;
-            int partGuilde = victoire ? mission.Recompense * 20 / 100 : 0;
-            int ecusPart = victoire ? (mission.Recompense - partGuilde) / participants.Count : 0;
+
+            // Le taux CONFIRMÉ au moment du résultat s'applique à toute
+            // mission qui se termine maintenant, y compris celles commencées
+            // avant la décision. La part du membre reste calculée comme avant.
+            int tauxPrelevementGuilde = Math.Clamp(
+                _politiqueGuilde?.PourcentageGuildeMissions ?? 20, 0, 50);
+            int partGuilde = victoire
+                ? mission.Recompense * tauxPrelevementGuilde / 100 : 0;
+            int ecusPart = victoire
+                ? (mission.Recompense - partGuilde) / participants.Count : 0;
             _etat.Ecus += partGuilde;
             EnregistrerMouvementBudget(RegistreBudget.Missions, partGuilde,
-                "Part de la guilde (20 %) : " + mission.Categorie +
-                ", rang " + ReglesMissions.FormaterRang(mission.Rang) + ".");
+                "Part de la guilde (" + tauxPrelevementGuilde + " %) : " +
+                mission.Categorie + ", rang " +
+                ReglesMissions.FormaterRang(mission.Rang) + ".");
 
             foreach (MembreGuilde m in survivants)
             {
