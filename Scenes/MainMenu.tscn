@@ -4098,7 +4098,27 @@ item_3/text = "Marchand"
 item_4/text = "Commerçant de la ville"
 item_5/text = "Guilde de Mercenaire"
 
-[node name="ButtonFermer" type="Button" parent="FenetrePolitique/Marge/LayoutPrincipal" unique_id=480710428]
+[node name="Boutons" type="HBoxContainer" parent="FenetrePolitique/Marge/LayoutPrincipal" unique_id=360428610]
+layout_mode = 2
+theme_override_constants/separation = 99
+alignment = 1
+
+[node name="ButtonConfirmer" type="Button" parent="FenetrePolitique/Marge/LayoutPrincipal/Boutons" unique_id=480710428]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Confirmer
+"
+
+[node name="ButtonAnnuler" type="Button" parent="FenetrePolitique/Marge/LayoutPrincipal/Boutons" unique_id=601622588]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Annuler"
+
+[node name="ButtonFermer" type="Button" parent="FenetrePolitique/Marge/LayoutPrincipal/Boutons" unique_id=753597580]
 custom_minimum_size = Vector2(260, 65)
 layout_mode = 2
 size_flags_horizontal = 4
