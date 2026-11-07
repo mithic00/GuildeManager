@@ -3959,7 +3959,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
 theme_override_styles/grabber_area = SubResource("StyleBoxFlat_rvh5q")
-max_value = 5.0
+max_value = 3.0
 
 [node name="FonctionNiveauRequisGuilde" type="HBoxContainer" parent="FenetrePolitique/Marge/LayoutPrincipal/ListeDesFonctions/Gauche" unique_id=660826635]
 layout_mode = 2
