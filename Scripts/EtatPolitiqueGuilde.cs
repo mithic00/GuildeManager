@@ -28,6 +28,25 @@ public sealed class EtatPolitiqueGuilde
     public string ClientPrefere { get; set; } = "";
     public List<string> ClientsInterdits { get; set; } = new();
 
+    /// <summary>
+    /// Les tolérances personnelles sont des catégories : 0 accepte même
+    /// l'égalité stricte, 1 accepte tous les écarts de 1 à 10, et 11
+    /// n'accepte que la liberté. Un réglage plus libre est toujours accepté.
+    /// </summary>
+    public static bool MembreAccepteEcartMission(int seuilPersonnel, int reglage)
+    {
+        if (reglage >= 11) return true;
+        if (reglage <= 0) return seuilPersonnel == 0;
+        return seuilPersonnel == 0 || seuilPersonnel == 1;
+    }
+
+    /// <summary>
+    /// Intensité de contrainte utilisée uniquement pour les protestations :
+    /// libre = 0, écart limité 1..10 = 1, égalité stricte = 2.
+    /// </summary>
+    public static int IntensiteContrainteEcartMission(int reglage) =>
+        reglage >= 11 ? 0 : reglage <= 0 ? 2 : 1;
+
     public void RetablirDefauts()
     {
         PolitiqueParDefaut = true;
