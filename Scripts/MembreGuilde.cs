@@ -31,6 +31,12 @@ public sealed class MembreGuilde
     /// « Remonter le moral » : une tentative par membre et par jour.
     /// </summary>
     public string DerniereTentativeRemonterMoral { get; set; } = "";
+    /// <summary>
+    /// Fin du refus temporaire d'une demande de mission après un jet de
+    /// Leadership raté (yyyy-MM-ddTHH:mm:ss), au prochain matin à 08h00.
+    /// Distinct du blocage général des conversations.
+    /// </summary>
+    public string DemandeMissionBloqueeJusqua { get; set; } = "";
     /// <summary>Prévu pour les absences autres que les missions et concours.</summary>
     public bool Absent { get; set; }
     /// <summary>Concours actif : "S" ou "P". Vide en dehors d'un concours.</summary>
