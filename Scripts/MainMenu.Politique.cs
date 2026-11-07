@@ -159,13 +159,18 @@ public partial class MainMenu
         _politiqueBrouillon.Normaliser();
         EtatPolitiqueGuilde nouvellePolitique = CopierPolitiqueGuilde(_politiqueBrouillon);
         bool modifiee = _politiqueGuilde.Serialiser() != nouvellePolitique.Serialiser();
+        int ancienPrelevement = _politiqueGuilde.PourcentageGuildeMissions;
         _politiqueGuilde = nouvellePolitique;
         _fenetrePolitique.Hide();
         if (modifiee)
             AjouterEntreeJournal("La politique de la guilde a été modifiée.", "politique");
 
-        // AUCUNE protestation ne se déclenche ici. La sélection des membres
-        // mécontents et les critères seront définis dans un second temps.
+        // Première politique active : seul le prélèvement des récompenses
+        // peut provoquer une protestation. Tous les autres réglages restent
+        // purement déclaratifs en attendant leurs propres règles.
+        if (nouvellePolitique.PourcentageGuildeMissions > ancienPrelevement)
+            EvaluerProtestationsPourcentageMissions(ancienPrelevement,
+                nouvellePolitique.PourcentageGuildeMissions);
     }
 
     private void AnnulerPolitiqueGuilde()
