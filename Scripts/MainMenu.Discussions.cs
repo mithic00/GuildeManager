@@ -33,7 +33,8 @@ public partial class MainMenu
         _reponsesDiscussion = _listeReponsesDiscussion;
         _sujetsDiscussion.ItemSelected += index =>
         {
-            if (_filRougeDialogueActif || _discussionEnCours) return;
+            if (_filRougeDialogueActif || _dialogueReclamationPolitiqueActif ||
+                _discussionEnCours) return;
             int choix = (int)index;
             _sujetsDiscussion.DeselectAll();
             if (choix < 0 || choix >= _sujetsDisponibles.Count) return;
@@ -59,7 +60,8 @@ public partial class MainMenu
         };
         _listeReponsesDiscussion.ItemSelected += index =>
         {
-            if (_filRougeDialogueActif) return; // Le moteur scénarisé gère ses choix.
+            if (_filRougeDialogueActif || _dialogueReclamationPolitiqueActif)
+                return; // Chaque dialogue imposé gère ses propres réponses.
             int choix = (int)index;
             _listeReponsesDiscussion.DeselectAll();
             if (_choixMissionEnAttente || _confirmationMissionEnAttente)
@@ -87,6 +89,12 @@ public partial class MainMenu
             {
                 // Ne pas fermer ni perdre un dialogue scénarisé en cours.
                 CallDeferred(nameof(ReprendreDialogueFilRouge));
+                return;
+            }
+            if (_dialogueReclamationPolitiqueActif)
+            {
+                // Le joueur doit répondre : la fermeture native n'annule pas l'entretien.
+                CallDeferred(nameof(ReafficherReclamationPolitique));
                 return;
             }
             FermerDiscussion();
@@ -599,6 +607,13 @@ public partial class MainMenu
     {
         FermerDiscussionSansRetour();
         if (_sortieEnCours) return;
+
+        // Une protestation mise en attente pendant un autre entretien doit
+        // être présentée à la fin de celui-ci, avant de revenir aux menus.
+        if (_reclamationsPolitique?.EnAttente.Count > 0)
+        {
+            CallDeferred(nameof(VerifierReclamationsPolitique));
+        }
 
         // Les événements qui ont eu lieu pendant le temps de discussion
         // reprennent la priorité dès que le joueur termine l'échange.
