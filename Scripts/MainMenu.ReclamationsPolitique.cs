@@ -498,7 +498,7 @@ public partial class MainMenu
             membre.Bonheur = Math.Clamp(membre.Bonheur - 60, 0, 100);
             _historiqueMembres?.Ajouter(membre, _horloge.Instant, "Bonheur",
                 "Contestation de politique : bonheur " + bonheurAvant +
-                " → " + membre.Bonheur + " (-60).",
+                " → " + membre.Bonheur + " (pénalité de 60, minimum 0).",
                 avant: bonheurAvant, apres: membre.Bonheur);
             depart = membre.Bonheur <= 0;
         }
@@ -523,7 +523,7 @@ public partial class MainMenu
             "\n\n" + (succes
                 ? "Vous avez réussi à apaiser cette contestation."
                 : "La contestation n'est pas apaisée. Bonheur : " +
-                  bonheurAvant + " → " + membre.Bonheur + " (-60).") +
+                  bonheurAvant + " → " + membre.Bonheur + " (pénalité de 60, minimum 0).") +
             (depart
                 ? "\n" + membre.NomComplet +
                   " est à bout et décide de quitter définitivement la guilde."
@@ -562,7 +562,7 @@ public partial class MainMenu
         _historiqueMembres?.Ajouter(membre, _horloge.Instant, "DepartGuilde",
             "A quitté la guilde après une contestation de politique non apaisée.");
         AjouterEntreeJournal(membre.NomComplet +
-            " quitte la guilde après une contestation de sa politique.", "politique");
+            " quitte la guilde après une contestation de la politique de la guilde.", "politique");
 
         _reclamationsPolitique?.EnAttente.RemoveAll(r =>
             r.MembreId == membre.Id && !ReferenceEquals(r, _reclamationCourante));
