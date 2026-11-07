@@ -291,13 +291,130 @@ public partial class MainMenu
         ReafficherReclamationPolitique();
     }
 
+    /// <summary>
+    /// Revenir sur sa décision signifie rétablir la valeur confirmée AVANT
+    /// le changement ayant créé cette protestation. Les autres paramètres
+    /// de politique ne sont jamais affectés.
+    /// </summary>
+    private bool PeutRetablirPolitiqueConteste(ReclamationPolitique reclamation)
+    {
+        if (_politiqueGuilde == null ||
+            reclamation?.ValeurAvantChangement is not int valeur)
+            return false;
+
+        return reclamation.ClePolitique switch
+        {
+            ReclamationPolitique.PrelevementMissions =>
+                valeur >= 0 && valeur <= 50 &&
+                _politiqueGuilde.PourcentageGuildeMissions != valeur,
+            ReclamationPolitique.EcartRangMissions =>
+                valeur >= 0 && valeur <= 11 &&
+                _politiqueGuilde.EcartNiveauMission != valeur,
+            _ => false
+        };
+    }
+
+    private void RetablirPolitiqueContestee()
+    {
+        if (!_dialogueReclamationPolitiqueActif ||
+            !PeutRetablirPolitiqueConteste(_reclamationCourante))
+            return;
+
+        ReclamationPolitique reclamation = _reclamationCourante;
+        int precedent = reclamation.ValeurAvantChangement.Value;
+        string nouveauLibelle;
+        switch (reclamation.ClePolitique)
+        {
+            case ReclamationPolitique.PrelevementMissions:
+                _politiqueGuilde.PourcentageGuildeMissions = precedent;
+                nouveauLibelle = "Part de la guilde sur les missions : " + precedent + " %";
+                break;
+            case ReclamationPolitique.EcartRangMissions:
+                _politiqueGuilde.EcartNiveauMission = precedent;
+                nouveauLibelle = "Écart de rang inférieur autorisé : " +
+                    TexteEcartMissionPolitique(precedent);
+                break;
+            default:
+                return;
+        }
+
+        _politiqueGuilde.Normaliser();
+        _politiqueBrouillon = CopierPolitiqueGuilde(_politiqueGuilde);
+        // On ne réapplique pas les évaluations de mécontentement : la mesure
+        // est assouplie et ne doit pas générer de nouvelles protestations.
+        int annulees = MettreAJourReclamationsApresRetrait(reclamation);
+
+        _reclamationPolitiqueResultatAffiche = true;
+        _resultatDiscussion.Text =
+            "Vous : Après réflexion, je reviens sur ce changement de politique." +
+            "\n\n" + nouveauLibelle + "." +
+            "\n\nLa décision précédente est rétablie. Aucun jet n'est nécessaire." +
+            (annulees > 0
+                ? "\n" + annulees + " autre(s) contestation(s) sont devenues sans objet."
+                : "");
+
+        AjouterEntreeJournal("Politique de guilde : retour sur la décision (" +
+            nouveauLibelle + "), à la suite de la contestation de " +
+            (_registreMembres?.Membres.FirstOrDefault(m =>
+                m.Id == reclamation.MembreId)?.NomComplet ?? "un membre") + ".", "politique");
+        _listeReponsesDiscussion.Clear();
+        _listeReponsesDiscussion.AddItem("Terminer cet échange");
+    }
+
+    /// <summary>
+    /// Après un retour en arrière, les membres qui tolèrent le taux restauré
+    /// ne contestent plus. Les autres restent dans la file, avec le motif
+    /// correspondant à la politique effectivement en vigueur.
+    /// </summary>
+    private int MettreAJourReclamationsApresRetrait(ReclamationPolitique courante)
+    {
+        if (_reclamationsPolitique?.EnAttente == null ||
+            _registreMembres?.Membres == null)
+            return 0;
+
+        int annulees = 0;
+        foreach (ReclamationPolitique demande in
+            _reclamationsPolitique.EnAttente.ToList())
+        {
+            if (ReferenceEquals(demande, courante) ||
+                demande.ClePolitique != courante.ClePolitique)
+                continue;
+
+            MembreGuilde membre = _registreMembres.Membres.FirstOrDefault(
+                m => m.Id == demande.MembreId);
+            bool accepte = membre == null ||
+                (demande.ClePolitique == ReclamationPolitique.PrelevementMissions
+                    ? _politiqueGuilde.PourcentageGuildeMissions <=
+                        membre.SeuilPourcentageGuildeMissions
+                    : EtatPolitiqueGuilde.MembreAccepteEcartMission(
+                        membre.SeuilEcartNiveauMission,
+                        _politiqueGuilde.EcartNiveauMission));
+
+            if (accepte)
+            {
+                _reclamationsPolitique.EnAttente.Remove(demande);
+                annulees++;
+            }
+            else
+            {
+                demande.Motif = demande.ClePolitique ==
+                    ReclamationPolitique.PrelevementMissions
+                    ? "Pourcentage récupéré par la guilde sur les missions : " +
+                        _politiqueGuilde.PourcentageGuildeMissions + " %"
+                    : "Écart de rang inférieur autorisé : " +
+                        TexteEcartMissionPolitique(_politiqueGuilde.EcartNiveauMission);
+            }
+        }
+        return annulees;
+    }
+
     private void ReafficherReclamationPolitique()
     {
         if (!_dialogueReclamationPolitiqueActif || _reclamationCourante == null)
             return;
         MembreGuilde membre = _registreMembres?.Membres.FirstOrDefault(
             m => m.Id == _reclamationCourante.MembreId);
-        if (membre == null)
+        if (membre == null && !_reclamationPolitiqueResultatAffiche)
         {
             TerminerReclamationPolitique();
             return;
@@ -318,16 +435,22 @@ public partial class MainMenu
         _portraitDiscussionJoueur.Texture =
             ResourceLoader.Load<Texture2D>(portraitDefaut);
 
-        if (!_reclamationPolitiqueResultatAffiche)
+        if (!_reclamationPolitiqueResultatAffiche && membre != null)
             _resultatDiscussion.Text = membre.NomComplet +
                 " : Je ne suis pas satisfait du changement de politique de la guilde (" +
                 _reclamationCourante.Motif + "). Je voudrais comprendre pourquoi " +
                 "vous avez pris cette décision. Je crains qu'elle ne nuise à nos membres." +
                 "\n\nVous devez répondre à cette contestation.";
         _listeReponsesDiscussion.Clear();
-        _listeReponsesDiscussion.AddItem(_reclamationPolitiqueResultatAffiche
-            ? "Terminer cet échange"
-            : "Expliquer votre décision (D20 Charisme + Leadership)");
+        if (_reclamationPolitiqueResultatAffiche)
+            _listeReponsesDiscussion.AddItem("Terminer cet échange");
+        else
+        {
+            _listeReponsesDiscussion.AddItem(
+                "Défendre votre décision (D20 Charisme et D20 Leadership)");
+            if (PeutRetablirPolitiqueConteste(_reclamationCourante))
+                _listeReponsesDiscussion.AddItem("Revenir sur le changement de politique");
+        }
         _fenetreDiscussion.PopupCentered();
     }
 
