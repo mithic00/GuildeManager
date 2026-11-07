@@ -610,9 +610,10 @@ public partial class MainMenu
 
         // Une protestation mise en attente pendant un autre entretien doit
         // être présentée à la fin de celui-ci, avant de revenir aux menus.
-        if (_reclamationsPolitique?.EnAttente.Count > 0)
+        if (ReclamationPolitiqueDisponible())
         {
             CallDeferred(nameof(VerifierReclamationsPolitique));
+            return;
         }
 
         // Les événements qui ont eu lieu pendant le temps de discussion
