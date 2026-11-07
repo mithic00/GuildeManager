@@ -57,6 +57,7 @@ public partial class MainMenu
         _fenetreInventaireBureau.Hide();
         _fenetreCalendrierBureau.Hide();
         InitialiserFenetreInventaire();
+        InitialiserCalendrier();
 
         if (_etat != null && _horloge != null)
             _budget = RegistreBudget.ChargerOuInitialiser(_etat.Ecus, _horloge.Instant);
@@ -95,7 +96,7 @@ public partial class MainMenu
 
     private void OuvrirCalendrier()
     {
-        if (!_tempsEnCours) _fenetreCalendrierBureau?.PopupCentered();
+        AfficherCalendrierMoisCourant();
     }
 
     /// <summary>
