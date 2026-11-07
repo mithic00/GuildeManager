@@ -86,6 +86,58 @@ public partial class MainMenu
         CallDeferred(nameof(VerifierReclamationsPolitique));
     }
 
+    /// <summary>
+    /// Première règle de mécontentement : une hausse du pourcentage que la
+    /// guilde prélève sur les missions. Le seuil est propre à chaque membre
+    /// et n'est jamais révélé à l'interface.
+    /// Seule une politique CONFIRMÉE appelle cette méthode.
+    /// </summary>
+    private void EvaluerProtestationsPourcentageMissions(int ancienPourcentage,
+        int nouveauPourcentage)
+    {
+        if (nouveauPourcentage <= ancienPourcentage ||
+            _registreMembres?.Membres == null || _reclamationsPolitique == null)
+            return;
+
+        MembreGuilde joueur = _registreMembres.Membres.FirstOrDefault(m => m.EstJoueur);
+        if (joueur == null) return;
+
+        List<(MembreGuilde Membre, string Politique)> protestataires = new();
+        foreach (MembreGuilde membre in _registreMembres.Membres)
+        {
+            if (membre == null || membre.EstJoueur || membre.EstMaitreDeGuilde ||
+                nouveauPourcentage <= membre.SeuilPourcentageGuildeMissions)
+                continue;
+
+            // Ennemi, Hostile, Inamical et Neutre : aucune indulgence.
+            int chanceDePasserOutre =
+                RelationsMembres.Qualifier(RelationsMembres.Lire(joueur, membre)) switch
+                {
+                    "Connaissance" => 10,
+                    "Ami" => 30,
+                    "Proche" => 75,
+                    _ => 0
+                };
+
+            if (chanceDePasserOutre > 0 &&
+                Random.Shared.Next(100) < chanceDePasserOutre)
+            {
+                // Le membre accepte définitivement ce nouveau taux et tout
+                // taux inférieur. Une hausse ultérieure peut être contestée.
+                membre.SeuilPourcentageGuildeMissions = nouveauPourcentage;
+                continue;
+            }
+
+            // L'ancien seuil est une caractéristique cachée : ne jamais
+            // l'insérer dans le motif montré au joueur ou dans le journal.
+            protestataires.Add((membre,
+                "Pourcentage récupéré par la guilde sur les missions : " +
+                nouveauPourcentage + " %"));
+        }
+
+        SignalerMecontentementsPolitique(protestataires);
+    }
+
     private bool ReclamationPolitiquePourMembre(string membreId) =>
         _reclamationsPolitique?.EnAttente.Any(r => r.MembreId == membreId) == true;
 
