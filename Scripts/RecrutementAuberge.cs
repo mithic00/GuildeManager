@@ -307,6 +307,7 @@ public static class GenerateurCandidats
         MembreGuilde m=new()
         {
             Id=Guid.NewGuid().ToString("N"), Prenom=nom.Prenom,Nom=nom.Nom,
+            SeuilPourcentageGuildeMissions=MembreGuilde.TirerSeuilPourcentageGuildeMissions(),
             Race=race,Sexe=sexe,ApparenceId=Array.IndexOf(new[]{"Humain","Elfe gris","Grumol","Humain des monts","Haut-Elfe","Nain","Tanneur","Khajiit"},race)+1,
             Rang=magie>=1000?"U":"*", Classement=int.MaxValue,
             NiveauMagique=magie,PotentielMagique=potentiel,Pouvoirs=pouvoirs,
