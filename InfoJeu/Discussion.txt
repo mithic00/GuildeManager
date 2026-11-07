@@ -120,7 +120,8 @@ La disponibilité habituelle des discussions (08h00-23h59) s'applique.
     -> Échec : la mission reste au tableau ; aucun membre ne part.
     -> Aucun bonus/malus de relation ou de moral sur ce dialogue.
     -> Durée : 10 minutes après un jet, en réussite comme en échec.
-    -> Les départs et tentatives sont journalisés ; pas de limite quotidienne supplémentaire.
+    -> Les départs et tentatives sont journalisés. Après un refus (jet de Leadership raté),
+       la demande de mission à ce membre reste indisponible jusqu'au lendemain à 08h00.
 7 - Joueur : "Mettre fin à la conversation".
 
 
