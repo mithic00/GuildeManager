@@ -53,6 +53,209 @@ border_width_bottom = 1
 border_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
 border_blend = true
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3u44c"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.47567093, 0.3564648, 0.21624506, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bxv1r"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="FontFile" id="FontFile_fmugi"]
+cache/0/variation_coordinates = {}
+cache/0/face_index = 0
+cache/0/embolden = 0.0
+cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
+cache/0/spacing_top = 0
+cache/0/spacing_bottom = 0
+cache/0/spacing_space = 0
+cache/0/spacing_glyph = 0
+cache/0/baseline_offset = 0.0
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/19/0/ascent = 0.0
+cache/0/19/0/descent = 0.0
+cache/0/19/0/underline_position = 0.0
+cache/0/19/0/underline_thickness = 0.0
+cache/0/19/0/scale = 1.0
+cache/0/22/0/ascent = 0.0
+cache/0/22/0/descent = 0.0
+cache/0/22/0/underline_position = 0.0
+cache/0/22/0/underline_thickness = 0.0
+cache/0/22/0/scale = 1.0
+cache/0/23/0/ascent = 0.0
+cache/0/23/0/descent = 0.0
+cache/0/23/0/underline_position = 0.0
+cache/0/23/0/underline_thickness = 0.0
+cache/0/23/0/scale = 1.0
+cache/0/24/0/ascent = 0.0
+cache/0/24/0/descent = 0.0
+cache/0/24/0/underline_position = 0.0
+cache/0/24/0/underline_thickness = 0.0
+cache/0/24/0/scale = 1.0
+cache/0/25/0/ascent = 0.0
+cache/0/25/0/descent = 0.0
+cache/0/25/0/underline_position = 0.0
+cache/0/25/0/underline_thickness = 0.0
+cache/0/25/0/scale = 1.0
+cache/0/26/0/ascent = 0.0
+cache/0/26/0/descent = 0.0
+cache/0/26/0/underline_position = 0.0
+cache/0/26/0/underline_thickness = 0.0
+cache/0/26/0/scale = 1.0
+cache/0/27/0/ascent = 0.0
+cache/0/27/0/descent = 0.0
+cache/0/27/0/underline_position = 0.0
+cache/0/27/0/underline_thickness = 0.0
+cache/0/27/0/scale = 1.0
+cache/0/28/0/ascent = 0.0
+cache/0/28/0/descent = 0.0
+cache/0/28/0/underline_position = 0.0
+cache/0/28/0/underline_thickness = 0.0
+cache/0/28/0/scale = 1.0
+cache/0/29/0/ascent = 0.0
+cache/0/29/0/descent = 0.0
+cache/0/29/0/underline_position = 0.0
+cache/0/29/0/underline_thickness = 0.0
+cache/0/29/0/scale = 1.0
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/31/0/ascent = 0.0
+cache/0/31/0/descent = 0.0
+cache/0/31/0/underline_position = 0.0
+cache/0/31/0/underline_thickness = 0.0
+cache/0/31/0/scale = 1.0
+cache/0/32/0/ascent = 0.0
+cache/0/32/0/descent = 0.0
+cache/0/32/0/underline_position = 0.0
+cache/0/32/0/underline_thickness = 0.0
+cache/0/32/0/scale = 1.0
+cache/0/33/0/ascent = 0.0
+cache/0/33/0/descent = 0.0
+cache/0/33/0/underline_position = 0.0
+cache/0/33/0/underline_thickness = 0.0
+cache/0/33/0/scale = 1.0
+cache/0/34/0/ascent = 0.0
+cache/0/34/0/descent = 0.0
+cache/0/34/0/underline_position = 0.0
+cache/0/34/0/underline_thickness = 0.0
+cache/0/34/0/scale = 1.0
+cache/0/35/0/ascent = 0.0
+cache/0/35/0/descent = 0.0
+cache/0/35/0/underline_position = 0.0
+cache/0/35/0/underline_thickness = 0.0
+cache/0/35/0/scale = 1.0
+cache/0/36/0/ascent = 0.0
+cache/0/36/0/descent = 0.0
+cache/0/36/0/underline_position = 0.0
+cache/0/36/0/underline_thickness = 0.0
+cache/0/36/0/scale = 1.0
+cache/0/37/0/ascent = 0.0
+cache/0/37/0/descent = 0.0
+cache/0/37/0/underline_position = 0.0
+cache/0/37/0/underline_thickness = 0.0
+cache/0/37/0/scale = 1.0
+cache/0/38/0/ascent = 0.0
+cache/0/38/0/descent = 0.0
+cache/0/38/0/underline_position = 0.0
+cache/0/38/0/underline_thickness = 0.0
+cache/0/38/0/scale = 1.0
+cache/0/39/0/ascent = 0.0
+cache/0/39/0/descent = 0.0
+cache/0/39/0/underline_position = 0.0
+cache/0/39/0/underline_thickness = 0.0
+cache/0/39/0/scale = 1.0
+cache/0/40/0/ascent = 0.0
+cache/0/40/0/descent = 0.0
+cache/0/40/0/underline_position = 0.0
+cache/0/40/0/underline_thickness = 0.0
+cache/0/40/0/scale = 1.0
+cache/0/41/0/ascent = 0.0
+cache/0/41/0/descent = 0.0
+cache/0/41/0/underline_position = 0.0
+cache/0/41/0/underline_thickness = 0.0
+cache/0/41/0/scale = 1.0
+cache/0/42/0/ascent = 0.0
+cache/0/42/0/descent = 0.0
+cache/0/42/0/underline_position = 0.0
+cache/0/42/0/underline_thickness = 0.0
+cache/0/42/0/scale = 1.0
+cache/0/43/0/ascent = 0.0
+cache/0/43/0/descent = 0.0
+cache/0/43/0/underline_position = 0.0
+cache/0/43/0/underline_thickness = 0.0
+cache/0/43/0/scale = 1.0
+cache/0/44/0/ascent = 0.0
+cache/0/44/0/descent = 0.0
+cache/0/44/0/underline_position = 0.0
+cache/0/44/0/underline_thickness = 0.0
+cache/0/44/0/scale = 1.0
+cache/0/45/0/ascent = 0.0
+cache/0/45/0/descent = 0.0
+cache/0/45/0/underline_position = 0.0
+cache/0/45/0/underline_thickness = 0.0
+cache/0/45/0/scale = 1.0
+cache/0/46/0/ascent = 0.0
+cache/0/46/0/descent = 0.0
+cache/0/46/0/underline_position = 0.0
+cache/0/46/0/underline_thickness = 0.0
+cache/0/46/0/scale = 1.0
+cache/0/47/0/ascent = 0.0
+cache/0/47/0/descent = 0.0
+cache/0/47/0/underline_position = 0.0
+cache/0/47/0/underline_thickness = 0.0
+cache/0/47/0/scale = 1.0
+cache/0/48/0/ascent = 0.0
+cache/0/48/0/descent = 0.0
+cache/0/48/0/underline_position = 0.0
+cache/0/48/0/underline_thickness = 0.0
+cache/0/48/0/scale = 1.0
+cache/0/49/0/ascent = 0.0
+cache/0/49/0/descent = 0.0
+cache/0/49/0/underline_position = 0.0
+cache/0/49/0/underline_thickness = 0.0
+cache/0/49/0/scale = 1.0
+cache/0/50/0/ascent = 0.0
+cache/0/50/0/descent = 0.0
+cache/0/50/0/underline_position = 0.0
+cache/0/50/0/underline_thickness = 0.0
+cache/0/50/0/scale = 1.0
+cache/0/51/0/ascent = 0.0
+cache/0/51/0/descent = 0.0
+cache/0/51/0/underline_position = 0.0
+cache/0/51/0/underline_thickness = 0.0
+cache/0/51/0/scale = 1.0
+cache/0/52/0/ascent = 0.0
+cache/0/52/0/descent = 0.0
+cache/0/52/0/underline_position = 0.0
+cache/0/52/0/underline_thickness = 0.0
+cache/0/52/0/scale = 1.0
+cache/0/53/0/ascent = 0.0
+cache/0/53/0/descent = 0.0
+cache/0/53/0/underline_position = 0.0
+cache/0/53/0/underline_thickness = 0.0
+cache/0/53/0/scale = 1.0
+cache/0/54/0/ascent = 0.0
+cache/0/54/0/descent = 0.0
+cache/0/54/0/underline_position = 0.0
+cache/0/54/0/underline_thickness = 0.0
+cache/0/54/0/scale = 1.0
+cache/0/55/0/ascent = 0.0
+cache/0/55/0/descent = 0.0
+cache/0/55/0/underline_position = 0.0
+cache/0/55/0/underline_thickness = 0.0
+cache/0/55/0/scale = 1.0
+
 [node name="MainMenu" type="Control" unique_id=1472431213]
 layout_mode = 3
 anchors_preset = 15
@@ -3250,6 +3453,9 @@ layout_mode = 2
 [node name="Inventaire" type="TabContainer" parent="FenetreInventaire/Marge/Layout" unique_id=2070774273]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_colors/font_selected_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_colors/font_unselected_color = Color(0.47567093, 0.3564648, 0.21624506, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_3u44c")
 current_tab = 0
 
 [node name="Nourriture & Boisson" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=897546235]
@@ -3259,114 +3465,140 @@ metadata/_tab_index = 0
 [node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Nourriture & Boisson" unique_id=580496061]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.76862746, 0.5921569, 0.39607844, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_bxv1r")
 
 [node name="Monture" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1774198412]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Monture" unique_id=1096641513]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Monture" unique_id=297762883]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.76862746, 0.5921569, 0.39607844, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_bxv1r")
 
 [node name="Véhicule" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=2070597392]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
-[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Véhicule" unique_id=1520256764]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Véhicule" unique_id=291340455]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.76862746, 0.5921569, 0.39607844, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_bxv1r")
 
 [node name="Arme" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=930344424]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 3
 
-[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Arme" unique_id=1539192953]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Arme" unique_id=2019369558]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.76862746, 0.5921569, 0.39607844, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_bxv1r")
 
 [node name="Armure" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=608893516]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 4
 
-[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Armure" unique_id=582331914]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Armure" unique_id=793634350]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.76862746, 0.5921569, 0.39607844, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_bxv1r")
 
 [node name="Objets Magiques" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1573902686]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 5
 
-[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Objets Magiques" unique_id=1818275181]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Objets Magiques" unique_id=97081911]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.76862746, 0.5921569, 0.39607844, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_bxv1r")
 
 [node name="Meuble" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=928965303]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 6
 
-[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Meuble" unique_id=1621103418]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Meuble" unique_id=210178458]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.76862746, 0.5921569, 0.39607844, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_bxv1r")
 
 [node name="Potion" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1531122428]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 7
 
-[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Potion" unique_id=1330181107]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Potion" unique_id=1873582367]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.76862746, 0.5921569, 0.39607844, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_bxv1r")
 
 [node name="Composant Potion" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=541429111]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 8
 
-[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Composant Potion" unique_id=2095744010]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Composant Potion" unique_id=564992032]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.76862746, 0.5921569, 0.39607844, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_bxv1r")
 
 [node name="Vêtements" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1499436261]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 9
 
-[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Vêtements" unique_id=1522442681]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Vêtements" unique_id=1693693302]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.76862746, 0.5921569, 0.39607844, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_bxv1r")
 
 [node name="Matière Première" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1472880079]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 10
 
-[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Matière Première" unique_id=1527124602]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Matière Première" unique_id=842427704]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.76862746, 0.5921569, 0.39607844, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_bxv1r")
 
 [node name="Objet de Décoration" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=2001799194]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 11
 
-[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Objet de Décoration" unique_id=1299354243]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Objet de Décoration" unique_id=1045822646]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.76862746, 0.5921569, 0.39607844, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_bxv1r")
 
 [node name="Objet Divers" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout/Inventaire" unique_id=1404040027]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 12
 
-[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Objet Divers" unique_id=318326291]
+[node name="ListeObjet" type="ItemList" parent="FenetreInventaire/Marge/Layout/Inventaire/Objet Divers" unique_id=1166823647]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.76862746, 0.5921569, 0.39607844, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_bxv1r")
 
 [node name="ButtonFermer" type="Button" parent="FenetreInventaire/Marge/Layout" unique_id=2054338732]
 custom_minimum_size = Vector2(260, 65)
@@ -3397,6 +3629,109 @@ theme_override_constants/margin_bottom = 60
 
 [node name="Layout" type="VBoxContainer" parent="FenetreCalendrier/Marge" unique_id=4056894]
 layout_mode = 2
+
+[node name="PartieSuperieur" type="HBoxContainer" parent="FenetreCalendrier/Marge/Layout" unique_id=2090736466]
+layout_mode = 2
+theme_override_constants/separation = 280
+alignment = 1
+
+[node name="BoutonMoisPrecedent" type="Button" parent="FenetreCalendrier/Marge/Layout/PartieSuperieur" unique_id=1923052505]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontFile_fmugi")
+theme_override_font_sizes/font_size = 43
+text = "<"
+flat = true
+
+[node name="LabelMois" type="Label" parent="FenetreCalendrier/Marge/Layout/PartieSuperieur" unique_id=841799839]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Janvier 600"
+
+[node name="BoutonMoisSuivant" type="Button" parent="FenetreCalendrier/Marge/Layout/PartieSuperieur" unique_id=1686315960]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontFile_fmugi")
+theme_override_font_sizes/font_size = 43
+text = ">"
+flat = true
+
+[node name="EnteteSemaine" type="HBoxContainer" parent="FenetreCalendrier/Marge/Layout" unique_id=1378661384]
+layout_mode = 2
+
+[node name="Lundi" type="Label" parent="FenetreCalendrier/Marge/Layout/EnteteSemaine" unique_id=2000552282]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 23
+text = "Lundi"
+horizontal_alignment = 1
+
+[node name="Mardi" type="Label" parent="FenetreCalendrier/Marge/Layout/EnteteSemaine" unique_id=301432126]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 23
+text = "Mardi"
+horizontal_alignment = 1
+
+[node name="Mercredi" type="Label" parent="FenetreCalendrier/Marge/Layout/EnteteSemaine" unique_id=1191219627]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 23
+text = "Mercredi"
+horizontal_alignment = 1
+
+[node name="Jeudi" type="Label" parent="FenetreCalendrier/Marge/Layout/EnteteSemaine" unique_id=623884355]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 23
+text = "Jeudi"
+horizontal_alignment = 1
+
+[node name="Vendredi" type="Label" parent="FenetreCalendrier/Marge/Layout/EnteteSemaine" unique_id=425664972]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 23
+text = "Vendredi"
+horizontal_alignment = 1
+
+[node name="Samedi" type="Label" parent="FenetreCalendrier/Marge/Layout/EnteteSemaine" unique_id=741084517]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 23
+text = "Samedi"
+horizontal_alignment = 1
+
+[node name="Dimanche" type="Label" parent="FenetreCalendrier/Marge/Layout/EnteteSemaine" unique_id=1783816031]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 23
+text = "Dimanche"
+horizontal_alignment = 1
+
+[node name="GrilleCalendrier" type="GridContainer" parent="FenetreCalendrier/Marge/Layout" unique_id=1429346894]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 7
+
+[node name="InfoJourSelectionne" type="RichTextLabel" parent="FenetreCalendrier/Marge/Layout" unique_id=2121340841]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+theme_override_colors/default_color = Color(0.7764706, 0.61960787, 0.43137255, 1)
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "10 janvier 600
+Recrutement à l'auberge
+
+16 h 00"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonFermer" type="Button" parent="FenetreCalendrier/Marge/Layout" unique_id=1123712212]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Fermer"
 
 [node name="FenetreAchatMagasin" type="Window" parent="." unique_id=630803759]
 transparent_bg = true
