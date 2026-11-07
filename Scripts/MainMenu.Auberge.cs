@@ -99,7 +99,9 @@ public partial class MainMenu
             return false;
 
         return politique.PourcentageGuildeMissions <=
-            personnage.SeuilPourcentageGuildeMissions;
+                personnage.SeuilPourcentageGuildeMissions &&
+            EtatPolitiqueGuilde.MembreAccepteEcartMission(
+                personnage.SeuilEcartNiveauMission, politique.EcartNiveauMission);
     }
 
     private void FiltrerCandidatsAubergeSelonPolitique(List<CandidatAuberge> candidats)
