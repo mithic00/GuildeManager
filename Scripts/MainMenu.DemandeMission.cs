@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 /// <summary>
@@ -66,6 +67,22 @@ public partial class MainMenu
             .ToList() ?? new List<MissionGuilde>();
     }
 
+    /// <summary>
+    /// Une tentative de Leadership refusée interdit uniquement les demandes
+    /// de mission à ce membre jusqu'au matin suivant à 08h00.
+    /// Les autres conversations restent possibles.
+    /// </summary>
+    private bool DemandeMissionTemporairementBloquee(MembreGuilde cible,
+        out DateTime disponibleLe)
+    {
+        disponibleLe = default;
+        return cible != null && _horloge != null &&
+            DateTime.TryParseExact(cible.DemandeMissionBloqueeJusqua,
+                "yyyy-MM-dd'T'HH:mm:ss", CultureInfo.InvariantCulture,
+                DateTimeStyles.None, out disponibleLe) &&
+            _horloge.Instant < disponibleLe;
+    }
+
     /// <summary>Éligibilité du sujet avant de l'afficher dans la liste.</summary>
     private bool PeutDemanderMission()
     {
@@ -81,6 +98,12 @@ public partial class MainMenu
         if (_discussionEnCours || _cibleDiscussion == null || _horloge == null ||
             !DialogueAccessible(_cibleDiscussion, true, verifierHoraire: false))
             return;
+
+        if (DemandeMissionTemporairementBloquee(_cibleDiscussion, out _))
+        {
+            ActualiserBoutonsSujetsDiscussion();
+            return;
+        }
 
         MembreGuilde joueur = _registreMembres?.Membres.FirstOrDefault(m => m.EstJoueur);
         if (joueur == null) return;
@@ -168,6 +191,14 @@ public partial class MainMenu
             return;
         }
         MembreGuilde cible = _cibleDiscussion;
+        if (DemandeMissionTemporairementBloquee(cible, out _))
+        {
+            AfficherReponsesDiscussion(false);
+            ReinitialiserDialogueDemandeMission();
+            ActualiserBoutonsSujetsDiscussion();
+            return;
+        }
+
         List<MembreGuilde> equipe = EquipeDuMembrePourMission(cible);
         MissionGuilde mission = _missionDialogueSelectionnee;
         if (!MissionDemandableParEquipe(equipe, mission))
@@ -193,6 +224,12 @@ public partial class MainMenu
         int de = Random.Shared.Next(1, 21);
         int total = de + modificateur;
         bool accepte = total >= seuil;
+        // Bloquer uniquement un refus (jet raté), pas un accord suivi
+        // d'un départ impossible. Prendre la date AVANT les 10 minutes
+        // de discussion : 23h55 -> lendemain 08h00, pas surlendemain.
+        if (!accepte)
+            cible.DemandeMissionBloqueeJusqua =
+                ReglesMissions.DateIso(_horloge.Instant.Date.AddDays(1).AddHours(8));
         bool depart = false;
         if (accepte && GroupeDisponible(equipe))
         {
@@ -211,7 +248,8 @@ public partial class MainMenu
             "\n\nJet de Leadership : " + jet +
             (accepte && !depart
                 ? "\nL'équipe ne peut finalement pas partir (fatigue ou indisponibilité)."
-                : depart ? "\nL'équipe part en mission." : "\nLa mission reste disponible.") +
+                : depart ? "\nL'équipe part en mission." :
+                    "\nLa mission reste disponible. Nouvelle demande possible demain à 8 h.") +
             "\nTemps écoulé : 10 minutes.";
 
         AjouterEntreeJournal("Demande de mission à " + cible.NomComplet +
@@ -226,6 +264,7 @@ public partial class MainMenu
         bool tempsComplet = AvancerTempsPourDiscussion(10);
         AfficherReponsesDiscussion(false);
         ReinitialiserDialogueDemandeMission();
+        ActualiserBoutonsSujetsDiscussion();
         _discussionEnCours = false;
         if (!tempsComplet)
             FermerDiscussion();
