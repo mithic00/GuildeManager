@@ -231,7 +231,15 @@ public partial class MainMenu
         }
 
         if (PeutDemanderMission())
-            AjouterSujetDiscussion("Demander une mission", SujetDiscussion.DemanderMission);
+        {
+            bool bloquee = DemandeMissionTemporairementBloquee(
+                _cibleDiscussion, out DateTime disponibleLe);
+            AjouterSujetDiscussion("Demander une mission", SujetDiscussion.DemanderMission,
+                bloquee,
+                bloquee ? "Ce membre a refusé une mission. Nouvelle demande possible le " +
+                    HorlogeJeu.Formater(disponibleLe) + "." :
+                    "Demander à ce membre de prendre une mission (D20 Leadership).");
+        }
 
         AjouterSujetDiscussion("Fermer", SujetDiscussion.Fermer);
     }
