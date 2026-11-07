@@ -44,6 +44,7 @@ public partial class MainMenu
         GetNode<Button>(baseBureau + "BoutonRelation").Pressed += OuvrirRelationBureau;
         GetNode<Button>(baseBureau + "BoutonInventaire").Pressed += OuvrirInventaireBureau;
         GetNode<Button>(baseBureau + "BoutonCalendrier").Pressed += OuvrirCalendrier;
+        GetNode<Button>(baseBureau + "BoutonPolitique").Pressed += OuvrirPolitiqueGuilde;
 
         // Ces fenêtres sont encore vides côté jeu, mais leurs boutons et
         // demandes de fermeture utilisent désormais les nouveaux nœuds.
@@ -58,6 +59,7 @@ public partial class MainMenu
         _fenetreCalendrierBureau.Hide();
         InitialiserFenetreInventaire();
         InitialiserCalendrier();
+        InitialiserPolitiqueGuilde();
 
         if (_etat != null && _horloge != null)
             _budget = RegistreBudget.ChargerOuInitialiser(_etat.Ecus, _horloge.Instant);
