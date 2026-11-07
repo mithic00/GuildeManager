@@ -384,6 +384,27 @@ public partial class MainMenu
     }
 
     /// <summary>
+    /// Le rang minimum habituel reste obligatoire : jamais de mission
+    /// de rang SUPÉRIEUR à celui du membre. La politique de la guilde
+    /// n'agit que sur les missions de rang INFÉRIEUR.
+    /// 11 = aucun plafond ; 0 = rang identique ; 1..10 = nombre de
+    /// crans de rang inférieurs autorisés.
+    /// </summary>
+    private bool RangMissionAutorisePourMembre(MembreGuilde membre, string rangMission)
+    {
+        if (membre == null || !ReglesMissions.RangSuffisant(membre, rangMission))
+            return false;
+
+        int ecartMax = Math.Clamp(_politiqueGuilde?.EcartNiveauMission ?? 11, 0, 11);
+        if (ecartMax == 11)
+            return true;
+
+        int ecartInferieur = ReglesMissions.IndexRang(membre.Rang) -
+            ReglesMissions.IndexRang(rangMission);
+        return ecartInferieur <= ecartMax;
+    }
+
+    /// <summary>
     /// Vérification sans tirage aléatoire pour l'affichage de la liste.
     /// Les jets de Constitution restent effectués au moment du départ.
     /// </summary>
@@ -392,7 +413,7 @@ public partial class MainMenu
         if (mission == null || mission.Etat != "Disponible" || equipe.Count == 0 ||
             _etatMissions?.Missions.Contains(mission) != true)
             return false;
-        if (!equipe.All(m => ReglesMissions.RangSuffisant(m, mission.Rang)) ||
+        if (!equipe.All(m => RangMissionAutorisePourMembre(m, mission.Rang)) ||
             !AdmissibleCategorie(equipe, mission) ||
             equipe.Any(m => m.Absent || m.Moral < MoralMinPourPartir ||
                 (m.Fatigue ?? 0) > 75 || !string.IsNullOrWhiteSpace(m.ConcoursEnCours)))
@@ -451,7 +472,7 @@ public partial class MainMenu
         {
             foreach (var equipe in groupes.OrderBy(_ => Random.Shared.Next()))
             {
-                if (!equipe.All(m => ReglesMissions.RangSuffisant(m, mission.Rang)) ||
+                if (!equipe.All(m => RangMissionAutorisePourMembre(m, mission.Rang)) ||
                     !AdmissibleCategorie(equipe, mission) ||
                     !GroupeDisponible(equipe)) continue;
                 BonusTraitsMissions.Bilan bilan = BonusTraitsMissions.Evaluer(equipe, mission.Categorie);
