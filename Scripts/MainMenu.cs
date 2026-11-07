@@ -48,6 +48,8 @@ public partial class MainMenu : Control
         GetNode<Button>("FenetreMenuQuitter/Marge/Layout/BoutonSaveEtQuitter").Pressed += () => Quitter(true);
         GetNode<Button>("FenetreMenuQuitter/Marge/Layout/BoutonQuitterSansSave").Pressed += () => Quitter(false);
         _fenetreQuitter.CloseRequested += () => _fenetreQuitter.Hide();
+        GetNode<Button>("FenetreMenuQuitter/Marge/Layout/BoutonFermer").Pressed +=
+            () => _fenetreQuitter.Hide();
         GetNode<Button>("FenetreMenuQuitter/Marge/Layout/BoutonOption").Pressed += OuvrirOptions;
 
         // Les pages Tableau des missions, Membres, Magasins, Recrutement,
