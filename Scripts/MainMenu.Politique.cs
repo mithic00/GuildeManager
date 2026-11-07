@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.Json;
 
 /// <summary>
 /// Branche uniquement l'interface de politique sur un état mémorisé/sauvegardé.
@@ -12,6 +13,8 @@ using System.Linq;
 public partial class MainMenu
 {
     private EtatPolitiqueGuilde _politiqueGuilde;
+    // Les contrôles modifient un brouillon : rien n'est appliqué sans confirmation.
+    private EtatPolitiqueGuilde _politiqueBrouillon;
     private Window _fenetrePolitique;
     private CheckButton _politiqueDefaut;
     private HSlider _sliderPartGuilde, _sliderEcartMissions, _sliderContrainteMissions;
@@ -25,6 +28,7 @@ public partial class MainMenu
     private void InitialiserPolitiqueGuilde()
     {
         _politiqueGuilde = EtatPolitiqueGuilde.Charger();
+        _politiqueBrouillon = CopierPolitiqueGuilde(_politiqueGuilde);
         _fenetrePolitique = GetNode<Window>("FenetrePolitique");
 
         const string baseGauche =
@@ -79,33 +83,33 @@ public partial class MainMenu
 
         _politiqueDefaut.Toggled += active =>
         {
-            if (_rafraichissementPolitique || _politiqueGuilde == null)
+            if (_rafraichissementPolitique || _politiqueBrouillon == null)
                 return;
             if (active)
-                _politiqueGuilde.RetablirDefauts();
+                _politiqueBrouillon.RetablirDefauts();
             else
-                _politiqueGuilde.PolitiqueParDefaut = false;
+                _politiqueBrouillon.PolitiqueParDefaut = false;
             RafraichirInterfacePolitique();
         };
 
         _sliderPartGuilde.ValueChanged += valeur =>
         {
-            if (_rafraichissementPolitique || _politiqueGuilde == null) return;
-            _politiqueGuilde.PourcentageGuildeMissions = (int)Math.Round(valeur);
+            if (_rafraichissementPolitique || _politiqueBrouillon == null) return;
+            _politiqueBrouillon.PourcentageGuildeMissions = (int)Math.Round(valeur);
             SignalerPolitiquePersonnalisee();
             ActualiserLibellesPolitique();
         };
         _sliderEcartMissions.ValueChanged += valeur =>
         {
-            if (_rafraichissementPolitique || _politiqueGuilde == null) return;
-            _politiqueGuilde.EcartNiveauMission = (int)Math.Round(valeur);
+            if (_rafraichissementPolitique || _politiqueBrouillon == null) return;
+            _politiqueBrouillon.EcartNiveauMission = (int)Math.Round(valeur);
             SignalerPolitiquePersonnalisee();
             ActualiserLibellesPolitique();
         };
         _sliderContrainteMissions.ValueChanged += valeur =>
         {
-            if (_rafraichissementPolitique || _politiqueGuilde == null) return;
-            _politiqueGuilde.ContrainteMission = (int)Math.Round(valeur);
+            if (_rafraichissementPolitique || _politiqueBrouillon == null) return;
+            _politiqueBrouillon.ContrainteMission = (int)Math.Round(valeur);
             SignalerPolitiquePersonnalisee();
             ActualiserLibellesPolitique();
         };
@@ -124,32 +128,58 @@ public partial class MainMenu
         _listeClientsPreferes.ItemSelected += index =>
             ModifierClientPreferePolitique((int)index);
 
-        GetNode<Button>("FenetrePolitique/Marge/LayoutPrincipal/ButtonFermer")
-            .Pressed += FermerPolitiqueGuilde;
-        _fenetrePolitique.CloseRequested += FermerPolitiqueGuilde;
+        const string boutons = "FenetrePolitique/Marge/LayoutPrincipal/Boutons/";
+        GetNode<Button>(boutons + "ButtonConfirmer").Pressed += ConfirmerPolitiqueGuilde;
+        GetNode<Button>(boutons + "ButtonAnnuler").Pressed += AnnulerPolitiqueGuilde;
+        GetNode<Button>(boutons + "ButtonFermer").Pressed += AnnulerPolitiqueGuilde;
+        _fenetrePolitique.CloseRequested += AnnulerPolitiqueGuilde;
         RafraichirInterfacePolitique();
         _fenetrePolitique.Hide();
     }
+
+    private static EtatPolitiqueGuilde CopierPolitiqueGuilde(EtatPolitiqueGuilde source) =>
+        JsonSerializer.Deserialize<EtatPolitiqueGuilde>(source.Serialiser())
+        ?? new EtatPolitiqueGuilde();
 
     private void OuvrirPolitiqueGuilde()
     {
         if (_tempsEnCours || _fenetrePolitique == null || _politiqueGuilde == null)
             return;
+        _politiqueBrouillon = CopierPolitiqueGuilde(_politiqueGuilde);
         RafraichirInterfacePolitique();
         _fenetrePolitique.PopupCentered();
     }
 
-    private void FermerPolitiqueGuilde()
+    private void ConfirmerPolitiqueGuilde()
     {
-        if (_fenetrePolitique == null) return;
+        if (_fenetrePolitique == null || _politiqueBrouillon == null ||
+            _politiqueGuilde == null) return;
+
         ValiderNiveauRequisPolitique(normaliserTexte: true);
+        _politiqueBrouillon.Normaliser();
+        EtatPolitiqueGuilde nouvellePolitique = CopierPolitiqueGuilde(_politiqueBrouillon);
+        bool modifiee = _politiqueGuilde.Serialiser() != nouvellePolitique.Serialiser();
+        _politiqueGuilde = nouvellePolitique;
+        _fenetrePolitique.Hide();
+        if (modifiee)
+            AjouterEntreeJournal("La politique de la guilde a été modifiée.", "politique");
+
+        // AUCUNE protestation ne se déclenche ici. La sélection des membres
+        // mécontents et les critères seront définis dans un second temps.
+    }
+
+    private void AnnulerPolitiqueGuilde()
+    {
+        if (_fenetrePolitique == null || _politiqueGuilde == null) return;
+        _politiqueBrouillon = CopierPolitiqueGuilde(_politiqueGuilde);
+        RafraichirInterfacePolitique();
         _fenetrePolitique.Hide();
     }
 
     private void SignalerPolitiquePersonnalisee()
     {
-        if (_politiqueGuilde == null) return;
-        _politiqueGuilde.PolitiqueParDefaut = false;
+        if (_politiqueBrouillon == null) return;
+        _politiqueBrouillon.PolitiqueParDefaut = false;
         _politiqueDefaut.SetPressedNoSignal(false);
     }
 
@@ -174,20 +204,20 @@ public partial class MainMenu
 
     private void ActualiserLibellesPolitique()
     {
-        if (_politiqueGuilde == null) return;
-        _labelPartGuilde.Text = _politiqueGuilde.PourcentageGuildeMissions + " %";
+        if (_politiqueBrouillon == null) return;
+        _labelPartGuilde.Text = _politiqueBrouillon.PourcentageGuildeMissions + " %";
         _labelEcartMissions.Text =
-            TexteEcartMissionPolitique(_politiqueGuilde.EcartNiveauMission);
+            TexteEcartMissionPolitique(_politiqueBrouillon.EcartNiveauMission);
         _labelContrainteMissions.Text =
-            TexteContrainteMissionPolitique(_politiqueGuilde.ContrainteMission);
+            TexteContrainteMissionPolitique(_politiqueBrouillon.ContrainteMission);
         _labelNiveauRequisPolitique.Text =
-            _politiqueGuilde.NiveauMagiqueRequis == 0
-                ? "Aucun" : "Niveau " + _politiqueGuilde.NiveauMagiqueRequis;
+            _politiqueBrouillon.NiveauMagiqueRequis == 0
+                ? "Aucun" : "Niveau " + _politiqueBrouillon.NiveauMagiqueRequis;
     }
 
     private void ValiderNiveauRequisPolitique(bool normaliserTexte)
     {
-        if (_rafraichissementPolitique || _politiqueGuilde == null ||
+        if (_rafraichissementPolitique || _politiqueBrouillon == null ||
             _champNiveauRequisPolitique == null)
             return;
 
@@ -198,15 +228,15 @@ public partial class MainMenu
         {
             if (normaliserTexte)
                 _champNiveauRequisPolitique.Text =
-                    _politiqueGuilde.NiveauMagiqueRequis.ToString(CultureInfo.InvariantCulture);
+                    _politiqueBrouillon.NiveauMagiqueRequis.ToString(CultureInfo.InvariantCulture);
             else
                 _labelNiveauRequisPolitique.Text = "Entrez un niveau entier positif";
             return;
         }
 
-        if (valeur != _politiqueGuilde.NiveauMagiqueRequis)
+        if (valeur != _politiqueBrouillon.NiveauMagiqueRequis)
         {
-            _politiqueGuilde.NiveauMagiqueRequis = valeur;
+            _politiqueBrouillon.NiveauMagiqueRequis = valeur;
             SignalerPolitiquePersonnalisee();
         }
         if (normaliserTexte)
@@ -235,18 +265,18 @@ public partial class MainMenu
 
     private void ModifierSelectionMissionsPolitique(bool interdites)
     {
-        if (_rafraichissementPolitique || _politiqueGuilde == null) return;
+        if (_rafraichissementPolitique || _politiqueBrouillon == null) return;
         List<string> choix = ValeursSelectionneesPolitique(
             interdites ? _listeMissionsInterdites : _listeMissionsPreferees);
         if (interdites)
         {
-            _politiqueGuilde.MissionsInterdites = choix;
-            _politiqueGuilde.MissionsPreferees.RemoveAll(x => choix.Contains(x));
+            _politiqueBrouillon.MissionsInterdites = choix;
+            _politiqueBrouillon.MissionsPreferees.RemoveAll(x => choix.Contains(x));
         }
         else
         {
-            _politiqueGuilde.MissionsPreferees = choix;
-            _politiqueGuilde.MissionsInterdites.RemoveAll(x => choix.Contains(x));
+            _politiqueBrouillon.MissionsPreferees = choix;
+            _politiqueBrouillon.MissionsInterdites.RemoveAll(x => choix.Contains(x));
         }
 
         SignalerPolitiquePersonnalisee();
@@ -255,11 +285,11 @@ public partial class MainMenu
 
     private void ModifierSelectionClientsInterditsPolitique()
     {
-        if (_rafraichissementPolitique || _politiqueGuilde == null) return;
+        if (_rafraichissementPolitique || _politiqueBrouillon == null) return;
         List<string> choix = ValeursSelectionneesPolitique(_listeClientsInterdits);
-        _politiqueGuilde.ClientsInterdits = choix;
-        if (choix.Contains(_politiqueGuilde.ClientPrefere))
-            _politiqueGuilde.ClientPrefere = "";
+        _politiqueBrouillon.ClientsInterdits = choix;
+        if (choix.Contains(_politiqueBrouillon.ClientPrefere))
+            _politiqueBrouillon.ClientPrefere = "";
 
         SignalerPolitiquePersonnalisee();
         RafraichirInterfacePolitique();
@@ -267,43 +297,43 @@ public partial class MainMenu
 
     private void ModifierClientPreferePolitique(int index)
     {
-        if (_rafraichissementPolitique || _politiqueGuilde == null ||
+        if (_rafraichissementPolitique || _politiqueBrouillon == null ||
             index < 0 || index >= _listeClientsPreferes.ItemCount)
             return;
 
         string choix = _listeClientsPreferes.GetItemText(index);
         // Recliquer sur un client préféré l'annule (sinon une liste en
         // sélection unique ne permettrait jamais de revenir à « aucun »).
-        _politiqueGuilde.ClientPrefere =
-            _politiqueGuilde.ClientPrefere == choix ? "" : choix;
-        _politiqueGuilde.ClientsInterdits.Remove(choix);
+        _politiqueBrouillon.ClientPrefere =
+            _politiqueBrouillon.ClientPrefere == choix ? "" : choix;
+        _politiqueBrouillon.ClientsInterdits.Remove(choix);
         SignalerPolitiquePersonnalisee();
         RafraichirInterfacePolitique();
     }
 
     private void RafraichirInterfacePolitique()
     {
-        if (_politiqueGuilde == null || _fenetrePolitique == null) return;
+        if (_politiqueBrouillon == null || _fenetrePolitique == null) return;
 
         _rafraichissementPolitique = true;
         try
         {
-            _politiqueDefaut.SetPressedNoSignal(_politiqueGuilde.PolitiqueParDefaut);
-            _sliderPartGuilde.SetValueNoSignal(_politiqueGuilde.PourcentageGuildeMissions);
-            _sliderEcartMissions.SetValueNoSignal(_politiqueGuilde.EcartNiveauMission);
-            _sliderContrainteMissions.SetValueNoSignal(_politiqueGuilde.ContrainteMission);
+            _politiqueDefaut.SetPressedNoSignal(_politiqueBrouillon.PolitiqueParDefaut);
+            _sliderPartGuilde.SetValueNoSignal(_politiqueBrouillon.PourcentageGuildeMissions);
+            _sliderEcartMissions.SetValueNoSignal(_politiqueBrouillon.EcartNiveauMission);
+            _sliderContrainteMissions.SetValueNoSignal(_politiqueBrouillon.ContrainteMission);
             _champNiveauRequisPolitique.Text =
-                _politiqueGuilde.NiveauMagiqueRequis.ToString(CultureInfo.InvariantCulture);
+                _politiqueBrouillon.NiveauMagiqueRequis.ToString(CultureInfo.InvariantCulture);
 
             AppliquerSelectionListePolitique(_listeMissionsInterdites,
-                _politiqueGuilde.MissionsInterdites, multiple: true);
+                _politiqueBrouillon.MissionsInterdites, multiple: true);
             AppliquerSelectionListePolitique(_listeMissionsPreferees,
-                _politiqueGuilde.MissionsPreferees, multiple: true);
+                _politiqueBrouillon.MissionsPreferees, multiple: true);
             AppliquerSelectionListePolitique(_listeClientsInterdits,
-                _politiqueGuilde.ClientsInterdits, multiple: true);
+                _politiqueBrouillon.ClientsInterdits, multiple: true);
             AppliquerSelectionListePolitique(_listeClientsPreferes,
-                string.IsNullOrEmpty(_politiqueGuilde.ClientPrefere)
-                    ? Array.Empty<string>() : new[] { _politiqueGuilde.ClientPrefere },
+                string.IsNullOrEmpty(_politiqueBrouillon.ClientPrefere)
+                    ? Array.Empty<string>() : new[] { _politiqueBrouillon.ClientPrefere },
                 multiple: false);
             ActualiserLibellesPolitique();
         }
