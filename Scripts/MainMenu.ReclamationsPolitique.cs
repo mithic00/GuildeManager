@@ -459,6 +459,7 @@ public partial class MainMenu
         if (!_dialogueReclamationPolitiqueActif ||
             _reclamationCourante == null || _horloge == null)
             return;
+
         MembreGuilde membre = _registreMembres?.Membres.FirstOrDefault(
             m => m.Id == _reclamationCourante.MembreId);
         MembreGuilde joueur = _registreMembres?.Membres.FirstOrDefault(m => m.EstJoueur);
@@ -471,28 +472,48 @@ public partial class MainMenu
         int calme = membre.Statistiques?.GetValueOrDefault("Calme", 10) ?? 10;
         int charisme = joueur.Statistiques?.GetValueOrDefault("Charisme", 10) ?? 10;
         int leadership = joueur.Statistiques?.GetValueOrDefault("Leadership", 10) ?? 10;
-        int bonusCalme = ReglesCaracteristiques.Modificateur(Math.Clamp(calme, 1, 20));
+        int bonusCalme =
+            ReglesCaracteristiques.Modificateur(Math.Clamp(calme, 1, 20));
         int bonusCharisme =
             ReglesCaracteristiques.Modificateur(Math.Clamp(charisme, 1, 20));
         int bonusLeadership =
             ReglesCaracteristiques.Modificateur(Math.Clamp(leadership, 1, 20));
 
-        // Un membre plus calme est plus ouvert à une explication.
-        // Un seul D20 et les deux modificateurs du maître de guilde.
+        // Deux D20 indépendants, contre UNE même cible déterminée par le
+        // Calme de la cible. Les deux jets doivent réussir pour convaincre.
         int cible = Math.Clamp(12 - bonusCalme, 5, 20);
-        int de = Random.Shared.Next(1, 21);
-        int total = de + bonusCharisme + bonusLeadership;
-        bool succes = total >= cible;
+        int deCharisme = Random.Shared.Next(1, 21);
+        int deLeadership = Random.Shared.Next(1, 21);
+        int totalCharisme = deCharisme + bonusCharisme;
+        int totalLeadership = deLeadership + bonusLeadership;
+        bool reussiteCharisme = totalCharisme >= cible;
+        bool reussiteLeadership = totalLeadership >= cible;
+        bool succes = reussiteCharisme && reussiteLeadership;
         _reclamationPolitiqueResultatAffiche = true;
+
+        int bonheurAvant = membre.Bonheur;
+        bool depart = false;
+        if (!succes)
+        {
+            membre.Bonheur = Math.Clamp(membre.Bonheur - 60, 0, 100);
+            _historiqueMembres?.Ajouter(membre, _horloge.Instant, "Bonheur",
+                "Contestation de politique : bonheur " + bonheurAvant +
+                " → " + membre.Bonheur + " (-60).",
+                avant: bonheurAvant, apres: membre.Bonheur);
+            depart = membre.Bonheur <= 0;
+        }
 
         _resultatDiscussion.Text =
             membre.NomComplet + " : Je ne suis pas satisfait du changement de politique de " +
             "la guilde (" + _reclamationCourante.Motif + ")." +
             "\n\nVous : Cette décision a été prise dans l'intérêt de la guilde. " +
             "Laissez-moi vous expliquer notre choix." +
-            "\n\nJet de Charisme + Leadership : D20 " + de +
-            " + (" + bonusCharisme + ") + (" + bonusLeadership + ") = " + total +
-            " / cible " + cible + " (Calme du membre : " + calme + ")." +
+            "\n\nJet de Charisme : D20 " + deCharisme + " + (" + bonusCharisme +
+            ") = " + totalCharisme + " / cible " + cible +
+            " — " + (reussiteCharisme ? "réussite" : "échec") + "." +
+            "\nJet de Leadership : D20 " + deLeadership + " + (" + bonusLeadership +
+            ") = " + totalLeadership + " / cible " + cible +
+            " — " + (reussiteLeadership ? "réussite" : "échec") + "." +
             "\n\n" + membre.Prenom + " : " +
             (succes
                 ? "Je ne suis pas forcément d'accord, mais je comprends mieux vos raisons. " +
@@ -501,20 +522,71 @@ public partial class MainMenu
                   "Je reste opposé à ce changement.") +
             "\n\n" + (succes
                 ? "Vous avez réussi à apaiser cette contestation."
-                : "La contestation n'est pas apaisée.");
+                : "La contestation n'est pas apaisée. Bonheur : " +
+                  bonheurAvant + " → " + membre.Bonheur + " (-60).") +
+            (depart
+                ? "\n" + membre.NomComplet +
+                  " est à bout et décide de quitter définitivement la guilde."
+                : "");
 
         string resultat = succes ? "apaisée" : "non apaisée";
         AjouterEntreeJournal("Politique de guilde : contestation de " +
             membre.NomComplet + " (" + _reclamationCourante.Motif + ") " +
-            resultat + " (D20 " + total + "/" + cible + ").", "politique");
+            resultat + " (Charisme " + totalCharisme + "/" + cible +
+            ", Leadership " + totalLeadership + "/" + cible + ")." +
+            (succes ? "" : " Bonheur : " + bonheurAvant + " → " + membre.Bonheur + "."),
+            "politique");
         _historiqueMembres?.Ajouter(membre, _horloge.Instant, "ContestationPolitique",
             "Contestation de la politique (" + _reclamationCourante.Motif +
-            ") : " + resultat + " (D20 " + total + "/" + cible + ").");
+            ") : " + resultat + " (Charisme " + totalCharisme + "/" + cible +
+            ", Leadership " + totalLeadership + "/" + cible + ").");
 
-        // Aucun effet chiffré sur la relation/le bonheur n'a été défini :
-        // le résultat est historisé mais ces ressources restent inchangées.
+        if (depart)
+            FaireQuitterGuildeApresContestation(membre);
+
         _listeReponsesDiscussion.Clear();
         _listeReponsesDiscussion.AddItem("Terminer cet échange");
+    }
+
+    /// <summary>
+    /// Départ immédiat après une contestation ratée ayant amené le bonheur
+    /// à zéro. Met à jour les statistiques globales et libère les équipes
+    /// dont il ne reste qu'un membre.
+    /// </summary>
+    private void FaireQuitterGuildeApresContestation(MembreGuilde membre)
+    {
+        if (membre == null || membre.EstJoueur || membre.EstMaitreDeGuilde ||
+            _registreMembres?.Membres.Remove(membre) != true)
+            return;
+
+        _historiqueMembres?.Ajouter(membre, _horloge.Instant, "DepartGuilde",
+            "A quitté la guilde après une contestation de politique non apaisée.");
+        AjouterEntreeJournal(membre.NomComplet +
+            " quitte la guilde après une contestation de sa politique.", "politique");
+
+        _reclamationsPolitique?.EnAttente.RemoveAll(r =>
+            r.MembreId == membre.Id && !ReferenceEquals(r, _reclamationCourante));
+        if (_membreConsulte?.Id == membre.Id)
+            _membreConsulte = null;
+        if (_cibleDiscussion?.Id == membre.Id)
+            _cibleDiscussion = null;
+
+        // Les membres survivants d'une équipe réduite à un seul personnage
+        // retrouvent leur statut de membres indépendants.
+        foreach (MembreGuilde solo in _registreMembres.Membres
+            .Where(m => !string.IsNullOrWhiteSpace(m.EquipeId))
+            .GroupBy(m => m.EquipeId)
+            .Where(g => g.Count() == 1)
+            .Select(g => g.First()))
+            solo.EquipeId = "";
+
+        _registreMembres.RecalculerClassement();
+        _etat.Membres = _registreMembres.Membres.Count;
+        _etat.Pouvoir = _registreMembres.Membres.Sum(m => (long)m.NiveauMagique);
+        _etat.Savoir = _registreMembres.Membres.Sum(m => (long)m.ConnaissanceMagique);
+        AfficherValeur(_membres, _etat.Membres);
+        AfficherValeur(_pouvoir, _etat.Pouvoir);
+        AfficherValeur(_savoir, _etat.Savoir);
     }
 
     private void TerminerReclamationPolitique()
