@@ -87,6 +87,24 @@ public partial class MainMenu
     }
 
     /// <summary>
+    /// Chance de tolérer un durcissement de politique selon la relation avec
+    /// le maître de guilde. Les membres neutres ou hostiles protestent toujours.
+    /// </summary>
+    private static bool PasseOutrePolitiqueSelonRelation(MembreGuilde joueur,
+        MembreGuilde membre)
+    {
+        int chance = RelationsMembres.Qualifier(
+            RelationsMembres.Lire(joueur, membre)) switch
+        {
+            "Connaissance" => 10,
+            "Ami" => 30,
+            "Proche" => 75,
+            _ => 0
+        };
+        return chance > 0 && Random.Shared.Next(100) < chance;
+    }
+
+    /// <summary>
     /// Première règle de mécontentement : une hausse du pourcentage que la
     /// guilde prélève sur les missions. Le seuil est propre à chaque membre
     /// et n'est jamais révélé à l'interface.
@@ -112,18 +130,7 @@ public partial class MainMenu
                 nouveauPourcentage <= membre.SeuilPourcentageGuildeMissions)
                 continue;
 
-            // Ennemi, Hostile, Inamical et Neutre : aucune indulgence.
-            int chanceDePasserOutre =
-                RelationsMembres.Qualifier(RelationsMembres.Lire(joueur, membre)) switch
-                {
-                    "Connaissance" => 10,
-                    "Ami" => 30,
-                    "Proche" => 75,
-                    _ => 0
-                };
-
-            if (chanceDePasserOutre > 0 &&
-                Random.Shared.Next(100) < chanceDePasserOutre)
+            if (PasseOutrePolitiqueSelonRelation(joueur, membre))
             {
                 // Le membre accepte définitivement ce nouveau taux et tout
                 // taux inférieur. Une hausse ultérieure peut être contestée.
@@ -149,6 +156,73 @@ public partial class MainMenu
             if (dejaEnAttente != null)
                 dejaEnAttente.Motif = motifActuel;
             else
+                protestataires.Add((membre, motifActuel));
+        }
+
+        SignalerMecontentementsPolitique(protestataires);
+        if (ReclamationPolitiqueDisponible())
+            CallDeferred(nameof(VerifierReclamationsPolitique));
+    }
+
+    /// <summary>
+    /// Deuxième politique : écart MAXIMAL autorisé entre le rang des membres
+    /// et celui des missions INFÉRIEURES. Les catégories de tolérance sont :
+    /// 11 (libre), 1..10 (limité), 0 (strictement le même rang).
+    /// Seul le passage à une catégorie plus contraignante peut créer une
+    /// nouvelle réclamation. Un réglage moins strict peut annuler une
+    /// réclamation devenue sans objet.
+    /// </summary>
+    private void EvaluerProtestationsEcartMissions(int ancienEcart, int nouvelEcart)
+    {
+        if (_registreMembres?.Membres == null || _reclamationsPolitique == null)
+            return;
+
+        const string prefixeMotif = "Écart de rang inférieur autorisé : ";
+        string motifActuel = prefixeMotif + TexteEcartMissionPolitique(nouvelEcart);
+        bool durcissement =
+            EtatPolitiqueGuilde.IntensiteContrainteEcartMission(nouvelEcart) >
+            EtatPolitiqueGuilde.IntensiteContrainteEcartMission(ancienEcart);
+
+        MembreGuilde joueur = _registreMembres.Membres.FirstOrDefault(m => m.EstJoueur);
+        if (joueur == null) return;
+
+        List<(MembreGuilde Membre, string Politique)> protestataires = new();
+        foreach (MembreGuilde membre in _registreMembres.Membres)
+        {
+            if (membre == null || membre.EstJoueur || membre.EstMaitreDeGuilde)
+                continue;
+
+            ReclamationPolitique enAttente =
+                _reclamationsPolitique.EnAttente.FirstOrDefault(r =>
+                    r.MembreId == membre.Id &&
+                    r.Motif.StartsWith(prefixeMotif, StringComparison.Ordinal));
+
+            // Les membres qui acceptent la nouvelle politique n'ont plus de
+            // raison de garder une protestation différée (mission, concours).
+            if (EtatPolitiqueGuilde.MembreAccepteEcartMission(
+                    membre.SeuilEcartNiveauMission, nouvelEcart))
+            {
+                if (enAttente != null)
+                    _reclamationsPolitique.EnAttente.Remove(enAttente);
+                continue;
+            }
+
+            if (durcissement && PasseOutrePolitiqueSelonRelation(joueur, membre))
+            {
+                // Accepter l'égalité revient à accepter tous les écarts.
+                // Accepter la catégorie 1..10 vaut pour chaque valeur de 1 à 10.
+                membre.SeuilEcartNiveauMission = nouvelEcart == 0 ? 0 : 1;
+                if (enAttente != null)
+                    _reclamationsPolitique.EnAttente.Remove(enAttente);
+                continue;
+            }
+
+            // Si le membre est déjà en mission, ne pas empiler plusieurs
+            // plaintes de rang. Son entretien portera sur la politique
+            // réellement en vigueur à son retour.
+            if (enAttente != null)
+                enAttente.Motif = motifActuel;
+            else if (durcissement)
                 protestataires.Add((membre, motifActuel));
         }
 
