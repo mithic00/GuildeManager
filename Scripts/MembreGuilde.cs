@@ -43,6 +43,27 @@ public sealed class MembreGuilde
         if (de < 95) return 40;
         return 50;
     }
+    /// <summary>
+    /// Tolérance cachée à la politique d'écart de rang entre membres et
+    /// missions. 0 : même rang uniquement ; 1 : accepte un écart de 1 à 10
+    /// crans ; 11 : ne tolère que la liberté totale.
+    /// Le joueur ne voit jamais cette valeur.
+    /// </summary>
+    public int SeuilEcartNiveauMission { get; set; } = 11;
+
+    /// <summary>
+    /// 30 % acceptent une politique de rang identique (0), 45 % une
+    /// limitation de 1 à 10 crans (1), 25 % la liberté uniquement (11).
+    /// Donc 75 % tolèrent les réglages 1..10, et 100 % la liberté.
+    /// Tirage unique à la création, conservé dans la sauvegarde.
+    /// </summary>
+    public static int TirerSeuilEcartNiveauMission()
+    {
+        int tirage = Random.Shared.Next(100);
+        if (tirage < 30) return 0;
+        return tirage < 75 ? 1 : 11;
+    }
+
     /// <summary>Fin du blocage des dialogues après échec, date du calendrier de jeu.</summary>
     public string DiscussionBloqueeJusqua { get; set; } = "";
     /// <summary>
@@ -269,6 +290,7 @@ public sealed class MembreGuilde
             Id = "joueur",
             EstJoueur = true,
             SeuilPourcentageGuildeMissions = TirerSeuilPourcentageGuildeMissions(),
+            SeuilEcartNiveauMission = TirerSeuilEcartNiveauMission(),
             EstMaitreDeGuilde = true,
             Prenom = prenom,
             Nom = nom,
