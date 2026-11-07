@@ -102,6 +102,9 @@ public partial class MainMenu
         MembreGuilde joueur = _registreMembres.Membres.FirstOrDefault(m => m.EstJoueur);
         if (joueur == null) return;
 
+        const string prefixeMotif =
+            "Pourcentage récupéré par la guilde sur les missions : ";
+        string motifActuel = prefixeMotif + nouveauPourcentage + " %";
         List<(MembreGuilde Membre, string Politique)> protestataires = new();
         foreach (MembreGuilde membre in _registreMembres.Membres)
         {
@@ -125,17 +128,33 @@ public partial class MainMenu
                 // Le membre accepte définitivement ce nouveau taux et tout
                 // taux inférieur. Une hausse ultérieure peut être contestée.
                 membre.SeuilPourcentageGuildeMissions = nouveauPourcentage;
+
+                // Si le membre était encore absent lors d'une précédente
+                // hausse, son acceptation de ce taux annule l'ancienne
+                // protestation devenue sans objet.
+                _reclamationsPolitique.EnAttente.RemoveAll(r =>
+                    r.MembreId == membre.Id &&
+                    r.Motif.StartsWith(prefixeMotif, StringComparison.Ordinal));
                 continue;
             }
 
             // L'ancien seuil est une caractéristique cachée : ne jamais
             // l'insérer dans le motif montré au joueur ou dans le journal.
-            protestataires.Add((membre,
-                "Pourcentage récupéré par la guilde sur les missions : " +
-                nouveauPourcentage + " %"));
+            // Une hausse successive met à jour la protestation déjà en
+            // attente pour ce membre plutôt que de lui en ajouter une autre.
+            ReclamationPolitique dejaEnAttente =
+                _reclamationsPolitique.EnAttente.FirstOrDefault(r =>
+                    r.MembreId == membre.Id &&
+                    r.Motif.StartsWith(prefixeMotif, StringComparison.Ordinal));
+            if (dejaEnAttente != null)
+                dejaEnAttente.Motif = motifActuel;
+            else
+                protestataires.Add((membre, motifActuel));
         }
 
         SignalerMecontentementsPolitique(protestataires);
+        if (ReclamationPolitiqueDisponible())
+            CallDeferred(nameof(VerifierReclamationsPolitique));
     }
 
     private bool ReclamationPolitiquePourMembre(string membreId) =>
