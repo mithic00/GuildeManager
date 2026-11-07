@@ -89,6 +89,11 @@ public partial class MainMenu
     private bool ReclamationPolitiquePourMembre(string membreId) =>
         _reclamationsPolitique?.EnAttente.Any(r => r.MembreId == membreId) == true;
 
+    private bool ReclamationPolitiqueDisponible() =>
+        _reclamationsPolitique?.EnAttente.Any(r =>
+            _registreMembres?.Membres.Any(m =>
+                m.Id == r.MembreId && !EstAbsent(m)) == true) == true;
+
     /// <summary>
     /// La file peut contenir des absents : les autres membres parlent
     /// immédiatement, puis les absents à leur retour. Aucun dialogue n'est
