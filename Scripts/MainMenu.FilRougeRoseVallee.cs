@@ -343,6 +343,8 @@ public partial class MainMenu
         _indexRepliqueFilRouge = 0;
         _reponsesDiscussion?.Hide();
         _sujetsDiscussion?.Show();
+        if (ReclamationPolitiqueDisponible())
+            CallDeferred(nameof(VerifierReclamationsPolitique));
     }
 
     private void TerminerActeFilRouge(int numero, bool fermerFenetre = true)
