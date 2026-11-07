@@ -220,6 +220,38 @@ public partial class MainMenu
         }
     }
 
+    /// <summary>
+    /// Déplacement ponctuel en ville : utilise le même traitement minute
+    /// par minute que les discussions. Les événements sont enregistrés à leur
+    /// minute réelle et leurs fenêtres sont présentées après la transition.
+    /// </summary>
+    private bool AvancerTempsPourDeplacement(int minutes)
+    {
+        return AvancerTempsPourDiscussion(minutes);
+    }
+
+    private void PresenterEvenementsApresDeplacement()
+    {
+        if (_tempsEnCours || _traitementTempsDiscussion)
+            return;
+
+        // Un rendez-vous d'auberge prime sur les autres notifications.
+        if (VerifierRendezVousAuberge())
+            return;
+
+        // Pendant l'action, la proposition est générée sans fenêtre.
+        // Ne pas la perdre si le déplacement traverse son horaire.
+        if (_etatMissions?.Proposition?.Etat == "Proposee" &&
+            _fenetreNouvelleMission?.Visible != true)
+        {
+            AfficherPropositionMission();
+            return;
+        }
+
+        // Idem pour les événements du fil rouge décalés pendant le trajet.
+        VerifierMinuteFilRouge();
+    }
+
     private void ActualiserBoutonTemps()
     {
         if (_boutonAvancerTemps != null)
