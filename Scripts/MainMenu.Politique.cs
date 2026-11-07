@@ -160,6 +160,7 @@ public partial class MainMenu
         EtatPolitiqueGuilde nouvellePolitique = CopierPolitiqueGuilde(_politiqueBrouillon);
         bool modifiee = _politiqueGuilde.Serialiser() != nouvellePolitique.Serialiser();
         int ancienPrelevement = _politiqueGuilde.PourcentageGuildeMissions;
+        int ancienEcart = _politiqueGuilde.EcartNiveauMission;
         _politiqueGuilde = nouvellePolitique;
         _fenetrePolitique.Hide();
         if (modifiee)
@@ -171,6 +172,9 @@ public partial class MainMenu
         if (nouvellePolitique.PourcentageGuildeMissions > ancienPrelevement)
             EvaluerProtestationsPourcentageMissions(ancienPrelevement,
                 nouvellePolitique.PourcentageGuildeMissions);
+        if (nouvellePolitique.EcartNiveauMission != ancienEcart)
+            EvaluerProtestationsEcartMissions(ancienEcart,
+                nouvellePolitique.EcartNiveauMission);
     }
 
     private void AnnulerPolitiqueGuilde()
