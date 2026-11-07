@@ -24,6 +24,25 @@ public sealed class MembreGuilde
     /// <summary>Relation réciproque indexée par ID de membre, entre -100 et 100.</summary>
     public Dictionary<string, int> Relations { get; set; } = new();
     public bool EstAdjoint { get; set; }
+    /// <summary>
+    /// Seuil personnel caché du prélèvement accepté sur les récompenses
+    /// de mission (en %). Au-delà, le membre peut contester la politique.
+    /// </summary>
+    public int SeuilPourcentageGuildeMissions { get; set; } = 20;
+
+    /// <summary>
+    /// Tirage unique à la création du personnage : 10 % (5 %), 20 % (70 %),
+    /// 30 % (10 %), 40 % (10 %), 50 % (5 %). Le résultat est sauvegardé.
+    /// </summary>
+    public static int TirerSeuilPourcentageGuildeMissions()
+    {
+        int de = Random.Shared.Next(100);
+        if (de < 5) return 10;
+        if (de < 75) return 20;
+        if (de < 85) return 30;
+        if (de < 95) return 40;
+        return 50;
+    }
     /// <summary>Fin du blocage des dialogues après échec, date du calendrier de jeu.</summary>
     public string DiscussionBloqueeJusqua { get; set; } = "";
     /// <summary>
@@ -249,6 +268,7 @@ public sealed class MembreGuilde
         {
             Id = "joueur",
             EstJoueur = true,
+            SeuilPourcentageGuildeMissions = TirerSeuilPourcentageGuildeMissions(),
             EstMaitreDeGuilde = true,
             Prenom = prenom,
             Nom = nom,
