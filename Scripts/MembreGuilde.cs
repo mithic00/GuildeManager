@@ -64,6 +64,38 @@ public sealed class MembreGuilde
         return tirage < 75 ? 1 : 11;
     }
 
+    /// <summary>
+    /// Pression maximale sur l'obligation de mission tolérée, caractéristique
+    /// cachée : 0=Libre, 1=Légère pression, 2=Grosse pression, 3=Résultat attendu.
+    /// </summary>
+    public int SeuilContrainteMission { get; set; } = 0;
+
+    /// <summary>
+    /// Répartition des tolérances : 50 % libre uniquement, 30 % jusqu'à
+    /// légère pression, 15 % jusqu'à grosse pression, 5 % jusqu'à
+    /// résultat attendu. Ainsi 50/20/5 % acceptent les niveaux 1/2/3.
+    /// </summary>
+    public static int TirerSeuilContrainteMission()
+    {
+        int tirage = Random.Shared.Next(100);
+        if (tirage < 50) return 0;
+        if (tirage < 80) return 1;
+        if (tirage < 95) return 2;
+        return 3;
+    }
+
+    /// <summary>
+    /// Dernière présence active : recrutement ou retour effectif de mission.
+    /// Le compteur d'inactivité commence à cette date, pas à la réservation.
+    /// </summary>
+    public string DateDerniereDisponibiliteMission { get; set; } = "";
+
+    /// <summary>
+    /// Échecs successifs SOUS la politique « Résultat attendu » seulement.
+    /// Une réussite ou la désactivation de la politique remet le compteur à zéro.
+    /// </summary>
+    public int EchecsMissionsConsecutifsSousPression { get; set; }
+
     /// <summary>Fin du blocage des dialogues après échec, date du calendrier de jeu.</summary>
     public string DiscussionBloqueeJusqua { get; set; } = "";
     /// <summary>
@@ -291,6 +323,8 @@ public sealed class MembreGuilde
             EstJoueur = true,
             SeuilPourcentageGuildeMissions = TirerSeuilPourcentageGuildeMissions(),
             SeuilEcartNiveauMission = TirerSeuilEcartNiveauMission(),
+            SeuilContrainteMission = TirerSeuilContrainteMission(),
+            DateDerniereDisponibiliteMission = ReglesMissions.DateIso(HorlogeJeu.DateInitiale),
             EstMaitreDeGuilde = true,
             Prenom = prenom,
             Nom = nom,
