@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text.Json;
 
 /// <summary>
-/// Choix de politique de la guilde. Ces préférences sont purement déclaratives
-/// pour le moment : aucune mécanique de missions/recrutement ne les consulte.
-/// Elles sont enregistrées lors de la sauvegarde normale de la partie.
+/// Choix de politique de la guilde. Les règles de prélèvement, d'écart
+/// de rang et de pression sur les missions sont appliquées par MainMenu.
+/// Les autres options restent déclaratives. Enregistrement à la sauvegarde.
 /// </summary>
 public sealed class EtatPolitiqueGuilde
 {
