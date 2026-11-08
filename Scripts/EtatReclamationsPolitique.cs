@@ -12,6 +12,7 @@ public sealed class ReclamationPolitique
 {
     public const string PrelevementMissions = "PourcentageGuildeMissions";
     public const string EcartRangMissions = "EcartNiveauMission";
+    public const string PressionMissions = "ContrainteMission";
 
     public string MembreId { get; set; } = "";
     public string Motif { get; set; } = "";
