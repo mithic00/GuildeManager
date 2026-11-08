@@ -75,6 +75,8 @@ public partial class MainMenu
         if (maintenant.Minute == 0 &&
             (maintenant.Hour == 8 || maintenant.Hour == 12 || maintenant.Hour == 16))
             ProposerMissionsAuxEquipes(maintenant);
+        else if ((_politiqueGuilde?.ContrainteMission ?? 0) != 0)
+            VerifierDepartObligatoireMission(maintenant);
 
         // Les traitements de 08h ne doivent pas être sautés si un concours
         // se termine exactement à ce jalon. Arrêter ensuite l'horloge.
@@ -165,6 +167,9 @@ public partial class MainMenu
         AjouterEntreeJournal("Mission de rang " + ReglesMissions.FormaterRang(mission.Rang) +
             " acceptée : " + mission.Categorie + " (" + mission.Recompense + " écus).", "mission");
         RaffraichirTableauMissions();
+        // Une mission vient d'être acceptée alors que des membres peuvent
+        // avoir déjà dépassé les deux/sept jours imposés par la politique.
+        VerifierDepartObligatoireMission(_horloge.Instant);
     }
 
     private void RefuserPropositionMission()
@@ -474,13 +479,14 @@ public partial class MainMenu
     /// aucun jet de Constitution, Volonté, ni condition de moral, bonheur,
     /// fatigue ou statistique n'intervient pour accepter le départ.
     /// </summary>
-    private void ForcerMissionsEquipesInactives(DateTime instant,
+    private bool ForcerMissionsEquipesInactives(DateTime instant,
         List<MissionGuilde> missionsDisponibles,
         List<List<MembreGuilde>> equipes)
     {
         int pression = _politiqueGuilde?.ContrainteMission ?? 0;
-        if (pression == 0 || missionsDisponibles.Count == 0) return;
+        if (pression == 0 || missionsDisponibles.Count == 0) return false;
         int joursMax = pression == 2 ? 2 : 7;
+        bool auMoinsUnDepart = false;
 
         foreach (MissionGuilde mission in missionsDisponibles
             .Where(m => m.Etat == "Disponible").OrderBy(_ => Random.Shared.Next()).ToList())
@@ -504,6 +510,7 @@ public partial class MainMenu
                 BonusTraitsMissions.Bilan bilan =
                     BonusTraitsMissions.Evaluer(equipe, mission.Categorie);
                 DemarrerMissionEquipe(equipe, mission, instant, bilan);
+                auMoinsUnDepart = true;
                 AjouterEntreeJournal("Politique de guilde (" +
                     TexteContrainteMissionPolitique(pression) +
                     ") : départ obligatoire de " +
@@ -513,6 +520,37 @@ public partial class MainMenu
                 break;
             }
         }
+        return auMoinsUnDepart;
+    }
+
+    /// <summary>
+    /// Contrôle l'obligation à la minute exacte du délai, et dès qu'une
+    /// nouvelle mission devient disponible. Les départs spontanés, eux,
+    /// restent limités à leurs jalons habituels.
+    /// </summary>
+    private void VerifierDepartObligatoireMission(DateTime instant)
+    {
+        if ((_politiqueGuilde?.ContrainteMission ?? 0) == 0 ||
+            _registreMembres?.Membres == null || _etatMissions == null)
+            return;
+
+        List<MissionGuilde> disponibles = _etatMissions.Missions
+            .Where(m => m.Etat == "Disponible").ToList();
+        if (disponibles.Count == 0) return;
+
+        int jours = _politiqueGuilde.ContrainteMission == 2 ? 2 : 7;
+        if (!_registreMembres.Membres.Any(m => !m.EstMaitreDeGuilde &&
+            MembreMissionInactifDepuis(m, instant, jours)))
+            return;
+
+        List<List<MembreGuilde>> equipes = _registreMembres.Membres
+            .Where(m => !m.EstMaitreDeGuilde)
+            .GroupBy(m => string.IsNullOrWhiteSpace(m.EquipeId)
+                ? "solo:" + m.Id : "equipe:" + m.EquipeId)
+            .Select(g => g.ToList()).ToList();
+
+        if (ForcerMissionsEquipesInactives(instant, disponibles, equipes))
+            RaffraichirTableauMissions();
     }
 
     private static bool MembreMissionInactifDepuis(MembreGuilde membre,
