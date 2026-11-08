@@ -476,7 +476,7 @@ public partial class MainMenu
 
             MembreGuilde membre = _registreMembres.Membres.FirstOrDefault(
                 m => m.Id == demande.MembreId);
-            bool accepte = membre == null || demande.ClePolitique switch
+            bool accepte = membre == null || (demande.ClePolitique switch
             {
                 ReclamationPolitique.PrelevementMissions =>
                     _politiqueGuilde.PourcentageGuildeMissions <=
@@ -488,7 +488,7 @@ public partial class MainMenu
                 ReclamationPolitique.PressionMissions =>
                     _politiqueGuilde.ContrainteMission <= membre.SeuilContrainteMission,
                 _ => true
-            };
+            });
 
             if (accepte)
             {
