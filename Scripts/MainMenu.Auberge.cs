@@ -101,7 +101,8 @@ public partial class MainMenu
         return politique.PourcentageGuildeMissions <=
                 personnage.SeuilPourcentageGuildeMissions &&
             EtatPolitiqueGuilde.MembreAccepteEcartMission(
-                personnage.SeuilEcartNiveauMission, politique.EcartNiveauMission);
+                personnage.SeuilEcartNiveauMission, politique.EcartNiveauMission) &&
+            politique.ContrainteMission <= personnage.SeuilContrainteMission;
     }
 
     private void FiltrerCandidatsAubergeSelonPolitique(List<CandidatAuberge> candidats)
@@ -339,6 +340,11 @@ public partial class MainMenu
         foreach (CandidatAuberge nouvelle in nouvellesRecrues)
         {
             nouvelle.Personnage.EquipeId = identifiantEquipe;
+            // Un candidat devient disponible seulement à son recrutement
+            // réel, même si le rendez-vous a été réservé plusieurs jours avant.
+            nouvelle.Personnage.DateDerniereDisponibiliteMission =
+                ReglesMissions.DateIso(_horloge.Instant);
+            nouvelle.Personnage.EchecsMissionsConsecutifsSousPression = 0;
             // Les connaissances des entretiens appartiennent désormais au membre.
             nouvelle.Personnage.StatistiquesConnues = nouvelle.StatsConnues
                 .Distinct(StringComparer.Ordinal).ToList();
