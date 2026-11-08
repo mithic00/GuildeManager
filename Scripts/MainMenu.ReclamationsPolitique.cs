@@ -266,6 +266,64 @@ public partial class MainMenu
             CallDeferred(nameof(VerifierReclamationsPolitique));
     }
 
+    /// <summary>
+    /// Troisième politique : obligation de mission. La tolérance cachée de
+    /// chaque membre est le niveau maximal de pression qu'il accepte.
+    /// Le déclenchement et le pardon relationnel sont identiques aux autres
+    /// changements de politique ; la plainte différée est conservée au retour.
+    /// </summary>
+    private void EvaluerProtestationsContrainteMissions(int ancienNiveau, int nouveauNiveau)
+    {
+        if (_registreMembres?.Membres == null || _reclamationsPolitique == null)
+            return;
+
+        const string prefixeMotif = "Obligation de prendre des missions : ";
+        string motifActuel = prefixeMotif + TexteContrainteMissionPolitique(nouveauNiveau);
+        bool durcissement = nouveauNiveau > ancienNiveau;
+        MembreGuilde joueur = _registreMembres.Membres.FirstOrDefault(m => m.EstJoueur);
+        if (joueur == null) return;
+
+        List<(MembreGuilde Membre, string Politique)> mecontents = new();
+        foreach (MembreGuilde membre in _registreMembres.Membres)
+        {
+            if (membre == null || membre.EstJoueur || membre.EstMaitreDeGuilde)
+                continue;
+
+            ReclamationPolitique enAttente =
+                _reclamationsPolitique.EnAttente.FirstOrDefault(r =>
+                    r.MembreId == membre.Id &&
+                    (r.ClePolitique == ReclamationPolitique.PressionMissions ||
+                     r.Motif.StartsWith(prefixeMotif, StringComparison.Ordinal)));
+
+            if (nouveauNiveau <= membre.SeuilContrainteMission)
+            {
+                if (enAttente != null)
+                    _reclamationsPolitique.EnAttente.Remove(enAttente);
+                continue;
+            }
+
+            if (durcissement && PasseOutrePolitiqueSelonRelation(joueur, membre))
+            {
+                // Son seuil caché accepte définitivement la pression
+                // actuelle et tous les réglages moins stricts.
+                membre.SeuilContrainteMission = nouveauNiveau;
+                if (enAttente != null)
+                    _reclamationsPolitique.EnAttente.Remove(enAttente);
+                continue;
+            }
+
+            if (enAttente != null)
+                enAttente.Motif = motifActuel;
+            else if (durcissement)
+                mecontents.Add((membre, motifActuel));
+        }
+
+        SignalerMecontentementsPolitique(mecontents,
+            ReclamationPolitique.PressionMissions, ancienNiveau);
+        if (ReclamationPolitiqueDisponible())
+            CallDeferred(nameof(VerifierReclamationsPolitique));
+    }
+
     private bool ReclamationPolitiquePourMembre(string membreId) =>
         _reclamationsPolitique?.EnAttente.Any(r => r.MembreId == membreId) == true;
 
@@ -336,6 +394,9 @@ public partial class MainMenu
             ReclamationPolitique.EcartRangMissions =>
                 valeur >= 0 && valeur <= 11 &&
                 _politiqueGuilde.EcartNiveauMission != valeur,
+            ReclamationPolitique.PressionMissions =>
+                valeur >= 0 && valeur <= 3 &&
+                _politiqueGuilde.ContrainteMission != valeur,
             _ => false
         };
     }
@@ -359,6 +420,13 @@ public partial class MainMenu
                 _politiqueGuilde.EcartNiveauMission = precedent;
                 nouveauLibelle = "Écart de rang inférieur autorisé : " +
                     TexteEcartMissionPolitique(precedent);
+                break;
+            case ReclamationPolitique.PressionMissions:
+                _politiqueGuilde.ContrainteMission = precedent;
+                if (precedent != 3)
+                    ReinitialiserEchecsConsecutifsSousPression();
+                nouveauLibelle = "Obligation de prendre des missions : " +
+                    TexteContrainteMissionPolitique(precedent);
                 break;
             default:
                 return;
@@ -408,13 +476,19 @@ public partial class MainMenu
 
             MembreGuilde membre = _registreMembres.Membres.FirstOrDefault(
                 m => m.Id == demande.MembreId);
-            bool accepte = membre == null ||
-                (demande.ClePolitique == ReclamationPolitique.PrelevementMissions
-                    ? _politiqueGuilde.PourcentageGuildeMissions <=
-                        membre.SeuilPourcentageGuildeMissions
-                    : EtatPolitiqueGuilde.MembreAccepteEcartMission(
+            bool accepte = membre == null || demande.ClePolitique switch
+            {
+                ReclamationPolitique.PrelevementMissions =>
+                    _politiqueGuilde.PourcentageGuildeMissions <=
+                    membre.SeuilPourcentageGuildeMissions,
+                ReclamationPolitique.EcartRangMissions =>
+                    EtatPolitiqueGuilde.MembreAccepteEcartMission(
                         membre.SeuilEcartNiveauMission,
-                        _politiqueGuilde.EcartNiveauMission));
+                        _politiqueGuilde.EcartNiveauMission),
+                ReclamationPolitique.PressionMissions =>
+                    _politiqueGuilde.ContrainteMission <= membre.SeuilContrainteMission,
+                _ => true
+            };
 
             if (accepte)
             {
@@ -423,12 +497,19 @@ public partial class MainMenu
             }
             else
             {
-                demande.Motif = demande.ClePolitique ==
-                    ReclamationPolitique.PrelevementMissions
-                    ? "Pourcentage récupéré par la guilde sur les missions : " +
-                        _politiqueGuilde.PourcentageGuildeMissions + " %"
-                    : "Écart de rang inférieur autorisé : " +
-                        TexteEcartMissionPolitique(_politiqueGuilde.EcartNiveauMission);
+                demande.Motif = demande.ClePolitique switch
+                {
+                    ReclamationPolitique.PrelevementMissions =>
+                        "Pourcentage récupéré par la guilde sur les missions : " +
+                        _politiqueGuilde.PourcentageGuildeMissions + " %",
+                    ReclamationPolitique.EcartRangMissions =>
+                        "Écart de rang inférieur autorisé : " +
+                        TexteEcartMissionPolitique(_politiqueGuilde.EcartNiveauMission),
+                    ReclamationPolitique.PressionMissions =>
+                        "Obligation de prendre des missions : " +
+                        TexteContrainteMissionPolitique(_politiqueGuilde.ContrainteMission),
+                    _ => demande.Motif
+                };
             }
         }
         return annulees;
