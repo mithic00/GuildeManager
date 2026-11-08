@@ -456,6 +456,72 @@ public partial class MainMenu
             "mission");
     }
 
+    /// <summary>
+    /// En cas de pression de mission, les membres oisifs sont tenus de
+    /// partir après 7 jours (légère / résultat attendu) ou 2 jours (grosse).
+    /// Seuls les rangs et les indisponibilités réelles restent bloquants :
+    /// aucun jet de Constitution, Volonté, ni condition de moral, bonheur,
+    /// fatigue ou statistique n'intervient pour accepter le départ.
+    /// </summary>
+    private void ForcerMissionsEquipesInactives(DateTime instant,
+        List<MissionGuilde> missionsDisponibles,
+        List<List<MembreGuilde>> equipes)
+    {
+        int pression = _politiqueGuilde?.ContrainteMission ?? 0;
+        if (pression == 0 || missionsDisponibles.Count == 0) return;
+        int joursMax = pression == 2 ? 2 : 7;
+
+        foreach (MissionGuilde mission in missionsDisponibles
+            .Where(m => m.Etat == "Disponible").OrderBy(_ => Random.Shared.Next()).ToList())
+        {
+            // Le tirage aléatoire est refait pour chaque mission, notamment
+            // lorsqu'une seule mission peut accueillir plusieurs équipes.
+            foreach (List<MembreGuilde> equipe in equipes.OrderBy(_ => Random.Shared.Next()))
+            {
+                if (equipe.Count == 0 ||
+                    !equipe.Any(m => MembreMissionInactifDepuis(m, instant, joursMax)) ||
+                    !equipe.All(m => RangMissionAutorisePourMembre(m, mission.Rang)) ||
+                    equipe.Any(m => m.Absent || !string.IsNullOrWhiteSpace(m.ConcoursEnCours)) ||
+                    (_traitementTempsDiscussion && _cibleDiscussion != null &&
+                     equipe.Any(m => m.Id == _cibleDiscussion.Id)) ||
+                    _etatMissions.Missions.Any(enCours =>
+                        enCours.Etat == "EnCours" &&
+                        enCours.ParticipantIds != null &&
+                        enCours.ParticipantIds.Any(id => equipe.Any(m => m.Id == id))))
+                    continue;
+
+                BonusTraitsMissions.Bilan bilan =
+                    BonusTraitsMissions.Evaluer(equipe, mission.Categorie);
+                DemarrerMissionEquipe(equipe, mission, instant, bilan);
+                AjouterEntreeJournal("Politique de guilde (" +
+                    TexteContrainteMissionPolitique(pression) +
+                    ") : départ obligatoire de " +
+                    (equipe.Count == 1 ? equipe[0].NomComplet :
+                        "l'équipe de " + equipe[0].NomComplet) +
+                    " après une période sans mission.", "politique");
+                break;
+            }
+        }
+    }
+
+    private static bool MembreMissionInactifDepuis(MembreGuilde membre,
+        DateTime instant, int jours)
+    {
+        if (membre == null) return false;
+
+        if (!DateTime.TryParseExact(membre.DateDerniereDisponibiliteMission,
+                "yyyy-MM-dd'T'HH:mm:ss",
+                System.Globalization.CultureInfo.InvariantCulture,
+                System.Globalization.DateTimeStyles.None, out DateTime depuis))
+        {
+            // Nouvelle partie : un membre sans date repart du présent,
+            // et ne sera pas forcé immédiatement par défaut.
+            membre.DateDerniereDisponibiliteMission = ReglesMissions.DateIso(instant);
+            return false;
+        }
+        return instant >= depuis.AddDays(jours);
+    }
+
     private void ProposerMissionsAuxEquipes(DateTime instant)
     {
         if (_etatMissions == null || _registreMembres == null) return;
@@ -467,9 +533,14 @@ public partial class MainMenu
                 ? "solo:" + m.Id : "equipe:" + m.EquipeId)
             .Select(g => g.ToList()).ToList();
 
+        // Priorité aux membres qui ont atteint le délai obligatoire.
+        // Les autres départs spontanés continuent avec leurs règles usuelles.
+        ForcerMissionsEquipesInactives(instant, disponibles, groupes);
+
         // L'ordre est à nouveau tiré pour CHAQUE mission.
         foreach (MissionGuilde mission in disponibles)
         {
+            if (mission.Etat != "Disponible") continue;
             foreach (var equipe in groupes.OrderBy(_ => Random.Shared.Next()))
             {
                 if (!equipe.All(m => RangMissionAutorisePourMembre(m, mission.Rang)) ||
@@ -550,6 +621,9 @@ public partial class MainMenu
                 ? Random.Shared.Next(1, participants.Count + 1) : 0;
             var morts = participants.OrderBy(_ => Random.Shared.Next()).Take(nombreMorts).ToList();
             var survivants = participants.Where(m => !morts.Contains(m)).ToList();
+            foreach (MembreGuilde survivant in survivants)
+                survivant.DateDerniereDisponibiliteMission = ReglesMissions.DateIso(instant);
+
             reclamantsDeRetour.AddRange(survivants.Where(m =>
                 ReclamationPolitiquePourMembre(m.Id)));
 
@@ -695,7 +769,37 @@ public partial class MainMenu
                     ReglesMissions.FormaterRang(mission.Rang) + " : " + mission.Categorie + ").", "mission");
             }
 
+            // Cette politique ne sanctionne que les résultats survenus alors
+            // qu'elle est effectivement active, jamais les anciens échecs.
+            // L'exclusion est appliquée après la résolution de tous les gains
+            // de mission, sans supprimer les personnages pendant l'itération.
+            List<MembreGuilde> exclusResultats = new();
+            foreach (MembreGuilde membre in survivants)
+            {
+                if ((_politiqueGuilde?.ContrainteMission ?? 0) != 3)
+                {
+                    membre.EchecsMissionsConsecutifsSousPression = 0;
+                    continue;
+                }
+                membre.EchecsMissionsConsecutifsSousPression = victoire
+                    ? 0 : membre.EchecsMissionsConsecutifsSousPression + 1;
+                if (!victoire && membre.EchecsMissionsConsecutifsSousPression >= 3)
+                    exclusResultats.Add(membre);
+            }
+
             foreach (MembreGuilde mort in morts) _registreMembres.Membres.Remove(mort);
+            foreach (MembreGuilde exclu in exclusResultats)
+            {
+                _historiqueMembres?.Ajouter(exclu, instant, "DepartGuilde",
+                    "Exclu après trois missions échouées consécutivement sous " +
+                    "la politique Résultat attendu.", mission);
+                AjouterEntreeJournal(exclu.NomComplet +
+                    " est exclu de la guilde après 3 échecs de mission consécutifs " +
+                    "(politique Résultat attendu).", "politique");
+                _registreMembres.Membres.Remove(exclu);
+                _reclamationsPolitique?.EnAttente.RemoveAll(r => r.MembreId == exclu.Id);
+            }
+
             _etat.Membres = _registreMembres.Membres.Count;
             _etat.Pouvoir = _registreMembres.Membres.Sum(m => (long)m.NiveauMagique);
             foreach (var exclu in _registreMembres.Membres.Where(m => !m.EstMaitreDeGuilde && m.Bonheur <= 0).ToList())
