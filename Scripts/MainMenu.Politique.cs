@@ -161,6 +161,7 @@ public partial class MainMenu
         bool modifiee = _politiqueGuilde.Serialiser() != nouvellePolitique.Serialiser();
         int ancienPrelevement = _politiqueGuilde.PourcentageGuildeMissions;
         int ancienEcart = _politiqueGuilde.EcartNiveauMission;
+        int anciennePression = _politiqueGuilde.ContrainteMission;
         _politiqueGuilde = nouvellePolitique;
         _fenetrePolitique.Hide();
         if (modifiee)
@@ -178,6 +179,15 @@ public partial class MainMenu
         if (nouvellePolitique.EcartNiveauMission != ancienEcart)
             EvaluerProtestationsEcartMissions(ancienEcart,
                 nouvellePolitique.EcartNiveauMission);
+        if (nouvellePolitique.ContrainteMission != anciennePression)
+        {
+            // La série de trois échecs appartient uniquement à une période
+            // durant laquelle la politique Résultat attendu est active.
+            if (anciennePression == 3 || nouvellePolitique.ContrainteMission == 3)
+                ReinitialiserEchecsConsecutifsSousPression();
+            EvaluerProtestationsContrainteMissions(anciennePression,
+                nouvellePolitique.ContrainteMission);
+        }
     }
 
     private void AnnulerPolitiqueGuilde()
