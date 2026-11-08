@@ -5,8 +5,8 @@ using System.Linq;
 
 /// <summary>
 /// Infrastructure des protestations liées aux décisions de politique.
-/// AUCUNE règle ne choisit encore les mécontents : un futur système devra
-/// appeler SignalerMecontentementsPolitique avec les membres et les motifs.
+/// Les politiques de prélèvement, d'écart de rang et de pression sur les
+/// missions déterminent les mécontents et alimentent cette file persistante.
 /// </summary>
 public partial class MainMenu
 {
