@@ -457,6 +457,17 @@ public partial class MainMenu
     }
 
     /// <summary>
+    /// Une nouvelle période « Résultat attendu » commence avec zéro échec.
+    /// Une politique désactivée ne conserve pas une ancienne série punitive.
+    /// </summary>
+    private void ReinitialiserEchecsConsecutifsSousPression()
+    {
+        if (_registreMembres?.Membres == null) return;
+        foreach (MembreGuilde membre in _registreMembres.Membres)
+            membre.EchecsMissionsConsecutifsSousPression = 0;
+    }
+
+    /// <summary>
     /// En cas de pression de mission, les membres oisifs sont tenus de
     /// partir après 7 jours (légère / résultat attendu) ou 2 jours (grosse).
     /// Seuls les rangs et les indisponibilités réelles restent bloquants :
