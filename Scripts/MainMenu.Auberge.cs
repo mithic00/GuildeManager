@@ -171,7 +171,10 @@ public partial class MainMenu
     /// <summary>Retourne vrai si l'événement interrompt la minute qui vient d'être avancée.</summary>
     private bool VerifierRendezVousAuberge()
     {
-        if (_aubergeEtat?.RendezVous == null || _aubergeEtat.RendezVous.EnCours)
+        // Le rendez-vous reste dû, mais n'ouvre pas son interface
+        // pendant que le personnage joueur est parti en mission.
+        if (JoueurEnMission || _aubergeEtat?.RendezVous == null ||
+            _aubergeEtat.RendezVous.EnCours)
             return false;
         if (!HeureRendezVousAtteinte()) return false;
         // L'horaire est respecté, mais l'interface attend la fin de l'échange.
