@@ -82,6 +82,10 @@ public partial class MainMenu : Control
         ActualiserAnniversaires();
         if (_horloge != null)
             TraiterRetoursConcours(_horloge.Instant);
+
+        // Recharge correctement l'interface si la sauvegarde a été
+        // effectuée pendant une mission du personnage joueur.
+        ActualiserBoutonTemps();
     }
 
     private void ChargerAffichage()
