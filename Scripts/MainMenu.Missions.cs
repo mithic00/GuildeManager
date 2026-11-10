@@ -152,18 +152,33 @@ public partial class MainMenu
     }
 
     /// <summary>
-    /// La liste validée dans la fenêtre Politique comporte les mêmes
-    /// libellés que les catégories de ReglesMissions. Ne concerne que les
-    /// propositions ordinaires : les missions déjà acceptées ou créées
-    /// directement par un événement scénarisé ne sont pas supprimées.
+    /// Correspondance des libellés des clients de l'ItemList avec les
+    /// identifiants de demandeur utilisés par le générateur de missions.
+    /// La scène affiche « Particulier de danger » pour le type « Particulier ».
     /// </summary>
-    private bool MissionInterditeParPolitique(MissionGuilde mission) =>
-        mission != null && _politiqueGuilde?.MissionsInterdites?.Contains(
-            mission.Categorie, StringComparer.Ordinal) == true;
+    private static string TypeClientPourPolitique(string libelle) =>
+        libelle == "Particulier de danger" ? "Particulier" : libelle;
 
     /// <summary>
-    /// Refus immédiat, sans conséquence de réussite/échec ou de réputation.
-    /// La proposition disparaît et ne déclenche aucune fenêtre modale.
+    /// Seules les nouvelles propositions ordinaires sont filtrées.
+    /// Les missions déjà acceptées et celles ajoutées directement par un
+    /// événement scénarisé restent indépendantes de cette interdiction.
+    /// </summary>
+    private bool MissionInterditeParPolitique(MissionGuilde mission)
+    {
+        if (mission == null || _politiqueGuilde == null) return false;
+        bool categorieInterdite = _politiqueGuilde.MissionsInterdites?.Contains(
+            mission.Categorie, StringComparer.Ordinal) == true;
+        bool clientInterdit = _politiqueGuilde.ClientsInterdits?.Any(client =>
+            string.Equals(TypeClientPourPolitique(client), mission.Demandeur,
+                StringComparison.Ordinal)) == true;
+        return categorieInterdite || clientInterdit;
+    }
+
+    /// <summary>
+    /// Refus automatique des propositions incompatibles avec une catégorie
+    /// ou un type de client interdit. Aucun nouvel essai de génération,
+    /// ni pénalité de réputation ou de résultat de mission.
     /// </summary>
     private bool RefuserPropositionInterditeParPolitique()
     {
@@ -171,11 +186,16 @@ public partial class MainMenu
             !MissionInterditeParPolitique(_etatMissions.Proposition))
             return false;
 
-        string categorie = _etatMissions.Proposition.Categorie;
+        MissionGuilde mission = _etatMissions.Proposition;
+        bool categorieInterdite = _politiqueGuilde.MissionsInterdites?.Contains(
+            mission.Categorie, StringComparer.Ordinal) == true;
+        string motif = categorieInterdite
+            ? "catégorie interdite : " + mission.Categorie
+            : "type de client interdit : " + mission.Demandeur;
         _etatMissions.Proposition = null;
         _fenetreNouvelleMission?.Hide();
         AjouterEntreeJournal("Mission refusée automatiquement selon la politique " +
-            "de la guilde (catégorie interdite : " + categorie + ").", "politique");
+            "de la guilde (" + motif + ").", "politique");
         return true;
     }
 
