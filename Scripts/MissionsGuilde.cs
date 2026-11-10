@@ -369,13 +369,15 @@ public static class ReglesMissions
     /// </summary>
     public static bool AppliquerPromotionsAcquises(MembreGuilde membre)
     {
-        if (membre == null || membre.EstMaitreDeGuilde)
+        if (membre == null)
             return false;
 
+        // Le maître de guilde progresse lui aussi dans les rangs internes
+        // des missions, tout en gardant son classement réservé MG (-1).
         if (membre.NiveauMagique >= 1000 && membre.Rang != "U")
         {
             membre.Rang = "U";
-            membre.Classement = 0;
+            membre.Classement = membre.EstMaitreDeGuilde ? -1 : 0;
             return true;
         }
 
