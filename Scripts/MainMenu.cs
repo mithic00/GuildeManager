@@ -65,6 +65,10 @@ public partial class MainMenu : Control
         }
         InitialiserNavigationEtMembres();
         InitialiserTempsEtJournal();
+        // Le registre financier doit exister avant les autres systèmes.
+        // Une erreur de nœud dans le bureau ou l'inventaire n'empêche
+        // ainsi plus l'historisation des récompenses de mission.
+        InitialiserRegistreBudget();
         InitialiserRecrutementAuberge();
         InitialiserNavigationMagasins();
         InitialiserMissions();
