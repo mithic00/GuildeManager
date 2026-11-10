@@ -34,8 +34,7 @@ public partial class MainMenu
         GetNode<Button>("FenetreInfoMission/Marge/Layout/Boutons/ButtonFermer")
             .Pressed += () => _fenetreInfoMission.Hide();
         _fenetreInfoMission.CloseRequested += () => _fenetreInfoMission.Hide();
-        // La prise de mission par le maître de guilde sera développée séparément.
-        GetNode<Button>("FenetreInfoMission/Marge/Layout/Boutons/BoutonPrendre").Disabled = true;
+        InitialiserPriseMissionJoueur();
         _fenetreInfoMission.Hide();
 
         GetNode<Button>("FenetreNouvelleMission/Marge/Layout/Boutons/BoutonAccepter")
@@ -66,6 +65,7 @@ public partial class MainMenu
     {
         if (_etatMissions == null || _horloge == null) return false;
         DateTime maintenant = _horloge.Instant;
+        bool joueurEnMissionAvantRetour = JoueurEnMission;
         TirerApparitionAuJalon(maintenant);
 
         TerminerMissionsArrivees(maintenant);
@@ -78,9 +78,22 @@ public partial class MainMenu
         else if ((_politiqueGuilde?.ContrainteMission ?? 0) != 0)
             VerifierDepartObligatoireMission(maintenant);
 
-        // Les traitements de 08h ne doivent pas être sautés si un concours
-        // se termine exactement à ce jalon. Arrêter ensuite l'horloge.
-        if (concoursTermine)
+        // Au retour du personnage joueur, lui rendre immédiatement la main.
+        // Les rendez-vous et propositions arrivés durant son absence restent
+        // en attente sans être perdus : ils s'ouvriront après son retour.
+        if (joueurEnMissionAvantRetour && !JoueurEnMission)
+        {
+            InterrompreAvanceeTemps("Votre personnage est revenu de mission.");
+            ActualiserBoutonTemps();
+            if (_etatMissions.Proposition?.Etat == "Proposee")
+                CallDeferred(nameof(AfficherPropositionMission));
+            CallDeferred(nameof(VerifierReclamationsPolitique));
+            return true;
+        }
+
+        // Les retours de concours n'interrompent pas une mission du joueur.
+        // Les traitements quotidiens ont déjà été exécutés pour cette minute.
+        if (concoursTermine && !JoueurEnMission)
         {
             if (!_traitementTempsDiscussion)
                 InterrompreAvanceeTemps();
@@ -106,6 +119,10 @@ public partial class MainMenu
         if (RefuserPropositionInterditeParPolitique())
             return false;
 
+        // Pendant la mission du maître de guilde, la proposition demeure
+        // enregistrée, sans fenêtre ou arrêt forcé de l'horloge.
+        if (JoueurEnMission)
+            return false;
         if (!_traitementTempsDiscussion)
         {
             InterrompreAvanceeTemps("Une nouvelle mission est proposée à la guilde.");
@@ -203,7 +220,7 @@ public partial class MainMenu
 
     private void AfficherPropositionMission()
     {
-        if (_etatMissions?.Proposition == null ||
+        if (JoueurEnMission || _etatMissions?.Proposition == null ||
             RefuserPropositionInterditeParPolitique())
             return;
         MissionGuilde mission = _etatMissions.Proposition;
@@ -270,6 +287,9 @@ public partial class MainMenu
             _tableauDesMissions.AddChild(bouton);
         }
         PositionnerParchemins();
+        // Les boutons de mission sont recréés dynamiquement : ils doivent
+        // rester désactivés si le personnage joueur est absent.
+        SynchroniserBoutonsMissionJoueur();
     }
 
     /// <summary>
@@ -362,8 +382,12 @@ public partial class MainMenu
 
     private void OuvrirInfoMission(MissionGuilde mission)
     {
-        if (mission == null || _detailsMission == null || _fenetreInfoMission == null)
+        if (mission == null || _detailsMission == null || _fenetreInfoMission == null ||
+            JoueurEnMission || _tempsEnCours)
             return;
+
+        _missionSelectionneePourJoueur = mission;
+        ActualiserPriseMissionJoueur();
 
         bool enCours = mission.Etat == "EnCours";
         string texte = (string.IsNullOrEmpty(mission.Titre) ? "" :
