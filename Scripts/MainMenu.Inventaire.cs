@@ -36,7 +36,7 @@ public partial class MainMenu
             _listesInventaireBureau[conteneur.Name.ToString()] = liste;
         }
 
-        GetNode<Button>(racine + "ButtonFermer").Pressed +=
+        GetNode<Button>(racine + "Boutons/ButtonFermer").Pressed +=
             () => _fenetreInventaireBureau.Hide();
     }
 
