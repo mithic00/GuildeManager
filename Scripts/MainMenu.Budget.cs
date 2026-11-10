@@ -20,6 +20,27 @@ public partial class MainMenu
     private Label _labelPeriodeBudget;
     private RichTextLabel _entreesBudget, _sortiesBudget, _sortiesBudget2, _sortiesBudget3;
 
+    /// <summary>
+    /// Charge le registre comptable dès que l'état et l'horloge sont prêts,
+    /// indépendamment de l'initialisation des fenêtres du bureau.
+    /// Un nœud manquant dans une interface ne doit jamais empêcher
+    /// l'historisation des recettes et dépenses de la partie.
+    /// </summary>
+    private void InitialiserRegistreBudget()
+    {
+        if (_budget != null) return;
+
+        if (_etat == null || _horloge == null)
+        {
+            GD.PushError("MainMenu : impossible d'initialiser le budget sans état et horloge.");
+            return;
+        }
+
+        _budget = RegistreBudget.ChargerOuInitialiser(_etat.Ecus, _horloge.Instant);
+        if (_budget == null)
+            GD.PushError("MainMenu : registre du budget indisponible.");
+    }
+
     private void InitialiserBudgetEtBureau()
     {
         const string baseBudget = "FenetreBudget/Marge/Layout/";
@@ -61,10 +82,9 @@ public partial class MainMenu
         InitialiserCalendrier();
         InitialiserPolitiqueGuilde();
 
-        if (_etat != null && _horloge != null)
-            _budget = RegistreBudget.ChargerOuInitialiser(_etat.Ecus, _horloge.Instant);
-        if (_budget == null)
-            GD.PushError("MainMenu : registre du budget indisponible.");
+        // Le registre a déjà été chargé avant toute initialisation d'interface.
+        // Ne surtout pas le recréer ici : des transactions peuvent déjà
+        // avoir été inscrites par d'autres systèmes au démarrage.
         RafraichirBudget();
     }
 
