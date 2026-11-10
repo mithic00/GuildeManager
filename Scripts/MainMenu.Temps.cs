@@ -39,6 +39,9 @@ public partial class MainMenu
         _progressionTemps.Hide();
 
         _journalAffichage = GetNode<RichTextLabel>("JournalJoueur/MarginContainer/InfoJournalJoueur");
+        // Les entrées de retour/résultat possédant un identifiant de mission
+        // deviennent consultables depuis le journal, sans nouvel élément UI.
+        _journalAffichage.MetaClicked += OuvrirRapportMissionDepuisJournal;
 
         _horloge = HorlogeJeu.Charger();
         _journalPartie = JournalPartie.ChargerOuCreer();
@@ -320,12 +323,13 @@ public partial class MainMenu
                description.StartsWith("Jalon horaire atteint :", StringComparison.Ordinal);
     }
 
-    private void AjouterEntreeJournal(string description, string type)
+    private void AjouterEntreeJournal(string description, string type,
+        string missionId = "")
     {
         if (_journalPartie == null || _horloge == null)
             return;
 
-        if (!_journalPartie.Ajouter(_horloge.Instant, description, type))
+        if (!_journalPartie.Ajouter(_horloge.Instant, description, type, missionId))
         {
             GD.PushWarning("MainMenu : erreur d'écriture du journal : " + JournalPartie.DerniereErreur);
             return;
@@ -375,8 +379,20 @@ public partial class MainMenu
             };
             if (couleurResultat.HasValue)
                 _journalAffichage.PushColor(couleurResultat.Value);
+
+            // PushMeta rend le message ENTIER cliquable. AddText interprète
+            // toujours les noms des membres comme du texte brut, jamais
+            // comme du BBCode, et conserve les couleurs existantes.
+            bool avecRapport = !string.IsNullOrWhiteSpace(entree.MissionId);
+            if (avecRapport)
+                _journalAffichage.PushMeta(entree.MissionId);
+
             _journalAffichage.AddText("[" + date + "] " +
-                ReglesMissions.FormaterRangsDansTexte(entree.Description) + "\n");
+                ReglesMissions.FormaterRangsDansTexte(entree.Description) +
+                (avecRapport ? "  [Lire le rapport]" : "") + "\n");
+
+            if (avecRapport)
+                _journalAffichage.Pop();
             if (couleurResultat.HasValue)
                 _journalAffichage.Pop();
         }
