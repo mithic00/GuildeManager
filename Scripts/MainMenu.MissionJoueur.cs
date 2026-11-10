@@ -119,6 +119,12 @@ public partial class MainMenu
     {
         if (JoueurEnMission)
         {
+            // Les parchemins de mission sont recréés régulièrement.
+            // Ne pas garder en mémoire leurs anciens boutons libérés.
+            foreach (BaseButton obsolete in _boutonsAvantMissionJoueur.Keys
+                .Where(b => !GodotObject.IsInstanceValid(b)).ToList())
+                _boutonsAvantMissionJoueur.Remove(obsolete);
+
             foreach (BaseButton bouton in BoutonsDuSousArbre(this))
             {
                 if (bouton == _boutonAvancerTemps) continue;
