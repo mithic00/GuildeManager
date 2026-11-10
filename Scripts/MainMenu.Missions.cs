@@ -87,6 +87,8 @@ public partial class MainMenu
             // ne pas ajouter une entrée technique d'avancée du temps.
             ArreterHorlogeSansJournal();
             ActualiserBoutonTemps();
+            if (_etat?.PartieTerminee == true)
+                return true;
             if (_etatMissions.Proposition?.Etat == "Proposee")
                 CallDeferred(nameof(AfficherPropositionMission));
             CallDeferred(nameof(VerifierReclamationsPolitique));
