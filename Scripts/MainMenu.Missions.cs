@@ -96,7 +96,8 @@ public partial class MainMenu
         _etatMissions.Proposition = ReglesMissions.Generer(_registreMembres.Membres,
             _filRouge != null && FilRougeEstRoseVallee ?
                 _filRouge.MultiplicateurMissions("Commerçant de la ville") : 1.0,
-            _politiqueGuilde?.MissionsPreferees);
+            _politiqueGuilde?.MissionsPreferees,
+            TypeClientPourPolitique(_politiqueGuilde?.ClientPrefere));
         if (_etatMissions.Proposition == null) return false;
 
         // Une catégorie interdite par la politique confirmée est refusée
