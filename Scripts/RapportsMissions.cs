@@ -190,6 +190,45 @@ public static class RapportsMissions
             .Replace("leur aide", "son aide", StringComparison.Ordinal);
     }
 
+    /// <summary>
+    /// Réécrit à la consultation les anciens rapports de réussite ou d'échec
+    /// sans décès (déjà figés avant l'ajout des variantes). On conserve les
+    /// mêmes événements et le même résultat, sans relancer aucune résolution.
+    /// Les rapports avec des décès sont laissés intacts, afin de préserver
+    /// leurs informations nominatives.
+    /// </summary>
+    public static void ModerniserAncienRapport(MissionGuilde mission)
+    {
+        if (mission == null || string.IsNullOrWhiteSpace(mission.RapportNarratif))
+            return;
+
+        bool ancienneReussite = mission.Reussie == true &&
+            mission.RapportNarratif.Contains(
+                "Finalement, la tâche confiée a été accomplie", StringComparison.Ordinal);
+        bool ancienEchecSimple = mission.Reussie == false &&
+            mission.RapportNarratif.Contains(
+                "Malgré les efforts déployés, le contrat n'a pas pu être rempli",
+                StringComparison.Ordinal);
+        if (!ancienneReussite && !ancienEchecSimple)
+            return;
+
+        List<string> anciennesEtapes = (mission.EtapesRapport ?? new List<string>())
+            .Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+        int duree = mission.JoursEcoules;
+        mission.EtapesRapport = new List<string>();
+        foreach (string etape in anciennesEtapes)
+        {
+            // Les étapes déjà mémorisées conservent leur ordre. Le jour
+            // temporaire ne sert qu'à sélectionner des formulations distinctes.
+            mission.JoursEcoules = mission.EtapesRapport.Count + 1;
+            Consigner(mission, etape);
+        }
+        mission.JoursEcoules = duree;
+        mission.RapportNarratif = Rediger(mission, null,
+            ancienneReussite ? IssueMission.Reussite : IssueMission.Echec,
+            Array.Empty<MembreGuilde>());
+    }
+
     public static string Rediger(MissionGuilde mission,
         IReadOnlyList<MembreGuilde> participants, IssueMission issue,
         IReadOnlyList<MembreGuilde> morts)
