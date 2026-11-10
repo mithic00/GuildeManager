@@ -128,6 +128,10 @@ public partial class MainMenu
         if (_filRougeDialogueActif || _filRouge.AttendRue4 || _filRouge.ActeEnCours > 0)
             return false;
         PreparerProchainEvenementFilRouge();
+        // Les délais et événements passifs continuent de progresser, mais
+        // aucun dialogue avec un choix ne doit interrompre le joueur absent.
+        if (JoueurEnMission)
+            return false;
         DateTime? prevu = LireDateFilRouge(_filRouge.DateEvenement);
         if (prevu == null || prevu > maintenant || !DansPlageFilRouge(maintenant))
             return false;
