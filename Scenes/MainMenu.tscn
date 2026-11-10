@@ -3603,7 +3603,26 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.76862746, 0.5921569, 0.39607844, 1)
 theme_override_styles/panel = SubResource("StyleBoxFlat_bxv1r")
 
-[node name="ButtonFermer" type="Button" parent="FenetreInventaire/Marge/Layout" unique_id=2054338732]
+[node name="Boutons" type="HBoxContainer" parent="FenetreInventaire/Marge/Layout" unique_id=1374272650]
+layout_mode = 2
+theme_override_constants/separation = 52
+alignment = 1
+
+[node name="ButtonUtiliser" type="Button" parent="FenetreInventaire/Marge/Layout/Boutons" unique_id=2054338732]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Utiliser"
+
+[node name="ButtonDetruire" type="Button" parent="FenetreInventaire/Marge/Layout/Boutons" unique_id=1485701906]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Détruire"
+
+[node name="ButtonFermer" type="Button" parent="FenetreInventaire/Marge/Layout/Boutons" unique_id=701113596]
 custom_minimum_size = Vector2(260, 65)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -4124,3 +4143,44 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Fermer"
+
+[node name="FenetreRapportMission" type="Window" parent="." unique_id=1177939133]
+transparent_bg = true
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(1200, 800)
+visible = false
+exclusive = true
+unresizable = true
+transparent = true
+
+[node name="Marge" type="MarginContainer" parent="FenetreRapportMission" unique_id=1683976409]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="Layout" type="VBoxContainer" parent="FenetreRapportMission/Marge" unique_id=1505493749]
+layout_mode = 2
+
+[node name="InfoMission" type="RichTextLabel" parent="FenetreRapportMission/Marge/Layout" unique_id=565504340]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.7607843, 0.5921569, 0.3882353, 1)
+theme_override_fonts/normal_font = ExtResource("11_if7li")
+theme_override_font_sizes/normal_font_size = 30
+text = "Ceci est un texte de test"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BoutonFermer" type="Button" parent="FenetreRapportMission/Marge/Layout" unique_id=328798922]
+custom_minimum_size = Vector2(260, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "OK"
