@@ -731,6 +731,7 @@ public partial class MainMenu
     {
         if (_etatMissions == null || _registreMembres == null || _etat == null) return;
         List<MembreGuilde> reclamantsDeRetour = new();
+        bool joueurDecedeCetteMinute = false;
         foreach (MissionGuilde mission in _etatMissions.Missions.Where(m =>
             m.Etat == "EnCours" && !string.IsNullOrEmpty(m.DateRetour) &&
             ReglesMissions.LireDate(m.DateRetour) <= instant).ToList())
@@ -760,6 +761,16 @@ public partial class MainMenu
                 ? Random.Shared.Next(1, participants.Count + 1) : 0;
             var morts = participants.OrderBy(_ => Random.Shared.Next()).Take(nombreMorts).ToList();
             var survivants = participants.Where(m => !morts.Contains(m)).ToList();
+            if (morts.Any(m => m.EstJoueur))
+            {
+                // La mortalité reste identique à celle des autres membres.
+                // Sans maître de guilde survivant, la partie se termine
+                // plutôt que de laisser un état de jeu sans personnage joueur.
+                joueurDecedeCetteMinute = true;
+                _etat.PartieTerminee = true;
+                AjouterEntreeJournal("Le maître de guilde est décédé au cours de " +
+                    "sa mission. La partie est terminée.", "mission_deces");
+            }
 
             // Le récit reflète les événements et jets réellement effectués.
             // Il est figé dès le retour pour demeurer identique après sauvegarde.
@@ -923,7 +934,10 @@ public partial class MainMenu
             List<MembreGuilde> exclusResultats = new();
             foreach (MembreGuilde membre in survivants)
             {
-                if ((_politiqueGuilde?.ContrainteMission ?? 0) != 3)
+                // Le maître de guilde ne peut pas être exclu de sa propre
+                // guilde par une politique de pression qu'il a choisie.
+                if (membre.EstJoueur || membre.EstMaitreDeGuilde ||
+                    (_politiqueGuilde?.ContrainteMission ?? 0) != 3)
                 {
                     membre.EchecsMissionsConsecutifsSousPression = 0;
                     continue;
@@ -1025,6 +1039,12 @@ public partial class MainMenu
             }
         }
         RaffraichirTableauMissions();
+        if (joueurDecedeCetteMinute)
+        {
+            AfficherInformation("Votre personnage est décédé en mission. " +
+                "La partie est terminée. Vous pouvez sauvegarder puis quitter.");
+            return;
+        }
         ReclamationPolitiqueAuRetourMission(reclamantsDeRetour.Where(m =>
             _registreMembres.Membres.Contains(m)));
     }
