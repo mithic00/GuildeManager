@@ -506,6 +506,9 @@ public partial class MainMenu
         mission.DateDepart = ReglesMissions.DateIso(instant);
         mission.DateRetour = ReglesMissions.DateIso(instant.AddDays(1));
         mission.ParticipantIds = equipe.Select(m => m.Id).ToList();
+        mission.ParticipantsRapport = equipe.Select(m => m.NomComplet).ToList();
+        mission.EtapesRapport = new List<string>();
+        mission.RapportNarratif = "";
         foreach (MembreGuilde membre in equipe)
             _historiqueMembres?.Ajouter(membre, instant, "DepartMission",
                 "Départ en mission : " + mission.Categorie + " (" +
@@ -731,6 +734,11 @@ public partial class MainMenu
                 ? Random.Shared.Next(1, participants.Count + 1) : 0;
             var morts = participants.OrderBy(_ => Random.Shared.Next()).Take(nombreMorts).ToList();
             var survivants = participants.Where(m => !morts.Contains(m)).ToList();
+
+            // Le récit reflète les événements et jets réellement effectués.
+            // Il est figé dès le retour pour demeurer identique après sauvegarde.
+            mission.RapportNarratif = RapportsMissions.Rediger(
+                mission, participants, resultat.Issue, morts);
             foreach (MembreGuilde survivant in survivants)
                 survivant.DateDerniereDisponibiliteMission = ReglesMissions.DateIso(instant);
 
@@ -875,8 +883,11 @@ public partial class MainMenu
                 string sujetRetour = survivants.Count > 1
                     ? "Equipe de " + survivants[0].NomComplet
                     : survivants[0].NomComplet;
-                AjouterEntreeJournal(sujetRetour + " rentre de mission (" +
-                    ReglesMissions.FormaterRang(mission.Rang) + " : " + mission.Categorie + ").", "mission");
+                AjouterEntreeJournal(sujetRetour +
+                    (victoire ? " rentre de mission avec succès (" :
+                        " rentre de mission (") +
+                    ReglesMissions.FormaterRang(mission.Rang) + " : " +
+                    mission.Categorie + ").", "mission", mission.Id);
             }
 
             // Cette politique ne sanctionne que les résultats survenus alors
@@ -957,7 +968,7 @@ public partial class MainMenu
             // couleur reste la même après sauvegarde et rechargement.
             string typeResultat = victoire ? "mission_reussite" :
                 morts.Count > 0 ? "mission_deces" : "mission_echec";
-            AjouterEntreeJournal(descriptionResultat, typeResultat);
+            AjouterEntreeJournal(descriptionResultat, typeResultat, mission.Id);
             if (victoire && mission.MalusVolonteTraits < 0 &&
                 !string.IsNullOrWhiteSpace(mission.MembreDefavorableNom))
             {
