@@ -25,7 +25,7 @@ public partial class MainMenu
 
     private void OuvrirRapportMissionDepuisJournal(Variant meta)
     {
-        if (_tempsEnCours || _traitementTempsDiscussion ||
+        if (_tempsEnCours || _traitementTempsDiscussion || JoueurEnMission ||
             _fenetreRapportMission == null || _etatMissions?.Missions == null)
             return;
 
