@@ -193,7 +193,8 @@ public static class ReglesMissions
 
     public static MissionGuilde Generer(IEnumerable<MembreGuilde> membres,
         double facteurCommercants = 1.0,
-        IEnumerable<string> categoriesPreferees = null)
+        IEnumerable<string> categoriesPreferees = null,
+        string clientPrefere = null)
     {
         // Les missions U ne peuvent jamais apparaître naturellement.
         // Une mission n'apparaît que si un membre de la guilde possède le rang demandé.
@@ -249,6 +250,29 @@ public static class ReglesMissions
             .Where(d => DemandeurAccepte(d, categorie.Nom, indexRang)).ToArray();
         double[] poidsDemandeurs = demandeursValides.Select(d =>
             d == "Commerçant de la ville" ? Math.Max(0, facteurCommercants) : 1.0).ToArray();
+
+        // Spécialisation client : chaque AUTRE demandeur cède 30 % de
+        // sa probabilité initiale au seul client préféré. Cela conserve
+        // la somme des poids et les modificateurs existants (notamment
+        // ceux des commerçants de la ville liés au fil rouge).
+        //
+        // Seuls les demandeurs autorisés pour cette catégorie et ce rang
+        // participent au transfert. Si le client préféré n'est pas
+        // disponible ici (ou a un poids nul), le tirage reste inchangé.
+        int indiceClientPrefere = Array.IndexOf(demandeursValides, clientPrefere ?? "");
+        if (indiceClientPrefere >= 0 && poidsDemandeurs[indiceClientPrefere] > 0)
+        {
+            double transfert = 0.0;
+            for (int i = 0; i < poidsDemandeurs.Length; i++)
+            {
+                if (i == indiceClientPrefere) continue;
+                double prelevement = poidsDemandeurs[i] * 0.30;
+                poidsDemandeurs[i] -= prelevement;
+                transfert += prelevement;
+            }
+            poidsDemandeurs[indiceClientPrefere] += transfert;
+        }
+
         double tirageDemandeur = Random.Shared.NextDouble() * poidsDemandeurs.Sum();
         string demandeur = demandeursValides[^1];
         for (int i = 0; i < demandeursValides.Length; i++)
