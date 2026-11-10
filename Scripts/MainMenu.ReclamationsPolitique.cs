@@ -339,8 +339,8 @@ public partial class MainMenu
     /// </summary>
     private void VerifierReclamationsPolitique()
     {
-        if (_reclamationsPolitique == null || _registreMembres == null ||
-            _horloge == null || _fenetreDiscussion == null ||
+        if (JoueurEnMission || _reclamationsPolitique == null ||
+            _registreMembres == null || _horloge == null || _fenetreDiscussion == null ||
             _dialogueReclamationPolitiqueActif || _filRougeDialogueActif ||
             _discussionEnCours || _traitementTempsDiscussion ||
             _fenetreDiscussion.Visible ||
@@ -725,8 +725,9 @@ public partial class MainMenu
 
         AjouterEntreeJournal("Politique de guilde : un membre revenu de mission " +
             "demande à être entendu au sujet des décisions de la guilde.", "politique");
-        if (!_traitementTempsDiscussion && _tempsEnCours)
+        if (!JoueurEnMission && !_traitementTempsDiscussion && _tempsEnCours)
             InterrompreAvanceeTemps("Un membre revient de mission et souhaite une discussion.");
-        CallDeferred(nameof(VerifierReclamationsPolitique));
+        if (!JoueurEnMission)
+            CallDeferred(nameof(VerifierReclamationsPolitique));
     }
 }
