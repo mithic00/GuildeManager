@@ -157,6 +157,39 @@ public static class RapportsMissions
         _ => new[] { scene }
     };
 
+    /// <summary>
+    /// Ajustements grammaticaux des étapes pré-écrites, qui parlent souvent
+    /// d'une équipe. Ils ne modifient ni l'action ni son issue.
+    /// </summary>
+    private static string AdapterEtapesAuSolo(string etapes, string nom)
+    {
+        return etapes
+            .Replace("L'équipe a ", nom + " a ", StringComparison.Ordinal)
+            .Replace("L'équipe est ", nom + " est ", StringComparison.Ordinal)
+            .Replace("l'équipe a ", nom + " a ", StringComparison.Ordinal)
+            .Replace("l'équipe ", nom + " ", StringComparison.Ordinal)
+            .Replace("L'équipe ", nom + " ", StringComparison.Ordinal)
+            .Replace("Le groupe a ", nom + " a ", StringComparison.Ordinal)
+            .Replace("le groupe a ", nom + " a ", StringComparison.Ordinal)
+            .Replace("le groupe ", nom + " ", StringComparison.Ordinal)
+            .Replace("Le groupe ", nom + " ", StringComparison.Ordinal)
+            .Replace("Les membres ont ", nom + " a ", StringComparison.Ordinal)
+            .Replace("les membres ont ", nom + " a ", StringComparison.Ordinal)
+            .Replace("Les membres ", nom + " ", StringComparison.Ordinal)
+            .Replace("les membres ", nom + " ", StringComparison.Ordinal)
+            .Replace("Les gardiens ont ", nom + " a ", StringComparison.Ordinal)
+            .Replace("les gardiens ont ", nom + " a ", StringComparison.Ordinal)
+            .Replace("les gardiens ", nom + " ", StringComparison.Ordinal)
+            .Replace("des gardiens ", "de " + nom + " ", StringComparison.Ordinal)
+            .Replace("Les défenseurs ont ", nom + " a ", StringComparison.Ordinal)
+            .Replace("Les défenseurs ", nom + " ", StringComparison.Ordinal)
+            .Replace("leur sang-froid", "son sang-froid", StringComparison.Ordinal)
+            .Replace("leurs postes", "son poste", StringComparison.Ordinal)
+            .Replace("leur position", "sa position", StringComparison.Ordinal)
+            .Replace("leur discipline", "sa discipline", StringComparison.Ordinal)
+            .Replace("leur aide", "son aide", StringComparison.Ordinal);
+    }
+
     public static string Rediger(MissionGuilde mission,
         IReadOnlyList<MembreGuilde> participants, IssueMission issue,
         IReadOnlyList<MembreGuilde> morts)
@@ -209,7 +242,8 @@ public static class RapportsMissions
             "Renfort pour Assaut" => "de renfort à un assaut",
             _ => "de type « " + (mission.Categorie ?? "inconnu") + " »"
         };
-        string introduction = sujet + " a répondu à la demande " +
+        string introduction = sujet + (noms.Length == 0
+            ? " ont répondu à la demande " : " a répondu à la demande ") +
             origine + " pour une mission " + typeMission + ".";
 
         string rythme = jours switch
@@ -238,6 +272,11 @@ public static class RapportsMissions
                 "Service" => "La mission a demandé patience et attention aux personnes rencontrées.",
                 _ => "L'équipe a progressé en suivant les instructions du commanditaire."
             };
+
+        // Les événements sont décrits sans changer leur réalité, mais on
+        // adapte le sujet grammatical lorsqu'un seul membre était parti.
+        if (noms.Length == 1)
+            traces = AdapterEtapesAuSolo(traces, noms[0]);
 
         string conclusion = issue switch
         {
