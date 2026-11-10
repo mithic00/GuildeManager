@@ -266,7 +266,8 @@ public partial class MainMenu
         if (_boutonAvancerTemps != null)
         {
             _boutonAvancerTemps.Text = _tempsEnCours ? "Stop" : "Suivant";
-            _boutonAvancerTemps.Disabled = _horloge == null || _journalPartie == null;
+            _boutonAvancerTemps.Disabled = _horloge == null || _journalPartie == null ||
+                _etat?.PartieTerminee == true;
         }
 
         // Le menu doit rester figé pendant que les minutes s'écoulent.
@@ -278,7 +279,10 @@ public partial class MainMenu
         })
         {
             Button boutonMenu = GetNode<Button>("MargeChoixMenu/BoutonsMenu/" + nom);
-            boutonMenu.Disabled = _tempsEnCours || JoueurEnMission;
+            // En cas de décès du joueur, seul le menu Quitter (et ses
+            // commandes de sauvegarde) reste utilisable.
+            boutonMenu.Disabled = _tempsEnCours || JoueurEnMission ||
+                (_etat?.PartieTerminee == true && nom != "BoutonQuitter");
         }
 
         if (_progressionTemps != null)
