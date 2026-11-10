@@ -167,9 +167,14 @@ public partial class MainMenu
         if (modifiee)
             AjouterEntreeJournal("La politique de la guilde a été modifiée.", "politique");
 
-        // Première politique active : seul le prélèvement des récompenses
-        // peut provoquer une protestation. Tous les autres réglages restent
-        // purement déclaratifs en attendant leurs propres règles.
+        // Si une proposition attend encore la décision du joueur, appliquer
+        // immédiatement les interdictions confirmées. Les missions déjà
+        // acceptées et les missions en cours ne sont pas touchées.
+        RefuserPropositionInterditeParPolitique();
+
+        // Les politiques de prélèvement, d'écart de rang et de pression
+        // peuvent provoquer des protestations. L'interdiction de catégories
+        // ne déclenche aucune protestation ni autre pénalité.
         if (nouvellePolitique.PourcentageGuildeMissions > ancienPrelevement)
             EvaluerProtestationsPourcentageMissions(ancienPrelevement,
                 nouvellePolitique.PourcentageGuildeMissions);
