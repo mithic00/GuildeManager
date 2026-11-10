@@ -323,7 +323,10 @@ public static class ResolutionMissions
 
     public static void ProgresserMagie(MembreGuilde membre, bool eleve, bool gainBrutMinimal = false)
     {
-        if(membre.EstMaitreDeGuilde || !membre.PotentielMagique.HasValue)return;
+        // Le maître de guilde progresse comme les autres membres.
+        // Son potentiel fixe de 1000 est renseigné à la création et
+        // lors de la migration des sauvegardes existantes.
+        if (membre == null || !membre.PotentielMagique.HasValue) return;
         double actuel = Math.Max(membre.NiveauMagique, membre.NiveauMagiquePrecis);
         double potentiel=membre.PotentielMagique.Value;
         if(actuel>=potentiel)return;
