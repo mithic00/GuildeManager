@@ -104,7 +104,8 @@ public partial class MainMenu
 
     private bool VerifierMinuteFilRouge(bool conflitAutreEvenement = false)
     {
-        if (!FilRougeEstRoseVallee || _filRouge == null || _horloge == null) return false;
+        if (_etat?.PartieTerminee == true || !FilRougeEstRoseVallee ||
+            _filRouge == null || _horloge == null) return false;
         DateTime maintenant = _horloge.Instant;
         if (_filRouge.BatailleCharlesPrevue && !_filRouge.BatailleCharlesSignalee &&
             LireDateFilRouge(_filRouge.DateBatailleCharles) is DateTime duel &&
