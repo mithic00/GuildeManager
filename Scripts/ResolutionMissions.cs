@@ -151,6 +151,7 @@ public static class ResolutionMissions
         int jour=mission.JoursEcoules;
         IssueMission issue=IssueMission.Continue;
         bool sansIncident=false;
+        string episode="";
         string cat=mission.Categorie;
         switch(cat)
         {
@@ -159,13 +160,22 @@ public static class ResolutionMissions
                 int cible=CibleInvestigation(mission.Rang);
                 int intelligence=JetGroupeResultat(mission,equipe,"Intelligence",cible);
                 int charisme=JetGroupeResultat(mission,equipe,"Charisme",cible);
-                if(intelligence>=cible && charisme>=cible) issue=IssueMission.Reussite;
+                bool indicesCompris = intelligence >= cible;
+                bool temoignagesObtenus = charisme >= cible;
+                if(indicesCompris && temoignagesObtenus) issue=IssueMission.Reussite;
                 else
                 {
                     mission.EchecsEnqueteConsecutifs = intelligence<10 && charisme<10
                         ? mission.EchecsEnqueteConsecutifs+1 : 0;
                     if(mission.EchecsEnqueteConsecutifs>=2) issue=IssueMission.Echec;
                 }
+                episode = indicesCompris && temoignagesObtenus
+                    ? "Le recoupement des indices et les confidences recueillies ont permis de démêler l'affaire."
+                    : indicesCompris
+                        ? "Les indices se précisaient, mais les témoins demeuraient réticents à parler."
+                        : temoignagesObtenus
+                            ? "Des témoins ont accepté de parler, sans que les faits puissent encore être recoupés."
+                            : "Les indices se contredisaient et les témoins gardaient leurs distances.";
                 break;
             }
             case "Escorte":
@@ -175,23 +185,48 @@ public static class ResolutionMissions
                     else if(avantage>=2)issue=TirerIssueAvecTraits(mission,(IssueMission.Reussite,99),(IssueMission.Echec,1));
                     else if(avantage==1)issue=TirerIssueAvecTraits(mission,(IssueMission.Reussite,90),(IssueMission.Echec,9),(IssueMission.Mort,1));
                     else issue=TirerIssueAvecTraits(mission,(IssueMission.Reussite,80),(IssueMission.Echec,15),(IssueMission.Mort,5));
+                    episode = sansIncident
+                        ? "Le convoi a atteint sa destination sans rencontrer d'obstacle notable."
+                        : issue == IssueMission.Reussite
+                            ? "Sur la dernière partie du trajet, l'équipe a protégé le convoi face aux dangers de la route."
+                            : "Le dernier tronçon a exposé le convoi à une menace que l'escorte n'a pas pu maîtriser.";
                 }
+                else if(jour==1)
+                    episode = "La route a commencé sous une surveillance attentive, au rythme du convoi.";
                 break;
             case "Élimination de danger":
             case "Renfort pour Assaut":
                 issue=MagieDanger(mission,avantage);
+                episode = cat == "Renfort pour Assaut"
+                    ? issue == IssueMission.Reussite
+                        ? "Les membres ont appuyé la percée des assaillants et contribué à faire céder les défenses."
+                        : "Les renforts se sont heurtés à une résistance acharnée, ralentissant toute progression."
+                    : issue == IssueMission.Reussite
+                        ? "Après avoir repéré la menace, le groupe l'a affrontée jusqu'à écarter le danger."
+                        : "La menace s'est révélée redoutable et la confrontation a éprouvé le groupe.";
                 break;
             case "Recherche mort ou vif":
             case "Capture vif":
                 if(jour==1)
                 {
-                    if(!JetGroupeAvecAvantage(mission,equipe,"Intelligence",CibleTraque(mission.Rang)))issue=IssueMission.Echec;
+                    bool pisteTrouvee=JetGroupeAvecAvantage(mission,equipe,"Intelligence",CibleTraque(mission.Rang));
+                    if(!pisteTrouvee)issue=IssueMission.Echec;
+                    episode = pisteTrouvee
+                        ? "L'équipe a suivi une succession d'indices jusqu'à retrouver la trace de sa cible."
+                        : "Une piste trompeuse a fait perdre le contact avec la cible.";
                 }
                 else
                 {
                     bool capture=JetGroupeAvecAvantage(mission,equipe,"Agilite",10);
                     if(cat=="Capture vif"&&!capture)issue=IssueMission.Echec;
                     else issue=Affrontement(avantage,capture);
+                    episode = !capture
+                        ? cat == "Capture vif"
+                            ? "Au moment de l'interception, la cible a échappé à l'étau dressé autour d'elle."
+                            : "La cible a résisté à la tentative d'interception et la poursuite a dégénéré."
+                        : issue == IssueMission.Reussite
+                            ? "La cible a été rejointe au terme d'une manœuvre habile et neutralisée."
+                            : "La cible a été rattrapée, mais la confrontation a tourné à l'avantage de l'adversaire.";
                 }
                 break;
             case "Protection d'un lieu":
@@ -199,10 +234,16 @@ public static class ResolutionMissions
                 if(mission.SansIncident)
                 {
                     if(jour>=mission.DureeFixee) {issue=IssueMission.Reussite;sansIncident=true;}
+                    episode = jour>=mission.DureeFixee
+                        ? "La vigilance des gardiens a suffi : personne n'a troublé la sécurité des lieux."
+                        : "Les tours de garde se sont succédé sans qu'aucune alerte ne vienne troubler les lieux.";
                 }
                 else
                 {
                     bool tests=equipe.All(m=>JetIndividuel(mission,m,"Calme",10)&&JetIndividuel(mission,m,"Endurance",10));
+                    episode = tests
+                        ? "Lors d'une alerte, les gardiens ont conservé leur sang-froid et tenu leurs postes."
+                        : "Une alerte a mis les gardiens à rude épreuve, compliquant la défense des lieux.";
                     if(tests)
                     {
                         issue=avantage>=2?TirerIssue((IssueMission.Reussite,95),(IssueMission.Echec,1),(IssueMission.Continue,4)):
@@ -240,6 +281,32 @@ public static class ResolutionMissions
                         echecs--;
                 }
                 bool jetsFavorables = echecs < 2;
+                episode = cat switch
+                {
+                    "Recherche d'un objet" => jetsFavorables
+                        ? "Les indices, les contacts et les témoignages ont permis de remonter la piste de l'objet."
+                        : jetsRates.Contains("Charisme")
+                            ? "Les personnes interrogées ont gardé le silence, laissant les indices sans confirmation."
+                            : "Les recherches ont conduit à plusieurs fausses pistes difficiles à départager.",
+                    "Recherche d'un ingrédient" => jetsFavorables
+                        ? "Les membres ont traversé le terrain et identifié les ressources qu'ils cherchaient."
+                        : jetsRates.Contains("Force")
+                            ? "Le terrain difficile a freiné l'expédition avant qu'elle puisse atteindre les bons sites."
+                            : "Les ressources convoitées se sont révélées difficiles à repérer et à récolter.",
+                    "Recherche d'un animal" => jetsFavorables
+                        ? "L'équipe a suivi les traces de l'animal et anticipé ses déplacements."
+                        : jetsRates.Contains("Vitesse")
+                            ? "L'animal a pris de l'avance et ses traces se sont dissipées."
+                            : "La poursuite a épuisé le groupe sur un terrain peu favorable.",
+                    "Service" => jetsFavorables
+                        ? "L'équipe a prêté une oreille attentive aux besoins exprimés et organisé son intervention."
+                        : jetsRates.Contains("Communication")
+                            ? "Un malentendu a compliqué les échanges avec les personnes à aider."
+                            : "Les attentes du commanditaire se sont révélées délicates à concilier.",
+                    _ => jetsFavorables
+                        ? "L'équipe a su exploiter les indices recueillis."
+                        : "Les pistes explorées sont restées incertaines."
+                };
                 if(cat=="Recherche d'un animal")
                     issue=jetsFavorables?TirerIssue((IssueMission.Reussite,79),(IssueMission.Continue,15),(IssueMission.Echec,5),(IssueMission.Mort,1)):
                         TirerIssue((IssueMission.Continue,79),(IssueMission.Echec,15),(IssueMission.Reussite,5),(IssueMission.Mort,1));
@@ -248,6 +315,9 @@ public static class ResolutionMissions
                 break;
             }
         }
+        // L'épisode est issu des épreuves réellement effectuées aujourd'hui.
+        // Il servira de matière au rapport, sans y dévoiler les jets.
+        RapportsMissions.Consigner(mission, episode);
         return new ResultatJourMission { Issue=issue, SansIncident=sansIncident };
     }
 
