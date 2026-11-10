@@ -36,6 +36,10 @@ public partial class MainMenu
             m => m.Id == identifiant && m.Etat == "Terminee");
         if (mission == null) return;
 
+        // Modernise les rapports antérieurs à la correction des répétitions
+        // et des accords français, sans toucher aux événements de mission.
+        RapportsMissions.ModerniserAncienRapport(mission);
+
         _texteRapportMission.Text = string.IsNullOrWhiteSpace(mission.RapportNarratif)
             ? "Aucun récit détaillé n'a été conservé pour cette ancienne mission."
             : mission.RapportNarratif;
