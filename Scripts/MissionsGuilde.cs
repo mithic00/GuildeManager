@@ -192,7 +192,8 @@ public static class ReglesMissions
     }
 
     public static MissionGuilde Generer(IEnumerable<MembreGuilde> membres,
-        double facteurCommercants = 1.0)
+        double facteurCommercants = 1.0,
+        IEnumerable<string> categoriesPreferees = null)
     {
         // Les missions U ne peuvent jamais apparaître naturellement.
         // Une mission n'apparaît que si un membre de la guilde possède le rang demandé.
@@ -212,7 +213,38 @@ public static class ReglesMissions
             if (tirage < 0) { indexRang = candidat.Index; break; }
         }
 
+        // Spécialisation : chaque catégorie non préférée cède 30 % de
+        // SON poids d'apparition. Le poids ainsi libéré est redistribué
+        // équitablement entre toutes les catégories préférées.
+        //
+        // Exemple avec 2 préférées parmi 11 : chaque non préférée conserve
+        // 0,7 / 11 de probabilité et chaque préférée obtient
+        // (1 + 0,3 * 9 / 2) / 11. Le poids total reste égal à 11 :
+        // cela ne change pas la fréquence générale des missions.
+        // Aucun effet si aucune catégorie, ou toutes, sont préférées.
+        HashSet<string> preferees = new(categoriesPreferees ??
+            Enumerable.Empty<string>(), StringComparer.Ordinal);
+        int nombrePreferees = Categories.Count(c => preferees.Contains(c.Nom));
+        int nombreNonPreferees = Categories.Length - nombrePreferees;
+
         var categorie = Categories[Random.Shared.Next(Categories.Length)];
+        if (nombrePreferees > 0 && nombreNonPreferees > 0)
+        {
+            double poidsPreferee = 1.0 +
+                0.30 * nombreNonPreferees / nombrePreferees;
+            double tirageCategorie = Random.Shared.NextDouble() * Categories.Length;
+            foreach (var candidate in Categories)
+            {
+                double poids = preferees.Contains(candidate.Nom)
+                    ? poidsPreferee : 0.70;
+                tirageCategorie -= poids;
+                if (tirageCategorie < 0)
+                {
+                    categorie = candidate;
+                    break;
+                }
+            }
+        }
         string[] demandeursValides = Demandeurs
             .Where(d => DemandeurAccepte(d, categorie.Nom, indexRang)).ToArray();
         double[] poidsDemandeurs = demandeursValides.Select(d =>
