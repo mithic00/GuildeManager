@@ -171,7 +171,10 @@ public partial class MainMenu
         if (VerifierMinuteFilRouge()) return;
 
         // L'arrêt est effectué à la minute exacte du jalon, même à minuit.
-        if (_horloge.EstJalon())
+        // Tant que le maître de guilde est en mission, les jalons ordinaires
+        // ne stoppent pas automatiquement le temps : le joueur peut toujours
+        // appuyer sur Stop, et le retour de mission l'arrête de lui-même.
+        if (_horloge.EstJalon() && !JoueurEnMission)
         {
             InterrompreAvanceeTemps("Jalon horaire atteint : " + HorlogeJeu.Formater(_horloge.Instant) + ".");
         }
@@ -235,7 +238,7 @@ public partial class MainMenu
 
     private void PresenterEvenementsApresDeplacement()
     {
-        if (_tempsEnCours || _traitementTempsDiscussion)
+        if (_tempsEnCours || _traitementTempsDiscussion || JoueurEnMission)
             return;
 
         // Un rendez-vous d'auberge prime sur les autres notifications.
@@ -257,6 +260,9 @@ public partial class MainMenu
 
     private void ActualiserBoutonTemps()
     {
+        // Désactive tous les boutons sauf MainBouton pendant l'absence du
+        // joueur, en conservant les anciens états pour le retour.
+        SynchroniserBoutonsMissionJoueur();
         if (_boutonAvancerTemps != null)
         {
             _boutonAvancerTemps.Text = _tempsEnCours ? "Stop" : "Suivant";
@@ -272,7 +278,7 @@ public partial class MainMenu
         })
         {
             Button boutonMenu = GetNode<Button>("MargeChoixMenu/BoutonsMenu/" + nom);
-            boutonMenu.Disabled = _tempsEnCours;
+            boutonMenu.Disabled = _tempsEnCours || JoueurEnMission;
         }
 
         if (_progressionTemps != null)
