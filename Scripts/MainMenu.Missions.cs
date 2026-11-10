@@ -97,6 +97,13 @@ public partial class MainMenu
             _filRouge != null && FilRougeEstRoseVallee ?
                 _filRouge.MultiplicateurMissions("Commerçant de la ville") : 1.0);
         if (_etatMissions.Proposition == null) return false;
+
+        // Une catégorie interdite par la politique confirmée est refusée
+        // sans ouvrir de fenêtre ni interrompre l'écoulement du temps.
+        // Il n'y a pas de nouveau tirage pour remplacer cette proposition.
+        if (RefuserPropositionInterditeParPolitique())
+            return false;
+
         if (!_traitementTempsDiscussion)
         {
             InterrompreAvanceeTemps("Une nouvelle mission est proposée à la guilde.");
@@ -144,9 +151,39 @@ public partial class MainMenu
             ReglesMissions.DateIso(maintenant.AddMinutes(delai));
     }
 
+    /// <summary>
+    /// La liste validée dans la fenêtre Politique comporte les mêmes
+    /// libellés que les catégories de ReglesMissions. Ne concerne que les
+    /// propositions ordinaires : les missions déjà acceptées ou créées
+    /// directement par un événement scénarisé ne sont pas supprimées.
+    /// </summary>
+    private bool MissionInterditeParPolitique(MissionGuilde mission) =>
+        mission != null && _politiqueGuilde?.MissionsInterdites?.Contains(
+            mission.Categorie, StringComparer.Ordinal) == true;
+
+    /// <summary>
+    /// Refus immédiat, sans conséquence de réussite/échec ou de réputation.
+    /// La proposition disparaît et ne déclenche aucune fenêtre modale.
+    /// </summary>
+    private bool RefuserPropositionInterditeParPolitique()
+    {
+        if (_etatMissions?.Proposition == null ||
+            !MissionInterditeParPolitique(_etatMissions.Proposition))
+            return false;
+
+        string categorie = _etatMissions.Proposition.Categorie;
+        _etatMissions.Proposition = null;
+        _fenetreNouvelleMission?.Hide();
+        AjouterEntreeJournal("Mission refusée automatiquement selon la politique " +
+            "de la guilde (catégorie interdite : " + categorie + ").", "politique");
+        return true;
+    }
+
     private void AfficherPropositionMission()
     {
-        if (_etatMissions?.Proposition == null) return;
+        if (_etatMissions?.Proposition == null ||
+            RefuserPropositionInterditeParPolitique())
+            return;
         MissionGuilde mission = _etatMissions.Proposition;
         _infoNouvelleMission.Text =
             "Catégorie de la mission : " + mission.Categorie +
@@ -158,7 +195,9 @@ public partial class MainMenu
 
     private void AccepterPropositionMission()
     {
-        if (_etatMissions?.Proposition == null) return;
+        if (_etatMissions?.Proposition == null ||
+            RefuserPropositionInterditeParPolitique())
+            return;
         MissionGuilde mission = _etatMissions.Proposition;
         mission.Etat = "Disponible";
         _etatMissions.Missions.Add(mission);
