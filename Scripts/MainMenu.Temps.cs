@@ -380,19 +380,23 @@ public partial class MainMenu
             if (couleurResultat.HasValue)
                 _journalAffichage.PushColor(couleurResultat.Value);
 
-            // PushMeta rend le message ENTIER cliquable. AddText interprète
-            // toujours les noms des membres comme du texte brut, jamais
-            // comme du BBCode, et conserve les couleurs existantes.
-            bool avecRapport = !string.IsNullOrWhiteSpace(entree.MissionId);
-            if (avecRapport)
-                _journalAffichage.PushMeta(entree.MissionId);
-
+            // Le texte de l'événement reste normal et non cliquable.
+            // Seule la mention [Lire le rapport] porte les métadonnées du
+            // lien et le soulignement. AddText protège les noms du BBCode.
             _journalAffichage.AddText("[" + date + "] " +
-                ReglesMissions.FormaterRangsDansTexte(entree.Description) +
-                (avecRapport ? "  [Lire le rapport]" : "") + "\n");
+                ReglesMissions.FormaterRangsDansTexte(entree.Description));
 
-            if (avecRapport)
-                _journalAffichage.Pop();
+            if (!string.IsNullOrWhiteSpace(entree.MissionId))
+            {
+                _journalAffichage.AddText("  ");
+                _journalAffichage.PushMeta(entree.MissionId);
+                _journalAffichage.PushUnderline();
+                _journalAffichage.AddText("[Lire le rapport]");
+                _journalAffichage.Pop(); // soulignement
+                _journalAffichage.Pop(); // métadonnées du lien
+            }
+
+            _journalAffichage.AddText("\n");
             if (couleurResultat.HasValue)
                 _journalAffichage.Pop();
         }
