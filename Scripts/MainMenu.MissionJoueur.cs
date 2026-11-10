@@ -73,8 +73,11 @@ public partial class MainMenu
         {
             ActualiserPriseMissionJoueur();
             if (joueur.Moral < MoralMinPourPartir)
+            {
+                _fenetreInfoMission.Hide();
                 AfficherInformation("Votre personnage a besoin d'au moins " +
                     MoralMinPourPartir + " points de moral pour partir en mission.");
+            }
             return;
         }
 
@@ -82,6 +85,8 @@ public partial class MainMenu
         // seulement lors du clic, jamais en survolant ou ouvrant la fenêtre.
         if (!GroupeDisponible(equipe))
         {
+            // Deux fenêtres exclusives ne doivent pas être ouvertes ensemble.
+            _fenetreInfoMission.Hide();
             AfficherInformation("Votre personnage n'est pas en état de partir " +
                 "en mission pour le moment.");
             return;
