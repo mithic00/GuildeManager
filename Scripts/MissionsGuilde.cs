@@ -56,6 +56,12 @@ public sealed class MissionGuilde
     public bool SansIncident { get; set; }
     public bool SansGainSecondaire { get; set; }
     public string DetailResultat { get; set; } = "";
+    /// <summary>Courtes traces littéraires des situations réellement résolues.</summary>
+    public List<string> EtapesRapport { get; set; } = new();
+    /// <summary>Copie des noms au départ : les rapports survivent aux départs et décès.</summary>
+    public List<string> ParticipantsRapport { get; set; } = new();
+    /// <summary>Rapport définitif fixé au retour, sérialisé avec la mission.</summary>
+    public string RapportNarratif { get; set; } = "";
     // Effet des traits figé au départ de mission ; un avantage maximum par
     // mission, utilisable sur un D20 raté OU sur une table de résolution magique.
     public bool AvantageTraitsDisponible { get; set; }

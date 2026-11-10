@@ -50,14 +50,16 @@ public sealed class JournalPartie
     }
 
     /// <summary>Ajoute une entrée seulement en mémoire jusqu'à la sauvegarde explicite.</summary>
-    public bool Ajouter(DateTime instant, string description, string type = "temps")
+    public bool Ajouter(DateTime instant, string description, string type = "temps",
+        string missionId = "")
     {
         EntreeJournal entree = new()
         {
             DateJeu = instant.ToString("yyyy-MM-dd'T'HH:mm:ss",
                 System.Globalization.CultureInfo.InvariantCulture),
             Type = type,
-            Description = description
+            Description = description,
+            MissionId = missionId ?? ""
         };
         Entrees.Add(entree);
         return true;
@@ -88,4 +90,6 @@ public sealed class EntreeJournal
     public string DateJeu { get; set; } = "";
     public string Type { get; set; } = "";
     public string Description { get; set; } = "";
+    /// <summary>Mission liée à un rapport consultable depuis le journal.</summary>
+    public string MissionId { get; set; } = "";
 }
