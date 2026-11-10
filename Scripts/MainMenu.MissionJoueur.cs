@@ -110,8 +110,8 @@ public partial class MainMenu
         {
             if (enfant is BaseButton bouton)
                 yield return bouton;
-            foreach (BaseButton bouton in BoutonsDuSousArbre(enfant))
-                yield return bouton;
+            foreach (BaseButton boutonEnfant in BoutonsDuSousArbre(enfant))
+                yield return boutonEnfant;
         }
     }
 
