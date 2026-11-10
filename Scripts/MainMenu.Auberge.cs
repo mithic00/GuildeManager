@@ -88,9 +88,8 @@ public partial class MainMenu
     /// <summary>
     /// Écarte discrètement les candidats incompatibles avec la politique
     /// CONFIRMÉE de la guilde. Aucun candidat supplémentaire n'est généré.
-    /// La méthode centralise les critères pour les politiques futures ;
-    /// seule la part des récompenses de mission possède aujourd'hui un
-    /// seuil caché chez les personnages.
+    /// Les seuils personnels sont cachés, tandis que le niveau magique
+    /// minimum ne s'applique qu'aux candidats, jamais aux membres recrutés.
     /// </summary>
     private static bool CandidatCompatiblePolitiqueGuilde(
         MembreGuilde personnage, EtatPolitiqueGuilde politique)
@@ -102,7 +101,8 @@ public partial class MainMenu
                 personnage.SeuilPourcentageGuildeMissions &&
             EtatPolitiqueGuilde.MembreAccepteEcartMission(
                 personnage.SeuilEcartNiveauMission, politique.EcartNiveauMission) &&
-            politique.ContrainteMission <= personnage.SeuilContrainteMission;
+            politique.ContrainteMission <= personnage.SeuilContrainteMission &&
+            personnage.NiveauMagique >= politique.NiveauMagiqueRequis;
     }
 
     private void FiltrerCandidatsAubergeSelonPolitique(List<CandidatAuberge> candidats)
