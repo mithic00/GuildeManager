@@ -83,7 +83,9 @@ public partial class MainMenu
         // en attente sans être perdus : ils s'ouvriront après son retour.
         if (joueurEnMissionAvantRetour && !JoueurEnMission)
         {
-            InterrompreAvanceeTemps("Votre personnage est revenu de mission.");
+            // Le journal possède déjà son message de retour détaillé :
+            // ne pas ajouter une entrée technique d'avancée du temps.
+            ArreterHorlogeSansJournal();
             ActualiserBoutonTemps();
             if (_etatMissions.Proposition?.Etat == "Proposee")
                 CallDeferred(nameof(AfficherPropositionMission));
