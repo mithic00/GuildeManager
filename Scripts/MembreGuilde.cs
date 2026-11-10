@@ -12,6 +12,10 @@ using System.Text.Json.Serialization;
 /// </summary>
 public sealed class MembreGuilde
 {
+    // Le personnage du joueur possède un potentiel fixe, mais sa valeur
+    // reste masquée dans la fiche comme auparavant.
+    public const int PotentielMagiqueJoueur = 1000;
+
     public string Id { get; set; } = "";
     public bool EstJoueur { get; set; }
     /// <summary>Statut de direction, distinct du rang de missions du membre.</summary>
@@ -273,8 +277,14 @@ public sealed class MembreGuilde
         if (!Experience.HasValue) { Experience = 0; modifie = true; }
         if (!Niveau.HasValue) { Niveau = 1; modifie = true; }
 
-        // Le potentiel du joueur n'est jamais déterminé ou communiqué.
-        if (PotentielMagique.HasValue) { PotentielMagique = null; modifie = true; }
+        // Le potentiel réel du joueur est fixe (1000). Anciennes
+        // sauvegardes : remplacer la valeur absente sans réinitialiser
+        // la progression magique déjà acquise. Il reste non révélé.
+        if (PotentielMagique != PotentielMagiqueJoueur)
+        {
+            PotentielMagique = PotentielMagiqueJoueur;
+            modifie = true;
+        }
 
         // Certaines anciennes parties peuvent ne contenir que l'identifiant
         // du portrait, pas le libellé de race.
@@ -334,7 +344,7 @@ public sealed class MembreGuilde
             Rang = "*",
             Classement = -1,
             NiveauMagique = 1,
-            PotentielMagique = null,
+            PotentielMagique = PotentielMagiqueJoueur,
             Pouvoirs = creation.Pouvoirs == null ? new List<string>() : new List<string>(creation.Pouvoirs),
             Statistiques = creation.Statistiques == null
                 ? new Dictionary<string, int>()
