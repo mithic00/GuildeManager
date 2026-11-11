@@ -321,18 +321,57 @@ public static class ResolutionMissions
         return new ResultatJourMission { Issue=issue, SansIncident=sansIncident };
     }
 
-    public static void ProgresserMagie(MembreGuilde membre, bool eleve, bool gainBrutMinimal = false)
+    /// <summary>
+    /// Intensités définies par InfoJeu/Missions&Rang.txt :
+    /// faible ×0,50 ; standard ×1 ; élevé ×1,50.
+    /// </summary>
+    public enum IntensiteGainMagique
+    {
+        Faible,
+        Standard,
+        Eleve
+    }
+
+    /// <summary>
+    /// Une seule correspondance pour les onze catégories du générateur.
+    /// Les gains faibles concernent l'enquête, les trois recherches
+    /// non combattantes et les services.
+    /// </summary>
+    public static IntensiteGainMagique? GainMagiquePourCategorie(string categorie) =>
+        categorie switch
+        {
+            "Enquête" or "Recherche d'un objet" or "Recherche d'un ingrédient" or
+                "Recherche d'un animal" or "Service" => IntensiteGainMagique.Faible,
+            "Escorte" or "Capture vif" or "Protection d'un lieu" =>
+                IntensiteGainMagique.Standard,
+            "Élimination de danger" or "Recherche mort ou vif" or
+                "Renfort pour Assaut" => IntensiteGainMagique.Eleve,
+            _ => null
+        };
+
+    public static void ProgresserMagie(MembreGuilde membre, IntensiteGainMagique intensite,
+        bool gainBrutMinimal = false)
     {
         // Le maître de guilde progresse comme les autres membres.
         // Son potentiel fixe de 1000 est renseigné à la création et
         // lors de la migration des sauvegardes existantes.
         if (membre == null || !membre.PotentielMagique.HasValue) return;
         double actuel = Math.Max(membre.NiveauMagique, membre.NiveauMagiquePrecis);
-        double potentiel=membre.PotentielMagique.Value;
-        if(actuel>=potentiel)return;
-        // En cas d'échec, utiliser le minimum brut (1), sans modifier
-        // la courbe de Motivation ni le multiplicateur des gains élevés.
-        double vitesse=(gainBrutMinimal ? 1 : Random.Shared.Next(1,6))*(eleve?1.20:1.0);
+        double potentiel = membre.PotentielMagique.Value;
+        if (potentiel <= 0 || actuel >= potentiel) return;
+
+        // Le tirage brut reste compris entre 1 et 5. Les multiplicateurs
+        // sont appliqués AVANT la courbe de motivation et sans arrondir
+        // pour conserver les fractions de niveau entre deux missions.
+        double multiplicateur = intensite switch
+        {
+            IntensiteGainMagique.Faible => 0.50,
+            IntensiteGainMagique.Eleve => 1.50,
+            _ => 1.0
+        };
+        double vitesse = (gainBrutMinimal ? 1 : Random.Shared.Next(1, 6))
+            * multiplicateur;
+
         // Une même formule génère 20 courbes : linéaire à motivation 20,
         // ralentissement de plus en plus marqué lorsque la motivation diminue.
         int motivation = Math.Clamp(membre.Motivation ?? 10, 1, 20);
@@ -340,7 +379,7 @@ public static class ResolutionMissions
         double reste = (potentiel - actuel) / potentiel;
         membre.NiveauMagiquePrecis = Math.Min(potentiel,
             actuel + vitesse * Math.Pow(reste, exposant));
-        membre.NiveauMagique=(int)Math.Floor(membre.NiveauMagiquePrecis);
+        membre.NiveauMagique = (int)Math.Floor(membre.NiveauMagiquePrecis);
     }
 
     public static void BonusStats(MissionGuilde mission, List<MembreGuilde> equipe)
