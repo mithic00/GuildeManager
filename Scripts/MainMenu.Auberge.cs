@@ -61,7 +61,17 @@ public partial class MainMenu
             OuvrirAuberge();
         else if (_aubergeEtat.RendezVous != null && _horloge != null
                  && HeureRendezVousAtteinte())
-            OuvrirAuberge();
+        {
+            // Les missions sont initialisées APRÈS l'auberge dans _Ready().
+            // Attendre leur chargement pour identifier une mission du joueur
+            // et reporter un rendez-vous manqué plutôt que l'ouvrir à tort.
+            CallDeferred(nameof(VerifierRendezVousAubergeAuChargement));
+        }
+    }
+
+    private void VerifierRendezVousAubergeAuChargement()
+    {
+        VerifierRendezVousAuberge();
     }
 
     private void OuvrirChoixRecrutement()
@@ -168,15 +178,52 @@ public partial class MainMenu
             HorlogeJeu.Formater(date) + ".", "recrutement");
     }
 
+    /// <summary>
+    /// Le prochain créneau de recrutement est toujours à 20 h, strictement
+    /// après l'instant du rendez-vous manqué. À 20 h pile, c'est donc le
+    /// lendemain ; si l'absence est constatée avant 20 h, c'est ce soir.
+    /// </summary>
+    private static DateTime ProchainVingtHeures(DateTime maintenant)
+    {
+        DateTime prochain = maintenant.Date.AddHours(20);
+        return prochain <= maintenant ? prochain.AddDays(1) : prochain;
+    }
+
+    /// <summary>
+    /// Le maître de guilde ne peut pas honorer un rendez-vous pendant sa
+    /// mission. Ne pas perdre le rendez-vous : conserver les mêmes candidats,
+    /// ne pas refaire de tirage ni facturer de nouveaux frais de recrutement.
+    /// Un nouveau rendez-vous manqué sera reporté de la même façon.
+    /// </summary>
+    private void ReporterRendezVousAubergePendantMission()
+    {
+        if (_aubergeEtat?.RendezVous == null || _horloge == null ||
+            _aubergeEtat.RendezVous.EnCours || !HeureRendezVousAtteinte())
+            return;
+
+        DateTime nouveauRendezVous = ProchainVingtHeures(_horloge.Instant);
+        _aubergeEtat.RendezVous.Date = nouveauRendezVous.ToString(
+            "yyyy-MM-dd'T'HH:mm:ss", CultureInfo.InvariantCulture);
+        AjouterEntreeJournal("Rendez-vous à l'auberge manqué pendant la mission du " +
+            "maître de guilde : reporté au " +
+            HorlogeJeu.Formater(nouveauRendezVous) + ".", "recrutement");
+    }
+
     /// <summary>Retourne vrai si l'événement interrompt la minute qui vient d'être avancée.</summary>
     private bool VerifierRendezVousAuberge()
     {
-        // Le rendez-vous reste dû, mais n'ouvre pas son interface
-        // pendant que le personnage joueur est parti en mission.
-        if (JoueurEnMission || _aubergeEtat?.RendezVous == null ||
-            _aubergeEtat.RendezVous.EnCours)
+        if (_aubergeEtat?.RendezVous == null || _aubergeEtat.RendezVous.EnCours ||
+            !HeureRendezVousAtteinte())
             return false;
-        if (!HeureRendezVousAtteinte()) return false;
+
+        // Le joueur absent ne peut pas se rendre à l'auberge. Le rendez-vous
+        // sera proposé au prochain 20 h, même si la mission dure longtemps.
+        if (JoueurEnMission)
+        {
+            ReporterRendezVousAubergePendantMission();
+            return false;
+        }
+
         // L'horaire est respecté, mais l'interface attend la fin de l'échange.
         if (_traitementTempsDiscussion) return true;
 
