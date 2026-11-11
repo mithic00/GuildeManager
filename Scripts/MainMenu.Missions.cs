@@ -809,18 +809,25 @@ public partial class MainMenu
             int xpPart = participants.Count == 0 ? 0 :
                 ReglesMissions.ExperiencePourMission(mission.Rang) / participants.Count;
 
-            // Le taux CONFIRMÉ au moment du résultat s'applique à toute
-            // mission qui se termine maintenant, y compris celles commencées
-            // avant la décision. La part du membre reste calculée comme avant.
+            // Lorsqu'il participe lui-même à une mission, le joueur reverse
+            // 100 % de la récompense à la trésorerie de la guilde. Sinon, la
+            // politique de prélèvement confirmée s'applique normalement aux
+            // missions des autres membres, y compris celles déjà commencées.
+            bool missionDuJoueur = participants.Any(m => m.EstJoueur);
             int tauxPrelevementGuilde = Math.Clamp(
                 _politiqueGuilde?.PourcentageGuildeMissions ?? 20, 0, 50);
             int partGuilde = victoire
-                ? mission.Recompense * tauxPrelevementGuilde / 100 : 0;
-            int ecusPart = victoire
+                ? missionDuJoueur
+                    ? mission.Recompense
+                    : mission.Recompense * tauxPrelevementGuilde / 100
+                : 0;
+            int ecusPart = victoire && !missionDuJoueur
                 ? (mission.Recompense - partGuilde) / participants.Count : 0;
             _etat.Ecus += partGuilde;
             EnregistrerMouvementBudget(RegistreBudget.Missions, partGuilde,
-                "Part de la guilde (" + tauxPrelevementGuilde + " %) : " +
+                (missionDuJoueur
+                    ? "Mission accomplie par le joueur (100 % à la guilde) : "
+                    : "Part de la guilde (" + tauxPrelevementGuilde + " %) : ") +
                 mission.Categorie + ", rang " +
                 ReglesMissions.FormaterRang(mission.Rang) + ".");
 
