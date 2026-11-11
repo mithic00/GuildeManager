@@ -859,18 +859,20 @@ public partial class MainMenu
                             "Gain de " + xpPart + " XP pour " + mission.Categorie + ".",
                             mission, 0, xpPart);
                     ReglesMissions.AjouterExperience(m, xpPart);
-                    // Une mission avec progression magique en donne également
-                    // après un échec, mais avec le gain brut minimum de 1.
-                    // La courbe de Motivation et le coefficient des missions
-                    // à gain élevé restent identiques.
-                    bool magieElevee = mission.Categorie == "Élimination de danger" ||
-                        mission.Categorie == "Recherche mort ou vif" ||
-                        mission.Categorie == "Renfort pour Assaut";
-                    bool magieStandard = magieElevee || mission.Categorie == "Escorte" ||
-                        mission.Categorie == "Capture vif" || mission.Categorie == "Protection d'un lieu";
-                    if (magieStandard)
+                    // Chaque catégorie suit l'intensité du document
+                    // Missions&Rang : faible (×0,5), standard (×1), élevée
+                    // (×1,5). Les nouveaux gains faibles ne sont accordés
+                    // qu'en cas de réussite. Pour les gains standard/élevé,
+                    // la règle existante du gain brut minimal après un échec
+                    // reste inchangée.
+                    ResolutionMissions.IntensiteGainMagique? intensite =
+                        ResolutionMissions.GainMagiquePourCategorie(mission.Categorie);
+                    bool gainFaible = intensite ==
+                        ResolutionMissions.IntensiteGainMagique.Faible;
+                    if (intensite.HasValue && (victoire || !gainFaible))
                     {
-                        ResolutionMissions.ProgresserMagie(m, magieElevee, gainBrutMinimal: !victoire);
+                        ResolutionMissions.ProgresserMagie(
+                            m, intensite.Value, gainBrutMinimal: !victoire);
                         string rangAvantProgression = m.Rang;
                         if (ReglesMissions.AppliquerPromotionsAcquises(m))
                             AjouterEntreeJournal(m.NomComplet + " est promu au rang " +
